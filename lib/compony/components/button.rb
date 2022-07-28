@@ -27,7 +27,7 @@ module Compony
         end
         content <<~HAML
           - if @type == :button
-            = button_to(@label, @path, @html_data, disabled: !@enabled)
+            = button_to(@label, @path, **@html_data, disabled: !@enabled)
           - elsif @type == :submit
             = button_tag(@label, type: :submit, disabled: !@enabled)
         HAML

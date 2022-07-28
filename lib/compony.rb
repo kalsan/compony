@@ -12,7 +12,7 @@ module Compony
   ##########=====-------
 
   def self.button_component_class
-    @button_component_class ||= Component::Button
+    @button_component_class ||= Components::Button
     @button_component_class = const_get(@button_component_class) if @button_component_class.is_a?(String)
     return @button_component_class
   end
