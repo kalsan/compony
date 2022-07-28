@@ -79,3 +79,4 @@ require 'compony/request_context'
 require 'compony/version'
 require 'compony/view_helpers'
 require 'compony/controller_mixin'
+require 'compony/railtie' if defined?(Rails::Railtie)
