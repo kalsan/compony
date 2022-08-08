@@ -11,7 +11,9 @@ task :gemspec do
     s.executables   = []
     s.require_paths = ['lib']
     s.required_ruby_version = '>= 3.0.0'
-    # TODO: dependencies and development dependencies
+
+    # Dependencies
+    # TODO: dslblend
   end
 
   File.open('compony.gemspec', 'w') do |f|
