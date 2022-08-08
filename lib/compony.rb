@@ -61,6 +61,8 @@ module Compony
   end
 end
 
+require 'request_store'
+require 'haml'
 require 'compony/attr_group'
 require 'compony/attr_group/attr'
 require 'compony/attr_group/form_helper'
