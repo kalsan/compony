@@ -109,6 +109,7 @@ module Compony
       # If the DSL call was not issued, returns nil
       def form_helper_for_attr_group_key(form)
         attr_group = form.object.class.attr_groups[attr_group_key]
+        fail "Missing attr_group #{attr_group_key.inspect} for #{form.object.inspect}" unless attr_group
         return attr_group.form_helper_for(form, self)
       end
 
