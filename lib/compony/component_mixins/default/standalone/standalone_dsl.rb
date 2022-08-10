@@ -19,7 +19,7 @@ module Compony
               name:                @name,
               path:                @path,
               verbs:               @verbs,
-              rails_action_name:         Compony.rails_action_name(comp_name, family_name, @name),
+              rails_action_name:   Compony.rails_action_name(comp_name, family_name, @name),
               path_helper_name:    Compony.path_helper_name(comp_name, family_name, @name),
               skip_authentication: @skip_authentication
             }

@@ -75,9 +75,14 @@ module Compony
   end
 end
 
+# Require optional dependencies
+begin
+  require 'cancancan'
+rescue LoadError
+end
+
 require 'request_store'
 require 'haml'
-require 'cancancan'
 require 'dslblend'
 require 'compony/engine'
 require 'compony/attr_group'

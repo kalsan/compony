@@ -25,13 +25,11 @@ Gem::Specification.new do |s|
     s.add_runtime_dependency(%q<request_store>.freeze, [">= 1.5"])
     s.add_runtime_dependency(%q<haml>.freeze, [">= 5.2"])
     s.add_runtime_dependency(%q<schemacop>.freeze, [">= 3.0.17"])
-    s.add_runtime_dependency(%q<cancancan>.freeze, [">= 3.4.0"])
     s.add_runtime_dependency(%q<dslblend>.freeze, [">= 0.0.3"])
   else
     s.add_dependency(%q<request_store>.freeze, [">= 1.5"])
     s.add_dependency(%q<haml>.freeze, [">= 5.2"])
     s.add_dependency(%q<schemacop>.freeze, [">= 3.0.17"])
-    s.add_dependency(%q<cancancan>.freeze, [">= 3.4.0"])
     s.add_dependency(%q<dslblend>.freeze, [">= 0.0.3"])
   end
 end
