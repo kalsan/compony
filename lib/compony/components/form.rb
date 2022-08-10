@@ -86,7 +86,7 @@ module Compony
           # If schema was not called, auto-infer a default
           attr_group = data.class.attr_groups[attr_group_key]
           return proc do
-            attr_group.each_attr_for(data) do |attribute|
+            attr_group.attrs_for(data).each do |attribute|
               instance_exec(&attribute.schema_call)
             end
           end

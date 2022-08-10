@@ -34,10 +34,10 @@ module Compony
       end
     end
 
-    # Used in infocard
-    def each_attr_for(data)
-      @attrs.each do |attr_key, mode|
-        yield Attr.new(self, attr_key, mode, data)
+    # Returns actual attrs for a given data item. The attrs will contain the data.
+    def attrs_for(data)
+      @attrs.map do |attr_key, mode|
+        Attr.new(self, attr_key, mode, data)
       end
     end
 

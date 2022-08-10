@@ -2,7 +2,7 @@ module Compony
   class AttrGroup
     # This class provides utility functions for attributes in an attr_group,
     # most of them involving the data from the model the attr_group was meant for.
-    # To make use of this feature, use AttrGroup's each_attr_for method.
+    # To make use of this feature, use AttrGroup's attrs_for method.
     class Attr
       ACCEPTED_MODES = %i[attribute password association].freeze
 
