@@ -160,9 +160,10 @@ module Compony
     def render_actions(controller, wrapper_class: '', action_class: '')
       h = controller.helpers
       h.content_tag(:div, class: wrapper_class) do
-        h.sanitize(action_blocks.map do |_action_name, action_block|
+        button_htmls = action_blocks.map do |_action_name, action_block|
           h.content_tag(:div, action_block.call.render(controller), class: action_class)
-        end.join)
+        end
+        next h.safe_join button_htmls
       end
     end
 
