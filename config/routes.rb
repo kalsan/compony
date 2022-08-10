@@ -8,7 +8,7 @@ Rails.application.routes.draw do
         next if standalone_config[:path].blank? # Ignore incomplete standalone configs (these come from parent classes )
         match(
           standalone_config.path,
-          to:  "compony##{standalone_config.action_name}",
+          to:  "compony##{standalone_config.rails_action_name}",
           as:  standalone_config.path_helper_name,
           via: standalone_config.verbs.keys
         )

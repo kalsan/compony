@@ -41,12 +41,12 @@ module Compony
   # Given a component and a family, this returns the name of the Rails URL helper returning the path to this component.
   # Optionally can pass a name for extra standalone configs.
   def self.path_helper_name(...)
-    "#{action_name(...)}_comp"
+    "#{rails_action_name(...)}_comp"
   end
 
   # Given a component and a family, this returns the name of the ComponyController action for this component.
   # Optionally can pass a name for extra standalone configs.
-  def self.action_name(comp_name, family_name, name = nil)
+  def self.rails_action_name(comp_name, family_name, name = nil)
     [name.presence, comp_name, family_name].compact.join('_')
   end
 
