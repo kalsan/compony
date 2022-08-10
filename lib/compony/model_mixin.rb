@@ -7,24 +7,6 @@ module Compony
     end
 
     class_methods do
-      def translated(**options)
-        fail("Double call to translated in model #{inspect}") if @translation_options.present?
-        default_options = {
-          singular:    true,
-          plural:      true,
-          attr_groups: true
-        }
-        @translation_options = default_options.merge(options)
-      end
-
-      def translation_options
-        @translation_options
-      end
-
-      def translated?
-        @translation_options.present?
-      end
-
       def attr_group(name, inherit: nil, &block)
         name = name.to_sym
         self.attr_groups = attr_groups.dup

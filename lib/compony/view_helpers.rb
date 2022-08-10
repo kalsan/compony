@@ -14,7 +14,7 @@ module Compony
     def compony_path(comp_name, family_name, ...)
       comp_name = comp_name.to_s.underscore
       family_name = family_name.to_s.underscore
-      send("#{Compony.action_name(comp_name, family_name)}_path", ...)
+      send("#{Compony.path_helper_name(comp_name, family_name)}_path", ...)
     end
 
     # Renders a link to a component given a comp and model or family

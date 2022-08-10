@@ -7,6 +7,10 @@ module Compony
     @button_component_class = button_component_class
   end
 
+  def self.authentication_before_action=(authentication_before_action)
+    @authentication_before_action = authentication_before_action.to_sym
+  end
+
   ##########=====-------
   # Configuration readers
   ##########=====-------
@@ -15,6 +19,10 @@ module Compony
     @button_component_class ||= Components::Button
     @button_component_class = const_get(@button_component_class) if @button_component_class.is_a?(String)
     return @button_component_class
+  end
+
+  def self.authentication_before_action
+    @authentication_before_action
   end
 
   ##########=====-------
@@ -31,9 +39,15 @@ module Compony
   end
 
   # Given a component and a family, this returns the name of the Rails URL helper returning the path to this component.
-  # Optionally can pass a name for extra paths.
+  # Optionally can pass a name for extra standalone configs.
+  def self.path_helper_name(...)
+    "#{action_name(...)}_comp"
+  end
+
+  # Given a component and a family, this returns the name of the ComponyController action for this component.
+  # Optionally can pass a name for extra standalone configs.
   def self.action_name(comp_name, family_name, name = nil)
-    [name.presence, "#{comp_name}_#{family_name}_comp"].compact.join('_')
+    [name.presence, comp_name, family_name].compact.join('_')
   end
 
   # Given a component and a family/model, this instanciates and returns a button component.
@@ -64,6 +78,7 @@ end
 require 'request_store'
 require 'haml'
 require 'dslblend'
+require 'compony/engine'
 require 'compony/attr_group'
 require 'compony/attr_group/attr'
 require 'compony/attr_group/form_helper'

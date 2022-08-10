@@ -10,7 +10,7 @@ module Compony
           self,
           submit_verb: submit_verb,
           # If applicable, Rails adds the route keys automatically, thus, e.g. :id does not need to be passed here, as it comes from the request.
-          submit_path: ->(controller) { controller.helpers.send("#{Compony.action_name(comp_name, family_name)}_path") }
+          submit_path: ->(controller) { controller.helpers.send("#{Compony.path_helper_name(comp_name, family_name)}_path") }
         )
       end
 
