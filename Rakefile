@@ -15,6 +15,7 @@ task :gemspec do
     # Dependencies
     s.add_runtime_dependency 'request_store', '>= 1.5'
     s.add_runtime_dependency 'haml', '>= 5.2'
+    s.add_runtime_dependency 'schemacop', '>= 3.0.17'
     s.add_runtime_dependency 'dslblend', '>= 0.0.3'
   end
 
