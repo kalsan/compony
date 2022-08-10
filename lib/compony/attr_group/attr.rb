@@ -50,7 +50,7 @@ module Compony
         when :association
           return proc do
             ary? "#{local_attr_key.to_s.singularize}_ids".to_sym do
-              list :integer
+              list :integer, cast_str: true
             end
           end
         else
