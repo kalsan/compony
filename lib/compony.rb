@@ -104,3 +104,9 @@ require 'compony/version'
 require 'compony/view_helpers'
 require 'compony/controller_mixin'
 require 'compony/railtie' if defined?(Rails::Railtie)
+
+# Force the method `compony_t` into the root object, just like gettext_i18n_rails does with `_`
+if ''.respond_to?(:html_safe?)
+  require 'compony/translations_object_mixin'
+  Object.include Compony::TranslationsObjectMixin
+end

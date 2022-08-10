@@ -12,9 +12,9 @@ module Compony
       setup do
         before_render do
           # Must render the buttons now as the rendering within simple form breaks the form
-          @submit_button = Compony.button(label: @submit_label || _('Submit'), icon: 'arrow-right', type: :submit).render(controller)
+          @submit_button = Compony.button(label: @submit_label || compony_t('Submit'), icon: 'arrow-right', type: :submit).render(controller)
           unless @skipped_cancel
-            @cancel_button = compony_button(:index, family_cst, label: @comp_opts[:cancel_label] || _('Cancel'), icon: :times, color: :secondary)
+            @cancel_button = compony_button(:index, family_cst, label: @comp_opts[:cancel_label] || compony_t('Cancel'), icon: :times, color: :secondary)
           end
           @submit_path = @comp_opts[:submit_path]
           @submit_path = @submit_path.call(controller) if @submit_path.respond_to?(:call)

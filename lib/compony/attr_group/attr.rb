@@ -19,7 +19,7 @@ module Compony
       end
 
       def label
-        _(@attr_group.translation_key_for(@data, @attr_key))
+        compony_t(@attr_group.translation_key_for(@data, @attr_key))
       end
 
       # Retrieves and presents the actual value of the attribute of the model, e.g. "John" for :first_name and an instance of User
@@ -29,7 +29,7 @@ module Compony
         when :attribute
           return @data.send(@attr_key)
         when :password
-          return _('[filtered]')
+          return compony_t('[filtered]')
         when :association
           res = @data.send(@attr_key).map(&:label)
           if res.is_a?(Enumerable)
