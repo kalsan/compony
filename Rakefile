@@ -15,7 +15,7 @@ task :gemspec do
     # Dependencies
     s.add_runtime_dependency 'request_store', '>= 1.5'
     s.add_runtime_dependency 'haml', '>= 5.2'
-    # TODO: dslblend
+    s.add_runtime_dependency 'dslblend', '>= 0.0.3'
   end
 
   File.open('compony.gemspec', 'w') do |f|
