@@ -16,13 +16,22 @@ module Compony
           format = format.to_sym
 
           if block_given?
+            # Assignment via DSL
             @label_blocks[format] = block
-          elsif data_or_format.present?
-            fail("#{inspect} does not support calling label with a subject instance.") unless @label_blocks[format].arity == 1
-            @label_blocks[format].call(data_or_format)
           else
-            fail("#{inspect} does not support calling label without a subject instance.") unless @label_blocks[format].arity == 0
-            @label_blocks[format].call
+            # Retrieval of the actual label
+            case @label_blocks[format].arity
+            when 0
+              @label_blocks[format].call
+            when 1
+              data_or_format ||= data
+              if data_or_format.blank?
+                fail "Label block of #{inspect} takes an argument, but no data was provided and a call to `data` did not return any data either."
+              end
+              @label_blocks[format].call(data_or_format)
+            else
+              fail "#{inspect} has a label block that takes 2 or more arguments, which is unsupported."
+            end
           end
         end
 
