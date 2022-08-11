@@ -73,6 +73,11 @@ module Compony
   def self.button(...)
     button_component_class.new(...)
   end
+
+  # Returns the current root component, if any
+  def self.root_comp
+    RequestStore.store[:compony_root_comp]
+  end
 end
 
 # Require optional dependencies

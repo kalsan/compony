@@ -1,7 +1,8 @@
 module Compony
   module ViewHelpers
+    # Returns the current root component, if any
     def compony_root_comp
-      RequestStore.store[:compony_root_comp]
+      Compony.root_comp
     end
 
     # Use this in your application layout
