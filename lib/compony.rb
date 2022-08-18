@@ -78,11 +78,6 @@ module Compony
   def self.root_comp
     RequestStore.store[:compony_root_comp]
   end
-
-  # Returns all component families, typically every module inside ::Components::*
-  def self.families
-    ::Components.constants.map { |family_cst| ::Components.const_get(family_cst) }
-  end
 end
 
 # Require optional dependencies
@@ -117,6 +112,7 @@ require 'compony/request_context'
 require 'compony/version'
 require 'compony/view_helpers'
 require 'compony/controller_mixin'
+require 'compony/railtie' if defined?(Rails::Railtie)
 
 # Force the method `compony_t` into the root object, just like gettext_i18n_rails does with `_`
 if ''.respond_to?(:html_safe?)

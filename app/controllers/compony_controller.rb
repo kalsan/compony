@@ -3,11 +3,10 @@ class ComponyController < ApplicationController
   actions_without_authentication = []
 
   # Define a controller action for each route
-  Compony.families.each do |family|
-    family.constants.each do |comp_cst|
+  Components.constants.each do |family_cst|
+    Components.const_get(family_cst).constants.each do |comp_cst|
       # Instanciate the component for later information extraction
-      comp = family.const_get(comp_cst).new
-      family_cst = comp.family_cst
+      comp = Components.const_get(family_cst).const_get(comp_cst).new
 
       # Standalone configs are already grouped in a hash, one entry per name/path
       comp.standalone_configs.each_value do |standalone_config|
