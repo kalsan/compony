@@ -8,10 +8,6 @@ module Compony
       @attrs = base_attr_group&.attrs&.dup || {}
     end
 
-    def translation_key_for(data_or_data_class, attr_key)
-      "#{data_or_data_class.model_name.name}|#{attr_key.to_s.humanize}"
-    end
-
     # rubocop:disable Naming/MethodParameterName
     def add(*attr_names, as: :attribute)
       as = as.to_sym
