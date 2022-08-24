@@ -1,0 +1,17 @@
+de:
+  compony:
+    filtered: '[Filtered]' # Not translated as this appears in log
+    components:
+      form:
+        submit: 'Senden'
+        cancel: 'Abbrechen'
+      edit:
+        label:
+          long: '%{data_label} bearbeiten'
+          short: 'Bearbeiten'
+        data_was_updated: '%{data_label} wurde gespeichert.'
+      new:
+        label:
+          long: '%{data_class} erstellen'
+          short: 'Neu'
+        data_was_created: '%{data_label} wurde erstellt.'

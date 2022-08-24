@@ -38,8 +38,8 @@ module Compony
             end
           end
 
-          label(:long) { |data| compony_t('Edit %{data}') % { data: data.label } }
-          label(:short) { |_| compony_t('Edit') }
+          label(:long) { |data| I18n.t('compony.components.edit.label.long', data_label: data.label) }
+          label(:short) { |_| I18n.t('compony.components.edit.label.short') }
           icon { :pencil }
 
           content <<~HAML
@@ -51,7 +51,7 @@ module Compony
           end
 
           on_updated do
-            flash.notice = compony_t('%{data} was updated.') % { data: @data.label }
+            flash.notice = I18n.t('compony.components.edit.data_was_updated', data_label: data.label)
             redirect_to controller.helpers.compony_path(:index, family_cst)
           end
 

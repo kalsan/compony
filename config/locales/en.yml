@@ -1,0 +1,17 @@
+en:
+  compony:
+    filtered: '[Filtered]'
+    components:
+      form:
+        submit: 'Submit'
+        cancel: 'Cancel'
+      edit:
+        label:
+          long: 'Edit %{data_label}'
+          short: 'Edit'
+        data_was_updated: '%{data_label} was updated.'
+      new:
+        label:
+          long: 'New %{data_class}'
+          short: 'New'
+        data_was_created: '%{data_label} was created.'

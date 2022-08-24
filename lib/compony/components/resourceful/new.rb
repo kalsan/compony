@@ -38,7 +38,7 @@ module Compony
             end
 
             on_created do
-              flash.notice = compony_t('%{data} was created.') % { data: @data.label }
+              flash.notice = I18n.t('compony.components.new.data_was_created', data_label: data.label)
               redirect_to compony_path(:show, family_cst, id: @data.id)
             end
             on_create_failed do
@@ -46,8 +46,8 @@ module Compony
             end
           end
 
-          label(:long) { compony_t('New %{data_class}') % { data_class: compony_t(data_class.to_s) } }
-          label(:short) { compony_t('New') }
+          label(:long) { I18n.t('compony.components.new.label.long', data_class: data_class.model_name.human) }
+          label(:short) { I18n.t('compony.components.new.label.short') }
           icon { :plus }
 
           content <<~HAML

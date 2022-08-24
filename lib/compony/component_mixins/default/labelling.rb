@@ -58,8 +58,8 @@ module Compony
         def init_labelling
           # Provide defaults
           @label_blocks = {
-            long:  -> { "#{compony_t(family_name.camelize)}: #{compony_t(comp_name.camelize)}" },
-            short: -> { compony_t(comp_name.camelize).to_s }
+            long:  -> { "#{I18n.t(family_name.humanize)}: #{I18n.t(comp_name.humanize)}" },
+            short: -> { I18n.t(comp_name.humanize) }
           }
           @icon_block = -> { :'arrow-right' }
           @color_block = -> { :primary }

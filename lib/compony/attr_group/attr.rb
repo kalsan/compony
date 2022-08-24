@@ -29,7 +29,7 @@ module Compony
         when :attribute
           return @data.send(@attr_key)
         when :password
-          return compony_t('[filtered]')
+          return I18n.t('compony.filtered')
         when :association
           res = @data.send(@attr_key).map(&:label)
           if res.is_a?(Enumerable)
