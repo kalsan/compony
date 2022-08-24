@@ -91,6 +91,8 @@ require 'haml'
 require 'simple_form'
 require 'schemacop'
 require 'dslblend'
+require 'ransack'
+
 require 'compony/engine'
 require 'compony/attr_group'
 require 'compony/attr_group/attr'
