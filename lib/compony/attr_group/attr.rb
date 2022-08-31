@@ -31,11 +31,11 @@ module Compony
         when :password
           return I18n.t('compony.filtered')
         when :association
-          res = @data.send(@attr_key).map(&:label)
+          res = @data.send(@attr_key)
           if res.is_a?(Enumerable)
-            return res.join(', ')
+            return res.map(&:label).join(', ')
           else
-            return res
+            return res.label
           end
         else
           fail "Unknown attr mode #{@mode}, AttrGroup should have prevented this."
@@ -48,9 +48,19 @@ module Compony
         local_attr_key = @attr_key # Capture attr_key for usage in the lambda
         case @mode
         when :association
-          return proc do
-            ary? "#{local_attr_key.to_s.singularize}_ids".to_sym do
-              list :integer, cast_str: true
+          # Find the kind of key we are looking for (e.g. shelf.book_ids or bookmark.book_id)
+          multi = @data.class.reflect_on_association(attr_key).macro == :has_many
+          foreign_key = @data.class.reflect_on_association(attr_key).foreign_key
+          id_key = multi ? foreign_key.pluralize : foreign_key
+          if multi
+            return proc do
+              ary? id_key.pluralize.to_sym do
+                list :integer, cast_str: true
+              end
+            end
+          else
+            return proc do
+              int? id_key.to_sym, cast_str: true
             end
           end
         else
