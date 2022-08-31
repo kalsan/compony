@@ -39,7 +39,7 @@ module Compony
 
     # Used in form
     def form_helper_for(form, comp)
-      FormHelper.new(self, form, comp)
+      Compony.form_helper_class.new(self, form, comp)
     end
   end
 end

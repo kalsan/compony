@@ -18,7 +18,7 @@ module Compony
         when :password
           return @form.input attr_key, as: :password
         when :association
-          return @form.association attr_key, as: :tom_select, comp: @comp
+          return @form.association attr_key
         when nil
           fail "Attr key #{attr_key} does not exist in attr_group #{attr_group.inspect}"
         else

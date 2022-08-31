@@ -58,7 +58,7 @@ module Compony
 
       # DSL method, use to provide autocomplete for a TomSelect
       def autocomplete(field_name, data_class_name = nil, ransack:)
-        last_path_segment = "autocomplete_#{field_name}" # This must match inputs/tom_select_input.rb
+        last_path_segment = "autocomplete_#{field_name}" # This must match the custom simpleform input, if any.
         data_class_name ||= field_name.to_s.classify
 
         standalone last_path_segment.to_sym, path: "#{family_name}/#{comp_name}/#{last_path_segment}" do

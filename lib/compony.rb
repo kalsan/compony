@@ -7,6 +7,10 @@ module Compony
     @button_component_class = button_component_class
   end
 
+  def self.form_helper_class=(form_helper_class)
+    @form_helper_class = form_helper_class
+  end
+
   def self.authentication_before_action=(authentication_before_action)
     @authentication_before_action = authentication_before_action.to_sym
   end
@@ -19,6 +23,12 @@ module Compony
     @button_component_class ||= Components::Button
     @button_component_class = const_get(@button_component_class) if @button_component_class.is_a?(String)
     return @button_component_class
+  end
+
+  def self.form_helper_class
+    @form_helper_class ||= AttrGroup::FormHelper
+    @form_helper_class = const_get(@form_helper_class) if @form_helper_class.is_a?(String)
+    return @form_helper_class
   end
 
   def self.authentication_before_action
