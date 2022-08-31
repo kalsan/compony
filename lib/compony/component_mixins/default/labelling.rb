@@ -26,7 +26,7 @@ module Compony
             end
           else
             # Retrieval of the actual label
-            fail("Label format :all may only be used for setting a label (with a block), not for retrieving it.") if format == :all
+            fail('Label format :all may only be used for setting a label (with a block), not for retrieving it.') if format == :all
             case @label_blocks[format].arity
             when 0
               @label_blocks[format].call
