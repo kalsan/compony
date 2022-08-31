@@ -12,7 +12,7 @@ module Compony
     def add(*attr_names, as: :attribute)
       as = as.to_sym
       unless Attr::ACCEPTED_MODES.include?(as)
-        fail "AttrGroup #{name} was given invalid mode #{as}, supported are: #{ACCEPTED_MODES}"
+        fail "AttrGroup #{name} was given invalid mode #{as}, supported are: #{Attr::ACCEPTED_MODES}"
       end
       attr_names.each do |attr_name|
         attr_name = attr_name.to_sym
