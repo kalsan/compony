@@ -13,16 +13,20 @@ module Compony
         def label(data_or_format = nil, format: :long, &block)
           format = data_or_format if block_given?
           format ||= :long
-          fail("label format must be either :short or :long, but got #{format.inspect}") unless %i[short long].include?(format)
+          fail("label format must be either :short or :long, but got #{format.inspect}") unless %i[all short long].include?(format)
           format = format.to_sym
 
           if block_given?
             # Assignment via DSL
-            @label_blocks[format] = block
+            if format == :all
+              @label_blocks[:short] = block
+              @label_blocks[:long] = block
+            else
+              @label_blocks[format] = block
+            end
           else
-            # Gracefully fallback to long format if short is not available
-            format = :long unless @label_blocks[format]
             # Retrieval of the actual label
+            fail("Label format :all may only be used for setting a label (with a block), not for retrieving it.") if format == :all
             case @label_blocks[format].arity
             when 0
               @label_blocks[format].call
