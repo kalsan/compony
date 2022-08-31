@@ -12,6 +12,7 @@ module Compony
         # When accessing the value, pass foramt as named parameter
         def label(data_or_format = nil, format: :long, &block)
           format = data_or_format if block_given?
+          format ||= :long
           fail("label format must be either :short or :long, but got #{format.inspect}") unless %i[short long].include?(format)
           format = format.to_sym
 
@@ -19,6 +20,8 @@ module Compony
             # Assignment via DSL
             @label_blocks[format] = block
           else
+            # Gracefully fallback to long format if short is not available
+            format = :long unless @label_blocks[format]
             # Retrieval of the actual label
             case @label_blocks[format].arity
             when 0
