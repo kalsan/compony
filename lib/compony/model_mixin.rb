@@ -3,17 +3,27 @@ module Compony
     extend ActiveSupport::Concern
 
     included do
-      class_attribute :attr_groups, default: {}
+      class_attribute :fields, default: {}
+      class_attribute :field_groups, default: {}
     end
 
     class_methods do
-      def attr_group(name, inherit: nil, &block)
+      # DSL method, defines a new field which will be translated and can be added to field groups
+      # For virtual attributes, you must pass a type explicitely, otherwise it's auto-infered.
+      def field(name, type: nil)
         name = name.to_sym
-        self.attr_groups = attr_groups.dup
-        inherit = attr_groups[inherit] if inherit
-        new_attr_group = AttrGroup.new(name, base_attr_group: inherit)
-        block.call(new_attr_group)
-        attr_groups[name] = new_attr_group
+        self.fields = fields.dup
+        fields[name] = ModelFields::Field.new(name, self, type: type)
+      end
+
+      # DSL method, defines a new field group
+      def field_group(name, inherit: nil, &block)
+        name = name.to_sym
+        self.field_groups = field_groups.dup
+        inherit = field_groups[inherit] if inherit
+        new_field_group = ModelFields::FieldGroup.new(name, self, base_field_group: inherit)
+        block.call(new_field_group)
+        field_groups[name] = new_field_group
       end
     end
   end

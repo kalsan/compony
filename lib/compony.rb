@@ -26,7 +26,7 @@ module Compony
   end
 
   def self.form_helper_class
-    @form_helper_class ||= AttrGroup::FormHelper
+    @form_helper_class ||= ModelFields::FormHelper
     @form_helper_class = const_get(@form_helper_class) if @form_helper_class.is_a?(String)
     return @form_helper_class
   end
@@ -104,9 +104,9 @@ require 'dslblend'
 require 'ransack'
 
 require 'compony/engine'
-require 'compony/attr_group'
-require 'compony/attr_group/attr'
-require 'compony/attr_group/form_helper'
+require 'compony/model_fields/field'
+require 'compony/model_fields/field_group'
+require 'compony/model_fields/form_helper'
 require 'compony/component_mixins/default/standalone'
 require 'compony/component_mixins/default/standalone/standalone_dsl'
 require 'compony/component_mixins/default/standalone/verb_dsl'

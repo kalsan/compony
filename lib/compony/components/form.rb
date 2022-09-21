@@ -30,7 +30,7 @@ module Compony
 
         content <<~HAML
           = simple_form_for(data, method: @comp_opts[:submit_verb], url: @submit_path) do |f|
-            - form_request_context = Compony::RequestContext.new(component, controller, form_helper_for_attr_group_key(f))
+            - form_request_context = Compony::RequestContext.new(component, controller, Compony.form_helper_class.new(f, component))
             - form_request_context._dslblend_transfer_inst_vars_from_main_provider
             = Haml::Engine.new(form_fields.strip_heredoc, format: :html5).render(form_request_context, { f: f })
             .compony-form-buttons
@@ -51,9 +51,9 @@ module Compony
         @skipped_cancel = true
       end
 
-      # DSL method, if given, allows to use "attr" instead of "f.input" inside `form_fields`
-      def attr_group(attr_group_key)
-        @attr_group_key = attr_group_key.to_sym
+      # DSL method, if given, allows to use "field" instead of "f.input" inside `form_fields`
+      def field_group(field_group_key)
+        @field_group_key = field_group_key.to_sym
       end
 
       # DSL method, use to provide autocomplete for a TomSelect
@@ -92,10 +92,10 @@ module Compony
           return @schema_block
         else
           # If schema was not called, auto-infer a default
-          attr_group = data.class.attr_groups[attr_group_key]
+          field_group = data.class.field_groups[field_group_key]
           return proc do
-            attr_group.attrs_for(data).each do |attribute|
-              instance_exec(&attribute.schema_call)
+            field_group.fields.each do |_field_name, field|
+              instance_exec(&field.schema_call)
             end
           end
         end
@@ -113,17 +113,9 @@ module Compony
         end
       end
 
-      # Given a form, returns an attribute group form helper for the attr group key defined by the DSL call `attr_group`
-      # If the DSL call was not issued, returns nil
-      def form_helper_for_attr_group_key(form)
-        attr_group = form.object.class.attr_groups[attr_group_key]
-        fail "Missing attr_group #{attr_group_key.inspect} for #{form.object.inspect}" unless attr_group
-        return attr_group.form_helper_for(form, self)
-      end
-
       # Protected attr reader with a default
-      def attr_group_key
-        @attr_group_key || :default
+      def field_group_key
+        @field_group_key || :default
       end
     end
   end
