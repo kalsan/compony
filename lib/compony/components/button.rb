@@ -4,12 +4,13 @@ module Compony
     class Button < Compony::Component
       SUPPORTED_TYPES = %i[button submit].freeze
 
-      def initialize(*args, label: nil, path: 'javascript:void(0)', html_data: {}, type: :button, enabled_if: true, **kwargs, &block)
+      def initialize(*args, label: nil, path: 'javascript:void(0)', html_data: {}, type: :button, enabled: true, visible: true, **kwargs, &block)
         @label = label
         @type = type.to_sym
         @path = path # If given a block, it will be evaluated in the helpers context when rendering
         @html_data = { method: :get }.merge(html_data)
-        @enabled = enabled_if # can be boolean or block taking a controller returning a boolean
+        @enabled = enabled # can be boolean or block taking a controller returning a boolean
+        @visible = visible
 
         fail "Unsupported button type #{@type}, use on of: #{SUPPORTED_TYPES.inspect}" unless SUPPORTED_TYPES.include?(@type)
 
@@ -24,12 +25,17 @@ module Compony
           if @enabled.respond_to?(:call)
             @enabled = @enabled.call(controller)
           end
+          if @visible.respond_to?(:call)
+            @visible = @visible.call(controller)
+          end
+          @path = 'javascript:void(0)' unless @enabled
         end
         content <<~HAML
-          - if @type == :button
-            = button_to(@label, @path, **@html_data, disabled: !@enabled)
-          - elsif @type == :submit
-            = button_tag(@label, type: :submit, disabled: !@enabled)
+          - if @visible
+            - if @type == :button
+              = button_to(@label, @path, **@html_data, disabled: !@enabled)
+            - elsif @type == :submit
+              = button_tag(@label, type: :submit, disabled: !@enabled)
         HAML
       end
     end
