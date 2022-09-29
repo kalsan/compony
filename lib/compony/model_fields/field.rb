@@ -40,7 +40,13 @@ module Compony
             return data.send(@name)&.label
           end
         else
-          return data.send(@name)
+          case @type
+          when :date, :datetime
+            val = data.send(@name)
+            return val.nil? ? nil : I18n.l(val)
+          else
+            return data.send(@name)
+          end
         end
       end
 
