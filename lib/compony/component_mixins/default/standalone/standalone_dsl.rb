@@ -10,6 +10,7 @@ module Compony
             @path = path
             @verbs = {}
             @skip_authentication = false
+            @layout = true # can be overriden by false or a string
           end
 
           def to_conf(&block)
@@ -21,7 +22,8 @@ module Compony
               verbs:               @verbs,
               rails_action_name:   Compony.rails_action_name(comp_name, family_name, @name),
               path_helper_name:    Compony.path_helper_name(comp_name, family_name, @name),
-              skip_authentication: @skip_authentication
+              skip_authentication: @skip_authentication,
+              layout:              @layout
             }
           end
 
@@ -37,6 +39,12 @@ module Compony
           # DSL
           def skip_authentication!
             @skip_authentication = true
+          end
+
+          # DSL
+          # Defaults to Rails' default (layouts/application)
+          def layout(layout)
+            @layout = layout.to_s
           end
         end
       end

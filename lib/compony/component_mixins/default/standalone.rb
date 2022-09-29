@@ -69,11 +69,11 @@ module Compony
 
         # Renders the component using the controller passed to it upon instanciation (calls the controller's render)
         # Do not overwrite
-        def render_standalone(controller, status: nil)
+        def render_standalone(controller, status: nil, standalone_name: nil)
           # Start the render process. This produces a nil value if before_render has already produced a response, e.g. a redirect.
           rendered_html = render(controller)
           if rendered_html.present? # If nil, a response body was already produced in the controller and we take no action here (would have DoubleRenderError)
-            opts = { html: rendered_html, layout: true }
+            opts = { html: rendered_html, layout: @standalone_configs[standalone_name].layout }
             opts[:status] = status if status.present?
             controller.respond_to do |format|
               # Form posts trigger format types turbo stream and then html, turbo stream wins.
