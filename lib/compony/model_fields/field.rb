@@ -75,6 +75,12 @@ module Compony
 
       # Uses Rails methods to figure out the type, schema key etc. and store them.
       def resolve!
+        # Skip resolve step if db:create, db:migrate or similar was called
+        if defined?(Rake) && Rake.respond_to?(:application) && Rake.application.top_level_tasks.select { |t| t.start_with?('db:') }.any?
+          Rails.logger.info('Compony: Skipping field resolution because this process was started by a db:* Rake task.')
+          return
+        end
+
         # Figure out if this is an attribute or an association
         if @model_class.attribute_names.map(&:to_sym).include?(@name)
           # Resolve attribute
@@ -90,6 +96,8 @@ module Compony
         else
           fail "Field #{@name} of #{@model_class} does not appear to be an attribute or association, check spelling and ActiveRecord associations."
         end
+      rescue ActiveRecord::NoDatabaseError
+        Rails.logger.warn('Warning: Compony could not auto-detect fields due to missing database. This is ok when running db:create.')
       end
     end
   end
