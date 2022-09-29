@@ -46,10 +46,6 @@ module Compony
             = form_comp.render(controller, data: @data)
           HAML
 
-          action :back do
-            Compony.button_comp(:index, family_cst, icon: :'chevron-left', color: :secondary)
-          end
-
           on_updated do
             flash.notice = I18n.t('compony.components.edit.data_was_updated', data_label: data.label)
             redirect_to controller.helpers.compony_path(:index, family_cst)

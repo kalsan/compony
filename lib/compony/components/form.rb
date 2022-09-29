@@ -2,8 +2,6 @@ module Compony
   module Components
     # This component is used for the _form partial in the Rails paradigm.
     class Form < Component
-      attr_reader :skipped_cancel
-
       def check_config!
         super
         fail "#{inspect} requires config.form_fields = <<~HAML..." if @form_fields.blank?
@@ -15,15 +13,6 @@ module Compony
           @submit_button = Compony.button(
             label: @submit_label || I18n.t('compony.components.form.submit'), icon: 'arrow-right', type: :submit
           ).render(controller)
-          unless @skipped_cancel
-            @cancel_button = compony_button(
-              :index,
-              family_cst,
-              label: @comp_opts[:cancel_label] || I18n.t('compony.components.form.cancel'),
-              icon:  :times,
-              color: :secondary
-            )
-          end
           @submit_path = @comp_opts[:submit_path]
           @submit_path = @submit_path.call(controller) if @submit_path.respond_to?(:call)
         end
@@ -35,8 +24,6 @@ module Compony
             = Haml::Engine.new(form_fields.strip_heredoc, format: :html5).render(form_request_context, { f: f })
             .compony-form-buttons
               = @submit_button
-              - unless @skipped_cancel
-                = @cancel_button
         HAML
       end
 
@@ -44,11 +31,6 @@ module Compony
       def form_fields(form_fields = nil)
         return @form_fields unless form_fields
         @form_fields = form_fields
-      end
-
-      # DSL method, use to skip the cancel button
-      def skip_cancel
-        @skipped_cancel = true
       end
 
       # DSL method, if given, allows to use "field" instead of "f.input" inside `form_fields`

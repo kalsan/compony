@@ -53,10 +53,6 @@ module Compony
           content <<~HAML
             = form_comp.render(controller, data: @data)
           HAML
-
-          action :back do
-            Compony.button_comp(:index, family_cst, icon: :'chevron-left', color: :secondary)
-          end
         end
 
         # DSL method
