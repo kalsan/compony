@@ -9,22 +9,19 @@ module Compony
           submit_verb :post
           standalone path: "#{family_name}/new" do
             verb :get do
-              load_data { @data = data_class.new }
               accessible { defined?(can?) ? can?(:create, data_class) : true }
+              load_data do
+                # Allowing GET params to pre-set values (new only).
+                @data = data_class.new
+                instance_exec(&schema_validator)
+                @data.assign_attributes(controller.request.params[form_comp.schema_wrapper_key_for(@data)])
+              end
             end
             verb submit_verb do
-              load_data { @data = data_class.new }
               accessible { defined?(can?) ? can?(:create, data_class) : true }
+              load_data { @data = data_class.new }
               store_data do
-                # Validate params against the form's schema
-                local_form_comp = form_comp # Capture form_comp for usage in the Schemacop call
-                local_data = @data # Capture data for usage in the Schemacop call
-                schema = Schemacop::Schema3.new :hash, additional_properties: true do
-                  hsh! local_form_comp.schema_wrapper_key_for(local_data), &local_form_comp.schema_block_for(local_data)
-                end
-                schema.validate!(controller.request.params)
-
-                # Perform save
+                instance_exec(&schema_validator)
                 @data = data_class.new(controller.request.params[form_comp.schema_wrapper_key_for(@data)])
                 @create_succeeded = @data.save
               end
@@ -53,6 +50,17 @@ module Compony
           content <<~HAML
             = form_comp.render(controller, data: @data)
           HAML
+        end
+
+        def schema_validator
+          return proc do
+            local_form_comp = form_comp # Capture form_comp for usage in the Schemacop call
+            local_data = @data # Capture data for usage in the Schemacop call
+            schema = Schemacop::Schema3.new :hash, additional_properties: true do
+              hsh? local_form_comp.schema_wrapper_key_for(local_data), &local_form_comp.schema_block_for(local_data)
+            end
+            schema.validate!(controller.request.params)
+          end
         end
 
         # DSL method
