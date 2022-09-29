@@ -70,10 +70,10 @@ module Compony
   # Given a component instance, this instanciates and returns a button component.
   def self.button_comp_for(target_comp_instance, model = nil, label_format: :long, **kwargs)
     options = {
-      label:      target_comp_instance.label(model, format: label_format),
-      icon:       target_comp_instance.icon,
-      color:      target_comp_instance.color,
-      path:       -> { compony_path(target_comp_instance.comp_name, target_comp_instance.family_name, model) },
+      label:   target_comp_instance.label(model, format: label_format),
+      icon:    target_comp_instance.icon,
+      color:   target_comp_instance.color,
+      path:    -> { compony_path(target_comp_instance.comp_name, target_comp_instance.family_name, model) },
       visible: ->(controller) { target_comp_instance.standalone_access_permitted_for?(controller) }
     }.merge(kwargs.symbolize_keys)
     return Compony.button_component_class.new(**options.symbolize_keys)
