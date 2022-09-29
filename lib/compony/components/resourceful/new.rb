@@ -14,7 +14,8 @@ module Compony
                 # Allowing GET params to pre-set values (new only).
                 @data = data_class.new
                 instance_exec(&schema_validator)
-                @data.assign_attributes(controller.request.params[form_comp.schema_wrapper_key_for(@data)])
+                attrs_to_assign = controller.request.params[form_comp.schema_wrapper_key_for(@data)]
+                @data.assign_attributes(attrs_to_assign) if attrs_to_assign
               end
             end
             verb submit_verb do
