@@ -7,7 +7,6 @@ module Compony
 
     attr_reader :parent_comp
     attr_reader :comp_opts
-    attr_reader :action_blocks
 
     # root comp: component that is registered to be root of the application.
     # parent comp: component that is registered to be the parent of this comp. If there is none, this is the root comp.
@@ -42,7 +41,7 @@ module Compony
       @comp_opts = comp_opts
       @before_render_block = nil
       @content = nil
-      @action_blocks = {}
+      @actions = []
 
       init_standalone
       init_labelling
@@ -177,16 +176,25 @@ module Compony
     end
 
     # DSL method
+    # Adds or replaces an action (for action buttons)
     def action(action_name, &block)
-      @action_blocks[action_name.to_sym] = block
+      action_name = action_name.to_sym
+      action = MethodAccessibleHash.new.merge({ name: action_name, block: block })
+
+      existing_index = @actions.find_index { |el| el.name == action_name }
+      if existing_index.nil?
+        @actions << action
+      else
+        @actions[existing_index] = action
+      end
     end
 
     # Used to render all actions of this component, each button wrapped in a div with the specified class
     def render_actions(controller, wrapper_class: '', action_class: '')
       h = controller.helpers
       h.content_tag(:div, class: wrapper_class) do
-        button_htmls = action_blocks.map do |_action_name, action_block|
-          h.content_tag(:div, action_block.call.render(controller), class: action_class)
+        button_htmls = @actions.map do |action|
+          h.content_tag(:div, action.block.call.render(controller), class: action_class)
         end
         next h.safe_join button_htmls
       end
