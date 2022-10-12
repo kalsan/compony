@@ -19,6 +19,22 @@ module Compony
       setup_blocks << block
     end
 
+    # Resourceful components should return true here
+    # Do not override.
+    def self.resourceful?
+      false
+    end
+
+    # Returns closest resourceful parent, or nil if none found
+    def closest_resourceful_parent_comp
+      candidate = self
+      loop do
+        candidate = candidate.parent_comp
+        return nil if candidate.nil?
+        return candidate if candidate.class.resourceful?
+      end
+    end
+
     def initialize(parent_comp = nil, index: 0, **comp_opts)
       @parent_comp = parent_comp
       @sub_comps = []

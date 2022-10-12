@@ -8,6 +8,14 @@ module Compony
 
       DEFAULT_LOAD_DATA_BLOCK = proc { @data = data_class.find(controller.params[:id]) }
 
+      class_methods do
+        # Overrides default resourceful? method. Used to find resourceful components.
+        # Do not override.
+        def resourceful?
+          true
+        end
+      end
+
       attr_reader :data
 
       def initialize(*args, data: nil, **nargs, &block)
