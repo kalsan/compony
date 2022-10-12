@@ -1,6 +1,9 @@
 en:
   compony:
     filtered: '[Filtered]'
+    boolean:
+      yes: 'Yes'
+      no: 'No'
     components:
       form:
         submit: 'Submit'

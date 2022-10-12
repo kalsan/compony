@@ -44,6 +44,8 @@ module Compony
           when :date, :datetime
             val = data.send(@name)
             return val.nil? ? nil : I18n.l(val)
+          when :boolean
+            val = I18n.t("compony.boolean.#{data.send(@name)}")
           else
             return data.send(@name)
           end

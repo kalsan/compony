@@ -1,6 +1,9 @@
 de:
   compony:
     filtered: '[Filtered]' # Not translated as this appears in log
+    boolean:
+      true: 'Ja'
+      false: 'Nein'
     components:
       form:
         submit: 'Senden'
