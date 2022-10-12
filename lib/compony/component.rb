@@ -177,15 +177,26 @@ module Compony
 
     # DSL method
     # Adds or replaces an action (for action buttons)
-    def action(action_name, &block)
+    # If before: is specified, will insert the action before the named action. When replacing, an element keeps its position unless before: is specified.
+    def action(action_name, before: nil, &block)
       action_name = action_name.to_sym
+      before_name = before&.to_sym
       action = MethodAccessibleHash.new.merge({ name: action_name, block: block })
 
       existing_index = @actions.find_index { |el| el.name == action_name }
-      if existing_index.nil?
-        @actions << action
-      else
+      if existing_index.present? && before_name.present?
+        @actions.delete_at(existing_index) # Replacing an existing element with a before: directive - must delete before calculating indices
+      end
+      if before_name.present?
+        before_index = @actions.find_index { |el| el.name == before_name } || fail("Action #{before_name} for :before not found in #{inspect}.")
+      end
+
+      if before_index.present?
+        @actions.insert(before_index, action)
+      elsif existing_index.present?
         @actions[existing_index] = action
+      else
+        @actions << action
       end
     end
 
