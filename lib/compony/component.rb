@@ -145,6 +145,15 @@ module Compony
       end
     end
 
+    # DSL method
+    def add_content(additional_haml)
+      if @content
+        @content += "\n#{additional_haml}"
+      else
+        content(additional_haml)
+      end
+    end
+
     # Renders the component using the controller passsed to it and returns it as a string.
     # Do not overwrite.
     def render(controller, **locals)
