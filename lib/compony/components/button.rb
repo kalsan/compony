@@ -30,13 +30,16 @@ module Compony
           end
           @path = 'javascript:void(0)' unless @enabled
         end
-        content <<~HAML
-          - if @visible
-            - if @type == :button
-              = button_to(@label, @path, **@html_data, disabled: !@enabled)
-            - elsif @type == :submit
-              = button_tag(@label, type: :submit, disabled: !@enabled)
-        HAML
+
+        content do
+          if @visible
+            if @type == :button
+              text_node button_to(@label, @path, **@html_data, disabled: !@enabled)
+            elsif @type == :submit
+              text_node button_tag(@label, type: :submit, disabled: !@enabled)
+            end
+          end
+        end
       end
     end
   end

@@ -42,9 +42,9 @@ module Compony
           label(:short) { |_| I18n.t('compony.components.edit.label.short') }
           icon { :pencil }
 
-          content <<~HAML
-            = form_comp.render(controller, data: @data)
-          HAML
+          content do
+            text_node form_comp.render(controller, data: @data)
+          end
 
           on_updated do
             flash.notice = I18n.t('compony.components.edit.data_was_updated', data_label: data.label)

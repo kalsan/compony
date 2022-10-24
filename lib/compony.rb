@@ -97,7 +97,7 @@ rescue LoadError
 end
 
 require 'request_store'
-require 'haml'
+require 'arbre'
 require 'simple_form'
 require 'schemacop'
 require 'dslblend'

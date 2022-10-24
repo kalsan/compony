@@ -4,7 +4,7 @@ module Compony
     class Form < Component
       def check_config!
         super
-        fail "#{inspect} requires config.form_fields = <<~HAML..." if @form_fields.blank?
+        fail "#{inspect} requires config.form_fields do ..." if @form_fields.blank?
       end
 
       setup do
@@ -17,20 +17,24 @@ module Compony
           @submit_path = @submit_path.call(controller) if @submit_path.respond_to?(:call)
         end
 
-        content <<~HAML
-          = simple_form_for(data, method: @comp_opts[:submit_verb], url: @submit_path) do |f|
-            - form_request_context = Compony::RequestContext.new(component, controller, Compony.form_helper_class.new(f, component))
-            - form_request_context._dslblend_transfer_inst_vars_from_main_provider
-            = Haml::Engine.new(form_fields.strip_heredoc, format: :html5).render(form_request_context, { f: f })
-            .compony-form-buttons
-              = @submit_button
-        HAML
+        content do
+          text_node(simple_form_for(data, method: @comp_opts[:submit_verb], url: @submit_path) do |f|
+            form_helper = Compony.form_helper_class.new(f, component)
+            # TODO: Refactor this. This wouldn't be necessary if we had more control over the Arbre context.
+            self.class.define_method(:field) do |*args|
+              form_helper.field(*args) # Using reflection to inject something in to the class, antipattern!
+            end
+
+            instance_exec &form_fields
+            div @submit_button, class: 'compony-form-buttons'
+          end)
+        end
       end
 
       # DSL method, use to set the form content
-      def form_fields(form_fields = nil)
-        return @form_fields unless form_fields
-        @form_fields = form_fields
+      def form_fields(&block)
+        return @form_fields unless block_given?
+        @form_fields = block
       end
 
       # DSL method, if given, allows to use "field" instead of "f.input" inside `form_fields`
