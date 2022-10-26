@@ -155,9 +155,12 @@ module Compony
     end
 
     # Renders the component using the controller passsed to it and returns it as a string.
+    # The given context is an Arbre context that is given a RequestContext as helpers, so Arbre's method_missing will forward calls to RequestContext.
+    # Unfortunately, we cannot do this the other way, as Arbre does not implement respond_to_missing?, causing Dslblend to not forward
+    # calls of local assigns to Arbre.
     # Do not overwrite.
     def render(controller, **locals)
-      # Prepare a request context for render. Must transfer variables manually because regular rendering does not call DslBlend's `evaluate`
+      # Prepare a request context for render. Must transfer variables manually because Arbre does not call DslBlend's `evaluate`
       request_context = RequestContext.new(self, controller)
       request_context._dslblend_transfer_inst_vars_from_main_provider
       # Call before_render hook if any
@@ -166,7 +169,7 @@ module Compony
       if request_context.controller.response.body.blank?
         fail "#{self.class.inspect} must define `content` or set a response body in `before_render`" if @content_blocks.none?
         arbre_context = Arbre::Context.new(locals, request_context)
-        # Transfer component's (self's) instance variables to the arbre context because arbre does not (yet) support instance variables (TODO: prettify?)
+        # Transfer component's (self's) instance variables to the arbre context because arbre does not (yet) support instance variables
         instance_variables.each do |instance_variable|
           next if instance_variable.to_s.start_with?('@_')
           arbre_context.instance_variable_set(instance_variable, instance_variable_get(instance_variable))
