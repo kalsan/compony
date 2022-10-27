@@ -100,6 +100,13 @@ module Compony
         return @form_helper.field(...)
       end
 
+      # Called inside the form_fields block. This makes the method `f` available in the block.
+      # See also notes for `with_form_helper`.
+      def f(...)
+        fail("The `f` method may only be called inside `form_fields` for #{inspect}.") unless @form_helper
+        return @form_helper.form(...)
+      end
+
       protected
 
       # DSL method, use to set the form's schema and wrapper key
