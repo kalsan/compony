@@ -18,16 +18,13 @@ module Compony
         end
 
         content do
-          text_node(simple_form_for(data, method: @comp_opts[:submit_verb], url: @submit_path) do |f|
-            form_helper = Compony.form_helper_class.new(f, component)
-            # TODO: Refactor this. This wouldn't be necessary if we had more control over the Arbre context.
-            self.class.define_method(:field) do |*args|
-              form_helper.field(*args) # Using reflection to inject something in to the class, antipattern!
+          form_html = simple_form_for(data, method: @comp_opts[:submit_verb], url: @submit_path) do |f|
+            component.with_form_helper(Compony.form_helper_class.new(f, component)) do
+              instance_exec &form_fields
+              div @submit_button, class: 'compony-form-buttons'
             end
-
-            instance_exec &form_fields
-            div @submit_button, class: 'compony-form-buttons'
-          end)
+          end
+          text_node form_html
         end
       end
 
@@ -85,6 +82,22 @@ module Compony
             end
           end
         end
+      end
+
+      # This method is used by render to store the form helper inside the component such that we can delegate
+      # the method `field` to the helper. This is a workaround required because the form does not exist when the
+      # RequestContext is being built, and we want the method `field` to be available inside the `form_fields` block.
+      def with_form_helper(form_helper, &block)
+        @form_helper = form_helper
+        yield
+        @form_helper = nil
+      end
+
+      # Called inside the form_fields block. This makes the method `field` available in the block.
+      # See also notes for `with_form_helper`.
+      def field(...)
+        fail("The `field` method may only be called inside `form_fields` for #{inspect}.") unless @form_helper
+        return @form_helper.field(...)
       end
 
       protected
