@@ -141,7 +141,7 @@ module Compony
     # You can use arbre here.
     def content(&block)
       fail("`content` expects a block in #{inspect}.") unless block_given?
-      @content_blocks ||= [block]
+      @content_blocks = [block]
     end
 
     # DSL method
