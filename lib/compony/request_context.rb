@@ -4,8 +4,6 @@ module Compony
     # Allow explicit access to the controller object. All controller methods are delgated
     attr_reader :controller
 
-    # include Pagy::Backend
-
     def initialize(component, controller, *additional_providers)
       # DSL provider is this class, controller is an additional provider, main provider should be the component
       # Note: we have to manually set the main provider here as the auto-detection sets it to the VerbDsl instance around the block,
