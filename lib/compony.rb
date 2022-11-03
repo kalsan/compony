@@ -91,10 +91,12 @@ module Compony
 end
 
 # Require optional dependencies
+# rubocop:disable Lint/SuppressedException
 begin
   require 'cancancan'
 rescue LoadError
 end
+# rubocop:enable Lint/SuppressedException
 
 require 'request_store'
 require 'haml'
