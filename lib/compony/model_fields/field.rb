@@ -3,6 +3,7 @@ module Compony
     class Field
       SUPPORTED_TYPES = %i[
         association
+        anchormodel
         boolean
         date
         datetime
@@ -57,6 +58,8 @@ module Compony
             return val.nil? ? nil : I18n.l(val)
           when :boolean
             return I18n.t("compony.boolean.#{data.send(@name)}")
+          when :anchormodel
+            return data.send(@name)&.label
           else
             return data.send(@name)
           end

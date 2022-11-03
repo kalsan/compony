@@ -19,6 +19,7 @@ task :gemspec do
     s.add_runtime_dependency 'simple_form', '>= 5.1.0'
     s.add_runtime_dependency 'dslblend', '>= 0.0.3'
     s.add_runtime_dependency 'ransack', '>= 3.2.1'
+    s.add_runtime_dependency 'anchormodel' # TODO: it would be nice to make this an optional dependency. To facilitate, e.g. make field types their own classes.
   end
 
   File.open('compony.gemspec', 'w') do |f|

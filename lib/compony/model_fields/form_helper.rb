@@ -14,8 +14,16 @@ module Compony
       def field(name, **kwargs)
         model_field = @form.object.fields[name.to_sym]
         fail("Field #{name.to_sym.inspect} is not defined on #{@form.object.inspect}") unless model_field
-        if model_field.association?
+        case model_field.type
+        when :association
           return @form.association name, **kwargs
+        when :anchormodel
+          opts = {
+            collection:   @form.object.send(name).class.all.map { |anchor| [anchor.label, anchor.key] },
+            label_method: :first,
+            value_method: :second
+          }.merge(kwargs)
+          return @form.input name, **opts
         else
           return @form.input name, **kwargs
         end
