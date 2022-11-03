@@ -18,10 +18,12 @@ module Compony
         when :association
           return @form.association name, **kwargs
         when :anchormodel
+          selected_cst = @form.object.send(name)
           opts = {
-            collection:   @form.object.send(name).class.all.map { |anchor| [anchor.label, anchor.key] },
+            collection:   selected_cst.class.all.map { |anchor| [anchor.label, anchor.key] },
             label_method: :first,
-            value_method: :second
+            value_method: :second,
+            selected:     selected_cst.key
           }.merge(kwargs)
           return @form.input name, **opts
         else
