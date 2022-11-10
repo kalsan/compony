@@ -8,11 +8,11 @@ module Compony
           submit_verb :patch
           standalone path: "#{family_name}/:id/edit" do
             verb :get do
-              load_data(&DEFAULT_LOAD_DATA_BLOCK)
+              load_data(&default_load_data_block)
               accessible { defined?(can?) ? can?(:edit, @data) : true }
             end
             verb submit_verb do
-              load_data(&DEFAULT_LOAD_DATA_BLOCK)
+              load_data(&default_load_data_block)
               accessible { defined?(can?) ? can?(:update, @data) : true }
               store_data do
                 # Validate params against the form's schema
