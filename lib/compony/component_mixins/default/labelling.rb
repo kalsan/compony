@@ -13,7 +13,6 @@ module Compony
         def label(data_or_format = nil, format: :long, &block)
           format = data_or_format if block_given?
           format ||= :long
-          fail("label format must be either :short or :long, but got #{format.inspect}") unless %i[all short long].include?(format)
           format = format.to_sym
 
           if block_given?
@@ -27,15 +26,16 @@ module Compony
           else
             # Retrieval of the actual label
             fail('Label format :all may only be used for setting a label (with a block), not for retrieving it.') if format == :all
-            case @label_blocks[format].arity
+            label_block = @label_blocks[format] || fail("Format #{format} was not found for #{inspect}.")
+            case label_block.arity
             when 0
-              @label_blocks[format].call
+              label_block.call
             when 1
               data_or_format ||= data
               if data_or_format.blank?
                 fail "Label block of #{inspect} takes an argument, but no data was provided and a call to `data` did not return any data either."
               end
-              @label_blocks[format].call(data_or_format)
+              label_block.call(data_or_format)
             else
               fail "#{inspect} has a label block that takes 2 or more arguments, which is unsupported."
             end
