@@ -16,8 +16,9 @@ module Compony
 
       attr_reader :data
 
-      def initialize(*args, data: nil, **nargs, &block)
+      def initialize(*args, data: nil, data_class: nil, **nargs, &block)
         @data = data
+        @data_class = data_class
         super(*args, **nargs, &block)
       end
 
@@ -31,6 +32,7 @@ module Compony
       # Instanciate a component with `self` as a parent and render it
       def sub_comp(component_class, **comp_opts)
         comp_opts[:data] ||= data # Inject additional param before forwarding all of them to super
+        comp_opts[:data_class] ||= data_class # Inject additional param before forwarding all of them to super
         super
       end
 
