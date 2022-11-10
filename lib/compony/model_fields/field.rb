@@ -44,12 +44,23 @@ module Compony
       end
 
       # Use this to display the value for this field applied to data
-      def value_for(data)
+      def value_for(data, link_to_component: nil, link_options: {}, controller: nil)
+        fail("If link_to_component is specified, must also pass controller") if link_to_component && controller.nil?
         if association?
           if multi?
-            return data.send(@name).map(&:label).join(', ')
+            if link_to_component
+              return data.send(@name).map do |item|
+                controller.helpers.compony_link(link_to_component, item)
+              end.join(', ')
+            else
+              return data.send(@name).map(&:label).join(', ')
+            end
           else
-            return data.send(@name)&.label
+            if link_to_component
+              return controller.helpers.compony_link(link_to_component, data.send(@name), **link_options)
+            else
+              return data.send(@name)&.label
+            end
           end
         else
           case @type
