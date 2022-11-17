@@ -48,7 +48,7 @@ module Compony
 
           on_updated do
             flash.notice = I18n.t('compony.components.edit.data_was_updated', data_label: data.label)
-            redirect_to controller.helpers.compony_path(:index, family_cst)
+            redirect_to controller.helpers.compony_path(:show, family_cst, data.id)
           end
 
           on_update_failed do
