@@ -42,6 +42,7 @@ module Compony
       @before_render_block = nil
       @content = nil
       @actions = []
+      @skipped_actions = Set.new
 
       init_standalone
       init_labelling
@@ -200,11 +201,18 @@ module Compony
       end
     end
 
+    # DSL method
+    # Marks an action for skip
+    def skip_action(action_name)
+      @skipped_actions << action_name.to_sym
+    end
+
     # Used to render all actions of this component, each button wrapped in a div with the specified class
     def render_actions(controller, wrapper_class: '', action_class: '')
       h = controller.helpers
       h.content_tag(:div, class: wrapper_class) do
         button_htmls = @actions.map do |action|
+          next if @skipped_actions.include?(action.name)
           h.content_tag(:div, action.block.call.render(controller), class: action_class)
         end
         next h.safe_join button_htmls
