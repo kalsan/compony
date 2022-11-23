@@ -24,7 +24,7 @@ module Compony
               div @submit_button, class: 'compony-form-buttons'
             end
           end
-          text_node form_html
+          concat form_html
         end
       end
 

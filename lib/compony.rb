@@ -97,7 +97,7 @@ rescue LoadError
 end
 
 require 'request_store'
-require 'arbre'
+require 'dyny'
 require 'simple_form'
 require 'schemacop'
 require 'dslblend'

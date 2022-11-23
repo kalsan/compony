@@ -43,7 +43,7 @@ module Compony
           icon { :pencil }
 
           content do
-            text_node form_comp.render(controller, data: @data)
+            concat form_comp.render(controller, data: @data)
           end
 
           on_updated do

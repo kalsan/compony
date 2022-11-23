@@ -138,7 +138,7 @@ module Compony
 
     # DSL method
     # Overrides previous content (also from superclasses). Will be the first content block to run.
-    # You can use arbre here.
+    # You can use dyny here.
     def content(&block)
       fail("`content` expects a block in #{inspect}.") unless block_given?
       @content_blocks = [block]
@@ -147,7 +147,7 @@ module Compony
     # DSL method
     # Adds a content block that will be executed after all previous ones.
     # It is safe to use this method even if `content` has never been called
-    # You can use arbre here.
+    # You can use dyny here.
     def add_content(&block)
       fail("`content` expects a block in #{inspect}.") unless block_given?
       @content_blocks ||= []
@@ -155,30 +155,23 @@ module Compony
     end
 
     # Renders the component using the controller passsed to it and returns it as a string.
-    # The given context is an Arbre context that is given a RequestContext as helpers, so Arbre's method_missing will forward calls to RequestContext.
-    # Unfortunately, we cannot do this the other way, as Arbre does not implement respond_to_missing?, causing Dslblend to not forward
-    # calls of local assigns to Arbre.
     # Do not overwrite.
     def render(controller, **locals)
-      # Prepare a request context for render. Must transfer variables manually because Arbre does not call DslBlend's `evaluate`
-      request_context = RequestContext.new(self, controller)
-      request_context._dslblend_transfer_inst_vars_from_main_provider
-      # Call before_render hook if any
-      request_context.evaluate_with_backfire(&@before_render_block) if @before_render_block
+      # Call before_render hook if any and backfire instance variables back to the component
+      RequestContext.new(self, controller).request_context.evaluate_with_backfire(&@before_render_block) if @before_render_block
       # Render, unless before_render has already issued a body (e.g. through redirecting).
-      if request_context.controller.response.body.blank?
+      if controller.response.body.blank?
         fail "#{self.class.inspect} must define `content` or set a response body in `before_render`" if @content_blocks.none?
-        arbre_context = Arbre::Context.new(locals, request_context)
-        # Transfer component's (self's) instance variables to the arbre context because arbre does not (yet) support instance variables
-        instance_variables.each do |instance_variable|
-          next if instance_variable.to_s.start_with?('@_')
-          arbre_context.instance_variable_set(instance_variable, instance_variable_get(instance_variable))
-        end
-        # Render
-        @content_blocks.each do |block|
-          arbre_context.instance_eval(&block)
-        end
-        return arbre_context.to_s
+        return controller.render_to_string(
+          type: :rb,
+          locals: { content_blocks: @content_blocks, component: self },
+          inline: <<~RUBY
+          content_blocks.each do |block|
+            # Instanciate and evaluate a fresh RequestContext in order to use the buffer allocated by the ActionView (needed for `concat` calls)
+            Compony::RequestContext.new(component, controller, helpers: self).evaluate(&block)
+          end
+          RUBY
+        )
       else
         return nil # Prevent double render errors
       end

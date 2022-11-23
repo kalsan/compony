@@ -14,7 +14,7 @@ task :gemspec do
 
     # Dependencies
     s.add_runtime_dependency 'request_store', '>= 1.5'
-    s.add_runtime_dependency 'arbre', '>= 1.5.0'
+    s.add_runtime_dependency 'dyny'
     s.add_runtime_dependency 'schemacop', '>= 3.0.17'
     s.add_runtime_dependency 'simple_form', '>= 5.1.0'
     s.add_runtime_dependency 'dslblend', '>= 0.0.3'
