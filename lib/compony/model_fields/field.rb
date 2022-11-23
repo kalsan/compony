@@ -1,6 +1,20 @@
 module Compony
   module ModelFields
     class Field
+      SUPPORTED_TYPES = %i[
+        association
+        anchormodel
+        boolean
+        date
+        datetime
+        decimal
+        float
+        integer
+        string
+        text
+        time
+      ].freeze
+
       attr_reader :name
       attr_reader :model_class
       attr_reader :type
@@ -15,15 +29,13 @@ module Compony
       end
 
       # If `type` is passed explicitely, resolve! is skipped.
-      def initialize(name, model_class, type: nil)
+      def initialize(name, model_class, type:)
+        @type = type.to_sym
+        fail("Unsupported field type #{@type.inspect}, supported are: #{SUPPORTED_TYPES.pretty_inspect}") unless SUPPORTED_TYPES.include?(type)
         @name = name.to_sym
         @model_class = model_class
-        if type
-          @type = type
-          @schema_key = name
-        else
-          resolve!
-        end
+        @schema_key = name
+        resolve_association! if type == :association
       end
 
       # Use this to display the label for this field, e.g. for columns, forms etc.
@@ -32,10 +44,19 @@ module Compony
       end
 
       # Use this to display the value for this field applied to data
-      def value_for(data)
+      def value_for(data, link_to_component: nil, link_options: {}, controller: nil)
+        fail('If link_to_component is specified, must also pass controller') if link_to_component && controller.nil?
         if association?
           if multi?
-            return data.send(@name).map(&:label).join(', ')
+            if link_to_component
+              return data.send(@name).map do |item|
+                controller.helpers.compony_link(link_to_component, item)
+              end.join(', ')
+            else
+              return data.send(@name).map(&:label).join(', ')
+            end
+          elsif link_to_component
+            return controller.helpers.compony_link(link_to_component, data.send(@name), **link_options)
           else
             return data.send(@name)&.label
           end
@@ -45,7 +66,9 @@ module Compony
             val = data.send(@name)
             return val.nil? ? nil : I18n.l(val)
           when :boolean
-            val = I18n.t("compony.boolean.#{data.send(@name)}")
+            return I18n.t("compony.boolean.#{data.send(@name)}")
+          when :anchormodel
+            return data.send(@name)&.label
           else
             return data.send(@name)
           end
@@ -75,29 +98,15 @@ module Compony
 
       protected
 
-      # Uses Rails methods to figure out the type, schema key etc. and store them.
-      def resolve!
-        # Skip resolve step if db:create, db:migrate or similar was called
-        if defined?(Rake) && Rake.respond_to?(:application) && Rake.application.top_level_tasks.select { |t| t.start_with?('db:') }.any?
-          Rails.logger.info('Compony: Skipping field resolution because this process was started by a db:* Rake task.')
-          return
-        end
-
-        # Figure out if this is an attribute or an association
-        if @model_class.attribute_names.map(&:to_sym).include?(@name)
-          # Resolve attribute
-          @type = @model_class.type_for_attribute(@name).type
-          @schema_key = @name
-        elsif @model_class.reflect_on_all_associations.map(&:name).include?(@name)
-          # Resolve association
-          @association = true
-          @multi = @model_class.reflect_on_association(@name).macro == :has_many
-          @type = @multi ? :association_multi : :association_single
-          foreign_key = @model_class.reflect_on_association(@name).foreign_key
-          @schema_key = @multi ? foreign_key.pluralize.to_sym : foreign_key.to_sym
-        else
-          fail "Field #{@name} of #{@model_class} does not appear to be an attribute or association, check spelling and ActiveRecord associations."
-        end
+      # Uses Rails methods to figure out the arity, schema key etc. and store them.
+      # This can be auto-inferred without accessing the database.
+      def resolve_association!
+        fail("Attempted to resolve association for non-association type #{@type} on #{inspect}") unless @type == :association
+        @association = true
+        @multi = @model_class.reflect_on_association(@name).macro == :has_many
+        @type = @multi ? :association_multi : :association_single
+        foreign_key = @model_class.reflect_on_association(@name).foreign_key
+        @schema_key = @multi ? foreign_key.pluralize.to_sym : foreign_key.to_sym
       rescue ActiveRecord::NoDatabaseError
         Rails.logger.warn('Warning: Compony could not auto-detect fields due to missing database. This is ok when running db:create.')
       end

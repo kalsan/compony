@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
     s.add_runtime_dependency(%q<simple_form>.freeze, [">= 5.1.0"])
     s.add_runtime_dependency(%q<dslblend>.freeze, [">= 0.0.3"])
     s.add_runtime_dependency(%q<ransack>.freeze, [">= 3.2.1"])
+    s.add_runtime_dependency(%q<anchormodel>.freeze, [">= 0"])
   else
     s.add_dependency(%q<request_store>.freeze, [">= 1.5"])
     s.add_dependency(%q<dyny>.freeze, [">= 0"])
@@ -35,5 +36,6 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<simple_form>.freeze, [">= 5.1.0"])
     s.add_dependency(%q<dslblend>.freeze, [">= 0.0.3"])
     s.add_dependency(%q<ransack>.freeze, [">= 3.2.1"])
+    s.add_dependency(%q<anchormodel>.freeze, [">= 0"])
   end
 end

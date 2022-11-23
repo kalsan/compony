@@ -6,8 +6,6 @@ module Compony
     module Resourceful
       extend ActiveSupport::Concern
 
-      DEFAULT_LOAD_DATA_BLOCK = proc { @data = data_class.find(controller.params[:id]) }
-
       class_methods do
         # Overrides default resourceful? method. Used to find resourceful components.
         # Do not override.
@@ -18,8 +16,9 @@ module Compony
 
       attr_reader :data
 
-      def initialize(*args, data: nil, **nargs, &block)
+      def initialize(*args, data: nil, data_class: nil, **nargs, &block)
         @data = data
+        @data_class = data_class
         super(*args, **nargs, &block)
       end
 
@@ -33,7 +32,28 @@ module Compony
       # Instanciate a component with `self` as a parent and render it
       def sub_comp(component_class, **comp_opts)
         comp_opts[:data] ||= data # Inject additional param before forwarding all of them to super
+        comp_opts[:data_class] ||= data_class # Inject additional param before forwarding all of them to super
         super
+      end
+
+      protected
+
+      # DSL method
+      # Overrides the default_load_data_block.
+      # In resourceful containers, the load_data block in a standalone container defaults to `default_load_data_block`,
+      #    which in turn defaults to just loading the appropriate object given by the ID param. This is intended to be overridden as follows:
+      #    - Template components can override it to provide a different base functionality
+      #      (e.g. if you implement a `Resourceful::Index` base component, you may want to load something like `data_class.all``)
+      #    - Specific components can override that again to provide a query specific to their model. In the same example, you may want to use a scope
+      #      specic to the model you are loading in your model-specific Index component, e.g. `Users::Index`: `User.nondeleted.includes(:user_meta)`
+      #    - When speficying extra standalone verbs, you may want to speficy your own `load_data_block` depending on your use case. To mimic the behavior
+      #      of the default standalone config, call the `default_load_data_block`.
+      def default_load_data(&block)
+        @default_load_data_block = block
+      end
+
+      def default_load_data_block
+        @default_load_data_block ||= proc { @data = data_class.find(controller.params[:id]) } # this is the default default load_data block ;-)
       end
     end
   end

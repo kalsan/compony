@@ -8,11 +8,11 @@ module Compony
           submit_verb :patch
           standalone path: "#{family_name}/:id/edit" do
             verb :get do
-              load_data(&DEFAULT_LOAD_DATA_BLOCK)
+              load_data(&default_load_data_block)
               accessible { defined?(can?) ? can?(:edit, @data) : true }
             end
             verb submit_verb do
-              load_data(&DEFAULT_LOAD_DATA_BLOCK)
+              load_data(&default_load_data_block)
               accessible { defined?(can?) ? can?(:update, @data) : true }
               store_data do
                 # Validate params against the form's schema
@@ -48,7 +48,7 @@ module Compony
 
           on_updated do
             flash.notice = I18n.t('compony.components.edit.data_was_updated', data_label: data.label)
-            redirect_to controller.helpers.compony_path(:index, family_cst)
+            redirect_to controller.helpers.compony_path(:show, family_cst, data.id)
           end
 
           on_update_failed do

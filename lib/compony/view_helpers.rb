@@ -19,11 +19,11 @@ module Compony
     end
 
     # Renders a link to a component given a comp and model or family
-    def compony_link(comp_name_or_cst, model_or_family_name_or_cst, ...)
+    def compony_link(comp_name_or_cst, model_or_family_name_or_cst, *link_args, label_options: {}, **link_kwargs)
       model = model_or_family_name_or_cst.respond_to?(:model_name) ? model_or_family_name_or_cst : nil
       comp = Compony.comp_class_for(comp_name_or_cst, model_or_family_name_or_cst).new(data: model)
       return unless comp.standalone_access_permitted_for?(self)
-      return helpers.link_to(comp.label(model), compony_path(comp.comp_name, comp.family_name, model), ...)
+      return helpers.link_to(comp.label(model, **label_options), compony_path(comp.comp_name, comp.family_name, model), *link_args, **link_kwargs)
     end
 
     # Renders a button component to a component given a comp and model or family
