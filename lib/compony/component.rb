@@ -159,18 +159,18 @@ module Compony
     # Do not overwrite.
     def render(controller, **locals)
       # Call before_render hook if any and backfire instance variables back to the component
-      RequestContext.new(self, controller).request_context.evaluate_with_backfire(&@before_render_block) if @before_render_block
+      RequestContext.new(self, controller, locals: locals).request_context.evaluate_with_backfire(&@before_render_block) if @before_render_block
       # Render, unless before_render has already issued a body (e.g. through redirecting).
       if controller.response.body.blank?
         fail "#{self.class.inspect} must define `content` or set a response body in `before_render`" if @content_blocks.none?
         return controller.render_to_string(
-          type: :rb,
-          locals: { content_blocks: @content_blocks, component: self },
+          type:   :rb,
+          locals: { content_blocks: @content_blocks, component: self, render_locals: locals },
           inline: <<~RUBY
-          content_blocks.each do |block|
-            # Instanciate and evaluate a fresh RequestContext in order to use the buffer allocated by the ActionView (needed for `concat` calls)
-            Compony::RequestContext.new(component, controller, helpers: self).evaluate(&block)
-          end
+            content_blocks.each do |block|
+              # Instanciate and evaluate a fresh RequestContext in order to use the buffer allocated by the ActionView (needed for `concat` calls)
+              Compony::RequestContext.new(component, controller, helpers: self, locals: render_locals).evaluate(&block)
+            end
           RUBY
         )
       else
