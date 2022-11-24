@@ -33,9 +33,10 @@ module Compony
 
         content do
           if @visible
-            if @type == :button
+            case @type
+            when :button
               concat button_to(@label, @path, **@html_data, disabled: !@enabled)
-            elsif @type == :submit
+            when :submit
               concat button_tag(@label, type: :submit, disabled: !@enabled)
             end
           end
