@@ -13,6 +13,7 @@ module Compony
 
     # DSL method
     def self.setup(&block)
+      fail("`setup` expects a block in #{inspect}.") unless block_given?
       self.setup_blocks ||= []
       self.setup_blocks = setup_blocks.dup # This is required to prevent the parent class to see children's setup blocks.
       setup_blocks << block
@@ -137,40 +138,41 @@ module Compony
     end
 
     # DSL method
-    def content(haml = nil)
-      if haml
-        @content = haml
-      else
-        @content
-      end
+    # Overrides previous content (also from superclasses). Will be the first content block to run.
+    # You can use dyny here.
+    def content(&block)
+      fail("`content` expects a block in #{inspect}.") unless block_given?
+      @content_blocks = [block]
     end
 
     # DSL method
-    def add_content(additional_haml)
-      if @content
-        @content += "\n#{additional_haml}"
-      else
-        content(additional_haml)
-      end
+    # Adds a content block that will be executed after all previous ones.
+    # It is safe to use this method even if `content` has never been called
+    # You can use dyny here.
+    def add_content(&block)
+      fail("`content` expects a block in #{inspect}.") unless block_given?
+      @content_blocks ||= []
+      @content_blocks << block
     end
 
     # Renders the component using the controller passsed to it and returns it as a string.
     # Do not overwrite.
     def render(controller, **locals)
-      # Prepare request context
-      # Equip helpers with the haml magic required for blocks to work, e.g. `helpers.link_to do ...`
-      controller.helpers.extend Haml::Helpers
-      controller.helpers.init_haml_helpers
-      # Prepare a request context for render. Must transfer variables manually, as Haml::Engine does not call `evaluate`.
-      request_context = RequestContext.new(self, controller)
-      request_context._dslblend_transfer_inst_vars_from_main_provider
-      # Call before_render hook if any
-      # (not saving the request context for below's render here, as before_render_block is optional and may not be called)
-      request_context.evaluate_with_backfire(&@before_render_block) if @before_render_block
+      # Call before_render hook if any and backfire instance variables back to the component
+      RequestContext.new(self, controller, locals: locals).request_context.evaluate_with_backfire(&@before_render_block) if @before_render_block
       # Render, unless before_render has already issued a body (e.g. through redirecting).
-      if request_context.controller.response.body.blank?
-        fail "#{self.class.inspect} must define `content` or set a response body in `before_render`" if @content.blank?
-        return Haml::Engine.new(@content.strip_heredoc, format: :html5).render(request_context, { **locals })
+      if controller.response.body.blank?
+        fail "#{self.class.inspect} must define `content` or set a response body in `before_render`" if @content_blocks.none?
+        return controller.render_to_string(
+          type:   :rb,
+          locals: { content_blocks: @content_blocks, component: self, render_locals: locals },
+          inline: <<~RUBY
+            content_blocks.each do |block|
+              # Instanciate and evaluate a fresh RequestContext in order to use the buffer allocated by the ActionView (needed for `concat` calls)
+              Compony::RequestContext.new(component, controller, helpers: self, locals: render_locals).evaluate(&block)
+            end
+          RUBY
+        )
       else
         return nil # Prevent double render errors
       end

@@ -4,7 +4,7 @@ module Compony
     class Form < Component
       def check_config!
         super
-        fail "#{inspect} requires config.form_fields = <<~HAML..." if @form_fields.blank?
+        fail "#{inspect} requires config.form_fields do ..." if @form_fields.blank?
       end
 
       setup do
@@ -17,20 +17,21 @@ module Compony
           @submit_path = @submit_path.call(controller) if @submit_path.respond_to?(:call)
         end
 
-        content <<~HAML
-          = simple_form_for(data, method: @comp_opts[:submit_verb], url: @submit_path) do |f|
-            - form_request_context = Compony::RequestContext.new(component, controller, Compony.form_helper_class.new(f, component))
-            - form_request_context._dslblend_transfer_inst_vars_from_main_provider
-            = Haml::Engine.new(form_fields.strip_heredoc, format: :html5).render(form_request_context, { f: f })
-            .compony-form-buttons
-              = @submit_button
-        HAML
+        content do
+          form_html = simple_form_for(data, method: @comp_opts[:submit_verb], url: @submit_path) do |f|
+            component.with_form_helper(Compony.form_helper_class.new(f, component)) do
+              instance_exec(&form_fields)
+              div @submit_button, class: 'compony-form-buttons'
+            end
+          end
+          concat form_html
+        end
       end
 
       # DSL method, use to set the form content
-      def form_fields(form_fields = nil)
-        return @form_fields unless form_fields
-        @form_fields = form_fields
+      def form_fields(&block)
+        return @form_fields unless block_given?
+        @form_fields = block
       end
 
       # DSL method, if given, allows to use "field" instead of "f.input" inside `form_fields`
@@ -81,6 +82,29 @@ module Compony
             end
           end
         end
+      end
+
+      # This method is used by render to store the form helper inside the component such that we can delegate
+      # the method `field` to the helper. This is a workaround required because the form does not exist when the
+      # RequestContext is being built, and we want the method `field` to be available inside the `form_fields` block.
+      def with_form_helper(form_helper)
+        @form_helper = form_helper
+        yield
+        @form_helper = nil
+      end
+
+      # Called inside the form_fields block. This makes the method `field` available in the block.
+      # See also notes for `with_form_helper`.
+      def field(...)
+        fail("The `field` method may only be called inside `form_fields` for #{inspect}.") unless @form_helper
+        return @form_helper.field(...)
+      end
+
+      # Called inside the form_fields block. This makes the method `f` available in the block.
+      # See also notes for `with_form_helper`.
+      def f(...)
+        fail("The `f` method may only be called inside `form_fields` for #{inspect}.") unless @form_helper
+        return @form_helper.form(...)
       end
 
       protected

@@ -48,9 +48,9 @@ module Compony
           label(:short) { I18n.t('compony.components.new.label.short') }
           icon { :plus }
 
-          content <<~HAML
-            = form_comp.render(controller, data: @data)
-          HAML
+          content do
+            concat form_comp.render(controller, data: @data)
+          end
         end
 
         def schema_validator

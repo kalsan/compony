@@ -99,7 +99,7 @@ end
 # rubocop:enable Lint/SuppressedException
 
 require 'request_store'
-require 'haml'
+require 'dyny'
 require 'simple_form'
 require 'schemacop'
 require 'dslblend'
