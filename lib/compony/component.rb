@@ -164,7 +164,7 @@ module Compony
       if controller.response.body.blank?
         fail "#{self.class.inspect} must define `content` or set a response body in `before_render`" if @content_blocks.none?
         return controller.render_to_string(
-          type:   :rb,
+          type:   :dyny,
           locals: { content_blocks: @content_blocks, component: self, render_locals: locals },
           inline: <<~RUBY
             content_blocks.each do |block|
