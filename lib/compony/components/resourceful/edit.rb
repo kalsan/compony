@@ -48,7 +48,11 @@ module Compony
 
           on_updated do
             flash.notice = I18n.t('compony.components.edit.data_was_updated', data_label: data.label)
-            redirect_to controller.helpers.compony_path(:show, family_cst, data.id)
+            redirect_to evaluate_with_backfire(&@on_updated_redirect_path_block)
+          end
+
+          on_updated_redirect_path do
+            controller.helpers.compony_path(:show, family_cst, data.id) # TODO: make path smarter?
           end
 
           on_update_failed do
@@ -59,6 +63,11 @@ module Compony
         # DSL method
         def on_updated(&block)
           @on_updated_block = block
+        end
+
+        # DSL method
+        def on_updated_redirect_path(&block)
+          @on_updated_redirect_path_block = block
         end
 
         # DSL method

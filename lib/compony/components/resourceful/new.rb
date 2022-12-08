@@ -47,8 +47,13 @@ module Compony
 
           on_created do
             flash.notice = I18n.t('compony.components.new.data_was_created', data_label: data.label)
-            redirect_to compony_path(:show, family_cst, id: @data.id)
+            redirect_to evaluate_with_backfire(&@on_created_redirect_path_block)
           end
+
+          on_created_redirect_path do
+            compony_path(:show, family_cst, id: @data.id)
+          end
+
           on_create_failed do
             render_standalone(controller, status: :unprocessable_entity)
           end
@@ -68,6 +73,11 @@ module Compony
         # DSL method
         def on_created(&block)
           @on_created_block = block
+        end
+
+        # DSL method
+        def on_created_redirect_path(&block)
+          @on_created_redirect_path_block = block
         end
 
         # DSL method
