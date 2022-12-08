@@ -35,13 +35,6 @@ module Compony
               end
             end
 
-            on_created do
-              flash.notice = I18n.t('compony.components.new.data_was_created', data_label: data.label)
-              redirect_to compony_path(:show, family_cst, id: @data.id)
-            end
-            on_create_failed do
-              render_standalone(controller, status: :unprocessable_entity)
-            end
           end
 
           label(:long) { I18n.t('compony.components.new.label.long', data_class: data_class.model_name.human) }
@@ -50,6 +43,14 @@ module Compony
 
           content do
             concat form_comp.render(controller, data: @data)
+          end
+
+          on_created do
+            flash.notice = I18n.t('compony.components.new.data_was_created', data_label: data.label)
+            redirect_to compony_path(:show, family_cst, id: @data.id)
+          end
+          on_create_failed do
+            render_standalone(controller, status: :unprocessable_entity)
           end
         end
 
