@@ -34,7 +34,6 @@ module Compony
                 end
               end
             end
-
           end
 
           label(:long) { I18n.t('compony.components.new.label.long', data_class: data_class.model_name.human) }
