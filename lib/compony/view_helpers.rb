@@ -1,4 +1,8 @@
 module Compony
+  # @api description
+  # Methods in this module are available in content blocks and Rails views.
+  # Rule of thumb: this holds methods that require a view context and results are rendered immediately.
+  # @see Compony Compony for standalone/pure helpers
   module ViewHelpers
     # Use this in your application layout
     def compony_actions
@@ -7,9 +11,8 @@ module Compony
     end
 
     # Generates a path to a component
+    # @todo Allow passing models as family
     def compony_path(comp_name, family_name, ...)
-      comp_name = comp_name.to_s.underscore
-      family_name = family_name.to_s.underscore
       send("#{Compony.path_helper_name(comp_name, family_name)}_path", ...)
     end
 
