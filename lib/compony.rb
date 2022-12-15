@@ -81,7 +81,8 @@ module Compony
   # Given a component and a family, this returns the name of the Rails URL helper returning the path to this component.<br>
   # The parameters are the same as for {Compony#rails_action_name}.<br>
   # Example usage: `send("#{path_helper_name(:index, :users)}_url)`
-  # @see Compony#rails_action_name
+  # @see Compony::ViewHelpers#compony_path Prefer using view helper compony_path when a view context is available.
+  # @see Compony#rails_action_name rails_action_name for the accepted params
   def self.path_helper_name(...)
     "#{rails_action_name(...)}_comp"
   end
@@ -91,6 +92,7 @@ module Compony
   # @param comp_name [String,Symbol] Name of the component the action points to.
   # @param family_name [String,Symbol] Name of the family the action points to.
   # @param name [String,Symbol] If referring to an extra standalone entrypoint, specify its name using this param.
+  # @see Compony::ViewHelpers#compony_path Prefer using view helper compony_path when a view context is available.
   # @todo Allow passing models as family
   def self.rails_action_name(comp_name, family_name, name = nil)
     comp_name = comp_name.to_s.underscore
