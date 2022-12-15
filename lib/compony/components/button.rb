@@ -4,11 +4,12 @@ module Compony
     class Button < Compony::Component
       SUPPORTED_TYPES = %i[button submit].freeze
 
-      def initialize(*args, label: nil, path: 'javascript:void(0)', html_data: {}, type: :button, enabled: true, visible: true, **kwargs, &block)
+      def initialize(*args, label: nil, path: 'javascript:void(0)', html_options: {}, type: :button, enabled: true, visible: true, **kwargs, &block)
         @label = label
         @type = type.to_sym
         @path = path # If given a block, it will be evaluated in the helpers context when rendering
-        @html_data = { method: :get }.merge(html_data)
+        default_html_options = type == :button ? { method: :get } : {}
+        @html_options = default_html_options.merge(html_options)
         @enabled = enabled # can be boolean or block taking a controller returning a boolean
         @visible = visible
 
@@ -29,13 +30,17 @@ module Compony
             @visible = @visible.call(controller)
           end
           @path = 'javascript:void(0)' unless @enabled
+
+          if @type == :submit && @html_options.keys.reject { |k| k == :data }.any?
+            fail("Submit buttons only accept :data as html_options, but got: #{@html_options.pretty_inspect}")
+          end
         end
 
         content do
           if @visible
             case @type
             when :button
-              concat button_to(@label, @path, **@html_data, disabled: !@enabled)
+              concat button_to(@label, @path, **@html_options, disabled: !@enabled)
             when :submit
               concat button_tag(@label, type: :submit, disabled: !@enabled)
             end
