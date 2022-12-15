@@ -107,12 +107,12 @@ module Compony
   def self.button_comp(comp_name_or_cst, model_or_family_name_or_cst, **kwargs)
     model = model_or_family_name_or_cst.respond_to?(:model_name) ? model_or_family_name_or_cst : nil
     target_comp = Compony.comp_class_for(comp_name_or_cst, model_or_family_name_or_cst).new(data: model)
-    return button_comp_for(target_comp, model, **kwargs)
+    return button_for(target_comp, model, **kwargs)
   end
 
   # Given a component instance, this instanciates and returns a button component.
   # @todo document params
-  def self.button_comp_for(target_comp_instance, model = nil, label_format: :long, params: {}, **kwargs)
+  def self.button_for(target_comp_instance, model = nil, label_format: :long, params: {}, **kwargs)
     options = {
       label:   target_comp_instance.label(model, format: label_format),
       icon:    target_comp_instance.icon,
