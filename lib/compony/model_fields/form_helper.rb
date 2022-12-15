@@ -1,5 +1,6 @@
 module Compony
   module ModelFields
+    # @api description
     # This is injected into the context of a form's call to form_fields.
     # It connects forms to ModelFields.
     class FormHelper

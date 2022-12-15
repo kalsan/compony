@@ -1,5 +1,6 @@
 module Compony
   module Components
+    # @api description
     # This is the default button implementation, providing a minimal button
     class Button < Compony::Component
       SUPPORTED_TYPES = %i[button submit].freeze

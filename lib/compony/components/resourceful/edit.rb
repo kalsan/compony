@@ -1,6 +1,7 @@
 module Compony
   module Components
     module Resourceful
+      # @api description
       # This component is used for the Rails edit and update paradigm. Performs update when the form is submitted.
       class Edit < Compony::Components::WithForm
         include Compony::ComponentMixins::Resourceful

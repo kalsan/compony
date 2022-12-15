@@ -1,5 +1,6 @@
 module Compony
   module Components
+    # @api description
     # This component is used for the _form partial in the Rails paradigm.
     class Form < Component
       def check_config!

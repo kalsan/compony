@@ -2,6 +2,7 @@ module Compony
   module ComponentMixins
     module Default
       module Standalone
+        # @api description
         # Wrapper and DSL helper for component's standalone config
         class StandaloneDsl < Dslblend::Base
           def initialize(name = nil, path: nil)

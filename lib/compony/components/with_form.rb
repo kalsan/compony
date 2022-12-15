@@ -1,10 +1,11 @@
 module Compony
   module Components
+    # @api description
     # This component is destined to take a sub-component that is a form component.
     # It can be called via :get or via `submit_verb` depending on whether its form should be shown or submitted.
     class WithForm < Component
       # Returns an instance of the form component responsible for rendering the form.
-      # Feel free to override this  in subclasses.
+      # Feel free to override this in subclasses.
       def form_comp
         @form_comp ||= (form_comp_class || comp_class_for(:form, family_cst)).new(
           self,

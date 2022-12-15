@@ -1,6 +1,7 @@
 module Compony
   module Components
     module Resourceful
+      # @api description
       # This component is used for the Rails new and create paradigm. Performs update when the form is submitted.
       class New < Compony::Components::WithForm
         include Compony::ComponentMixins::Resourceful

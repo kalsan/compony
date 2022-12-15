@@ -1,10 +1,13 @@
 module Compony
-  # This class is intended for configs with predefined interfaces and should be used with instances of Hash:
-  # Example:
+  # @api description
+  # This class is intended for configs with predefined interfaces and should be used with instances of Hash:<br>
+  # Example:<br>
+  # ```ruby
   # instance_of_a_hash = Compony::MethodAccessibleHash.new
   # instance_of_a_hash.merge!({ foo: :bar })
   # instance_of_a_hash.foo --> :bar
   # instance_of_a_hash.roo --> NoMethodError
+  # ```
   class MethodAccessibleHash < Hash
     def method_missing(method, *args, &block)
       key?(method) || super

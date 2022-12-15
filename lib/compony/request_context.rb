@@ -1,4 +1,5 @@
 module Compony
+  # @api description
   # This encapsulates useful methods for accessing data within a request.
   class RequestContext < Dslblend::Base
     # Allow explicit access to the controller object. All controller methods are delgated.
