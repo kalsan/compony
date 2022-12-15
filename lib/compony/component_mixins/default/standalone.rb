@@ -17,7 +17,7 @@ module Compony
         def on_standalone_access(verb_config, controller)
           # Register as root comp
           if parent_comp.nil?
-            fail "#{inspect} is attempting to become root component, but #{root_comp.inspect} is already root." if controller.helpers.compony_root_comp.present?
+            fail "#{inspect} is attempting to become root component, but #{root_comp.inspect} is already root." if Compony.root_comp.present?
             RequestStore.store[:compony_root_comp] = self
           end
 

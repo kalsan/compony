@@ -1,14 +1,9 @@
 module Compony
   module ViewHelpers
-    # Returns the current root component, if any
-    def compony_root_comp
-      Compony.root_comp
-    end
-
     # Use this in your application layout
     def compony_actions
-      return nil unless compony_root_comp
-      compony_root_comp.render_actions(self, wrapper_class: 'root-actions', action_class: 'root-action')
+      return nil unless Compony.root_comp
+      Compony.root_comp.render_actions(self, wrapper_class: 'root-actions', action_class: 'root-action')
     end
 
     # Generates a path to a component
