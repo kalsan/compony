@@ -123,12 +123,6 @@ module Compony
     return Compony.button_component_class.new(**options.symbolize_keys)
   end
 
-  # Raw method for producing a {Compony::Components::Button} (or a custom implementation if {Compony#button_component_class=} was used).<br/>
-  # All arguments are passed to the button's initializer.
-  def self.button(...)
-    button_component_class.new(...)
-  end
-
   # Returns the current root component, if any
   def self.root_comp
     RequestStore.store[:compony_root_comp]

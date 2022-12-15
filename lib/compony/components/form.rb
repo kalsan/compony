@@ -11,7 +11,7 @@ module Compony
       setup do
         before_render do
           # Must render the buttons now as the rendering within simple form breaks the form
-          @submit_button = Compony.button(
+          @submit_button = Compony.button_component_class.new(
             label: @submit_label || I18n.t('compony.components.form.submit'), icon: 'arrow-right', type: :submit
           ).render(controller)
           @submit_path = @comp_opts[:submit_path]
