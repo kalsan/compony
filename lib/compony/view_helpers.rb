@@ -26,7 +26,7 @@ module Compony
 
     # Renders a button component to a component given a comp and model or family
     def compony_button(...)
-      Compony.button_comp(...).render(helpers.controller)
+      Compony.button(...).render(helpers.controller)
     end
   end
 end

@@ -104,7 +104,7 @@ module Compony
   #                                    or an instance implementing `model_name` from which the family name is auto-generated. Examples:
   #                                    `Users`, `'Users'`, `:users`, `User.first`
   # @see Compony::ViewHelpers#compony_button View helper providing a wrapper for this method that immediately renders a button.
-  def self.button_comp(comp_name_or_cst, model_or_family_name_or_cst, **kwargs)
+  def self.button(comp_name_or_cst, model_or_family_name_or_cst, **kwargs)
     model = model_or_family_name_or_cst.respond_to?(:model_name) ? model_or_family_name_or_cst : nil
     target_comp = Compony.comp_class_for(comp_name_or_cst, model_or_family_name_or_cst).new(data: model)
     return button_for(target_comp, model, **kwargs)
