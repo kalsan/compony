@@ -39,9 +39,10 @@ module Compony
           content do
             div I18n.t('compony.components.destroy.confirm_question', data_label: @data.label)
             div do
-              concat Compony.button_component_class.new(label:  I18n.t('compony.components.destroy.confirm_button'),
-                                                        method: :delete,
-                                                        path:   Compony.path(comp_cst, family_cst)).render(controller)
+              concat compony_button(comp_cst,
+                                    @data,
+                                    label:  I18n.t('compony.components.destroy.confirm_button'),
+                                    method: :delete)
             end
           end
 
