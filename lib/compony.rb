@@ -128,7 +128,7 @@ module Compony
       label:   target_comp_instance.label(model, **label_opts),
       icon:    target_comp_instance.icon,
       color:   target_comp_instance.color,
-      path:    -> { Compony.path(target_comp_instance.comp_name, target_comp_instance.family_name, model, **params) },
+      path:    Compony.path(target_comp_instance.comp_name, target_comp_instance.family_name, model, **params),
       visible: ->(controller) { target_comp_instance.standalone_access_permitted_for?(controller) }
     }.merge(override_kwargs.symbolize_keys)
     return Compony.button_component_class.new(**options.symbolize_keys)
