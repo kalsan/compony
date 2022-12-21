@@ -53,7 +53,7 @@ module Compony
           end
 
           on_updated_redirect_path do
-            compony_path(:show, @data)
+            Compony.path(:show, @data)
           end
 
           on_update_failed do

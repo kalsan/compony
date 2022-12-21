@@ -95,7 +95,7 @@ module Compony
   # Given a component and a family, this returns the name of the Rails URL helper returning the path to this component.<br>
   # The parameters are the same as for {Compony#rails_action_name}.<br>
   # Example usage: `send("#{path_helper_name(:index, :users)}_url)`
-  # @see Compony::ViewHelpers#compony_path Prefer using view helper compony_path when a view context is available.
+  # @see Compony#path
   # @see Compony#rails_action_name rails_action_name for the accepted params
   def self.path_helper_name(...)
     "#{rails_action_name(...)}_comp"
@@ -106,7 +106,7 @@ module Compony
   # @param comp_name_or_cst [String,Symbol] Name of the component the action points to.
   # @param model_or_family_name_or_cst [String,Symbol] Name of the family the action points to.
   # @param name [String,Symbol] If referring to an extra standalone entrypoint, specify its name using this param.
-  # @see Compony::ViewHelpers#compony_path Prefer using view helper compony_path when a view context is available.
+  # @see Compony#path
   def self.rails_action_name(comp_name_or_cst, model_or_family_name_or_cst, name = nil)
     [name.presence, comp_name_or_cst.to_s.underscore, family_name_for(model_or_family_name_or_cst)].compact.join('_')
   end
@@ -128,7 +128,7 @@ module Compony
       label:   target_comp_instance.label(model, **label_opts),
       icon:    target_comp_instance.icon,
       color:   target_comp_instance.color,
-      path:    -> { compony_path(target_comp_instance.comp_name, target_comp_instance.family_name, model, **params) },
+      path:    -> { Compony.path(target_comp_instance.comp_name, target_comp_instance.family_name, model, **params) },
       visible: ->(controller) { target_comp_instance.standalone_access_permitted_for?(controller) }
     }.merge(override_kwargs.symbolize_keys)
     return Compony.button_component_class.new(**options.symbolize_keys)

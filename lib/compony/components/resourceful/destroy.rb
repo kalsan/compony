@@ -41,7 +41,7 @@ module Compony
             div do
               concat Compony.button_component_class.new(label:  I18n.t('compony.components.destroy.confirm_button'),
                                                         method: :delete,
-                                                        path:   compony_path(comp_cst, family_cst)).render(controller)
+                                                        path:   Compony.path(comp_cst, family_cst)).render(controller)
             end
           end
 
@@ -51,7 +51,7 @@ module Compony
           end
 
           on_destroyed_redirect_path do
-            compony_path(:index, family_cst)
+            Compony.path(:index, family_cst)
           end
         end
 
