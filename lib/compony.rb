@@ -85,15 +85,12 @@ module Compony
 
   # Given a component and a family, this returns the name of the ComponyController action for this component.<br>
   # Optionally can pass a name for extra standalone configs.
-  # @param comp_name [String,Symbol] Name of the component the action points to.
-  # @param family_name [String,Symbol] Name of the family the action points to.
+  # @param comp_name_or_cst [String,Symbol] Name of the component the action points to.
+  # @param model_or_family_name_or_cst [String,Symbol] Name of the family the action points to.
   # @param name [String,Symbol] If referring to an extra standalone entrypoint, specify its name using this param.
   # @see Compony::ViewHelpers#compony_path Prefer using view helper compony_path when a view context is available.
-  # @todo Allow passing models as family
-  def self.rails_action_name(comp_name, family_name, name = nil)
-    comp_name = comp_name.to_s.underscore
-    family_name = family_name.to_s.underscore
-    [name.presence, comp_name, family_name].compact.join('_')
+  def self.rails_action_name(comp_name_or_cst, model_or_family_name_or_cst, name = nil)
+    [name.presence, comp_name_or_cst.to_s.underscore, family_name_for(model_or_family_name_or_cst)].compact.join('_')
   end
 
   # Given a component and a family/model, this instanciates and returns a button component.
