@@ -13,8 +13,14 @@ module Compony
       end
 
       def field(name, **kwargs)
+        hidden = kwargs.delete(:hidden)
         model_field = @form.object.fields[name.to_sym]
         fail("Field #{name.to_sym.inspect} is not defined on #{@form.object.inspect}") unless model_field
+
+        if hidden
+          return @form.input model_field.schema_key, as: :hidden, **kwargs
+        end
+
         case model_field.type
         when :association
           return @form.association name, **kwargs
