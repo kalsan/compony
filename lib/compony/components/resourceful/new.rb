@@ -51,7 +51,7 @@ module Compony
           end
 
           on_created_redirect_path do
-            compony_path(:show, family_cst, id: @data.id)
+            compony_path(:show, @data)
           end
 
           on_create_failed do

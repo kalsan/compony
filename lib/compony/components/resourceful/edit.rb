@@ -53,7 +53,7 @@ module Compony
           end
 
           on_updated_redirect_path do
-            controller.helpers.compony_path(:show, family_cst, data.id) # TODO: make path smarter?
+            compony_path(:show, @data)
           end
 
           on_update_failed do
