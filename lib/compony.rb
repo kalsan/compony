@@ -106,18 +106,17 @@ module Compony
   #                                    or an instance implementing `model_name` from which the family name is auto-generated. Examples:
   #                                    `Users`, `'Users'`, `:users`, `User.first`
   # @see Compony::ViewHelpers#compony_button View helper providing a wrapper for this method that immediately renders a button.
-  # @todo introduce label_opts etc.
   # @todo introduce params
-  def self.button(comp_name_or_cst, model_or_family_name_or_cst, label_format: :long, **kwargs)
+  def self.button(comp_name_or_cst, model_or_family_name_or_cst, label_opts: {}, params: {}, **override_kwargs)
     model = model_or_family_name_or_cst.respond_to?(:model_name) ? model_or_family_name_or_cst : nil
     target_comp_instance = Compony.comp_class_for(comp_name_or_cst, model_or_family_name_or_cst).new(data: model)
     options = {
-      label:   target_comp_instance.label(model, format: label_format),
+      label:   target_comp_instance.label(model, **label_opts),
       icon:    target_comp_instance.icon,
       color:   target_comp_instance.color,
-      path:    -> { compony_path(target_comp_instance.comp_name, target_comp_instance.family_name, model) },
+      path:    -> { compony_path(target_comp_instance.comp_name, target_comp_instance.family_name, model, **params) },
       visible: ->(controller) { target_comp_instance.standalone_access_permitted_for?(controller) }
-    }.merge(kwargs.symbolize_keys)
+    }.merge(override_kwargs.symbolize_keys)
     return Compony.button_component_class.new(**options.symbolize_keys)
   end
 
