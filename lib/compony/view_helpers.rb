@@ -11,7 +11,7 @@ module Compony
     end
 
     # Generates a path to a component
-    # @todo introduce params
+    # @todo deprecate
     def compony_path(comp_name_or_cst, model_or_family_name_or_cst, *args_for_path_helper, **params_for_path_helper)
       # Extract model if any, to get the ID
       params_for_path_helper.merge!(id: model_or_family_name_or_cst.id) if model_or_family_name_or_cst.respond_to?(:model_name)
@@ -20,7 +20,13 @@ module Compony
 
     # Renders a link to a component given a comp and model or family. If authentication is configured
     # and the current user has insufficient permissions to access the target object, the link is not displayed.
-    # @todo introduce params
+    # @param comp_name_or_cst [String,Symbol] The component that should be loaded, for instance `ShowForAll`, `'ShowForAll'` or `:show_for_all`
+    # @param model_or_family_name_or_cst [String,Symbol,ApplicationRecord] Either the family that contains the requested component,
+    #                                    or an instance implementing `model_name` from which the family name is auto-generated. Examples:
+    #                                    `Users`, `'Users'`, `:users`, `User.first`
+    # @param link_args [Array] Positional arguments that will be passed to the Rails `link_to` helper
+    # @param label_opts [Hash] Options hash that will be passed to the label method (see {Compony::ComponentMixins::Default::Labelling#label})
+    # @param link_kwargs [Hash] Named arguments that will be passed to the Rails `link_to` helper
     def compony_link(comp_name_or_cst, model_or_family_name_or_cst, *link_args, label_opts: {}, **link_kwargs)
       model = model_or_family_name_or_cst.respond_to?(:model_name) ? model_or_family_name_or_cst : nil
       comp = Compony.comp_class_for(comp_name_or_cst, model_or_family_name_or_cst).new(data: model)
@@ -28,8 +34,9 @@ module Compony
       return helpers.link_to(comp.label(model, **label_opts), compony_path(comp.comp_name, comp.family_name, model), *link_args, **link_kwargs)
     end
 
-    # Renders a button component to a component given a comp and model or family
-    # @todo introduce params
+    # Given a component and a family/model, this instanciates and renders a button component.
+    # @see Compony#button Check Compony.button for accepted params
+    # @see Compony::Components::Button Compony::Components::Button: the default underlying implementation
     def compony_button(...)
       Compony.button(...).render(helpers.controller)
     end
