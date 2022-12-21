@@ -18,3 +18,10 @@ en:
           long: 'New %{data_class}'
           short: 'New'
         data_was_created: '%{data_label} was created.'
+      destroy:
+        label:
+          long: 'Delete %{data_label}'
+          short: 'Delete'
+        confirm_question: 'Do you really want to delete %{data_label}?'
+        confirm_button: 'Yes, delete'
+        data_was_destroyed: '%{data_label} was deleted.'
