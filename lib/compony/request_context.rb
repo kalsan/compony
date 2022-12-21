@@ -17,8 +17,8 @@ module Compony
       super(@helpers, @controller, *additional_providers, main_provider: component)
     end
 
-    def evaluate_with_backfire(&block)
-      evaluate(backfire_vars: true, &block)
+    def evaluate_with_backfire(&)
+      evaluate(backfire_vars: true, &)
     end
 
     def component
@@ -32,7 +32,7 @@ module Compony
     end
 
     # Provide access to local assigns as if it were a Rails context
-    def method_missing(method, *args, **kwargs, &block)
+    def method_missing(method, *args, **kwargs, &)
       return @local_assigns[method] if @local_assigns.key?(method)
       return super
     end

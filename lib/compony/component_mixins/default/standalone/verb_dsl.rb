@@ -18,8 +18,8 @@ module Compony
             @store_data_block = nil
           end
 
-          def to_conf(&block)
-            evaluate(&block)
+          def to_conf(&)
+            evaluate(&)
             return {
               verb:             @verb,
               load_data_block:  @load_data_block,

@@ -9,7 +9,7 @@ module Compony
   # instance_of_a_hash.roo --> NoMethodError
   # ```
   class MethodAccessibleHash < Hash
-    def method_missing(method, *args, &block)
+    def method_missing(method, *args, &)
       key?(method) || super
       return self[method.to_sym]
     end

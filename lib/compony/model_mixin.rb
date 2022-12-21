@@ -13,7 +13,7 @@ module Compony
       def field(name, type)
         name = name.to_sym
         self.fields = fields.dup
-        fields[name] = ModelFields::Field.new(name, self, type: type)
+        fields[name] = ModelFields::Field.new(name, self, type:)
       end
 
       # DSL method, defines a new field group

@@ -31,10 +31,10 @@ module Compony
           protected
 
           # DSL
-          def verb(verb, *args, **nargs, &block)
+          def verb(verb, *args, **nargs, &)
             verb = verb.to_sym
             @verbs[verb] ||= Compony::MethodAccessibleHash.new
-            @verbs[verb].deep_merge! VerbDsl.new(verb, *args, **nargs).to_conf(&block)
+            @verbs[verb].deep_merge! VerbDsl.new(verb, *args, **nargs).to_conf(&)
           end
 
           # DSL
