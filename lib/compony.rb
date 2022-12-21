@@ -98,8 +98,11 @@ module Compony
   # @param model_or_family_name_or_cst [String,Symbol,ApplicationRecord] Either the family that contains the requested component,
   #                                    or an instance implementing `model_name` from which the family name is auto-generated. Examples:
   #                                    `Users`, `'Users'`, `:users`, `User.first`
+  # @param label_opts [Hash] Options hash that will be passed to the label method (see {Compony::ComponentMixins::Default::Labelling#label})
+  # @param params [Hash] GET parameters to be inclued into the path this button points to.
+  # @param override_kwargs [Hash] Override button options, see options for {Compony::Components::Button}
   # @see Compony::ViewHelpers#compony_button View helper providing a wrapper for this method that immediately renders a button.
-  # @todo introduce params
+  # @see Compony::Components::Button Compony::Components::Button: the default underlying implementation
   def self.button(comp_name_or_cst, model_or_family_name_or_cst, label_opts: {}, params: {}, **override_kwargs)
     model = model_or_family_name_or_cst.respond_to?(:model_name) ? model_or_family_name_or_cst : nil
     target_comp_instance = Compony.comp_class_for(comp_name_or_cst, model_or_family_name_or_cst).new(data: model)
