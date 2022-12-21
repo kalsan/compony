@@ -124,7 +124,7 @@ module Compony
   #                                    `Users`, `'Users'`, `:users`, `User.first`
   def self.family_name_for(model_or_family_name_or_cst)
     if model_or_family_name_or_cst.respond_to?(:model_name)
-      return model_or_family_name_or_cst.model_name.name.pluralize
+      return model_or_family_name_or_cst.model_name.plural
     else
       return model_or_family_name_or_cst.to_s.underscore
     end
