@@ -12,8 +12,10 @@ module Compony
 
     # Generates a path to a component
     # @todo introduce params
-    def compony_path(comp_name, family_name, ...)
-      send("#{Compony.path_helper_name(comp_name, family_name)}_path", ...)
+    def compony_path(comp_name_or_cst, model_or_family_name_or_cst, *args_for_path_helper, **params_for_path_helper)
+      # Extract model if any, to get the ID
+      params_for_path_helper.merge!(id: model_or_family_name_or_cst.id) if model_or_family_name_or_cst.respond_to?(:model_name)
+      send("#{Compony.path_helper_name(comp_name_or_cst, model_or_family_name_or_cst)}_path", *args_for_path_helper, **params_for_path_helper)
     end
 
     # Renders a link to a component given a comp and model or family. If authentication is configured
