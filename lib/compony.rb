@@ -65,6 +65,24 @@ module Compony
   # Application-wide available pure helpers
   ##########=====-------
 
+  # Generates a Rails path to a component. Examples: `Compony.path(:index, :users)`, `Compony.path(:show, User.first)`
+  # @param comp_name_or_cst [String,Symbol] The component that should be loaded, for instance `ShowForAll`, `'ShowForAll'` or `:show_for_all`
+  # @param model_or_family_name_or_cst [String,Symbol,ApplicationRecord] Either the family that contains the requested component,
+  #                                    or an instance implementing `model_name` from which the family name is auto-generated. Examples:
+  #                                    `Users`, `'Users'`, `:users`, `User.first`
+  # @param args_for_path_helper [Array] Positional arguments passed to the Rails helper
+  # @param kwargs_for_path_helper [Hash] Named arguments passed to the Rails helper. If a model is given to `model_or_family_name_or_cst`,
+  #                                      the param `id` defaults to the passed model's ID.
+  def self.path(comp_name_or_cst, model_or_family_name_or_cst, *args_for_path_helper, **kwargs_for_path_helper)
+    # Extract model if any, to get the ID
+    kwargs_for_path_helper.merge!(id: model_or_family_name_or_cst.id) if model_or_family_name_or_cst.respond_to?(:model_name)
+    return Rails.application.routes.url_helpers.send(
+      "#{path_helper_name(comp_name_or_cst, model_or_family_name_or_cst)}_path",
+      *args_for_path_helper,
+      **kwargs_for_path_helper
+    )
+  end
+
   # Given a component and a family/model, this returns the matching component class if any
   # @param comp_name_or_cst [String,Symbol] The component that should be loaded, for instance `ShowForAll`, `'ShowForAll'` or `:show_for_all`
   # @param model_or_family_name_or_cst [String,Symbol,ApplicationRecord] Either the family that contains the requested component,
