@@ -87,15 +87,12 @@ module Compony
         protected
 
         # DSL method
-        # TODO: Remove rubocop instruction when the following is completed: https://github.com/rubocop/rubocop/issues/11313
-        # rubocop:disable Naming/BlockForwarding
         def standalone(name = nil, *args, **nargs, &block)
           block = proc {} unless block_given? # If called without a block, must default to an empty block to provide a binding to the DSL.
           name = name&.to_sym # nil name is the most common case
           @standalone_configs[name] ||= Compony::MethodAccessibleHash.new
           @standalone_configs[name].deep_merge! StandaloneDsl.new(name, *args, **nargs).to_conf(&block)
         end
-        # rubocop:enable Naming/BlockForwarding
 
         private
 
