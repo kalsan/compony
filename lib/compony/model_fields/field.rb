@@ -10,6 +10,7 @@ module Compony
         decimal
         float
         integer
+        rich_text
         string
         text
         time

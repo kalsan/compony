@@ -34,6 +34,8 @@ module Compony
             selected:     selected_cst&.key || anchor_class.all.first
           }.merge(kwargs)
           return @form.input name, **opts
+        when :rich_text
+          return @form.input name, **kwargs.merge(as: :rich_text_area)
         else
           return @form.input name, **kwargs
         end
