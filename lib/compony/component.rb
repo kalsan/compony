@@ -149,10 +149,10 @@ module Compony
     # Adds a content block that will be executed after all previous ones.
     # It is safe to use this method even if `content` has never been called
     # You can use dyny here.
-    def add_content(&block)
+    def add_content(index = -1, &block)
       fail("`content` expects a block in #{inspect}.") unless block_given?
       @content_blocks ||= []
-      @content_blocks << block
+      @content_blocks.insert(index, block)
     end
 
     # Renders the component using the controller passsed to it and returns it as a string.
