@@ -117,7 +117,7 @@ module Compony
   #                                    or an instance implementing `model_name` from which the family name is auto-generated. Examples:
   #                                    `Users`, `'Users'`, `:users`, `User.first`
   # @param label_opts [Hash] Options hash that will be passed to the label method (see {Compony::ComponentMixins::Default::Labelling#label})
-  # @param params [Hash] GET parameters to be inclued into the path this button points to.
+  # @param params [Hash] GET parameters to be inclued into the path this button points to. Special case: e.g. format: :pdf -> some.url/foo/bar.pdf
   # @param override_kwargs [Hash] Override button options, see options for {Compony::Components::Button}
   # @see Compony::ViewHelpers#compony_button View helper providing a wrapper for this method that immediately renders a button.
   # @see Compony::Components::Button Compony::Components::Button: the default underlying implementation
