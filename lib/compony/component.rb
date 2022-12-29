@@ -41,7 +41,7 @@ module Compony
       @index = index
       @comp_opts = comp_opts
       @before_render_block = nil
-      @content = nil
+      @content_blocks = []
       @actions = []
       @skipped_actions = Set.new
 
