@@ -12,7 +12,7 @@ module Compony
             fail "Unknown HTTP verb #{verb.inspect}, use one of #{AVAILABLE_VERBS.inspect}" unless AVAILABLE_VERBS.include?(verb)
 
             @verb = verb
-            @respond_block = nil
+            @respond_blocks = { nil => proc { render_standalone(controller) } }
             @load_data_block = nil
             @accessible_block = nil
             @store_data_block = nil
@@ -25,7 +25,7 @@ module Compony
               load_data_block:  @load_data_block,
               accessible_block: @accessible_block || proc { can?(comp_name.to_sym, family_name.to_sym) },
               store_data_block: @store_data_block,
-              respond_block:    @respond_block || proc { render_standalone(controller) }
+              respond_blocks:    @respond_blocks
             }
           end
 
@@ -53,8 +53,9 @@ module Compony
 
           # DSL
           # This is the last step in the life cycle. It may redirect or render. If omitted, the default is standalone_render.
-          def respond(&block)
-            @respond_block = block
+          # @param format [String, Symbol] Format this block should respond to, defaults to `nil` which means "all other formats".
+          def respond(format = nil, &block)
+            @respond_blocks[format&.to_sym] = block
           end
         end
       end

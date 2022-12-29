@@ -50,7 +50,9 @@ module Compony
             request_context.evaluate_with_backfire(&verb_config.store_data_block)
           end
 
-          request_context.evaluate(&verb_config.respond_block)
+          # Check if there is a specific respond block for the format. If there isn't, fallback to the nil respond block, which defaults to `render_standalone`.
+          respond_block = verb_config.respond_blocks[controller.request.format.symbol] || verb_config.respond_blocks[nil]
+          request_context.evaluate(&respond_block)
         end
 
         # Call this on a standalone component to find out whether default GET access is permitted for the current user.
