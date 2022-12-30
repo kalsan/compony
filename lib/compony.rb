@@ -83,13 +83,18 @@ module Compony
     )
   end
 
-  # Given a component and a family/model, this returns the matching component class if any
+  # Given a component and a family/model, this returns the matching component class if any, or nil if the component does not exist.
   # @param comp_name_or_cst [String,Symbol] The component that should be loaded, for instance `ShowForAll`, `'ShowForAll'` or `:show_for_all`
   # @param model_or_family_name_or_cst [String,Symbol,ApplicationRecord] Either the family that contains the requested component,
   #                                    or an instance implementing `model_name` from which the family name is auto-generated. Examples:
   #                                    `Users`, `'Users'`, `:users`, `User.first`
   def self.comp_class_for(comp_name_or_cst, model_or_family_name_or_cst)
-    return ::Components.const_get(family_name_for(model_or_family_name_or_cst).camelize).const_get(comp_name_or_cst.to_s.camelize)
+    family_cst_str = family_name_for(model_or_family_name_or_cst).camelize
+    comp_cst_str = comp_name_or_cst.to_s.camelize
+    return nil unless ::Components.const_defined?(family_cst_str)
+    family_constant = ::Components.const_get(family_cst_str)
+    return nil unless family_constant.const_defined?(comp_cst_str)
+    return family_constant.const_get(comp_cst_str)
   end
 
   # Given a component and a family, this returns the name of the Rails URL helper returning the path to this component.<br>
