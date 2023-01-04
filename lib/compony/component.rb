@@ -92,7 +92,7 @@ module Compony
     # Returns a hash for the path. Used for params prefixing.
     # Do not overwrite.
     def path_hash
-      Digest::SHA256.hexdigest(path)[..4]
+      Digest::SHA1.hexdigest(path)[..4]
     end
 
     # Given an unprefixed name of a param, adds the path hash
