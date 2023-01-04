@@ -2,7 +2,7 @@ module Compony
   module ComponentMixins
     # Include this when your component's family name corresponds to the pluralized Rails model name the component's family is responsible for.
     # When including this, the component gets an attribute @data which contains a record or a collection of records.
-    # To load or alter @data, always use the authorized_... methods defined below. Implement the actual operation in your component.
+    # Resourceful components are always aware of a data_class, corresponding to the expected @data.class and used e.g. to render lists or for `.new`.
     module Resourceful
       extend ActiveSupport::Concern
 
@@ -28,12 +28,11 @@ module Compony
         @data_class ||= new_data_class || family_cst.to_s.singularize.constantize
       end
 
-      # @override
-      # Instanciate a component with `self` as a parent and render it
-      def sub_comp(component_class, **comp_opts)
+      # Instanciate a component with `self` as a parent and render it, having it inherit the resource
+      def resourceful_sub_comp(component_class, **comp_opts)
         comp_opts[:data] ||= data # Inject additional param before forwarding all of them to super
         comp_opts[:data_class] ||= data_class # Inject additional param before forwarding all of them to super
-        super
+        sub_comp(component_class, **comp_opts)
       end
 
       protected
