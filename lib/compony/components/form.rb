@@ -99,7 +99,7 @@ module Compony
       def field(name, **kwargs)
         fail("The `field` method may only be called inside `form_fields` for #{inspect}.") unless @form_helper
         unless @form_helper.form.object.field_groups[field_group_key].fields.include?(name.to_sym)
-          fail("Component #{to_s} is operating on field group #{field_group_key} which does not include requested field #{name.to_sym.inspect}.")
+          fail("Component #{self} is operating on field group #{field_group_key} which does not include requested field #{name.to_sym.inspect}.")
         end
         return @form_helper.field(name, **kwargs)
       end
@@ -109,6 +109,13 @@ module Compony
       def f(...)
         fail("The `f` method may only be called inside `form_fields` for #{inspect}.") unless @form_helper
         return @form_helper.form(...)
+      end
+
+      # Called inside the form_fields block. This makes the method `f` available in the block.
+      # See also notes for `with_form_helper`.
+      def collect(...)
+        fail("The `collect` method may only be called inside `form_fields` for #{inspect}.") unless @form_helper
+        return @form_helper.collect(...)
       end
 
       protected

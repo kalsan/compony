@@ -28,7 +28,7 @@ module Compony
           selected_cst = @form.object.send(name)
           anchor_class = model_field.model_class.anchormodel_attributes[model_field.name].anchor_class
           opts = {
-            collection:   anchor_class.all.map { |anchor| [anchor.label, anchor.key] },
+            collection:   collect(anchor_class.all),
             label_method: :first,
             value_method: :second,
             selected:     selected_cst&.key || anchor_class.all.first
@@ -39,6 +39,11 @@ module Compony
         else
           return @form.input name, **kwargs
         end
+      end
+
+      # Takes an array of objects implementing the methods `label` and `key` and returns an array suitable for simple_form select fields.
+      def collect(flat_array, label_method: :label, key_method: :key)
+        return flat_array.map { |entry| [entry.send(label_method), entry.send(key_method)] }
       end
     end
   end
