@@ -130,6 +130,7 @@ module Compony
       comp_cst.to_s.underscore
     end
 
+    # @todo deprecate (check for usages beforehand)
     def comp_class_for(...)
       Compony.comp_class_for(...)
     end

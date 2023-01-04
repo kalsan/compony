@@ -41,6 +41,7 @@ module Compony
       end
 
       # DSL method, use to provide autocomplete for a TomSelect
+      # @todo Move to KB?
       def autocomplete(field_name, data_class_name = nil, ransack:)
         last_path_segment = "autocomplete_#{field_name}" # This must match the custom simpleform input, if any.
         data_class_name ||= field_name.to_s.classify
@@ -88,6 +89,7 @@ module Compony
       # This method is used by render to store the form helper inside the component such that we can delegate
       # the method `field` to the helper. This is a workaround required because the form does not exist when the
       # RequestContext is being built, and we want the method `field` to be available inside the `form_fields` block.
+      # @todo Refactor? Could this be greatly simplified by having `form_field to |f|` ?
       def with_form_helper(form_helper)
         @form_helper = form_helper
         yield
