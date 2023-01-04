@@ -21,11 +21,13 @@ module Compony
 
     # Resourceful components should return true here
     # Do not override.
+    # @todo deprecate (search everywhere for usages and remove dependencies beforehand)
     def self.resourceful?
       false
     end
 
     # Returns closest resourceful parent, or nil if none found
+    # @todo deprecate (search everywhere for usages and remove dependencies beforehand)
     def closest_resourceful_parent_comp
       candidate = self
       loop do
