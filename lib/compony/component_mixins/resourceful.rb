@@ -6,14 +6,6 @@ module Compony
     module Resourceful
       extend ActiveSupport::Concern
 
-      class_methods do
-        # Overrides default resourceful? method. Used to find resourceful components.
-        # Do not override.
-        def resourceful?
-          true
-        end
-      end
-
       attr_reader :data
 
       def initialize(*args, data: nil, data_class: nil, **nargs, &block)
