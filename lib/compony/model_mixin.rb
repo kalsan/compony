@@ -18,10 +18,10 @@ module Compony
 
       # DSL method, defines a new field group
       def field_group(*names, inherit: nil, &block)
+        inherit = field_groups[inherit] if inherit
         names.each do |name|
           name = name.to_sym
           self.field_groups = field_groups.dup
-          inherit = field_groups[inherit] if inherit
           new_field_group = ModelFields::FieldGroup.new(name, self, base_field_group: inherit)
           block.call(new_field_group)
           field_groups[name] = new_field_group
