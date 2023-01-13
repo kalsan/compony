@@ -42,6 +42,7 @@ module Compony
 
       # DSL method, use to provide autocomplete for a TomSelect
       # @todo Move to KB?
+      # @todo Move searching fields that are of type anchormodel
       def autocomplete(field_name, data_class_name = nil, ransack:)
         last_path_segment = "autocomplete_#{field_name}" # This must match the custom simpleform input, if any.
         data_class_name ||= field_name.to_s.classify
