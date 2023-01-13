@@ -19,6 +19,10 @@ module Compony
         end
       end
 
+      def add_all
+        @fields = @model_class.fields.dup
+      end
+
       def del(*field_names)
         field_names.each do |field_name|
           field_name = field_name.to_sym
