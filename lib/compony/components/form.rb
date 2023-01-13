@@ -77,7 +77,7 @@ module Compony
           return @schema_block
         else
           # If schema was not called, auto-infer a default
-          current_field_group = data.class.field_groups[field_group_key]
+          current_field_group = data.class.field_groups[field_group_key] || fail("Missing field group #{field_group_key.inspect} for #{data.class}")
           return proc do
             current_field_group.fields.each do |_field_name, field|
               instance_exec(&field.schema_call)
