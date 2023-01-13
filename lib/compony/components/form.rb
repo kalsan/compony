@@ -137,7 +137,7 @@ module Compony
 
       # Protected attr reader with a default
       def field_group_key
-        @field_group_key || :default
+        @field_group_key || :form
       end
     end
   end
