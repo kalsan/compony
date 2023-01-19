@@ -84,7 +84,9 @@ module Compony
     end
 
     def full_feasibility_messages(action_name)
-      return "#{feasibility_messages(action_name).join(', ').upcase_first}."
+      text = feasibility_messages(action_name).join(', ').upcase_first
+      text += '.' if text.present?
+      return text
     end
   end
 end
