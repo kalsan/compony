@@ -5,7 +5,7 @@ module Compony
     class Button < Compony::Component
       SUPPORTED_TYPES = %i[button submit].freeze
 
-      def initialize(*args, label: nil, path: 'javascript:void(0)', method: nil, type: :button, enabled: true, visible: true, **kwargs, &block)
+      def initialize(*args, label: nil, path: 'javascript:void(0)', method: nil, type: :button, enabled: true, visible: true, title: nil, **kwargs, &block)
         if type != :button && !method.nil?
           fail("Param `method` is only allowed for :button type buttons, but got method #{method.inspect} for type #{type.inspect}")
         end
@@ -16,6 +16,7 @@ module Compony
         @method = method || :get
         @enabled = enabled # can be boolean or block taking a controller returning a boolean
         @visible = visible
+        @title = title
 
         fail "Unsupported button type #{@type}, use on of: #{SUPPORTED_TYPES.inspect}" unless SUPPORTED_TYPES.include?(@type)
 
@@ -40,9 +41,9 @@ module Compony
           if @visible
             case @type
             when :button
-              concat button_to(@label, @path, method: @method, disabled: !@enabled)
+              concat button_to(@label, @path, method: @method, disabled: !@enabled, title: @title)
             when :submit
-              concat button_tag(@label, type: :submit, disabled: !@enabled)
+              concat button_tag(@label, type: :submit, disabled: !@enabled, title: @title)
             end
           end
         end
