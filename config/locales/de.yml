@@ -4,6 +4,8 @@ de:
     boolean:
       true: 'Ja'
       false: 'Nein'
+    feasibility:
+      has_dependent_models: 'es gibt abhängige %{dependent_class}'
     components:
       form:
         submit: 'Senden'

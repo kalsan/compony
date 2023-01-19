@@ -3,10 +3,11 @@ module Compony
     extend ActiveSupport::Concern
 
     included do
-      # TODO: The following class attribute initializations will likely not work for STI/inherited models as subclasses will probably influence superclasses.
       class_attribute :fields, default: {}
       class_attribute :field_groups, default: {}
       class_attribute :feasibility_preventions, default: {}
+
+      class_attribute :autodetect_feasibilities_completed, default: false
     end
 
     class_methods do
@@ -37,6 +38,23 @@ module Compony
         feasibility_preventions[action_name.to_sym] ||= []
         feasibility_preventions[action_name.to_sym] << MethodAccessibleHash.new.merge({ action_name:, message:, block: })
       end
+
+      # DSL method, part of the Feasibility feature
+      # Skips autodetection of feasibilities
+      def skip_autodetect_feasibilities
+        self.autodetect_feasibilities_completed = true
+      end
+
+      def autodetect_feasibilities!
+        return if autodetect_feasibilities_completed
+        # Add a prevention that reflects the `has_many` `dependent' properties. Avoids that users can press buttons that will result in a failed destroy.
+        reflect_on_all_associations.select{|assoc| %i[restrict_with_exception restrict_with_error].include? assoc.options[:dependent]}.each do |assoc|
+          prevent(:destroy, I18n.t('compony.feasibility.has_dependent_models', dependent_class: I18n.t(assoc.klass.model_name.plural.humanize))) do
+            public_send(assoc.name).any?
+          end
+        end
+        self.autodetect_feasibilities_completed = true
+      end
     end
 
     # Retrieves feasibility for the given instance
@@ -46,6 +64,8 @@ module Compony
       @feasibility_messages ||= {}
       # Abort if check has already run and recompute is false
       if @feasibility_messages[action_name].nil? || recompute
+        # Lazily autodetect feasibilities
+        self.class.autodetect_feasibilities!
         # Compute feasibility and gather messages
         @feasibility_messages[action_name] = []
         feasibility_preventions[action_name]&.each do |prevention|
@@ -59,12 +79,12 @@ module Compony
 
     def feasibility_messages(action_name)
       action_name = action_name.to_sym
-      feasible? if @feasibility_messages[action_name].nil? # If feasibility check hasn't been performed yet for this action, perform it now
+      feasible?(action_name) if @feasibility_messages&.[](action_name).nil? # If feasibility check hasn't been performed yet for this action, perform it now
       return @feasibility_messages[action_name]
     end
 
     def full_feasibility_messages(action_name)
-      return feasibility_messages(action_name).join(', ').capitalize
+      return "#{feasibility_messages(action_name).join(', ').upcase_first}."
     end
   end
 end
