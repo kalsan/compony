@@ -97,6 +97,13 @@ module Compony
     return family_constant.const_get(comp_cst_str)
   end
 
+  # As above but fails if none found
+  def self.comp_class_for!(comp_name_or_cst, model_or_family_name_or_cst)
+    comp_class_for(comp_name_or_cst, model_or_family_name_or_cst) || fail(
+      "No component found for [#{comp_name_or_cst.inspect}, #{model_or_family_name_or_cst.inspect}]"
+    )
+  end
+
   # Given a component and a family, this returns the name of the Rails URL helper returning the path to this component.<br>
   # The parameters are the same as for {Compony#rails_action_name}.<br>
   # Example usage: `send("#{path_helper_name(:index, :users)}_url)`
@@ -128,7 +135,7 @@ module Compony
   # @see Compony::Components::Button Compony::Components::Button: the default underlying implementation
   def self.button(comp_name_or_cst, model_or_family_name_or_cst, label_opts: {}, params: {}, feasibility_action: nil, **override_kwargs)
     model = model_or_family_name_or_cst.respond_to?(:model_name) ? model_or_family_name_or_cst : nil
-    target_comp_instance = Compony.comp_class_for(comp_name_or_cst, model_or_family_name_or_cst).new(data: model)
+    target_comp_instance = Compony.comp_class_for!(comp_name_or_cst, model_or_family_name_or_cst).new(data: model)
     feasibility_action ||= comp_name_or_cst.to_s.underscore.to_sym
     options = {
       label:   target_comp_instance.label(model, **label_opts),

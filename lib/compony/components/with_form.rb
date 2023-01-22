@@ -7,7 +7,7 @@ module Compony
       # Returns an instance of the form component responsible for rendering the form.
       # Feel free to override this in subclasses.
       def form_comp
-        @form_comp ||= (form_comp_class || comp_class_for(:form, family_cst)).new(
+        @form_comp ||= (form_comp_class || comp_class_for!(:form, family_cst)).new(
           self,
           submit_verb:,
           # If applicable, Rails adds the route keys automatically, thus, e.g. :id does not need to be passed here, as it comes from the request.

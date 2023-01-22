@@ -21,7 +21,7 @@ module Compony
     # @param link_kwargs [Hash] Named arguments that will be passed to the Rails `link_to` helper
     def compony_link(comp_name_or_cst, model_or_family_name_or_cst, *link_args, label_opts: {}, **link_kwargs)
       model = model_or_family_name_or_cst.respond_to?(:model_name) ? model_or_family_name_or_cst : nil
-      comp = Compony.comp_class_for(comp_name_or_cst, model_or_family_name_or_cst).new(data: model)
+      comp = Compony.comp_class_for!(comp_name_or_cst, model_or_family_name_or_cst).new(data: model)
       return unless comp.standalone_access_permitted_for?(self)
       return helpers.link_to(comp.label(model, **label_opts), Compony.path(comp.comp_name, comp.family_name, model), *link_args, **link_kwargs)
     end
