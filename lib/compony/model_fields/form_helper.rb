@@ -26,12 +26,12 @@ module Compony
           return @form.association name, **kwargs
         when :anchormodel
           selected_cst = @form.object.send(name)
-          anchor_class = model_field.model_class.anchormodel_attributes[model_field.name].anchor_class
+          anchormodel_class = model_field.model_class.anchormodel_attributes[model_field.name].anchormodel_class
           opts = {
-            collection:   collect(anchor_class.all),
+            collection:   collect(anchormodel_class.all),
             label_method: :first,
             value_method: :second,
-            selected:     selected_cst&.key || anchor_class.all.first
+            selected:     selected_cst&.key || anchormodel_class.all.first
           }.merge(kwargs)
           return @form.input name, **opts
         when :rich_text
