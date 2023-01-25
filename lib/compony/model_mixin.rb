@@ -6,6 +6,7 @@ module Compony
       class_attribute :fields, default: {}
       class_attribute :field_groups, default: {}
       class_attribute :feasibility_preventions, default: {}
+      class_attribute :primary_key_type_key, default: :integer
 
       class_attribute :autodetect_feasibilities_completed, default: false
     end
@@ -29,6 +30,14 @@ module Compony
           block.call(new_field_group)
           field_groups[name] = new_field_group
         end
+      end
+
+      # DSL method, sets the primary key type
+      def primary_key_type(new_type)
+        unless [:integer, :string].include?(new_type.to_sym)
+          fail("#{self} is declaring primary_key_type as #{new_type.inspect} but only :integer and :string are supported at this time.")
+        end
+        self.primary_key_type_key = new_type.to_sym
       end
 
       # DSL method, part of the Feasibility feature
