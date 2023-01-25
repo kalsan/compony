@@ -51,7 +51,11 @@ module Compony
           end
 
           on_created_redirect_path do
-            Compony.path(:show, @data)
+            if Compony.comp_class_for(:show, @data)
+              Compony.path(:show, @data)
+            else
+              Compony.path(:index, @data)
+            end
           end
 
           on_create_failed do
