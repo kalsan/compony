@@ -34,7 +34,7 @@ module Compony
 
       # DSL method, sets the primary key type
       def primary_key_type(new_type)
-        unless [:integer, :string].include?(new_type.to_sym)
+        unless %i[integer string].include?(new_type.to_sym)
           fail("#{self} is declaring primary_key_type as #{new_type.inspect} but only :integer and :string are supported at this time.")
         end
         self.primary_key_type_key = new_type.to_sym
