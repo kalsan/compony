@@ -29,7 +29,7 @@ Gem::Specification.new do |s|
     s.add_runtime_dependency(%q<simple_form>.freeze, [">= 5.1.0"])
     s.add_runtime_dependency(%q<dslblend>.freeze, [">= 0.0.3"])
     s.add_runtime_dependency(%q<ransack>.freeze, [">= 3.2.1"])
-    s.add_runtime_dependency(%q<anchormodel>.freeze, ["~> 0.1.1"])
+    s.add_runtime_dependency(%q<anchormodel>.freeze, ["~> 0.1.2"])
   else
     s.add_dependency(%q<yard>.freeze, [">= 0.9.28"])
     s.add_dependency(%q<request_store>.freeze, [">= 1.5"])
@@ -38,6 +38,6 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<simple_form>.freeze, [">= 5.1.0"])
     s.add_dependency(%q<dslblend>.freeze, [">= 0.0.3"])
     s.add_dependency(%q<ransack>.freeze, [">= 3.2.1"])
-    s.add_dependency(%q<anchormodel>.freeze, ["~> 0.1.1"])
+    s.add_dependency(%q<anchormodel>.freeze, ["~> 0.1.2"])
   end
 end
