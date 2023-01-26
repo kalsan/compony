@@ -70,8 +70,6 @@ module Compony
             return I18n.t("compony.boolean.#{data.send(@name)}")
           when :anchormodel
             return data.send(@name)&.label
-          when :rich_text
-            return controller.helpers.sanitize data.send(@name)
           else
             return data.send(@name)
           end
