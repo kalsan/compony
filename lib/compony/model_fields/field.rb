@@ -50,9 +50,9 @@ module Compony
         if association?
           if multi?
             if link_to_component
-              return data.send(@name).map do |item|
-                controller.helpers.compony_link(link_to_component, item)
-              end.join(', ')
+              return controller.helpers.sanitize(data.send(@name).map do |item|
+                controller.helpers.compony_link(link_to_component, item, **link_opts)
+              end.join(', '))
             else
               return data.send(@name).map(&:label).join(', ')
             end
