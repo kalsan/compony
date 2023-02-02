@@ -149,11 +149,11 @@ module Compony
     }
     if model
       options.merge!({
-                       enabled: model.feasible?(feasibility_action),
-                       title:   model.full_feasibility_messages(feasibility_action)
-                     })
-    end
-    options.merge!(override_kwargs.symbolize_keys)
+        enabled: model.feasible?(feasibility_action),
+        title:   model.full_feasibility_messages(feasibility_action)
+        })
+      end
+      options.merge!(override_kwargs.symbolize_keys)
     return Compony.button_component_class.new(**options.symbolize_keys)
   end
 
