@@ -185,9 +185,10 @@ module Compony
   def self.with_button_defaults(**keys_to_overwrite, &block)
     # Lazy initialize butto_defaults store if it hasn't been yet
     RequestStore.store[:button_defaults] ||= {}
+    keys_to_overwrite.transform_keys!(&:to_sym)
     old_values = {}
+    newly_defined_keys = keys_to_overwrite.keys - RequestStore.store[:button_defaults].keys
     keys_to_overwrite.each do |key, new_value|
-      key = key.to_sym
       # Assign new value
       old_values[key] = RequestStore.store[:button_defaults][key]
       RequestStore.store[:button_defaults][key] = new_value
@@ -195,8 +196,10 @@ module Compony
     return_value = block.call
     # Restore previous value
     keys_to_overwrite.each do |key, _new_value|
-      RequestStore.store[:button_defaults][key.to_sym] = old_values[key.to_sym]
+      RequestStore.store[:button_defaults][key] = old_values[key]
     end
+    # Undefine keys that were not there previously
+    newly_defined_keys.each { |key| RequestStore.store[:button_defaults].delete(key) }
     return return_value
   end
 end
