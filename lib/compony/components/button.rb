@@ -8,9 +8,6 @@ module Compony
       # path: If given a block, it will be evaluated in the helpers context when rendering
       # enabled: If given a block, it will be evaluated in the helpers context when rendering
       def initialize(*args, label: nil, path: nil, method: nil, type: nil, enabled: nil, visible: nil, title: nil, **kwargs, &block)
-        if type != :button && !method.nil?
-          fail("Param `method` is only allowed for :button type buttons, but got method #{method.inspect} for type #{type.inspect}")
-        end
 
         @label = label || Compony.button_defaults[:label]
         @type = type&.to_sym || Compony.button_defaults[:type] || :button
@@ -25,6 +22,9 @@ module Compony
         @title = title || Compony.button_defaults[:title]
 
         fail "Unsupported button type #{@type}, use on of: #{SUPPORTED_TYPES.inspect}" unless SUPPORTED_TYPES.include?(@type)
+        if @type != :button && !@method.nil?
+          fail("Param `method` is only allowed for :button type buttons, but got method #{@method.inspect} for type #{@type.inspect}")
+        end
 
         super(*args, **kwargs, &block)
       end
