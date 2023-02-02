@@ -133,13 +133,20 @@ module Compony
   # @param override_kwargs [Hash] Override button options, see options for {Compony::Components::Button}
   # @see Compony::ViewHelpers#compony_button View helper providing a wrapper for this method that immediately renders a button.
   # @see Compony::Components::Button Compony::Components::Button: the default underlying implementation
-  def self.button(comp_name_or_cst, model_or_family_name_or_cst, label_opts: nil, params: nil, feasibility_action: nil, **override_kwargs)
+  # @todo add doc for feasibility
+  def self.button(comp_name_or_cst,
+                  model_or_family_name_or_cst,
+                  label_opts: nil,
+                  params: nil,
+                  feasibility_action: nil,
+                  feasibility_target: nil,
+                  **override_kwargs)
     label_opts ||= button_defaults[:label_opts] || {}
     params ||= button_defaults[:params] || {}
-    feasibility_action ||= button_defaults[:feasibility_action]
     model = model_or_family_name_or_cst.respond_to?(:model_name) ? model_or_family_name_or_cst : nil
     target_comp_instance = Compony.comp_class_for!(comp_name_or_cst, model_or_family_name_or_cst).new(data: model)
-    feasibility_action ||= comp_name_or_cst.to_s.underscore.to_sym
+    feasibility_action ||= button_defaults[:feasibility_action] || comp_name_or_cst.to_s.underscore.to_sym
+    feasibility_target ||= button_defaults[:feasibility_target] || model
     options = {
       label:   target_comp_instance.label(model, **label_opts),
       icon:    target_comp_instance.icon,
@@ -147,13 +154,13 @@ module Compony
       path:    Compony.path(target_comp_instance.comp_name, target_comp_instance.family_name, model, **params),
       visible: ->(controller) { target_comp_instance.standalone_access_permitted_for?(controller) }
     }
-    if model
+    if feasibility_target
       options.merge!({
-        enabled: model.feasible?(feasibility_action),
-        title:   model.full_feasibility_messages(feasibility_action)
-        })
-      end
-      options.merge!(override_kwargs.symbolize_keys)
+                       enabled: feasibility_target.feasible?(feasibility_action),
+                       title:   feasibility_target.full_feasibility_messages(feasibility_action)
+                     })
+    end
+    options.merge!(override_kwargs.symbolize_keys)
     return Compony.button_component_class.new(**options.symbolize_keys)
   end
 
