@@ -12,7 +12,11 @@ module Compony
         @label = label || Compony.button_defaults[:label]
         @type = type&.to_sym || Compony.button_defaults[:type] || :button
         @path = path || Compony.button_defaults[:path] || 'javascript:void(0)'
-        @method = method || Compony.button_defaults[:method] || :get
+        @method = method || Compony.button_defaults[:method]
+        if @type != :button && !@method.nil?
+          fail("Param `method` is only allowed for :button type buttons, but got method #{@method.inspect} for type #{@type.inspect}")
+        end
+        @method ||= :get
         @enabled = enabled
         @enabled = Compony.button_defaults[:enabled] if @enabled.nil?
         @enabled = true if @enabled.nil?
@@ -22,9 +26,6 @@ module Compony
         @title = title || Compony.button_defaults[:title]
 
         fail "Unsupported button type #{@type}, use on of: #{SUPPORTED_TYPES.inspect}" unless SUPPORTED_TYPES.include?(@type)
-        if @type != :button && !@method.nil?
-          fail("Param `method` is only allowed for :button type buttons, but got method #{@method.inspect} for type #{@type.inspect}")
-        end
 
         super(*args, **kwargs, &block)
       end
