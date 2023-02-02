@@ -133,7 +133,10 @@ module Compony
   # @param override_kwargs [Hash] Override button options, see options for {Compony::Components::Button}
   # @see Compony::ViewHelpers#compony_button View helper providing a wrapper for this method that immediately renders a button.
   # @see Compony::Components::Button Compony::Components::Button: the default underlying implementation
-  def self.button(comp_name_or_cst, model_or_family_name_or_cst, label_opts: {}, params: {}, feasibility_action: nil, **override_kwargs)
+  def self.button(comp_name_or_cst, model_or_family_name_or_cst, label_opts: nil, params: nil, feasibility_action: nil, **override_kwargs)
+    label_opts ||= button_defaults[:label_opts] || {}
+    params ||= button_defaults[:params] || {}
+    feasibility_action ||= button_defaults[:feasibility_action]
     model = model_or_family_name_or_cst.respond_to?(:model_name) ? model_or_family_name_or_cst : nil
     target_comp_instance = Compony.comp_class_for!(comp_name_or_cst, model_or_family_name_or_cst).new(data: model)
     feasibility_action ||= comp_name_or_cst.to_s.underscore.to_sym
@@ -169,6 +172,32 @@ module Compony
     else
       return model_or_family_name_or_cst.to_s.underscore
     end
+  end
+
+  # Getter for current button defaults
+  # @todo document params
+  def self.button_defaults
+    RequestStore.store[:button_defaults] || {}
+  end
+
+  # Overwrites the keys of the current button defaults by the ones provided during the execution of a given block and restores them afterwords.
+  # @todo document params
+  def self.with_button_defaults(**keys_to_overwrite, &block)
+    # Lazy initialize butto_defaults store if it hasn't been yet
+    RequestStore.store[:button_defaults] ||= {}
+    old_values = {}
+    keys_to_overwrite.each do |key, new_value|
+      key = key.to_sym
+      # Assign new value
+      old_values[key] = RequestStore.store[:button_defaults][key]
+      RequestStore.store[:button_defaults][key] = new_value
+    end
+    return_value = block.call
+    # Restore previous value
+    keys_to_overwrite.each do |key, _new_value|
+      RequestStore.store[:button_defaults][key.to_sym] = old_values[key.to_sym]
+    end
+    return return_value
   end
 end
 

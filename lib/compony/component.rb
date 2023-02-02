@@ -205,7 +205,9 @@ module Compony
       h.content_tag(:div, class: wrapper_class) do
         button_htmls = @actions.map do |action|
           next if @skipped_actions.include?(action.name)
-          h.content_tag(:div, action.block.call.render(controller), class: action_class)
+          Compony.with_button_defaults(feasibility_action: action.name.to_sym) do
+            h.content_tag(:div, action.block.call.render(controller), class: action_class)
+          end
         end
         next h.safe_join button_htmls
       end

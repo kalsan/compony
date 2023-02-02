@@ -29,10 +29,10 @@ module Compony
           anchormodel_attribute = model_field.model_class.anchormodel_attributes[model_field.name]
           anchormodel_class = anchormodel_attribute.anchormodel_class
           opts = {
-            collection:   collect(anchormodel_class.all),
-            label_method: :first,
-            value_method: :second,
-            selected:     selected_cst&.key || anchormodel_class.all.first,
+            collection:    collect(anchormodel_class.all),
+            label_method:  :first,
+            value_method:  :second,
+            selected:      selected_cst&.key || anchormodel_class.all.first,
             include_blank: anchormodel_attribute.optional
           }.merge(kwargs)
           return @form.input name, **opts

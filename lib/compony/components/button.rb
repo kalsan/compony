@@ -5,18 +5,24 @@ module Compony
     class Button < Compony::Component
       SUPPORTED_TYPES = %i[button submit].freeze
 
-      def initialize(*args, label: nil, path: 'javascript:void(0)', method: nil, type: :button, enabled: true, visible: true, title: nil, **kwargs, &block)
+      # path: If given a block, it will be evaluated in the helpers context when rendering
+      # enabled: If given a block, it will be evaluated in the helpers context when rendering
+      def initialize(*args, label: nil, path: nil, method: nil, type: nil, enabled: nil, visible: nil, title: nil, **kwargs, &block)
         if type != :button && !method.nil?
           fail("Param `method` is only allowed for :button type buttons, but got method #{method.inspect} for type #{type.inspect}")
         end
 
-        @label = label
-        @type = type.to_sym
-        @path = path # If given a block, it will be evaluated in the helpers context when rendering
-        @method = method || :get
-        @enabled = enabled # can be boolean or block taking a controller returning a boolean
+        @label = label || Compony.button_defaults[:label]
+        @type = type&.to_sym || Compony.button_defaults[:type] || :button
+        @path = path || Compony.button_defaults[:path] || 'javascript:void(0)'
+        @method = method || Compony.button_defaults[:method] || :get
+        @enabled = enabled
+        @enabled = Compony.button_defaults[:enabled] if @enabled.nil?
+        @enabled = true if @enabled.nil?
         @visible = visible
-        @title = title
+        @visible = Compony.button_defaults[:visible] if @visible.nil?
+        @visible = true if @visible.nil?
+        @title = title || Compony.button_defaults[:title]
 
         fail "Unsupported button type #{@type}, use on of: #{SUPPORTED_TYPES.inspect}" unless SUPPORTED_TYPES.include?(@type)
 
