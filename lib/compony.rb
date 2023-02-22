@@ -211,20 +211,13 @@ module Compony
   end
 end
 
-# Require optional dependencies
-# rubocop:disable Lint/SuppressedException
-begin
-  require 'cancancan'
-rescue LoadError
-end
-# rubocop:enable Lint/SuppressedException
-
-require 'request_store'
-require 'dyny'
-require 'simple_form'
-require 'schemacop'
+require 'cancancan'
 require 'dslblend'
+require 'dyny'
 require 'ransack'
+require 'request_store'
+require 'schemacop'
+require 'simple_form'
 
 require 'compony/engine'
 require 'compony/model_fields/field'

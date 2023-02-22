@@ -40,11 +40,8 @@ module Compony
             request_context.evaluate_with_backfire(&verb_config.load_data_block)
           end
 
-          # If cancancan is enabled, use it as a failure inspection, otherwise fail generically
-          failure_class = defined?(CanCan::AccessDenied) ? CanCan::AccessDenied : StandardError
-
           # TODO: Make much prettier, providing message, action, subject and conditions
-          fail failure_class, inspect unless request_context.evaluate(&verb_config.accessible_block)
+          fail CanCan::AccessDenied, inspect unless request_context.evaluate(&verb_config.accessible_block)
 
           if verb_config.store_data_block
             request_context.evaluate_with_backfire(&verb_config.store_data_block)
