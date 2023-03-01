@@ -8,7 +8,6 @@ module Compony
       # path: If given a block, it will be evaluated in the helpers context when rendering
       # enabled: If given a block, it will be evaluated in the helpers context when rendering
       def initialize(*args, label: nil, path: nil, method: nil, type: nil, enabled: nil, visible: nil, title: nil, **kwargs, &block)
-
         @label = label || Compony.button_defaults[:label]
         @type = type&.to_sym || Compony.button_defaults[:type] || :button
         @path = path || Compony.button_defaults[:path] || 'javascript:void(0)'

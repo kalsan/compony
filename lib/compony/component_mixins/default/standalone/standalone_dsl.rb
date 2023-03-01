@@ -25,7 +25,7 @@ module Compony
               path_helper_name:    Compony.path_helper_name(comp_name, family_name, @name),
               skip_authentication: @skip_authentication,
               layout:              @layout
-            }
+            }.compact
           end
 
           protected

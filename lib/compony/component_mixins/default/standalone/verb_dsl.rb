@@ -26,7 +26,7 @@ module Compony
               accessible_block: @accessible_block || proc { can?(comp_name.to_sym, family_name.to_sym) },
               store_data_block: @store_data_block,
               respond_blocks:   @respond_blocks
-            }
+            }.compact
           end
 
           protected
