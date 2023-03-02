@@ -89,7 +89,7 @@ module Compony
             end
           end
         else
-          return proc { str? local_schema_key }
+          return proc { obj? local_schema_key }
         end
       end
 
