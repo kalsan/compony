@@ -49,19 +49,12 @@ module Compony
       def value_for(data, link_to_component: nil, link_opts: {}, controller: nil)
         fail('If link_to_component is specified, must also pass controller') if link_to_component && controller.nil?
         if association?
-          if multi?
-            if link_to_component
-              links = data.send(@name).map do |item|
-                controller.helpers.compony_link(link_to_component, item, **link_opts)
-              end
-              return controller.helpers.safe_join(links, ', ')
-            else
-              return controller.helpers.safe_join(data.send(@name).map(&:label), ', ')
-            end
-          elsif link_to_component
-            return controller.helpers.compony_link(link_to_component, data.send(@name), **link_opts)
+          if link_to_component
+            return transform_and_join(data.send(@name), controller:) do |el|
+                     el.nil? ? nil : controller.helpers.compony_link(link_to_component, el, **link_opts)
+                   end
           else
-            return data.send(@name)&.label
+            return transform_and_join(data.send(@name), controller:) { |el| el&.label }
           end
         else
           case @type
@@ -119,8 +112,8 @@ module Compony
       # If given a scalar, calls the block on the scalar. If given a list, calls the block on every member and joins the result with ",".
       def transform_and_join(data, controller:, &transform_block)
         if data.is_a?(Enumerable)
-          data = data.map(&transform_block) if block_given?
-          return controller.helpers.safe_join(data, ', ')
+          data = data.compact.map(&transform_block) if block_given?
+          return controller.helpers.safe_join(data.compact, ', ')
         else
           data = transform_block.call(data) if block_given?
           return data
