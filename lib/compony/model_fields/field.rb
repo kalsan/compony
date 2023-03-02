@@ -5,6 +5,7 @@ module Compony
         association
         anchormodel
         boolean
+        currency
         date
         datetime
         decimal
@@ -65,14 +66,15 @@ module Compony
         else
           case @type
           when :date, :datetime
-            val = data.send(@name)
-            return val.nil? ? nil : I18n.l(val)
+            return transform_and_join(data.send(@name), controller:) { |el| el.nil? ? nil : I18n.l(el) }
           when :boolean
-            return I18n.t("compony.boolean.#{data.send(@name)}")
+            return transform_and_join(data.send(@name), controller:) { |el| I18n.t("compony.boolean.#{el}") }
           when :anchormodel
             return data.send(@name)&.label
+          when :currency
+            return transform_and_join(data.send(@name), controller:) { |el| controller.helpers.number_to_currency(el) }
           else
-            return data.send(@name)
+            return transform_and_join(data.send(@name), controller:)
           end
         end
       end
@@ -112,6 +114,17 @@ module Compony
         @schema_key = @multi ? foreign_key.pluralize.to_sym : foreign_key.to_sym
       rescue ActiveRecord::NoDatabaseError
         Rails.logger.warn('Warning: Compony could not auto-detect fields due to missing database. This is ok when running db:create.')
+      end
+
+      # If given a scalar, calls the block on the scalar. If given a list, calls the block on every member and joins the result with ",".
+      def transform_and_join(data, controller:, &transform_block)
+        if data.is_a?(Enumerable)
+          data = data.map(&transform_block) if block_given?
+          return controller.helpers.safe_join(data, ', ')
+        else
+          data = transform_block.call(data) if block_given?
+          return data
+        end
       end
     end
   end
