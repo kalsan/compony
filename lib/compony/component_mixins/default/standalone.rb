@@ -41,7 +41,7 @@ module Compony
           end
 
           # TODO: Make much prettier, providing message, action, subject and conditions
-          fail CanCan::AccessDenied, inspect unless request_context.evaluate(&verb_config.accessible_block)
+          fail CanCan::AccessDenied, inspect unless request_context.evaluate(&verb_config.authorize_block)
 
           if verb_config.store_data_block
             request_context.evaluate_with_backfire(&verb_config.store_data_block)
@@ -63,7 +63,7 @@ module Compony
           verb = verb.to_sym
           standalone_config = standalone_configs[standalone_name] || fail("#{inspect} does not provide the standalone config #{standalone_config.inspect}.")
           verb = standalone_config.verbs[verb] || fail("#{inspect} standalone config #{standalone_config.inspect} does not provide verb #{verb.inspect}.")
-          return RequestContext.new(self, controller).evaluate(&verb.accessible_block)
+          return RequestContext.new(self, controller).evaluate(&verb.authorize_block)
         end
 
         # Renders the component using the controller passed to it upon instanciation (calls the controller's render)
@@ -90,7 +90,7 @@ module Compony
           block = proc {} unless block_given? # If called without a block, must default to an empty block to provide a binding to the DSL.
           name = name&.to_sym # nil name is the most common case
           @standalone_configs[name] ||= Compony::MethodAccessibleHash.new
-          @standalone_configs[name].deep_merge! StandaloneDsl.new(name, *args, **nargs).to_conf(&block)
+          @standalone_configs[name].deep_merge! StandaloneDsl.new(self, name, *args, **nargs).to_conf(&block)
         end
 
         private

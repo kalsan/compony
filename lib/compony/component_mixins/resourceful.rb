@@ -27,6 +27,10 @@ module Compony
         sub_comp(component_class, **comp_opts)
       end
 
+      def resourceful?
+        return true
+      end
+
       protected
 
       # DSL method
@@ -34,7 +38,7 @@ module Compony
       # In resourceful containers, the load_data block in a standalone container defaults to `default_load_data_block`,
       #    which in turn defaults to just loading the appropriate object given by the ID param. This is intended to be overridden as follows:
       #    - Template components can override it to provide a different base functionality
-      #      (e.g. if you implement a `Resourceful::Index` base component, you may want to load something like `data_class.all``)
+      #      (e.g. if you implement a `Resourceful::Index` base component, you may want to load something like `data_class.all`)
       #    - Specific components can override that again to provide a query specific to their model. In the same example, you may want to use a scope
       #      specic to the model you are loading in your model-specific Index component, e.g. `Users::Index`: `User.nondeleted.includes(:user_meta)`
       #    - When speficying extra standalone verbs, you may want to speficy your own `load_data_block` depending on your use case. To mimic the behavior

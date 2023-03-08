@@ -213,6 +213,11 @@ module Compony
       end
     end
 
+    # Is true for resourceful components
+    def resourceful?
+      return false
+    end
+
     protected
 
     def check_config!; end

@@ -10,11 +10,11 @@ module Compony
           standalone path: "#{family_name}/:id/destroy" do
             verb :get do
               load_data(&default_load_data_block)
-              accessible { can?(:destroy, @data) }
+              authorize { can?(:destroy, @data) }
             end
             verb :delete do
               load_data(&default_load_data_block)
-              accessible { can?(:destroy, @data) }
+              authorize { can?(:destroy, @data) }
               store_data do
                 # Validate params against the form's schema
                 local_data = @data # Capture data for usage in the Schemacop call

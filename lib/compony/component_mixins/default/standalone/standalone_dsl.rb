@@ -5,8 +5,9 @@ module Compony
         # @api description
         # Wrapper and DSL helper for component's standalone config
         class StandaloneDsl < Dslblend::Base
-          def initialize(name = nil, path: nil)
+          def initialize(component, name = nil, path: nil)
             super()
+            @component = component
             @name = name&.to_sym
             @path = path
             @verbs = {}
@@ -33,8 +34,9 @@ module Compony
           # DSL
           def verb(verb, *args, **nargs, &)
             verb = verb.to_sym
+            verb_dsl_class = @component.resourceful? ? ResourcefulVerbDsl : VerbDsl
             @verbs[verb] ||= Compony::MethodAccessibleHash.new
-            @verbs[verb].deep_merge! VerbDsl.new(verb, *args, **nargs).to_conf(&)
+            @verbs[verb].deep_merge! verb_dsl_class.new(@component, verb, *args, **nargs).to_conf(&)
           end
 
           # DSL
