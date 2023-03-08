@@ -10,11 +10,11 @@ module Compony
           standalone path: "#{family_name}/:id/edit" do
             verb :get do
               load_data(&default_load_data_block)
-              accessible { defined?(can?) ? can?(:edit, @data) : true }
+              accessible { can?(:edit, @data) }
             end
             verb submit_verb do
               load_data(&default_load_data_block)
-              accessible { defined?(can?) ? can?(:update, @data) : true }
+              accessible { can?(:update, @data) }
               store_data do
                 # Validate params against the form's schema
                 local_form_comp = form_comp # Capture form_comp for usage in the Schemacop call

@@ -10,7 +10,7 @@ module Compony
           submit_verb :post
           standalone path: "#{family_name}/new" do
             verb :get do
-              accessible { defined?(can?) ? can?(:create, data_class) : true }
+              accessible { can?(:create, data_class) }
               load_data do
                 # Allowing GET params to pre-set values (new only).
                 @data = data_class.new
@@ -20,7 +20,7 @@ module Compony
               end
             end
             verb submit_verb do
-              accessible { defined?(can?) ? can?(:create, data_class) : true }
+              accessible { can?(:create, data_class) }
               load_data { @data = data_class.new }
               store_data do
                 instance_exec(&schema_validator)
