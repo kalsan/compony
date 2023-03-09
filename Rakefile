@@ -14,6 +14,8 @@ task :gemspec do
 
     # Dependencies
     s.add_development_dependency 'yard', '>= 0.9.28'
+    s.add_development_dependency 'rubocop', '>= 1.48'
+    s.add_development_dependency 'rubocop-rails', '>= 2.18.0'
 
     s.add_runtime_dependency 'request_store', '>= 1.5'
     s.add_runtime_dependency 'dyny', '>= 0.0.3'
