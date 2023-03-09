@@ -8,25 +8,16 @@ module Compony
 
         setup do
           submit_verb :post
+          load_data { @data = data_class.new }
           standalone path: "#{family_name}/new" do
             verb :get do
               authorize { can?(:create, data_class) }
-              load_data do
-                # Allowing GET params to pre-set values (new only).
-                @data = data_class.new
-                instance_exec(&schema_validator)
-                attrs_to_assign = controller.request.params[form_comp.schema_wrapper_key_for(@data)]
-                @data.assign_attributes(attrs_to_assign) if attrs_to_assign
-              end
+              assign_attributes # This enables the global assign_attributes block defined below for this path and verb.
             end
             verb submit_verb do
               authorize { can?(:create, data_class) }
-              load_data { @data = data_class.new }
-              store_data do
-                instance_exec(&schema_validator)
-                @data = data_class.new(controller.request.params[form_comp.schema_wrapper_key_for(@data)])
-                @create_succeeded = @data.save
-              end
+              assign_attributes # This enables the global assign_attributes block defined below for this path and verb.
+              store_data # This enables the global store_data block defined below for this path and verb.
               respond do
                 if @create_succeeded
                   evaluate_with_backfire(&@on_created_block)
@@ -45,6 +36,23 @@ module Compony
             concat form_comp.render(controller, data: @data)
           end
 
+          assign_attributes do
+            local_form_comp = form_comp # Capture form_comp for usage in the Schemacop call
+            local_data = @data # Capture data for usage in the Schemacop call
+            schema = Schemacop::Schema3.new :hash, additional_properties: true do
+              hsh? local_form_comp.schema_wrapper_key_for(local_data), &local_form_comp.schema_block_for(local_data)
+            end
+            schema.validate!(controller.request.params)
+
+            # TODO: Why are we not saving the validated params?
+            attrs_to_assign = controller.request.params[form_comp.schema_wrapper_key_for(@data)]
+            @data.assign_attributes(attrs_to_assign) if attrs_to_assign
+          end
+
+          store_data do
+            @create_succeeded = @data.save
+          end
+
           on_created do
             flash.notice = I18n.t('compony.components.new.data_was_created', data_label: data.label)
             redirect_to evaluate_with_backfire(&@on_created_redirect_path_block)
@@ -61,17 +69,6 @@ module Compony
           on_create_failed do
             Rails.logger.warn(@data&.errors&.full_messages)
             render_standalone(controller, status: :unprocessable_entity)
-          end
-        end
-
-        def schema_validator
-          return proc do
-            local_form_comp = form_comp # Capture form_comp for usage in the Schemacop call
-            local_data = @data # Capture data for usage in the Schemacop call
-            schema = Schemacop::Schema3.new :hash, additional_properties: true do
-              hsh? local_form_comp.schema_wrapper_key_for(local_data), &local_form_comp.schema_block_for(local_data)
-            end
-            schema.validate!(controller.request.params)
           end
         end
 

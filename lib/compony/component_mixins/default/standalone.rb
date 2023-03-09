@@ -25,19 +25,31 @@ module Compony
           request_context = RequestContext.new(self, controller)
 
           ###===---
-          # Dispatch request to component. Empty Dslblend base objects are used to provide multiple contexts to the accessible and respond blocks.
-          # Lifecycle is:
-          #   - load data (optional, only used in resourceful components)
-          #   - check authorization
-          #   - store data (optional, only used in some resourceful components such as new, edit or delete)
-          #   - respond (typically either redirect or render standalone)
-          # ...and unless redirected, continues with:
-          #   - before_render
-          #   - render
+          # Dispatch request to component. Empty Dslblend base objects are used to provide multiple contexts to the authorize and respond blocks.
+          # Lifecycle is (see also "doc/Resourceful Lifecycle.pdf"):
+          #   - load data (optional, speficied ResourcefulVerbDsl, by convention, should default to the implementation in Resourceful)
+          #     - after_load_data (optional, specified in Resourceful)
+          #   - assign_attributes (optional, speficied ResourcefulVerbDsl, by convention, should default to the implementation in Resourceful)
+          #     - after_assign_attributes (optional, specified in Resourceful)
+          #   - authorize
+          #   - store_data (optional, speficied ResourcefulVerbDsl, by convention, should default to the implementation in Resourceful)
+          #   - respond (typically either redirect or render standalone, specified in VerbDsl), which defaults to render_standalone, performing:
+          #     - before_render
+          #     - render (unless before_render already redirected)
           ###===---
 
           if verb_config.load_data_block
             request_context.evaluate_with_backfire(&verb_config.load_data_block)
+            if global_after_load_data_block
+              request_context.evaluate_with_backfire(&global_after_load_data_block)
+            end
+          end
+
+          if verb_config.assign_attributes_block
+            request_context.evaluate_with_backfire(&verb_config.assign_attributes_block)
+            if global_after_assign_attributes_block
+              request_context.evaluate_with_backfire(&global_after_assign_attributes_block)
+            end
           end
 
           # TODO: Make much prettier, providing message, action, subject and conditions
@@ -47,7 +59,8 @@ module Compony
             request_context.evaluate_with_backfire(&verb_config.store_data_block)
           end
 
-          # Check if there is a specific respond block for the format. If there isn't, fallback to the nil respond block, which defaults to `render_standalone`.
+          # Check if there is a specific respond block for the format.
+          # If there isn't, fallback to the nil respond block, which defaults to `render_standalone`.
           respond_block = verb_config.respond_blocks[controller.request.format.symbol] || verb_config.respond_blocks[nil]
           request_context.evaluate(&respond_block)
         end

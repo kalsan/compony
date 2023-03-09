@@ -9,30 +9,13 @@ module Compony
           submit_verb :patch
           standalone path: "#{family_name}/:id/edit" do
             verb :get do
-              load_data(&default_load_data_block)
               authorize { can?(:edit, @data) }
+              assign_attributes # This enables the global assign_attributes block defined below for this path and verb.
             end
             verb submit_verb do
-              load_data(&default_load_data_block)
               authorize { can?(:update, @data) }
-              store_data do
-                # Validate params against the form's schema
-                local_form_comp = form_comp # Capture form_comp for usage in the Schemacop call
-                local_data = @data # Capture data for usage in the Schemacop call
-                schema = Schemacop::Schema3.new :hash, additional_properties: true do
-                  if local_data.class.primary_key_type_key == :string
-                    str! :id
-                  else
-                    int! :id, cast_str: true
-                  end
-                  hsh! local_form_comp.schema_wrapper_key_for(local_data), &local_form_comp.schema_block_for(local_data)
-                end
-                schema.validate!(controller.request.params)
-
-                # Perform save
-                @data.assign_attributes(controller.request.params[form_comp.schema_wrapper_key_for(@data)])
-                @update_succeeded = @data.save
-              end
+              assign_attributes # This enables the global assign_attributes block defined below for this path and verb.
+              store_data # This enables the global store_data block defined below for this path and verb.
               respond do
                 if @update_succeeded
                   evaluate_with_backfire(&@on_updated_block)
@@ -49,6 +32,29 @@ module Compony
 
           content do
             concat form_comp.render(controller, data: @data)
+          end
+
+          assign_attributes do
+            # Validate params against the form's schema
+            local_form_comp = form_comp # Capture form_comp for usage in the Schemacop call
+            local_data = @data # Capture data for usage in the Schemacop call
+            schema = Schemacop::Schema3.new :hash, additional_properties: true do
+              if local_data.class.primary_key_type_key == :string
+                str! :id
+              else
+                int! :id, cast_str: true
+              end
+              hsh? local_form_comp.schema_wrapper_key_for(local_data), &local_form_comp.schema_block_for(local_data)
+            end
+            schema.validate!(controller.request.params)
+
+            # TODO: Why are we not saving the validated params?
+            attrs_to_assign = controller.request.params[form_comp.schema_wrapper_key_for(@data)]
+            @data.assign_attributes(attrs_to_assign) if attrs_to_assign
+          end
+
+          store_data do
+            @update_succeeded = @data.save
           end
 
           on_updated do

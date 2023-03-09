@@ -8,9 +8,20 @@ module Compony
 
       attr_reader :data
 
+      # Must prefix the following instance variables with global_ in order to avoid overwriting VerbDsl inst vars due to Dslblend.
+      attr_reader :global_load_data_block
+      attr_reader :global_after_load_data_block
+      attr_reader :global_assign_attributes_block
+      attr_reader :global_after_assign_attributes_block
+      attr_reader :global_store_data_block
+
       def initialize(*args, data: nil, data_class: nil, **nargs, &block)
         @data = data
         @data_class = data_class
+
+        # Provide defaults for hook blocks
+        @global_load_data_block ||= proc { @data = self.data_class.find(controller.params[:id]) }
+
         super(*args, **nargs, &block)
       end
 
@@ -34,21 +45,47 @@ module Compony
       protected
 
       # DSL method
-      # Overrides the default_load_data_block.
-      # In resourceful containers, the load_data block in a standalone container defaults to `default_load_data_block`,
-      #    which in turn defaults to just loading the appropriate object given by the ID param. This is intended to be overridden as follows:
-      #    - Template components can override it to provide a different base functionality
-      #      (e.g. if you implement a `Resourceful::Index` base component, you may want to load something like `data_class.all`)
-      #    - Specific components can override that again to provide a query specific to their model. In the same example, you may want to use a scope
-      #      specic to the model you are loading in your model-specific Index component, e.g. `Users::Index`: `User.nondeleted.includes(:user_meta)`
-      #    - When speficying extra standalone verbs, you may want to speficy your own `load_data_block` depending on your use case. To mimic the behavior
-      #      of the default standalone config, call the `default_load_data_block`.
-      def default_load_data(&block)
-        @default_load_data_block = block
+      # Sets a default load_data block for all standalone paths and verbs.
+      # Can be overwritten for a specific path and verb in the
+      # {Compony::ComponentMixins::Default::Standalone::VerbDsl}.
+      # The block is expected to assign `@data`.
+      # @see Compony::ComponentMixins::Default::Standalone::VerbDsl#load_data
+      def load_data(&block)
+        @global_load_data_block = block
       end
 
-      def default_load_data_block
-        @default_load_data_block ||= proc { @data = data_class.find(controller.params[:id]) } # this is the default default load_data block ;-)
+      # DSL method
+      # Runs after loading data and before authorization for all standalone paths and verbs.
+      # Example use case: if `load_data` produced an AR collection proxy, can still refine result here before `to_sql` is called.
+      def after_load_data(&block)
+        @global_after_load_data_block = block
+      end
+
+      # DSL method
+      # Sets a default default assign_attributes block for all standalone paths and verbs.
+      # Can be overwritten for a specific path and verb in the
+      # {Compony::ComponentMixins::Default::Standalone::VerbDsl}.
+      # The block is expected to assign suitable `params` to attributes of `@data`.
+      # @see Compony::ComponentMixins::Default::Standalone::VerbDsl#assign_attributes
+      def assign_attributes(&block)
+        @global_assign_attributes_block = block
+      end
+
+      # DSL method
+      # Runs after `assign_attributes` and before `store_data` for all standalone paths and verbs.
+      # Example use case: prefilling some fields for a form
+      def after_assign_attributes(&block)
+        @global_after_assign_attributes_block = block
+      end
+
+      # DSL method
+      # Sets a default store_data block for all standalone paths and verbs.
+      # Can be overwritten for a specific path and verb in the
+      # {Compony::ComponentMixins::Default::Standalone::VerbDsl}.
+      # The block is expected save `@data` to the database.
+      # @see Compony::ComponentMixins::Default::Standalone::VerbDsl#store_data
+      def store_data(&block)
+        @global_store_data_block = block
       end
     end
   end

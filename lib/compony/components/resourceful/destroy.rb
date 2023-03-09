@@ -9,27 +9,12 @@ module Compony
         setup do
           standalone path: "#{family_name}/:id/destroy" do
             verb :get do
-              load_data(&default_load_data_block)
               authorize { can?(:destroy, @data) }
             end
-            verb :delete do
-              load_data(&default_load_data_block)
-              authorize { can?(:destroy, @data) }
-              store_data do
-                # Validate params against the form's schema
-                local_data = @data # Capture data for usage in the Schemacop call
-                schema = Schemacop::Schema3.new :hash, additional_properties: true do
-                  if local_data.class.primary_key_type_key == :string
-                    str! :id
-                  else
-                    int! :id, cast_str: true
-                  end
-                end
-                schema.validate!(controller.request.params)
 
-                # Perform destroy
-                @data.destroy!
-              end
+            verb :delete do
+              authorize { can?(:destroy, @data) }
+              store_data # This enables the global store_data block defined below for this path and verb.
               respond do
                 evaluate_with_backfire(&@on_destroyed_block)
               end
@@ -51,6 +36,22 @@ module Compony
             end
           end
 
+          store_data do
+            # Validate params against the form's schema
+            local_data = @data # Capture data for usage in the Schemacop call
+            schema = Schemacop::Schema3.new :hash, additional_properties: true do
+              if local_data.class.primary_key_type_key == :string
+                str! :id
+              else
+                int! :id, cast_str: true
+              end
+            end
+            schema.validate!(controller.request.params)
+
+            # Perform destroy
+            @data.destroy!
+          end
+
           on_destroyed do
             flash.notice = I18n.t('compony.components.destroy.data_was_destroyed', data_label: @data.label)
             redirect_to evaluate_with_backfire(&@on_destroyed_redirect_path_block), status: :see_other # 303: force GET
@@ -59,10 +60,6 @@ module Compony
           on_destroyed_redirect_path do
             Compony.path(:index, family_cst)
           end
-        end
-
-        def load_data(controller)
-          @data = data_class.find(controller.params[:id])
         end
 
         # DSL method

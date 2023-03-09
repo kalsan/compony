@@ -20,9 +20,9 @@ module Compony
           def to_conf(&)
             evaluate(&)
             return {
-              verb:             @verb,
+              verb:            @verb,
               authorize_block: @authorize_block || proc { can?(comp_name.to_sym, family_name.to_sym) },
-              respond_blocks:   @respond_blocks
+              respond_blocks:  @respond_blocks
             }.compact
           end
 
