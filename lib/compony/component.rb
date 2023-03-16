@@ -174,7 +174,7 @@ module Compony
     def action(action_name, before: nil, &block)
       action_name = action_name.to_sym
       before_name = before&.to_sym
-      action = MethodAccessibleHash.new.merge({ name: action_name, block: })
+      action = MethodAccessibleHash.new(name: action_name, block:)
 
       existing_index = @actions.find_index { |el| el.name == action_name }
       if existing_index.present? && before_name.present?

@@ -45,7 +45,7 @@ module Compony
       def prevent(action_name, message, &block)
         self.feasibility_preventions = feasibility_preventions.dup # Prevent cross-class contamination
         feasibility_preventions[action_name.to_sym] ||= []
-        feasibility_preventions[action_name.to_sym] << MethodAccessibleHash.new.merge({ action_name:, message:, block: })
+        feasibility_preventions[action_name.to_sym] << MethodAccessibleHash.new(action_name:, message:, block:)
       end
 
       # DSL method, part of the Feasibility feature
