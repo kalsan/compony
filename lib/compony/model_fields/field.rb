@@ -120,7 +120,7 @@ module Compony
       # This is meant to work with ransack (extra functionality not built into Compony)
       def resolve_order_key!
         @order_key = case @type
-                     when :anchormodel, :association_single, :association_multi
+                     when :association_single, :association_multi
                        nil # sorting on these types requires specifying the order key manually
                      else
                        @name
