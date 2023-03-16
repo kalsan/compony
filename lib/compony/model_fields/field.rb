@@ -20,6 +20,8 @@ module Compony
       attr_reader :name
       attr_reader :model_class
       attr_reader :type
+      attr_reader :order_key
+      attr_reader :filter_key
       attr_reader :schema_key
 
       def multi?
@@ -30,14 +32,19 @@ module Compony
         !!@association
       end
 
-      # If `type` is passed explicitely, resolve! is skipped.
-      def initialize(name, model_class, type:)
+      # @param order_key [Symbol] :auto = autocompute, nil = prohibit sorting
+      # @param filter_key [Symbol] :auto = autocompute, nil = prohibit sorting
+      def initialize(name, model_class, type:, order_key:, filter_key:)
         @type = type.to_sym
+        @order_key = order_key&.to_sym
+        @filter_key = filter_key
         fail("Unsupported field type #{@type.inspect}, supported are: #{SUPPORTED_TYPES.pretty_inspect}") unless SUPPORTED_TYPES.include?(type)
         @name = name.to_sym
         @model_class = model_class
         @schema_key = name
         resolve_association! if type == :association
+        resolve_order_key! if order_key == :auto
+        resolve_filter_key! if filter_key == :auto
       end
 
       # Use this to display the label for this field, e.g. for columns, forms etc.
@@ -107,6 +114,30 @@ module Compony
         @schema_key = @multi ? foreign_key.pluralize.to_sym : foreign_key.to_sym
       rescue ActiveRecord::NoDatabaseError
         Rails.logger.warn('Warning: Compony could not auto-detect fields due to missing database. This is ok when running db:create.')
+      end
+
+      # Provides a default for auto-dectection, but can be overridden by giving the value explicitely in the `field` call.
+      # This is meant to work with ransack (extra functionality not built into Compony)
+      def resolve_order_key!
+        @order_key = case @type
+                     when :anchormodel, :association_single, :association_multi
+                       nil # sorting on these types requires specifying the order key manually
+                     else
+                       @name
+                     end
+      end
+
+      # Provides a default for auto-dectection, but can be overridden by giving the value explicitely in the `field` call.
+      # This is meant to work with ransack (extra functionality not built into Compony)
+      def resolve_filter_key!
+        @filter_key = case @type
+                      when :anchormodel, :association_single, :association_multi
+                        nil # filtering on these types requires specifying the order key manually
+                      when :rich_text, :string, :text
+                        "#{@name}_cont".to_sym
+                      else
+                        "#{@name}_eq".to_sym
+                      end
       end
 
       # If given a scalar, calls the block on the scalar. If given a list, calls the block on every member and joins the result with ",".
