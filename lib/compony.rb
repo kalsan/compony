@@ -157,7 +157,7 @@ module Compony
     if feasibility_target
       options.merge!({
                        enabled: feasibility_target.feasible?(feasibility_action),
-                       title:   feasibility_target.full_feasibility_messages(feasibility_action)
+                       title:   feasibility_target.full_feasibility_messages(feasibility_action).presence
                      })
     end
     options.merge!(override_kwargs.symbolize_keys)
