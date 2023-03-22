@@ -21,7 +21,7 @@ module Compony
       attr_reader :model_class
       attr_reader :type
       attr_reader :order_key
-      attr_reader :filter_key
+      attr_reader :filter_keys
       attr_reader :schema_key
 
       def multi?
@@ -32,19 +32,19 @@ module Compony
         !!@association
       end
 
-      # @param order_key [Symbol] :auto = autocompute, nil = prohibit sorting
-      # @param filter_key [Symbol] :auto = autocompute, nil = prohibit sorting
-      def initialize(name, model_class, type:, order_key:, filter_key:)
+      # @param order_key [Symbol] omitted, nil = prohibit sorting
+      # @param filter_keys [Array] omitted, [] = prohibit filtering
+      def initialize(name, model_class, type:, order_key:, auto_order_key:, filter_keys:, auto_filter_keys:)
         @type = type.to_sym
         @order_key = order_key&.to_sym
-        @filter_key = filter_key
+        @filter_keys = filter_keys
         fail("Unsupported field type #{@type.inspect}, supported are: #{SUPPORTED_TYPES.pretty_inspect}") unless SUPPORTED_TYPES.include?(type)
         @name = name.to_sym
         @model_class = model_class
         @schema_key = name
         resolve_association! if type == :association
-        resolve_order_key! if order_key == :auto
-        resolve_filter_key! if filter_key == :auto
+        resolve_order_key! if auto_order_key
+        resolve_filter_keys! if auto_filter_keys
       end
 
       # Use this to display the label for this field, e.g. for columns, forms etc.
@@ -129,15 +129,19 @@ module Compony
 
       # Provides a default for auto-dectection, but can be overridden by giving the value explicitely in the `field` call.
       # This is meant to work with ransack (extra functionality not built into Compony)
-      def resolve_filter_key!
-        @filter_key = case @type
-                      when :anchormodel, :association_single, :association_multi
-                        nil # filtering on these types requires specifying the order key manually
-                      when :rich_text, :string, :text
-                        "#{@name}_cont".to_sym
-                      else
-                        "#{@name}_eq".to_sym
-                      end
+      def resolve_filter_keys!
+        @filter_keys = case @type
+                       when :anchormodel, :association_single, :association_multi
+                         [] # filtering on these types requires specifying the order key manually
+                       when :rich_text, :string, :text
+                         ["#{@name}-cont".to_sym]
+                       when :date, :datetime, :time, :decimal, :float, :integer
+                         ["#{@name}-eq".to_sym, "#{@name}-lteq".to_sym, "#{@name}-gteq".to_sym]
+                       when :boolean
+                         ["#{@name}-true".to_sym, "#{@name}-false".to_sym]
+                       else
+                         ["#{@name}-eq".to_sym]
+                       end
       end
 
       # If given a scalar, calls the block on the scalar. If given a list, calls the block on every member and joins the result with ",".

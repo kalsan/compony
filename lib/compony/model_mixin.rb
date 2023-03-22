@@ -14,12 +14,12 @@ module Compony
     class_methods do
       # DSL method, defines a new field which will be translated and can be added to field groups
       # For virtual attributes, you must pass a type explicitely, otherwise it's auto-infered.
-      # @param order_key [Symbol] meant to provide a default for e.g. ransack (external, not implemented here), :auto = autocompute, nil = prohibit sorting
-      # @param filter_key [Symbol] meant to provide a default for e.g. ransack (external, not implemented here), :auto = autocompute, nil = prohibit sorting
-      def field(name, type, order_key: :auto, filter_key: :auto)
+      # @param order_key [Symbol] meant to provide a default for e.g. ransack (external, not implemented here), omitted = autocompute, nil = prohibit sorting
+      # @param filter_keys [Array] meant to provide a default for e.g. ransack (external, not implemented here), omitted = autocompute, [] = prohibit filtering
+      def field(name, type, order_key: (auto_order_key = true) && nil, filter_keys: (auto_filter_keys = true) && [])
         name = name.to_sym
         self.fields = fields.dup
-        fields[name] = ModelFields::Field.new(name, self, type:, order_key:, filter_key:)
+        fields[name] = ModelFields::Field.new(name, self, type:, order_key:, auto_order_key:, filter_keys:, auto_filter_keys:)
       end
 
       # DSL method, defines a new field group
