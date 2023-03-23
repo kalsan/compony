@@ -40,28 +40,6 @@ module Compony
         @field_group_key = field_group_key.to_sym
       end
 
-      # DSL method, use to provide autocomplete for a TomSelect
-      # @todo Move to KB?
-      # @todo Move searching fields that are of type anchormodel
-      def autocomplete(field_name, data_class_name = nil, ransack:)
-        last_path_segment = "autocomplete_#{field_name}" # This must match the custom simpleform input, if any.
-        data_class_name ||= field_name.to_s.classify
-
-        standalone last_path_segment.to_sym, path: "#{family_name}/#{comp_name}/#{last_path_segment}" do
-          verb :get do
-            respond do
-              res = data_class_name.safe_constantize.accessible_by(current_ability).ransack(ransack => params[:q]).result
-              controller.render(json: res.map do |u|
-                                        {
-                                          text:  u.label,
-                                          value: u.id
-                                        }
-                                      end)
-            end
-          end
-        end
-      end
-
       # Attr reader for @schema_wrapper_key with auto-calculated default
       def schema_wrapper_key_for(data)
         if @schema_wrapper_key.present?

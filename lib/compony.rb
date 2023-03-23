@@ -214,7 +214,6 @@ end
 require 'cancancan'
 require 'dslblend'
 require 'dyny'
-require 'ransack'
 require 'request_store'
 require 'schemacop'
 require 'simple_form'
