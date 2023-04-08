@@ -81,7 +81,7 @@ module Compony
 
       # Used for auto-providing Schemacop schemas.
       # Returns a proc that is meant for instance_exec within a Schemacop3 hash block
-      def schema_call
+      def schema_line
         local_schema_key = @schema_key # Capture schema_key as it will not be available within the lambda
         if association?
           if multi?

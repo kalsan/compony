@@ -4,7 +4,6 @@ module Compony
 
     included do
       class_attribute :fields, default: {}
-      class_attribute :field_groups, default: {}
       class_attribute :feasibility_preventions, default: {}
       class_attribute :primary_key_type_key, default: :integer
 
@@ -20,18 +19,6 @@ module Compony
         name = name.to_sym
         self.fields = fields.dup
         fields[name] = ModelFields::Field.new(name, self, type:, order_key:, auto_order_key:, filter_keys:, auto_filter_keys:)
-      end
-
-      # DSL method, defines a new field group
-      def field_group(*names, inherit: nil, &block)
-        inherit = field_groups[inherit] if inherit
-        names.each do |name|
-          name = name.to_sym
-          self.field_groups = field_groups.dup
-          new_field_group = ModelFields::FieldGroup.new(name, self, base_field_group: inherit)
-          block.call(new_field_group)
-          field_groups[name] = new_field_group
-        end
       end
 
       # DSL method, sets the primary key type

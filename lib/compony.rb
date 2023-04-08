@@ -220,7 +220,6 @@ require 'simple_form'
 
 require 'compony/engine'
 require 'compony/model_fields/field'
-require 'compony/model_fields/field_group'
 require 'compony/model_fields/form_helper'
 require 'compony/component_mixins/default/standalone'
 require 'compony/component_mixins/default/standalone/standalone_dsl'

@@ -3,6 +3,11 @@ module Compony
     # @api description
     # This component is used for the _form partial in the Rails paradigm.
     class Form < Component
+      def initialize(...)
+        @schema_lines_for_data = [] # Array of procs taking data returning a Schemacop proc
+        super
+      end
+
       def check_config!
         super
         fail "#{inspect} requires config.form_fields do ..." if @form_fields.blank?
@@ -35,11 +40,6 @@ module Compony
         @form_fields = block
       end
 
-      # DSL method, if given, allows to use "field" instead of "f.input" inside `form_fields`
-      def field_group(field_group_key)
-        @field_group_key = field_group_key.to_sym
-      end
-
       # Attr reader for @schema_wrapper_key with auto-calculated default
       def schema_wrapper_key_for(data)
         if @schema_wrapper_key.present?
@@ -56,10 +56,10 @@ module Compony
           return @schema_block
         else
           # If schema was not called, auto-infer a default
-          current_field_group = data.class.field_groups[field_group_key] || fail("Missing field group #{field_group_key.inspect} for #{data.class}")
+          local_schema_lines_for_data = @schema_lines_for_data
           return proc do
-            current_field_group.fields.each do |_field_name, field|
-              instance_exec(&field.schema_call)
+            local_schema_lines_for_data.each do |schema_line|
+              instance_exec(&schema_line.call(data))
             end
           end
         end
@@ -79,11 +79,8 @@ module Compony
       # See also notes for `with_form_helper`.
       def field(name, **kwargs)
         fail("The `field` method may only be called inside `form_fields` for #{inspect}.") unless @form_helper
-        unless @form_helper.form.object.field_groups[field_group_key]
-          fail("No field group #{field_group_key.inspect} found for #{@form_helper.form.object.class}")
-        end
-        unless @form_helper.form.object.field_groups[field_group_key].fields.include?(name.to_sym)
-          fail("Component #{self} is operating on field group #{field_group_key} which does not include requested field #{name.to_sym.inspect}.")
+        unless @form_helper.form.object.fields.include?(name.to_sym)
+          fail("#{@form_helper.form.object.inspect} does not contain field #{name.to_sym.inspect} requested by #{inspect}.")
         end
         return @form_helper.field(name, **kwargs)
       end
@@ -104,7 +101,26 @@ module Compony
 
       protected
 
-      # DSL method, use to set the form's schema and wrapper key
+      # DSL method, adds a new line to the schema whitelisting a single param inside the schema's wrapper
+      def schema_line(&block)
+        @schema_lines_for_data << proc { block }
+      end
+
+      # DSL method, adds a new field to the schema whitelisting a single field of data_class
+      # This auto-generates the correct schema line for the field.
+      def schema_field(field_name)
+        @schema_lines_for_data << proc do |data|
+          field = data.class.fields[field_name.to_sym] || fail("No field #{field_name.to_sym.inspect} found for #{data.inspect} in #{inspect}.")
+          next field.schema_line
+        end
+      end
+
+      # DSL method, mass-assigns schema fields
+      def schema_fields(*field_names)
+        field_names.each { |field_name| schema_field(field_name) }
+      end
+
+      # DSL method, use to replace the form's schema and wrapper key for a completely manual schema
       def schema(wrapper_key, &block)
         if block_given?
           @schema_wrapper_key = wrapper_key
@@ -112,11 +128,6 @@ module Compony
         else
           fail 'schema requires a block to be given'
         end
-      end
-
-      # Protected attr reader with a default
-      def field_group_key
-        @field_group_key || :form
       end
     end
   end
