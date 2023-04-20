@@ -33,6 +33,7 @@ module Compony
           icon { :plus }
 
           content do
+            h2 component.label
             concat form_comp.render(controller, data: @data)
           end
 
