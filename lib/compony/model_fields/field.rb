@@ -1,6 +1,7 @@
 module Compony
   module ModelFields
     class Field
+      # phone: requires 'phonelib' gem
       SUPPORTED_TYPES = %i[
         association
         anchormodel
@@ -11,6 +12,7 @@ module Compony
         decimal
         float
         integer
+        phone
         rich_text
         string
         text
@@ -73,6 +75,9 @@ module Compony
             return data.send(@name)&.label
           when :currency
             return transform_and_join(data.send(@name), controller:) { |el| controller.helpers.number_to_currency(el) }
+          when :phone
+            fail('Please include gem "phonelib" to use the :phone field type.') unless defined?(Phonelib)
+            return transform_and_join(data.send(@name), controller:) { |el| Phonelib.parse(el).international }
           else
             return transform_and_join(data.send(@name), controller:)
           end
@@ -133,7 +138,7 @@ module Compony
         @filter_keys = case @type
                        when :anchormodel, :association_single, :association_multi
                          [] # filtering on these types requires specifying the order key manually
-                       when :rich_text, :string, :text
+                       when :rich_text, :string, :text, :phone
                          ["#{@name}-cont".to_sym]
                        when :date, :datetime, :time, :decimal, :float, :integer
                          ["#{@name}-eq".to_sym, "#{@name}-lteq".to_sym, "#{@name}-gteq".to_sym]
