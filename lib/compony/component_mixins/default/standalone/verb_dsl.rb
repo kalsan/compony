@@ -18,7 +18,7 @@ module Compony
           end
 
           def to_conf(&)
-            evaluate(&)
+            evaluate(&) if block_given?
             return {
               verb:            @verb,
               authorize_block: @authorize_block || proc { can?(comp_name.to_sym, family_name.to_sym) },
