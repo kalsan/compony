@@ -1,0 +1,8 @@
+Description:
+    Generate a single Compony component
+
+Example:
+    bin/rails generate component Users::New
+
+    This will create:
+        app/components/users/new.rb
