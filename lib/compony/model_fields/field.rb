@@ -115,8 +115,8 @@ module Compony
         association_info = @model_class.reflect_on_association(@name) || fail("Association #{@name.inspect} does not exist for #{@model_class.inspect}.")
         @multi = association_info.macro == :has_many
         @type = @multi ? :association_multi : :association_single
-        foreign_key = association_info.foreign_key
-        @schema_key = @multi ? foreign_key.pluralize.to_sym : foreign_key.to_sym
+        id_name = "#{@name.to_s.singularize}_id"
+        @schema_key = @multi ? id_name.pluralize.to_sym : id_name.to_sym
       rescue ActiveRecord::NoDatabaseError
         Rails.logger.warn('Warning: Compony could not auto-detect fields due to missing database. This is ok when running db:create.')
       end
