@@ -25,7 +25,7 @@ module Compony
 
         content do
           form_html = simple_form_for(data, method: @comp_opts[:submit_verb], url: @submit_path) do |f|
-            component.with_form_helper(ModelFields::FormHelper.new(f, component)) do
+            component.with_simpleform(f) do
               instance_exec(&form_fields)
               div @submit_button, class: 'compony-form-buttons'
             end
@@ -65,35 +65,40 @@ module Compony
         end
       end
 
-      # This method is used by render to store the form helper inside the component such that we can delegate
-      # the method `field` to the helper. This is a workaround required because the form does not exist when the
+      # This method is used by render to store the simpleform instance inside the component such that we can call
+      # methods from inside `form_fields`. This is a workaround required because the form does not exist when the
       # RequestContext is being built, and we want the method `field` to be available inside the `form_fields` block.
       # @todo Refactor? Could this be greatly simplified by having `form_field to |f|` ?
-      def with_form_helper(form_helper)
-        @form_helper = form_helper
+      def with_simpleform(simpleform)
+        @simpleform = simpleform
         yield
-        @form_helper = nil
+        @simpleform = nil
       end
 
       # Called inside the form_fields block. This makes the method `field` available in the block.
-      # See also notes for `with_form_helper`.
-      def field(name, **kwargs)
-        fail("The `field` method may only be called inside `form_fields` for #{inspect}.") unless @form_helper
-        unless @form_helper.form.object.fields.include?(name.to_sym)
-          fail("#{@form_helper.form.object.inspect} does not contain field #{name.to_sym.inspect} requested by #{inspect}.")
+      # See also notes for `with_simpleform`.
+      def field(name, **input_opts)
+        fail("The `field` method may only be called inside `form_fields` for #{inspect}.") unless @simpleform
+
+        hidden = input_opts.delete(:hidden)
+        model_field = @simpleform.object.fields[name.to_sym]
+        fail("Field #{name.to_sym.inspect} is not defined on #{@simpleform.object.inspect} but was requested in #{inspect}.") unless model_field
+
+        if hidden
+          return @simpleform.input model_field.schema_key, as: :hidden, **input_opts
+        else
+          return model_field.simpleform_input(@simpleform, self, **input_opts)
         end
-        return @form_helper.field(name, **kwargs)
       end
 
       # Called inside the form_fields block. This makes the method `f` available in the block.
-      # See also notes for `with_form_helper`.
+      # See also notes for `with_simpleform`.
       def f(...)
-        fail("The `f` method may only be called inside `form_fields` for #{inspect}.") unless @form_helper
-        return @form_helper.form(...)
+        fail("The `f` method may only be called inside `form_fields` for #{inspect}.") unless @simpleform
+        return @simpleform.f(...)
       end
 
-      # Called inside the form_fields block. This makes the method `f` available in the block.
-      # See also notes for `with_form_helper`.
+      # Quick access for wrapping collections in Rails compatible format
       def collect(...)
         Compony::ModelFields::Field::Anchormodel.collect(...)
       end
