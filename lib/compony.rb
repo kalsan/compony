@@ -210,6 +210,18 @@ module Compony
     newly_defined_keys.each { |key| RequestStore.store[:button_defaults].delete(key) }
     return return_value
   end
+
+  # Goes through model_field_namespaces and returns the first hit for the given constant
+  # @param constant [Constant] The constant that is searched, e.g. RichText -> would return e.g. Compony::ModelFields::RichText
+  def self.model_field_class_for(constant)
+    @model_field_namespaces.each do |model_field_namespace|
+      model_field_namespace = model_field_namespace.constantize if model_field_namespace.is_a?(::String)
+      if model_field_namespace.const_defined?(constant, false)
+        return model_field_namespace.const_get(constant, false)
+      end
+    end
+    fail("No `model_field_namespace` implements ...::#{constant}. Configured namespaces: #{Compony.model_field_namespaces.inspect}")
+  end
 end
 
 require 'cancancan'
@@ -220,7 +232,6 @@ require 'schemacop'
 require 'simple_form'
 
 require 'compony/engine'
-require 'compony/model_fields'
 require 'compony/model_fields/base'
 require 'compony/model_fields/association'
 require 'compony/model_fields/anchormodel'
