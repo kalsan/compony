@@ -21,7 +21,7 @@ module Compony
   # Must give an array of strings of namespaces that contain field classes named after
   # the field type. The array is queried in order, if the first namespace does not
   # contain the class we're looking for, the next is considered and so on.
-  # The classes defined in the namespace must inherit from Compony::ModelFields::Field
+  # The classes defined in the namespace must inherit from Compony::ModelFields::Base
   def self.model_field_namespaces=(model_field_namespaces)
     @model_field_namespaces = model_field_namespaces
   end
@@ -53,7 +53,7 @@ module Compony
   # Getter for the global field namespaces.
   # @see Compony#model_field_namespaces= Explanation of model_field_namespaces (documented in the corresponding setter)
   def self.model_field_namespaces
-    return @model_field_namespaces ||= ['Compony::ModelFields::Field']
+    return @model_field_namespaces ||= ['Compony::ModelFields']
   end
 
   # Getter for the name of the Rails `before_action` that enforces authentication.
@@ -220,21 +220,22 @@ require 'schemacop'
 require 'simple_form'
 
 require 'compony/engine'
-require 'compony/model_fields/field'
-require 'compony/model_fields/field/association'
-require 'compony/model_fields/field/anchormodel'
-require 'compony/model_fields/field/boolean'
-require 'compony/model_fields/field/currency'
-require 'compony/model_fields/field/date'
-require 'compony/model_fields/field/datetime'
-require 'compony/model_fields/field/decimal'
-require 'compony/model_fields/field/float'
-require 'compony/model_fields/field/integer'
-require 'compony/model_fields/field/phone'
-require 'compony/model_fields/field/rich_text'
-require 'compony/model_fields/field/string'
-require 'compony/model_fields/field/text'
-require 'compony/model_fields/field/time'
+require 'compony/model_fields'
+require 'compony/model_fields/base'
+require 'compony/model_fields/association'
+require 'compony/model_fields/anchormodel'
+require 'compony/model_fields/boolean'
+require 'compony/model_fields/currency'
+require 'compony/model_fields/date'
+require 'compony/model_fields/datetime'
+require 'compony/model_fields/decimal'
+require 'compony/model_fields/float'
+require 'compony/model_fields/integer'
+require 'compony/model_fields/phone'
+require 'compony/model_fields/rich_text'
+require 'compony/model_fields/string'
+require 'compony/model_fields/text'
+require 'compony/model_fields/time'
 require 'compony/component_mixins/default/standalone'
 require 'compony/component_mixins/default/standalone/standalone_dsl'
 require 'compony/component_mixins/default/standalone/verb_dsl'

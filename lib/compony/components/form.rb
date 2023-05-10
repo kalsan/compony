@@ -100,7 +100,7 @@ module Compony
 
       # Quick access for wrapping collections in Rails compatible format
       def collect(...)
-        Compony::ModelFields::Field::Anchormodel.collect(...)
+        Compony::ModelFields::Anchormodel.collect(...)
       end
 
       protected

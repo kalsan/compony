@@ -18,7 +18,7 @@ module Compony
       def field(name, type, order_key: (auto_order_key = true) && nil, filter_keys: (auto_filter_keys = true) && [])
         name = name.to_sym
         self.fields = fields.dup
-        fields[name] = ModelFields::Field.build(name, self, type:, order_key:, auto_order_key:, filter_keys:, auto_filter_keys:)
+        fields[name] = ModelFields.build(name, self, type:, order_key:, auto_order_key:, filter_keys:, auto_filter_keys:)
       end
 
       # DSL method, sets the primary key type
