@@ -95,8 +95,7 @@ module Compony
       # Called inside the form_fields block. This makes the method `f` available in the block.
       # See also notes for `with_form_helper`.
       def collect(...)
-        fail("The `collect` method may only be called inside `form_fields` for #{inspect}.") unless @form_helper
-        return @form_helper.collect(...)
+        Compony::ModelFields::Field::Anchormodel.collect(...)
       end
 
       protected

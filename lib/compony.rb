@@ -16,6 +16,16 @@ module Compony
     @button_component_class = button_component_class
   end
 
+  # Setter for the global field namespaces. This allows you to implement custom
+  # Fields, be it new ones or overrides for existing Compony model fields.
+  # Must give an array of strings of namespaces that contain field classes named after
+  # the field type. The array is queried in order, if the first namespace does not
+  # contain the class we're looking for, the next is considered and so on.
+  # The classes defined in the namespace must inherit from Compony::ModelFields::Field
+  def self.model_field_namespaces=(model_field_namespaces)
+    @model_field_namespaces = model_field_namespaces
+  end
+
   # Setter for the global form helper class. This allows you to implement a
   # custom form helper with additional features and have all form components use
   # it instead of the default {Compony::ModelFields::FormHelper}.
@@ -45,6 +55,12 @@ module Compony
     @button_component_class ||= Components::Button
     @button_component_class = const_get(@button_component_class) if @button_component_class.is_a?(String)
     return @button_component_class
+  end
+
+  # Getter for the global field namespaces.
+  # @see Compony#model_field_namespaces= Explanation of model_field_namespaces (documented in the corresponding setter)
+  def self.model_field_namespaces
+    return @model_field_namespaces ||= ['Compony::ModelFields::Field']
   end
 
   # Getter for the global form helper class.
@@ -220,6 +236,20 @@ require 'simple_form'
 
 require 'compony/engine'
 require 'compony/model_fields/field'
+require 'compony/model_fields/field/association'
+require 'compony/model_fields/field/anchormodel'
+require 'compony/model_fields/field/boolean'
+require 'compony/model_fields/field/currency'
+require 'compony/model_fields/field/date'
+require 'compony/model_fields/field/datetime'
+require 'compony/model_fields/field/decimal'
+require 'compony/model_fields/field/float'
+require 'compony/model_fields/field/integer'
+require 'compony/model_fields/field/phone'
+require 'compony/model_fields/field/rich_text'
+require 'compony/model_fields/field/string'
+require 'compony/model_fields/field/text'
+require 'compony/model_fields/field/time'
 require 'compony/model_fields/form_helper'
 require 'compony/component_mixins/default/standalone'
 require 'compony/component_mixins/default/standalone/standalone_dsl'

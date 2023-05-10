@@ -12,40 +12,16 @@ module Compony
         @comp = comp
       end
 
-      def field(name, **kwargs)
-        hidden = kwargs.delete(:hidden)
+      def field(name, **input_opts)
+        hidden = input_opts.delete(:hidden)
         model_field = @form.object.fields[name.to_sym]
         fail("Field #{name.to_sym.inspect} is not defined on #{@form.object.inspect}") unless model_field
 
         if hidden
-          return @form.input model_field.schema_key, as: :hidden, **kwargs
-        end
-
-        case model_field.type
-        when :association
-          return @form.association name, **kwargs
-        when :anchormodel
-          selected_cst = @form.object.send(name)
-          anchormodel_attribute = model_field.model_class.anchormodel_attributes[model_field.name]
-          anchormodel_class = anchormodel_attribute.anchormodel_class
-          opts = {
-            collection:    collect(anchormodel_class.all),
-            label_method:  :first,
-            value_method:  :second,
-            selected:      selected_cst&.key || anchormodel_class.all.first,
-            include_blank: anchormodel_attribute.optional
-          }.merge(kwargs)
-          return @form.input name, **opts
-        when :rich_text
-          return @form.input name, **kwargs.merge(as: :rich_text_area)
+          return @form.input model_field.schema_key, as: :hidden, **input_opts
         else
-          return @form.input name, **kwargs
+          return model_field.simpleform_input(@form, @comp, **input_opts)
         end
-      end
-
-      # Takes an array of objects implementing the methods `label` and `key` and returns an array suitable for simple_form select fields.
-      def collect(flat_array, label_method: :label, key_method: :key)
-        return flat_array.map { |entry| [entry.send(label_method), entry.send(key_method)] }
       end
     end
   end

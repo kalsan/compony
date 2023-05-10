@@ -1,27 +1,20 @@
 module Compony
   module ModelFields
     class Field
-      # phone: requires 'phonelib' gem
-      SUPPORTED_TYPES = %i[
-        association
-        anchormodel
-        boolean
-        currency
-        date
-        datetime
-        decimal
-        float
-        integer
-        phone
-        rich_text
-        string
-        text
-        time
-      ].freeze
+      # Use this as entrypoint instead of instanciating fields manually
+      def self.build(name, model_class, type:, order_key:, auto_order_key:, filter_keys:, auto_filter_keys:)
+        const = type.to_s.camelize
+        Compony.model_field_namespaces.each do |model_field_namespace|
+          model_field_namespace = model_field_namespace.constantize if model_field_namespace.is_a?(::String)
+          if model_field_namespace.const_defined?(const, false)
+            return model_field_namespace.const_get(const, false).new(name, model_class, order_key:, auto_order_key:, filter_keys:, auto_filter_keys:)
+          end
+        end
+        fail("No `model_field_namespace` implements ...::#{const}. Configured namespaces: #{Compony.model_field_namespaces.inspect}")
+      end
 
       attr_reader :name
       attr_reader :model_class
-      attr_reader :type
       attr_reader :order_key
       attr_reader :filter_keys
       attr_reader :schema_key
@@ -36,15 +29,13 @@ module Compony
 
       # @param order_key [Symbol] omitted, nil = prohibit sorting
       # @param filter_keys [Array] omitted, [] = prohibit filtering
-      def initialize(name, model_class, type:, order_key:, auto_order_key:, filter_keys:, auto_filter_keys:)
-        @type = type.to_sym
+      def initialize(name, model_class, order_key:, auto_order_key:, filter_keys:, auto_filter_keys:)
         @order_key = order_key&.to_sym
         @filter_keys = filter_keys
-        fail("Unsupported field type #{@type.inspect}, supported are: #{SUPPORTED_TYPES.pretty_inspect}") unless SUPPORTED_TYPES.include?(type)
         @name = name.to_sym
         @model_class = model_class
         @schema_key = name
-        resolve_association! if type == :association
+
         resolve_order_key! if auto_order_key
         resolve_filter_keys! if auto_filter_keys
       end
@@ -55,98 +46,39 @@ module Compony
       end
 
       # Use this to display the value for this field applied to data
-      def value_for(data, link_to_component: nil, link_opts: {}, controller: nil)
-        fail('If link_to_component is specified, must also pass controller') if link_to_component && controller.nil?
-        if association?
-          if link_to_component
-            return transform_and_join(data.send(@name), controller:) do |el|
-                     el.nil? ? nil : controller.helpers.compony_link(link_to_component, el, **link_opts)
-                   end
-          else
-            return transform_and_join(data.send(@name), controller:) { |el| el&.label }
-          end
-        else
-          case @type
-          when :date, :datetime
-            return transform_and_join(data.send(@name), controller:) { |el| el.nil? ? nil : I18n.l(el) }
-          when :boolean
-            return transform_and_join(data.send(@name), controller:) { |el| I18n.t("compony.boolean.#{el}") }
-          when :anchormodel
-            return data.send(@name)&.label
-          when :currency
-            return transform_and_join(data.send(@name), controller:) { |el| controller.helpers.number_to_currency(el) }
-          when :phone
-            fail('Please include gem "phonelib" to use the :phone field type.') unless defined?(Phonelib)
-            return transform_and_join(data.send(@name), controller:) { |el| Phonelib.parse(el).international }
-          else
-            return transform_and_join(data.send(@name), controller:)
-          end
-        end
+      def value_for(data, controller: nil, **_)
+        # Default behavior
+        return transform_and_join(data.send(@name), controller:)
       end
 
       # Used for auto-providing Schemacop schemas.
       # Returns a proc that is meant for instance_exec within a Schemacop3 hash block
       def schema_line
+        # Default behavior
         local_schema_key = @schema_key # Capture schema_key as it will not be available within the lambda
-        if association?
-          if multi?
-            return proc do
-              ary? local_schema_key do
-                list :integer, cast_str: true
-              end
-            end
-          else
-            return proc do
-              int? local_schema_key, cast_str: true
-            end
-          end
-        else
-          return proc { obj? local_schema_key }
-        end
+        return proc { obj? local_schema_key }
+      end
+
+      # Used in form helper.
+      # Given a simpleform instance, returns the corresponding input to be supplied to the view.
+      def simpleform_input(form, _component, **input_opts)
+        return form.input @name, **input_opts
       end
 
       protected
 
-      # Uses Rails methods to figure out the arity, schema key etc. and store them.
-      # This can be auto-inferred without accessing the database.
-      def resolve_association!
-        fail("Attempted to resolve association for non-association type #{@type} on #{inspect}") unless @type == :association
-        @association = true
-        association_info = @model_class.reflect_on_association(@name) || fail("Association #{@name.inspect} does not exist for #{@model_class.inspect}.")
-        @multi = association_info.macro == :has_many
-        @type = @multi ? :association_multi : :association_single
-        id_name = "#{@name.to_s.singularize}_id"
-        @schema_key = @multi ? id_name.pluralize.to_sym : id_name.to_sym
-      rescue ActiveRecord::NoDatabaseError
-        Rails.logger.warn('Warning: Compony could not auto-detect fields due to missing database. This is ok when running db:create.')
-      end
-
       # Provides a default for auto-dectection, but can be overridden by giving the value explicitely in the `field` call.
       # This is meant to work with ransack (extra functionality not built into Compony)
       def resolve_order_key!
-        @order_key = case @type
-                     when :association_single, :association_multi
-                       nil # sorting on these types requires specifying the order key manually
-                     else
-                       @name
-                     end
+        # Default behavior
+        @order_key = @name
       end
 
       # Provides a default for auto-dectection, but can be overridden by giving the value explicitely in the `field` call.
       # This is meant to work with ransack (extra functionality not built into Compony)
       def resolve_filter_keys!
-        @filter_keys = case @type
-                       when :anchormodel, :association_single, :association_multi
-                         [] # filtering on these types requires specifying the order key manually
-                       when :rich_text, :string, :text, :phone
-                         ["#{@name}-cont".to_sym]
-                       when :date, :datetime, :time, :decimal, :float, :integer
-                         ["#{@name}-eq".to_sym, "#{@name}-lteq".to_sym, "#{@name}-gteq".to_sym]
-                       when :boolean
-                         ["#{@name}-true".to_sym, "#{@name}-false".to_sym]
-                       else
-                         ["#{@name}-eq".to_sym]
-                       end
+        # Default behavior
+        @filter_keys = ["#{@name}-eq".to_sym]
       end
 
       # If given a scalar, calls the block on the scalar. If given a list, calls the block on every member and joins the result with ",".
