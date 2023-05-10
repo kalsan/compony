@@ -23,12 +23,6 @@ module Compony
         }.merge(input_opts)
         return form.input @name, **opts
       end
-
-      protected
-
-      def resolve_filter_keys!
-        @filter_keys = [] # filtering on these types requires specifying the order key manually
-      end
     end
   end
 end

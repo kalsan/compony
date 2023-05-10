@@ -13,12 +13,10 @@ module Compony
     class_methods do
       # DSL method, defines a new field which will be translated and can be added to field groups
       # For virtual attributes, you must pass a type explicitely, otherwise it's auto-infered.
-      # @param order_key [Symbol] meant to provide a default for e.g. ransack (external, not implemented here), omitted = autocompute, nil = prohibit sorting
-      # @param filter_keys [Array] meant to provide a default for e.g. ransack (external, not implemented here), omitted = autocompute, [] = prohibit filtering
-      def field(name, type, order_key: (auto_order_key = true) && nil, filter_keys: (auto_filter_keys = true) && [])
+      def field(name, type, **extra_attrs)
         name = name.to_sym
         self.fields = fields.dup
-        fields[name] = Compony.model_field_class_for(type.to_s.camelize).new(name, self, order_key:, auto_order_key:, filter_keys:, auto_filter_keys:)
+        fields[name] = Compony.model_field_class_for(type.to_s.camelize).new(name, self, **extra_attrs)
       end
 
       # DSL method, sets the primary key type

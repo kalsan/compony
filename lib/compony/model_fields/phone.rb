@@ -10,12 +10,6 @@ module Compony
       def value_for(data, controller: nil, **_)
         return transform_and_join(data.send(@name), controller:) { |el| Phonelib.parse(el).international }
       end
-
-      protected
-
-      def resolve_filter_keys!
-        @filter_keys = ["#{@name}-cont".to_sym]
-      end
     end
   end
 end

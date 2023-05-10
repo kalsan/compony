@@ -37,14 +37,6 @@ module Compony
 
       protected
 
-      def resolve_order_key!
-        return nil # sorting on these types requires specifying the order key manually
-      end
-
-      def resolve_filter_keys!
-        @filter_keys = [] # filtering on these types requires specifying the order key manually
-      end
-
       # Uses Rails methods to figure out the arity, schema key etc. and store them.
       # This can be auto-inferred without accessing the database.
       def resolve_association!

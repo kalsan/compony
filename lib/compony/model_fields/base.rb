@@ -3,9 +3,8 @@ module Compony
     class Base
       attr_reader :name
       attr_reader :model_class
-      attr_reader :order_key
-      attr_reader :filter_keys
       attr_reader :schema_key
+      attr_reader :extra_attrs
 
       def multi?
         !!@multi
@@ -15,17 +14,11 @@ module Compony
         !!@association
       end
 
-      # @param order_key [Symbol] omitted, nil = prohibit sorting
-      # @param filter_keys [Array] omitted, [] = prohibit filtering
-      def initialize(name, model_class, order_key:, auto_order_key:, filter_keys:, auto_filter_keys:)
-        @order_key = order_key&.to_sym
-        @filter_keys = filter_keys
+      def initialize(name, model_class, **extra_attrs)
         @name = name.to_sym
         @model_class = model_class
         @schema_key = name
-
-        resolve_order_key! if auto_order_key
-        resolve_filter_keys! if auto_filter_keys
+        @extra_attrs = extra_attrs
       end
 
       # Use this to display the label for this field, e.g. for columns, forms etc.
@@ -54,20 +47,6 @@ module Compony
       end
 
       protected
-
-      # Provides a default for auto-dectection, but can be overridden by giving the value explicitely in the `field` call.
-      # This is meant to work with ransack (extra functionality not built into Compony)
-      def resolve_order_key!
-        # Default behavior
-        @order_key = @name
-      end
-
-      # Provides a default for auto-dectection, but can be overridden by giving the value explicitely in the `field` call.
-      # This is meant to work with ransack (extra functionality not built into Compony)
-      def resolve_filter_keys!
-        # Default behavior
-        @filter_keys = ["#{@name}-eq".to_sym]
-      end
 
       # If given a scalar, calls the block on the scalar. If given a list, calls the block on every member and joins the result with ",".
       def transform_and_join(data, controller:, &transform_block)
