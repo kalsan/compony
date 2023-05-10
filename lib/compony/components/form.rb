@@ -93,9 +93,9 @@ module Compony
 
       # Called inside the form_fields block. This makes the method `f` available in the block.
       # See also notes for `with_simpleform`.
-      def f(...)
+      def f
         fail("The `f` method may only be called inside `form_fields` for #{inspect}.") unless @simpleform
-        return @simpleform.f(...)
+        return @simpleform
       end
 
       # Quick access for wrapping collections in Rails compatible format
