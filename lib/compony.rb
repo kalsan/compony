@@ -26,13 +26,6 @@ module Compony
     @model_field_namespaces = model_field_namespaces
   end
 
-  # Setter for the global form helper class. This allows you to implement a
-  # custom form helper with additional features and have all form components use
-  # it instead of the default {Compony::ModelFields::FormHelper}.
-  def self.form_helper_class=(form_helper_class)
-    @form_helper_class = form_helper_class
-  end
-
   # Setter for the name of the Rails `before_action` that should be called to
   # ensure that users are authenticated before accessing the component. For
   # instance, implement a method `def enforce_authentication` in your
@@ -61,14 +54,6 @@ module Compony
   # @see Compony#model_field_namespaces= Explanation of model_field_namespaces (documented in the corresponding setter)
   def self.model_field_namespaces
     return @model_field_namespaces ||= ['Compony::ModelFields::Field']
-  end
-
-  # Getter for the global form helper class.
-  # @see Compony#form_helper_class= Explanation of form_helper_class (documented in the corresponding setter)
-  def self.form_helper_class
-    @form_helper_class ||= ModelFields::FormHelper
-    @form_helper_class = const_get(@form_helper_class) if @form_helper_class.is_a?(String)
-    return @form_helper_class
   end
 
   # Getter for the name of the Rails `before_action` that enforces authentication.
