@@ -11,7 +11,7 @@ module Compony
   # Setter for the global button component class. This allows you to implement a
   # custom button component and have all Compony button helpers use your custom
   # button component instead of {Compony::Components::Button}.
-  # @param button_component_class [Class] Your custom button component class (inherit from {Compony::Components::Button} or {Compony::Component})
+  # @param button_component_class [String] Name of your custom button component class (inherit from {Compony::Components::Button} or {Compony::Component})
   def self.button_component_class=(button_component_class)
     @button_component_class = button_component_class
   end
@@ -22,6 +22,7 @@ module Compony
   # the field type. The array is queried in order, if the first namespace does not
   # contain the class we're looking for, the next is considered and so on.
   # The classes defined in the namespace must inherit from Compony::ModelFields::Base
+  # @param model_field_namespaces [Array] Array of strings, the names of the namespaces in the order they should be searched
   def self.model_field_namespaces=(model_field_namespaces)
     @model_field_namespaces = model_field_namespaces
   end
@@ -34,6 +35,7 @@ module Compony
   # by {ComponyController} and the easiest way to achieve this is to implement
   # the action in your `ApplicationController`. If this is never called,
   # authentication is disabled.
+  # @param authentication_before_action [Symbol] Name of the method you want to call for authentication
   def self.authentication_before_action=(authentication_before_action)
     @authentication_before_action = authentication_before_action.to_sym
   end
@@ -98,7 +100,8 @@ module Compony
     return family_constant.const_get(comp_cst_str)
   end
 
-  # As above but fails if none found
+  # Same as Compony#comp_class_for but fails if none found
+  # @see Compony#comp_class_for
   def self.comp_class_for!(comp_name_or_cst, model_or_family_name_or_cst)
     comp_class_for(comp_name_or_cst, model_or_family_name_or_cst) || fail(
       "No component found for [#{comp_name_or_cst.inspect}, #{model_or_family_name_or_cst.inspect}]"
@@ -131,10 +134,11 @@ module Compony
   #                                    `Users`, `'Users'`, `:users`, `User.first`
   # @param label_opts [Hash] Options hash that will be passed to the label method (see {Compony::ComponentMixins::Default::Labelling#label})
   # @param params [Hash] GET parameters to be inclued into the path this button points to. Special case: e.g. format: :pdf -> some.url/foo/bar.pdf
+  # @param feasibility_action [Symbol] Name of the feasibility action that should be checked for this button, defaults to the component name
+  # @param feasibility_target [Symbol] Name of the feasibility target (subject) that the feasibility should be checked on, defaults to the model if given
   # @param override_kwargs [Hash] Override button options, see options for {Compony::Components::Button}
   # @see Compony::ViewHelpers#compony_button View helper providing a wrapper for this method that immediately renders a button.
   # @see Compony::Components::Button Compony::Components::Button: the default underlying implementation
-  # @todo add doc for feasibility
   def self.button(comp_name_or_cst,
                   model_or_family_name_or_cst,
                   label_opts: nil,
@@ -189,7 +193,9 @@ module Compony
   end
 
   # Overwrites the keys of the current button defaults by the ones provided during the execution of a given block and restores them afterwords.
-  # @todo document params
+  # This method is useful when the same set of options is to be given to a multitude of buttons.
+  # @param keys_to_overwrite [Hash] Options that should be given to the buttons within the block, with their values
+  # @param block [Block] Within this block, all omitted button options point to `keys_to_overwrite`
   def self.with_button_defaults(**keys_to_overwrite, &block)
     # Lazy initialize butto_defaults store if it hasn't been yet
     RequestStore.store[:button_defaults] ||= {}

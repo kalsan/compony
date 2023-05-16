@@ -2,6 +2,10 @@ module Compony
   module ComponentMixins
     module Default
       module Standalone
+        # @api description
+        # Verb DSL override specifically for resourceful components
+        # @see Compony::ComponentMixins::Default::Standalone::VerbDsl
+        # @see Compony::ComponentMixins::Resourceful
         class ResourcefulVerbDsl < VerbDsl
           def initialize(...)
             # All resourceful components have a load_data_block, which defaults to the one defined in Resource, defaulting to finding the record.
@@ -9,6 +13,7 @@ module Compony
             super
           end
 
+          # For internal usage only, processes the block and returns a config hash.
           def to_conf(&)
             return super.deep_merge({
                                       load_data_block:         @load_data_block,

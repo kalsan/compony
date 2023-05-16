@@ -2,6 +2,10 @@ module Compony
   module ComponentMixins
     module Default
       module Standalone
+        # @api description
+        # DSL for speficying verb configs within a standalone config.
+        # @see Compony::ComponentMixins::Default::Standalone::VerbDsl for the verb DSL for resourceful components
+        # @see Compony::ComponentMixins::Default::Standalone::StandaloneDsl
         class VerbDsl < Dslblend::Base
           AVAILABLE_VERBS = %i[get head post put delete connect options trace patch].freeze
 
@@ -17,6 +21,7 @@ module Compony
             @authorize_block = nil
           end
 
+          # For internal usage only, processes the block and returns a config hash.
           def to_conf(&)
             evaluate(&) if block_given?
             return {
