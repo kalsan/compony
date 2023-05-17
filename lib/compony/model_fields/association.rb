@@ -8,6 +8,7 @@ module Compony
 
       def value_for(data, link_to_component: nil, link_opts: {}, controller: nil)
         if link_to_component
+          fail('Must pass controller if link_to_component is given.') unless controller
           return transform_and_join(data.send(@name), controller:) do |el|
             el.nil? ? nil : controller.helpers.compony_link(link_to_component, el, **link_opts)
           end

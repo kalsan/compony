@@ -6,6 +6,9 @@ en:
       no: 'No'
     feasibility:
       has_dependent_models: 'there are dependent %{dependent_class}'
+    model_fields:
+      attachment:
+        download: 'Download'
     components:
       form:
         submit: 'Submit'
