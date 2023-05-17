@@ -7,7 +7,7 @@ module Compony
         return transform_and_join(data.send(@name), controller:) do |el|
           fail('Must pass controller to generate the link to the attachment.') unless controller
           return nil unless el.attached?
-          return controller.helpers.link_to(I18n.t('compony.model_fields.attachment.download'), el.url)
+          return controller.helpers.link_to(I18n.t('compony.model_fields.attachment.download'), controller.helpers.rails_blob_path(el))
         end
       end
 
