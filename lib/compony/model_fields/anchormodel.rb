@@ -7,7 +7,7 @@ module Compony
       end
 
       def value_for(data, controller: nil, **_)
-        return transform_and_join(data.send(@name), controller:, &:label)
+        return transform_and_join(data.send(@name), controller:) { |el| el&.label }
       end
 
       def simpleform_input(form, _component, **input_opts)
