@@ -220,7 +220,7 @@ module Compony
   # Goes through model_field_namespaces and returns the first hit for the given constant
   # @param constant [Constant] The constant that is searched, e.g. RichText -> would return e.g. Compony::ModelFields::RichText
   def self.model_field_class_for(constant)
-    @model_field_namespaces.each do |model_field_namespace|
+    model_field_namespaces.each do |model_field_namespace|
       model_field_namespace = model_field_namespace.constantize if model_field_namespace.is_a?(::String)
       if model_field_namespace.const_defined?(constant, false)
         return model_field_namespace.const_get(constant, false)
