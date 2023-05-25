@@ -1,3 +1,11 @@
+# unreleased
+
+- Unscope the namespace of resourceful components
+
+## Steps to take
+
+- When inheriting from components, replace `Components::Resourceful::...` by `Components::...`
+
 # 0.0.3
 
 - Tolerate nil anchormodels
