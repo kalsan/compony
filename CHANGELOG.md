@@ -1,4 +1,4 @@
-# unreleased
+# 0.0.4
 
 - Unscope the namespace of resourceful components
 - Add field type :email
