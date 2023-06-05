@@ -71,6 +71,7 @@ module Compony
       # @todo Refactor? Could this be greatly simplified by having `form_field to |f|` ?
       def with_simpleform(simpleform)
         @simpleform = simpleform
+        @focus_given = false
         yield
         @simpleform = nil
       end
@@ -87,6 +88,10 @@ module Compony
         if hidden
           return @simpleform.input model_field.schema_key, as: :hidden, **input_opts
         else
+          unless @focus_given
+            input_opts[:autofocus] = true unless input_opts.key? :autofocus
+            @focus_given = true
+          end
           return model_field.simpleform_input(@simpleform, self, **input_opts)
         end
       end
