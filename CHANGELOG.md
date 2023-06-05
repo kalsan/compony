@@ -1,3 +1,8 @@
+# unreleased
+
+- Fix row bug for Email field type
+- Auto-focus first non-hidden element in forms
+
 # 0.0.4
 
 - Unscope the namespace of resourceful components
