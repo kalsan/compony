@@ -3,7 +3,7 @@ class ComponentGenerator < Rails::Generators::NamedBase
 
   def add_component
     segments = name.underscore.split('/')
-    fail('NAME must be of the form Family::ComponentName or family/component_name') if segments.size != 2
+    fail("NAME must be of the form Family::ComponentName or family/component_name but got #{name.inspect}") if segments.size != 2
     @family, @comp = segments
     @family = @family.pluralize # Force plural
     @family_cst = @family.camelize.pluralize # Force plural
