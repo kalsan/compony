@@ -3,6 +3,7 @@
 - Fix row bug for Email field type
 - Auto-focus first non-hidden element in forms
 - Add field type :url
+- Automatically set the correct class when generating known components
 
 # 0.0.4
 
