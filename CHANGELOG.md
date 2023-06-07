@@ -2,6 +2,7 @@
 
 - Fix row bug for Email field type
 - Auto-focus first non-hidden element in forms
+- Add field type :url
 
 # 0.0.4
 
