@@ -4,6 +4,7 @@
 - Auto-focus first non-hidden element in forms
 - Add field type :url
 - Automatically set the correct class when generating known components
+- Add generator `components` that is able to mass-produce the most used components
 
 # 0.0.4
 

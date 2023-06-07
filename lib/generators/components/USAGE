@@ -1,0 +1,8 @@
+Description:
+    Generate the most used components for a family
+
+Example:
+    bin/rails generate components Users
+
+    This will create and fill with the usual components:
+        app/components/users/
