@@ -11,6 +11,13 @@ module Compony
     end
 
     class_methods do
+      # This hook updates all fields from a subclass, making sure that fields point to correct model classes even in STI
+      # e.g. in Parent: field :foo, ... omitted in child -> child.fields[:foo] should point to Child and not Parent.
+      def inherited(subclass)
+        super
+        subclass.fields = subclass.fields.transform_values { |f| f.class.new(f.name, subclass, **f.extra_attrs) }
+      end
+
       # DSL method, defines a new field which will be translated and can be added to field groups
       # For virtual attributes, you must pass a type explicitely, otherwise it's auto-infered.
       def field(name, type, **extra_attrs)

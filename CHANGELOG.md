@@ -5,6 +5,7 @@
 - Add field type :url
 - Automatically set the correct class when generating known components
 - Add generator `components` that is able to mass-produce the most used components
+- Make fields point to the correct `model_class` in case of STI
 
 # 0.0.4
 
