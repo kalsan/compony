@@ -1,4 +1,4 @@
-# unreleased
+# 0.0.5
 
 - Fix row bug for Email field type
 - Auto-focus first non-hidden element in forms
