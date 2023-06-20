@@ -86,7 +86,7 @@ module Compony
         fail("Field #{name.to_sym.inspect} is not defined on #{@simpleform.object.inspect} but was requested in #{inspect}.") unless model_field
 
         if hidden
-          return @simpleform.input model_field.schema_key, as: :hidden, **input_opts
+          return model_field.simpleform_input_hidden(@simpleform, self, **input_opts)
         else
           unless @focus_given
             input_opts[:autofocus] = true unless input_opts.key? :autofocus

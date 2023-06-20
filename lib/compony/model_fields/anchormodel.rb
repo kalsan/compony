@@ -23,6 +23,13 @@ module Compony
         }.merge(input_opts)
         return form.input @name, **opts
       end
+
+      def simpleform_input_hidden(form, _component, **input_opts)
+        selected_cst = form.object.send(@name)
+        input_opts[:input_html] ||= {}
+        input_opts[:input_html][:value] = selected_cst.is_a?(::Anchormodel) ? selected_cst.key : selected_cst
+        return form.input @name, as: :hidden, **input_opts
+      end
     end
   end
 end

@@ -46,6 +46,12 @@ module Compony
         return form.input @name, **input_opts
       end
 
+      # Used in form helper
+      # Given a simpleform instance, returns a suitable hidden input for thetype
+      def simpleform_input_hidden(form, _component, **input_opts)
+        return form.input @name, as: :hidden, **input_opts
+      end
+
       protected
 
       # If given a scalar, calls the block on the scalar. If given a list, calls the block on every member and joins the result with ",".
