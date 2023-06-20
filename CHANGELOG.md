@@ -1,3 +1,7 @@
+# unreleased
+
+- Fix a bug that breaks hidden fields of type reference
+
 # 0.0.5
 
 - Fix row bug for Email field type
@@ -7,6 +11,10 @@
 - Add generator `components` that is able to mass-produce the most used components
 - Make fields point to the correct `model_class` in case of STI
 - Support hidden Anchormodel fields
+
+## KNOWN BUGS
+
+- Breaks hidden fields of type reference
 
 # 0.0.4
 

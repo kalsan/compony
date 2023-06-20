@@ -36,6 +36,10 @@ module Compony
         return form.association @name, **input_opts
       end
 
+      def simpleform_input_hidden(form, _component, **input_opts)
+        return form.input @schema_key, as: :hidden, **input_opts
+      end
+
       protected
 
       # Uses Rails methods to figure out the arity, schema key etc. and store them.
