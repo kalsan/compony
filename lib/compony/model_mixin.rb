@@ -91,5 +91,10 @@ module Compony
       text += '.' if text.present?
       return text
     end
+
+    # Calls value_for on the desired field. Do not confuse with the static method field.
+    def field(field_name, controller)
+      fields[field_name.to_sym].value_for(self, controller:)
+    end
   end
 end
