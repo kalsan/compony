@@ -3,6 +3,7 @@
 - Fix a bug that breaks hidden fields of type reference
 - Add dynamic method "field" to model mixin
 - Tolerate and skip actions that do not define buttons, allows for dynamic action skipping
+- Fix `value_for` for boolean fields when they are nil
 
 # 0.0.5
 
