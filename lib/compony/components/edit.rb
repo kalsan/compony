@@ -17,7 +17,8 @@ module Compony
             store_data # This enables the global store_data block defined below for this path and verb.
             respond do
               if @update_succeeded
-                evaluate_with_backfire(&@on_updated_block)
+                evaluate_with_backfire(&@on_updated_block) if @on_updated_block
+                evaluate_with_backfire(&@on_updated_respond_block)
               else
                 evaluate_with_backfire(&@on_update_failed_block)
               end
@@ -56,7 +57,7 @@ module Compony
           @update_succeeded = @data.save
         end
 
-        on_updated do
+        on_updated_respond do
           flash.notice = I18n.t('compony.components.edit.data_was_updated', data_label: data.label)
           redirect_to evaluate_with_backfire(&@on_updated_redirect_path_block)
         end
@@ -76,8 +77,14 @@ module Compony
       end
 
       # DSL method
+      # Sets a block that is evaluated with backfire in the successful case after storing, but before responding.
       def on_updated(&block)
         @on_updated_block = block
+      end
+
+      # DSL method
+      def on_updated_respond(&block)
+        @on_updated_respond_block = block
       end
 
       # DSL method

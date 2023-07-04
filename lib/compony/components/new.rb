@@ -19,9 +19,10 @@ module Compony
             store_data # This enables the global store_data block defined below for this path and verb.
             respond do
               if @create_succeeded
-                evaluate_with_backfire(&@on_created_block)
+                evaluate_with_backfire(&@on_created_block) if @on_created_block
+                evaluate_with_backfire(&@on_created_respond_block)
               else
-                evaluate_with_backfire(&@on_create_failed_block)
+                evaluate_with_backfire(&@on_create_failed_respond_block)
               end
             end
           end
@@ -55,7 +56,7 @@ module Compony
           @create_succeeded = @data.save
         end
 
-        on_created do
+        on_created_respond do
           flash.notice = I18n.t('compony.components.new.data_was_created', data_label: data.label)
           redirect_to evaluate_with_backfire(&@on_created_redirect_path_block)
         end
@@ -68,15 +69,21 @@ module Compony
           end
         end
 
-        on_create_failed do
+        on_create_failed_respond do
           Rails.logger.warn(@data&.errors&.full_messages)
           render_standalone(controller, status: :unprocessable_entity)
         end
       end
 
       # DSL method
+      # Sets a block that is evaluated with backfire in the successful case after storing, but before responding.
       def on_created(&block)
         @on_created_block = block
+      end
+
+      # DSL method
+      def on_created_respond(&block)
+        @on_created_respond_block = block
       end
 
       # DSL method
@@ -85,8 +92,8 @@ module Compony
       end
 
       # DSL method
-      def on_create_failed(&block)
-        @on_create_failed_block = block
+      def on_create_failed_respond(&block)
+        @on_create_failed_respond_block = block
       end
     end
   end

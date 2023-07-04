@@ -4,6 +4,8 @@
 - Add dynamic method "field" to model mixin
 - Tolerate and skip actions that do not define buttons, allows for dynamic action skipping
 - Fix `value_for` for boolean fields when they are nil
+- BREAKING: Rename `on_created` to `on_created_respond`, `on_updated` to `on_updated_respond`, and `on_destroyed` to `on_destroyed_respond`
+  - New hooks `on_created`, `on_updated`, and `on_destroyed` are called before their `_respond` counterpart
 
 # 0.0.5
 

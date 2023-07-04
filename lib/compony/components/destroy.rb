@@ -15,7 +15,8 @@ module Compony
             authorize { can?(:destroy, @data) }
             store_data # This enables the global store_data block defined below for this path and verb.
             respond do
-              evaluate_with_backfire(&@on_destroyed_block)
+              evaluate_with_backfire(&@on_destroyed_block) if @on_destroyed_block
+              evaluate_with_backfire(&@on_destroyed_respond_block)
             end
           end
         end
@@ -51,7 +52,7 @@ module Compony
           @data.destroy!
         end
 
-        on_destroyed do
+        on_destroyed_respond do
           flash.notice = I18n.t('compony.components.destroy.data_was_destroyed', data_label: @data.label)
           redirect_to evaluate_with_backfire(&@on_destroyed_redirect_path_block), status: :see_other # 303: force GET
         end
@@ -62,8 +63,14 @@ module Compony
       end
 
       # DSL method
+      # Sets a block that is evaluated with backfire in the successful case after storing, but before responding.
       def on_destroyed(&block)
         @on_destroyed_block = block
+      end
+
+      # DSL method
+      def on_destroyed_respond(&block)
+        @on_destroyed_respond_block = block
       end
 
       # DSL method
