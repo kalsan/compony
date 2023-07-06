@@ -13,7 +13,7 @@ module Compony
 
       def simpleform_input(form, _component, accept: nil, **input_opts)
         input_opts.merge!(input_html: { accept: }) if accept
-        return form.input(:proof_photo, **input_opts)
+        return form.input(@name, **input_opts)
       end
     end
   end

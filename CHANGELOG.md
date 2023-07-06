@@ -6,6 +6,7 @@
 - Fix `value_for` for boolean fields when they are nil
 - BREAKING: Rename `on_created` to `on_created_respond`, `on_updated` to `on_updated_respond`, and `on_destroyed` to `on_destroyed_respond`
   - New hooks `on_created`, `on_updated`, and `on_destroyed` are called before their `_respond` counterpart
+- Fix a bug in Attachment Field
 
 # 0.0.5
 
