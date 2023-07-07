@@ -7,6 +7,7 @@
 - BREAKING: Rename `on_created` to `on_created_respond`, `on_updated` to `on_updated_respond`, and `on_destroyed` to `on_destroyed_respond`
   - New hooks `on_created`, `on_updated`, and `on_destroyed` are called before their `_respond` counterpart
 - Fix a bug in Attachment Field
+- Support overriding simpleform name by providing `name:` as an argument to field.simpleform_input
 
 # 0.0.5
 

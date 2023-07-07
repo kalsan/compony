@@ -42,14 +42,14 @@ module Compony
 
       # Used in form helper.
       # Given a simpleform instance, returns the corresponding input to be supplied to the view.
-      def simpleform_input(form, _component, **input_opts)
-        return form.input @name, **input_opts
+      def simpleform_input(form, _component, name: nil, **input_opts)
+        return form.input name || @name, **input_opts
       end
 
       # Used in form helper
       # Given a simpleform instance, returns a suitable hidden input for thetype
-      def simpleform_input_hidden(form, _component, **input_opts)
-        return form.input @name, as: :hidden, **input_opts
+      def simpleform_input_hidden(form, _component, name: nil, **input_opts)
+        return form.input name || @name, as: :hidden, **input_opts
       end
 
       protected
