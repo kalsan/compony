@@ -32,12 +32,12 @@ module Compony
         end
       end
 
-      def simpleform_input(form, _component, **input_opts)
-        return form.association @name, **input_opts
+      def simpleform_input(form, _component, name: nil, **input_opts)
+        return form.association name || @name, **input_opts
       end
 
-      def simpleform_input_hidden(form, _component, **input_opts)
-        return form.input @schema_key, as: :hidden, **input_opts
+      def simpleform_input_hidden(form, _component, name: nil, **input_opts)
+        return form.input name || @schema_key, as: :hidden, **input_opts
       end
 
       protected

@@ -10,7 +10,7 @@ module Compony
         return transform_and_join(data.send(@name), controller:) { |el| el&.label }
       end
 
-      def simpleform_input(form, _component, **input_opts)
+      def simpleform_input(form, _component, name: nil, **input_opts)
         selected_cst = form.object.send(@name)
         anchormodel_attribute = @model_class.anchormodel_attributes[@name]
         anchormodel_class = anchormodel_attribute.anchormodel_class
@@ -21,14 +21,14 @@ module Compony
           selected:      selected_cst&.key || anchormodel_class.all.first,
           include_blank: anchormodel_attribute.optional
         }.merge(input_opts)
-        return form.input @name, **opts
+        return form.input name || @name, **opts
       end
 
-      def simpleform_input_hidden(form, _component, **input_opts)
+      def simpleform_input_hidden(form, _component, name: nil, **input_opts)
         selected_cst = form.object.send(@name)
         input_opts[:input_html] ||= {}
         input_opts[:input_html][:value] = selected_cst.is_a?(::Anchormodel) ? selected_cst.key : selected_cst
-        return form.input @name, as: :hidden, **input_opts
+        return form.input name || @name, as: :hidden, **input_opts
       end
     end
   end
