@@ -8,6 +8,7 @@
   - New hooks `on_created`, `on_updated`, and `on_destroyed` are called before their `_respond` counterpart
 - Fix a bug in Attachment Field
 - Support overriding simpleform name by providing `name:` as an argument to field.simpleform_input
+- In ModelField Anchormodel, tolerate "value" as input_html key and infer correct constant, allow form.object to be missing
 
 # 0.0.5
 
