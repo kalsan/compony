@@ -17,7 +17,7 @@ module Compony
       def initialize(name, model_class, **extra_attrs)
         @name = name.to_sym
         @model_class = model_class
-        @schema_key = name
+        @schema_key = name.to_sym
         @extra_attrs = extra_attrs
       end
 
