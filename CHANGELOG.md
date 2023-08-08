@@ -1,4 +1,4 @@
-# unreleased
+# 0.0.6
 
 - Fix a bug that breaks hidden fields of type reference
 - Add dynamic method "field" to model mixin
