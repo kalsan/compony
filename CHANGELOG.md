@@ -1,3 +1,7 @@
+# unreleased
+
+- Fix `standalone_access_permitted_for?` check for buttons pointing to non-get verbs
+
 # 0.0.6
 
 - Fix a bug that breaks hidden fields of type reference

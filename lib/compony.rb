@@ -145,6 +145,7 @@ module Compony
                   params: nil,
                   feasibility_action: nil,
                   feasibility_target: nil,
+                  method: nil,
                   **override_kwargs)
     label_opts ||= button_defaults[:label_opts] || {}
     params ||= button_defaults[:params] || {}
@@ -157,7 +158,8 @@ module Compony
       icon:    target_comp_instance.icon,
       color:   target_comp_instance.color,
       path:    Compony.path(target_comp_instance.comp_name, target_comp_instance.family_name, model, **params),
-      visible: ->(controller) { target_comp_instance.standalone_access_permitted_for?(controller) }
+      method:,
+      visible: ->(controller) { target_comp_instance.standalone_access_permitted_for?(controller, verb: method) }
     }
     if feasibility_target
       options.merge!({

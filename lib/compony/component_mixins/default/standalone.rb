@@ -75,7 +75,8 @@ module Compony
         # - when called standalone (via request to the component), the load data step must be completed
         # - when called to check for permission only, e.g. to display a button to it, initialize the component by passing the :data keyword to `new`
         # By default, this checks the authorization to access the main standalone entrypoint (with name `nil`) and HTTP verb GET.
-        def standalone_access_permitted_for?(controller, standalone_name: nil, verb: :get)
+        def standalone_access_permitted_for?(controller, standalone_name: nil, verb: nil)
+          verb ||= :get
           standalone_name = standalone_name&.to_sym
           verb = verb.to_sym
           standalone_config = standalone_configs[standalone_name] || fail("#{inspect} does not provide the standalone config #{standalone_config.inspect}.")
