@@ -10,7 +10,12 @@ module Compony
         if link_to_component
           fail('Must pass controller if link_to_component is given.') unless controller
           return transform_and_join(data.send(@name), controller:) do |el|
-            el.nil? ? nil : controller.helpers.compony_link(link_to_component, el, **link_opts)
+            next nil if el.nil?
+            if Compony.comp_class_for(link_to_component, el)
+              next controller.helpers.compony_link(link_to_component, el, **link_opts)
+            else
+              next el.label
+            end
           end
         else
           return transform_and_join(data.send(@name), controller:) { |el| el&.label }
