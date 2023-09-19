@@ -1,3 +1,7 @@
+# unreleased
+
+- Support selecting anchormodel inputs via radio buttons
+
 # 0.0.7
 
 - Fix `standalone_access_permitted_for?` check for buttons pointing to non-get verbs
