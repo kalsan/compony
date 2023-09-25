@@ -6,7 +6,7 @@ module Compony
         resolve_association!
       end
 
-      def value_for(data, link_to_component: nil, link_opts: {}, controller: nil)
+      def value_for(data, link_to_component: nil, link_opts: {}, controller: nil, **_)
         if link_to_component
           fail('Must pass controller if link_to_component is given.') unless controller
           return transform_and_join(data.send(@name), controller:) do |el|

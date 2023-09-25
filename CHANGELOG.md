@@ -4,6 +4,7 @@
 - Fix `value_for` for associations to elements that have no show component
 - Fix spacing problem with invisible action buttons
 - Pass the controller as argument to action buttons
+- Support option `:label` in `value_for` of date and datetime, support superfluous options in association
 
 # 0.0.7
 
