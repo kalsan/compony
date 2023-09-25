@@ -26,7 +26,7 @@ module Compony
           label_method:  :first,
           value_method:  :second,
           selected:      selected_key, # if used in select
-          checked:      selected_key, # if used in radio buttons
+          checked:       selected_key, # if used in radio buttons
           include_blank: anchormodel_attribute.optional
         }.merge(input_opts)
         return form.input name || @name, **opts
