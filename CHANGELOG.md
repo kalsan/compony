@@ -2,6 +2,7 @@
 
 - Support selecting anchormodel inputs via radio buttons
 - Fix `value_for` for associations to elements that have no show component
+- Fix spacing problem with invisible action buttons
 
 # 0.0.7
 

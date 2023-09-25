@@ -208,7 +208,9 @@ module Compony
           Compony.with_button_defaults(feasibility_action: action.name.to_sym) do
             action_button = action.block.call
             next unless action_button
-            h.content_tag(:div, action_button.render(controller), class: action_class)
+            button_html = action_button.render(controller)
+            next if button_html.blank?
+            h.content_tag(:div, button_html, class: action_class)
           end
         end
         next h.safe_join button_htmls
