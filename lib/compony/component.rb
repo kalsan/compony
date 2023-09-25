@@ -206,7 +206,7 @@ module Compony
         button_htmls = @actions.map do |action|
           next if @skipped_actions.include?(action.name)
           Compony.with_button_defaults(feasibility_action: action.name.to_sym) do
-            action_button = action.block.call
+            action_button = action.block.call(controller)
             next unless action_button
             button_html = action_button.render(controller)
             next if button_html.blank?
