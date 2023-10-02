@@ -8,6 +8,7 @@ class ComponentGenerator < Rails::Generators::NamedBase
     @family = @family.pluralize # Force plural
     @family_cst = @family.camelize.pluralize # Force plural
     @comp_cst = @comp.camelize # Tolerate singular and plural
+    @args = args
 
     case @comp_cst
     when 'Destroy'

@@ -6,3 +6,5 @@ Example:
 
     This will create:
         app/components/users/new.rb
+
+    For Foo::Form, arguments will produce form fields.

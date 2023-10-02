@@ -1,8 +1,10 @@
 class Components::<%= @family_cst %>::<%= @comp_cst %> < Compony::Components::Form
   setup do
-    form_fields do
+    form_fields do<% @args.each do |arg| %>
+      concat field :<%= arg.strip %><% end %>
     end
-
-    schema_fields
+    <% if @args.any? %><% @args.each do |arg| %>
+    schema_field :<%= arg.strip %><% end %><% else %>
+    schema_fields<% end %>
   end
 end
