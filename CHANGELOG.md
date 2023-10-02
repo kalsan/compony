@@ -6,6 +6,7 @@
 - Pass the controller as argument to action buttons
 - Support option `:label` in `value_for` of date and datetime, support superfluous options in association
 - Support argument list in form generator
+- Create new model field type :color
 
 # 0.0.7
 
