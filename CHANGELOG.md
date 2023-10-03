@@ -1,4 +1,4 @@
-# unreleased
+# 0.0.8
 
 - Support selecting anchormodel inputs via radio buttons
 - Fix `value_for` for associations to elements that have no show component
