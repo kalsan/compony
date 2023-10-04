@@ -1,3 +1,7 @@
+# unreleased
+
+- Support forms with references to tables with uuid type primary key
+
 # 0.0.8
 
 - Support selecting anchormodel inputs via radio buttons

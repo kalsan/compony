@@ -24,15 +24,28 @@ module Compony
 
       def schema_line
         local_schema_key = @schema_key # Capture schema_key as it will not be available within the lambda
+        target_primary_key_type = @target_class.primary_key_type_key
         if multi?
           return proc do
             ary? local_schema_key do
-              list :integer, cast_str: true
+              if target_primary_key_type == :integer
+                list :integer, cast_str: true
+              elsif target_primary_key_type == :string
+                list :string
+              else
+                fail("Unsupported target primary_key_type_key #{target_primary_key_type}")
+              end
             end
           end
         else
           return proc do
-            int? local_schema_key, cast_str: true
+            if target_primary_key_type == :integer
+              int? local_schema_key, cast_str: true
+            elsif target_primary_key_type == :string
+              str? local_schema_key
+            else
+              fail("Unsupported target primary_key_type_key #{target_primary_key_type}")
+            end
           end
         end
       end
@@ -53,6 +66,7 @@ module Compony
         @association = true
         association_info = @model_class.reflect_on_association(@name) || fail("Association #{@name.inspect} does not exist for #{@model_class.inspect}.")
         @multi = association_info.macro == :has_many
+        @target_class = association_info.klass
         id_name = "#{@name.to_s.singularize}_id"
         @schema_key = @multi ? id_name.pluralize.to_sym : id_name.to_sym
       rescue ActiveRecord::NoDatabaseError
