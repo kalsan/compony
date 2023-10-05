@@ -3,6 +3,7 @@
 - Support forms with references to tables with uuid type primary key
 - Support for `owned_by` in model:
   - Smart redirect
+  - Auto-generate a back / cancel button
 
 # 0.0.8
 

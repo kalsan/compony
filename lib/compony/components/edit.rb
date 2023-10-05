@@ -30,6 +30,11 @@ module Compony
         label(:short) { |_| I18n.t('compony.components.edit.label.short') }
         icon { :pencil }
 
+        action :back_to_owner do
+          next if data_class.owner_model_attr.blank?
+          Compony.button(:show, @data.send(@data_class.owner_model_attr), icon: :xmark, color: :secondary, label: I18n.t('compony.cancel'))
+        end
+
         content do
           concat form_comp.render(controller, data: @data)
         end

@@ -36,6 +36,11 @@ module Compony
           end
         end
 
+        action :back_to_owner do
+          next if data_class.owner_model_attr.blank?
+          Compony.button(:show, @data.send(@data_class.owner_model_attr), icon: :xmark, color: :secondary, label: I18n.t('compony.cancel'))
+        end
+
         store_data do
           # Validate params against the form's schema
           local_data = @data # Capture data for usage in the Schemacop call

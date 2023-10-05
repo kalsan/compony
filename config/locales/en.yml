@@ -1,5 +1,6 @@
 en:
   compony:
+    cancel: 'Cancel'
     filtered: '[Filtered]'
     boolean:
       yes: 'Yes'

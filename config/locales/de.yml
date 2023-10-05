@@ -1,5 +1,6 @@
 de:
   compony:
+    cancel: 'Abbrechen'
     filtered: '[Filtered]' # Not translated as this appears in log
     boolean:
       true: 'Ja'
