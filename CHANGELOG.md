@@ -1,7 +1,7 @@
 # unreleased
 
 - Support forms with references to tables with uuid type primary key
-- Support for `contained_by` in model:
+- Support for `owned_by` in model:
   - Smart redirect
 
 # 0.0.8

@@ -58,8 +58,8 @@ module Compony
         end
 
         on_destroyed_redirect_path do
-          if data_class.containing_model_attr.present?
-            Compony.path(:show, @data.send(data_class.containing_model_attr))
+          if data_class.owner_model_attr.present?
+            Compony.path(:show, @data.send(data_class.owner_model_attr))
           else
             Compony.path(:index, family_cst)
           end
