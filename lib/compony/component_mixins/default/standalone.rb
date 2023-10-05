@@ -111,6 +111,11 @@ module Compony
           @standalone_configs[name].deep_merge! StandaloneDsl.new(self, name, *args, **nargs).to_conf(&block)
         end
 
+        # Undoes previous standalone calls
+        def clear_standalone!
+          @standalone_configs = {}
+        end
+
         private
 
         def init_standalone

@@ -4,6 +4,7 @@
 - Support for `owned_by` in model:
   - Smart redirect
   - Auto-generate a back / cancel button
+- Add `clear_standalone!` to components
 
 # 0.0.8
 
