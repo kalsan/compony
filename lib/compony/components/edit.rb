@@ -65,6 +65,8 @@ module Compony
         on_updated_redirect_path do
           if Compony.comp_class_for(:show, @data)
             Compony.path(:show, @data)
+          elsif data_class.containing_model_attr.present?
+            Compony.path(:show, @data.send(data_class.containing_model_attr))
           else
             Compony.path(:index, @data)
           end

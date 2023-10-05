@@ -6,6 +6,7 @@ module Compony
       class_attribute :fields, default: {}
       class_attribute :feasibility_preventions, default: {}
       class_attribute :primary_key_type_key, default: :integer
+      class_attribute :containing_model_attr
 
       class_attribute :autodetect_feasibilities_completed, default: false
     end
@@ -32,6 +33,14 @@ module Compony
           fail("#{self} is declaring primary_key_type as #{new_type.inspect} but only :integer and :string are supported at this time.")
         end
         self.primary_key_type_key = new_type.to_sym
+      end
+
+      # DSL method, sets the containing model.
+      # Use this when a model only makes sense within the context of another model and typically has no own index page.
+      # For instance, a model LineItem that belongs_to :invoice would typically be contained_by :invoice.
+      # Compony will automatically adjust Redirects and top actions.
+      def contained_by(attribute_name)
+        self.containing_model_attr = attribute_name.to_sym
       end
 
       # DSL method, part of the Feasibility feature
