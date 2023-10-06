@@ -32,7 +32,7 @@ module Compony
 
         action :back_to_owner do
           next if data_class.owner_model_attr.blank?
-          Compony.button(:show, @data.send(@data_class.owner_model_attr), icon: :xmark, color: :secondary, label: I18n.t('compony.cancel'))
+          Compony.button(:show, @data.send(data_class.owner_model_attr), icon: :xmark, color: :secondary, label: I18n.t('compony.cancel'))
         end
 
         content do
