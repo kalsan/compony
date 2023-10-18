@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    compony (0.0.1)
+    compony (0.0.9.edge)
       anchormodel (~> 0.1.2)
       cancancan (~> 3.4.0)
       dslblend (>= 0.0.3)
@@ -203,4 +203,4 @@ DEPENDENCIES
   yard (>= 0.9.28)
 
 BUNDLED WITH
-   2.4.13
+   2.4.19
