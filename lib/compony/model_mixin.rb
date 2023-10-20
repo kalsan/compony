@@ -45,10 +45,13 @@ module Compony
 
       # DSL method, part of the Feasibility feature
       # Block must return `false` if the action should be prevented.
-      def prevent(action_name, message, &block)
-        self.feasibility_preventions = feasibility_preventions.dup # Prevent cross-class contamination
-        feasibility_preventions[action_name.to_sym] ||= []
-        feasibility_preventions[action_name.to_sym] << MethodAccessibleHash.new(action_name:, message:, block:)
+      def prevent(action_names, message, &block)
+        action_names = [action_names] unless action_names.is_a? Enumerable
+        action_names.each do |action_name|
+          self.feasibility_preventions = feasibility_preventions.dup # Prevent cross-class contamination
+          feasibility_preventions[action_name.to_sym] ||= []
+          feasibility_preventions[action_name.to_sym] << MethodAccessibleHash.new(action_name:, message:, block:)
+        end
       end
 
       # DSL method, part of the Feasibility feature

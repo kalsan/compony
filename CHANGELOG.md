@@ -5,6 +5,7 @@
   - Smart redirect
   - Auto-generate a back / cancel button
 - Add `clear_standalone!` to components
+- Allow passing an array to `prevent` to prevent multiple actions at once
 
 # 0.0.8
 
