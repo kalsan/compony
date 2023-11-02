@@ -146,8 +146,9 @@ module Compony
     end
 
     # Renders the component using the controller passsed to it and returns it as a string.
+    # @param standalone: pass true iff `render` is called from `render_standalone`
     # Do not overwrite.
-    def render(controller, **locals)
+    def render(controller, standalone: false, **locals)
       # Call before_render hook if any and backfire instance variables back to the component
       RequestContext.new(self, controller, locals:).request_context.evaluate_with_backfire(&@before_render_block) if @before_render_block
       # Render, unless before_render has already issued a body (e.g. through redirecting).
@@ -155,11 +156,17 @@ module Compony
         fail "#{self.class.inspect} must define `content` or set a response body in `before_render`" if @content_blocks.none?
         return controller.render_to_string(
           type:   :dyny,
-          locals: { content_blocks: @content_blocks, component: self, render_locals: locals },
+          locals: { content_blocks: @content_blocks, standalone:, component: self, render_locals: locals },
           inline: <<~RUBY
+            if Compony.content_before_root_comp_block && standalone
+              Compony::RequestContext.new(component, controller, helpers: self, locals: render_locals).evaluate(&Compony.content_before_root_comp_block)
+            end
             content_blocks.each do |block|
               # Instanciate and evaluate a fresh RequestContext in order to use the buffer allocated by the ActionView (needed for `concat` calls)
               Compony::RequestContext.new(component, controller, helpers: self, locals: render_locals).evaluate(&block)
+            end
+            if Compony.content_after_root_comp_block && standalone
+              Compony::RequestContext.new(component, controller, helpers: self, locals: render_locals).evaluate(&Compony.content_after_root_comp_block)
             end
           RUBY
         )

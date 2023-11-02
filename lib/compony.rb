@@ -40,6 +40,20 @@ module Compony
     @authentication_before_action = authentication_before_action.to_sym
   end
 
+  # Setter for a content block that runs before the root component gets rendered (standalone only). Usage is the same as `content`.
+  # The block runs between `before_render` and `render`, i.e. before the first `content` block.
+  def self.content_before_root_comp(&block)
+    fail('`Compony.content_before` requires a block.') unless block_given?
+    @content_before_root_comp_block = block
+  end
+
+  # Setter for a content block that runs after the root component gets rendered (standalone only). Usage is the same as `content`.
+  # The block runs after `render`, i.e. after the last `content` block.
+  def self.content_after_root_comp(&block)
+    fail('`Compony.content_after` requires a block.') unless block_given?
+    @content_after_root_comp_block = block
+  end
+
   ##########=====-------
   # Configuration readers
   ##########=====-------
@@ -62,6 +76,18 @@ module Compony
   # @see Compony#authentication_before_action= Explanation of authentication_before_action (documented in the corresponding setter)
   def self.authentication_before_action
     @authentication_before_action
+  end
+
+  # Getter for content_before_root_comp_block
+  # @see Compony#content_before_root_comp
+  def self.content_before_root_comp_block
+    @content_before_root_comp_block
+  end
+
+  # Getter for content_after_root_comp_block
+  # @see Compony#content_after_root_comp
+  def self.content_after_root_comp_block
+    @content_after_root_comp_block
   end
 
   ##########=====-------

@@ -6,6 +6,7 @@
   - Auto-generate a back / cancel button
 - Add `clear_standalone!` to components
 - Allow passing an array to `prevent` to prevent multiple actions at once
+- Add features `Compony.content_before_root_comp` and `Compony.content_after_root_comp`
 
 # 0.0.8
 
