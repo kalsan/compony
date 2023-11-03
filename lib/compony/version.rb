@@ -4,7 +4,7 @@ module Compony
     MINOR = 0
     PATCH = 9
 
-    EDGE = true
+    EDGE = false
 
     LABEL = [MAJOR, MINOR, PATCH, EDGE ? 'edge' : nil].compact.join('.')
   end

@@ -1,4 +1,4 @@
-# unreleased
+# 0.0.9
 
 - Support forms with references to tables with uuid type primary key
 - Support for `owned_by` in model:
