@@ -44,10 +44,9 @@ module Compony
           local_form_comp = form_comp # Capture form_comp for usage in the Schemacop call
           local_data = @data # Capture data for usage in the Schemacop call
           schema = Schemacop::Schema3.new :hash, additional_properties: true do
-            if local_data.class.primary_key_type_key == :string
-              str! :id
-            else
-              int! :id, cast_str: true
+            any_of! :id do
+              str
+              int cast_str: true
             end
             hsh? local_form_comp.schema_wrapper_key_for(local_data), &local_form_comp.schema_block_for(local_data)
           end

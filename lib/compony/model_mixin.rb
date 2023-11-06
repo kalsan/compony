@@ -5,7 +5,6 @@ module Compony
     included do
       class_attribute :fields, default: {}
       class_attribute :feasibility_preventions, default: {}
-      class_attribute :primary_key_type_key, default: :integer
       class_attribute :owner_model_attr
 
       class_attribute :autodetect_feasibilities_completed, default: false
@@ -25,14 +24,6 @@ module Compony
         name = name.to_sym
         self.fields = fields.dup
         fields[name] = Compony.model_field_class_for(type.to_s.camelize).new(name, self, **extra_attrs)
-      end
-
-      # DSL method, sets the primary key type
-      def primary_key_type(new_type)
-        unless %i[integer string].include?(new_type.to_sym)
-          fail("#{self} is declaring primary_key_type as #{new_type.inspect} but only :integer and :string are supported at this time.")
-        end
-        self.primary_key_type_key = new_type.to_sym
       end
 
       # DSL method, sets the containing model.

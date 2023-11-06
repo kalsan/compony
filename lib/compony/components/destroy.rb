@@ -43,12 +43,10 @@ module Compony
 
         store_data do
           # Validate params against the form's schema
-          local_data = @data # Capture data for usage in the Schemacop call
           schema = Schemacop::Schema3.new :hash, additional_properties: true do
-            if local_data.class.primary_key_type_key == :string
-              str! :id
-            else
-              int! :id, cast_str: true
+            any_of! :id do
+              str
+              int cast_str: true
             end
           end
           schema.validate!(controller.request.params)
