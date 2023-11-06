@@ -9,6 +9,10 @@
 - Add features `Compony.content_before_root_comp` and `Compony.content_after_root_comp`
 - Add new field kind percentage
 
+## KNOWN BUGS
+
+- This version breaks polymorphic relations.
+
 # 0.0.8
 
 - Support selecting anchormodel inputs via radio buttons
