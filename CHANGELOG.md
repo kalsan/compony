@@ -1,4 +1,4 @@
-# unreleased
+# 0.1.0
 
 - Remove (hopefully) obsolete database safeguard in `resolve_association!` as we should no longer be accessing the DB.
 - BREAKING: Remove `primary_key_type` and tolerate int and str as primary and foreign key in all params.
