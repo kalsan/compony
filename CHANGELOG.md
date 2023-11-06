@@ -1,3 +1,7 @@
+# unreleased
+- Support Rails 7.1
+  - No longer rely on `controller.response.body.blank?` but use `controller.response_body.nil?` instead
+
 # 0.0.9
 
 - Support forms with references to tables with uuid type primary key

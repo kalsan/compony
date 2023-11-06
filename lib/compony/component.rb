@@ -152,7 +152,7 @@ module Compony
       # Call before_render hook if any and backfire instance variables back to the component
       RequestContext.new(self, controller, locals:).request_context.evaluate_with_backfire(&@before_render_block) if @before_render_block
       # Render, unless before_render has already issued a body (e.g. through redirecting).
-      if controller.response.body.blank?
+      if controller.response_body.nil?
         fail "#{self.class.inspect} must define `content` or set a response body in `before_render`" if @content_blocks.none?
         return controller.render_to_string(
           type:   :dyny,
