@@ -1,3 +1,17 @@
+# unreleased
+
+- Support and force Rails 7.1.2
+
+## Steps to perform
+
+- in `config/application.rb`, replace `config.load_defaults 7.0` by `config.load_defaults 7.1` and add:
+  ```ruby
+    # Please, add to the `ignore` list any other `lib` subdirectories that do
+    # not contain `.rb` files, or that should not be reloaded or eager loaded.
+    # Common ones are `templates`, `generators`, or `middleware`, for example.
+    config.autoload_lib(ignore: %w(assets tasks))
+  ```
+
 # 0.1.0
 
 - Remove (hopefully) obsolete database safeguard in `resolve_association!` as we should no longer be accessing the DB.
@@ -11,6 +25,8 @@
 - Remove any calls to `primary_key_type`
 
 # 0.0.9
+
+Do not use.
 
 - Support forms with references to tables with uuid type primary key
 - Support for `owned_by` in model:
