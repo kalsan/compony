@@ -8,13 +8,11 @@ module Compony
         super
       end
 
-      def check_config!
-        super
-        fail "#{inspect} requires config.form_fields do ..." if @form_fields.blank?
-      end
-
       setup do
         before_render do
+          # Make sure the error message is going to be nice if form_fields were not implemented
+          fail "#{component.inspect} requires config.form_fields do ..." if @form_fields.nil?
+
           # Must render the buttons now as the rendering within simple form breaks the form
           @submit_button = Compony.button_component_class.new(
             label: @submit_label || I18n.t('compony.components.form.submit'), icon: 'arrow-right', type: :submit

@@ -37,7 +37,6 @@ module Compony
       setup_blocks.each do |setup_block|
         instance_exec(&setup_block)
       end
-      check_config!
     end
 
     def inspect
@@ -228,9 +227,5 @@ module Compony
     def resourceful?
       return false
     end
-
-    protected
-
-    def check_config!; end
   end
 end

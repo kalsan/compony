@@ -1,3 +1,8 @@
+# unreleased
+
+- Cleanup old code
+  - Remove `check_config!` that was barely used
+
 # 0.1.1
 
 - Support and force Rails 7.1.2
