@@ -4,6 +4,11 @@ module Compony
     # This component is destined to take a sub-component that is a form component.
     # It can be called via :get or via `submit_verb` depending on whether its form should be shown or submitted.
     class WithForm < Component
+      def initialize(...)
+        @form_cancancan_action = :missing
+        super
+      end
+
       # Returns an instance of the form component responsible for rendering the form.
       # Feel free to override this in subclasses.
       def form_comp
@@ -11,7 +16,8 @@ module Compony
           self,
           submit_verb:,
           # If applicable, Rails adds the route keys automatically, thus, e.g. :id does not need to be passed here, as it comes from the request.
-          submit_path: ->(controller) { controller.helpers.send("#{Compony.path_helper_name(comp_name, family_name)}_path") }
+          submit_path:      ->(controller) { controller.helpers.send("#{Compony.path_helper_name(comp_name, family_name)}_path") },
+          cancancan_action: form_cancancan_action
         )
       end
 
@@ -31,6 +37,15 @@ module Compony
       # Overrides the form comp class that is instanciated to render the form
       def form_comp_class(new_form_comp_class = nil)
         @form_comp_class ||= new_form_comp_class
+      end
+
+      # DSL method
+      # Sets and gets the form's cancancan action (for cancancan's accessible_attributes)
+      def form_cancancan_action(new_form_cancancan_action = :missing)
+        if new_form_cancancan_action != :missing
+          @form_cancancan_action = new_form_cancancan_action
+        end
+        return @form_cancancan_action
       end
     end
   end

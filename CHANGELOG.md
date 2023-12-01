@@ -2,6 +2,18 @@
 
 - Cleanup old code
   - Remove `check_config!` that was barely used
+- Support Cancancan's `accessible_attributes`
+  - Require `cancancan_action` for every Form, respectively `form_cancancan_action` for every WithForm
+  - Filter form fields by Cancancan action, effectively providing per-field authorization
+  - Attention, this feature is only used when using `field` and `schema_field`, it will not affect custom inputs or schema lines.
+  - At this time, Cancancan does not support non-db-backed attributes, therefore you must add to Ability something like:
+    - `can :manage, User, [:password, :password_confirmation]`
+    - See also https://github.com/CanCanCommunity/cancancan/issues/838
+
+## Steps to perform
+
+- Make sure your forms work as expected, as cancancan action is now required (see above).
+  - Either supply the appropriate action (e.g. `:edit` or `:new`), or pass `nil` to disable per-field authorization for a form.
 
 # 0.1.1
 
@@ -21,7 +33,7 @@
 
 - Remove (hopefully) obsolete database safeguard in `resolve_association!` as we should no longer be accessing the DB.
 - BREAKING: Remove `primary_key_type` and tolerate int and str as primary and foreign key in all params.
-  - This fixes a bug introduced in 0.0.10 breaking polymorphic relations.
+  - This fixes a bug introduced in 0.0.9 breaking polymorphic relations.
 - Support Rails 7.1
   - No longer rely on `controller.response.body.blank?` but use `controller.response_body.nil?` instead
 

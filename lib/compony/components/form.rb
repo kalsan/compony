@@ -3,8 +3,9 @@ module Compony
     # @api description
     # This component is used for the _form partial in the Rails paradigm.
     class Form < Component
-      def initialize(...)
+      def initialize(*args, cancancan_action: :missing, **kwargs)
         @schema_lines_for_data = [] # Array of procs taking data returning a Schemacop proc
+        @cancancan_action = cancancan_action
         super
       end
 
@@ -12,6 +13,9 @@ module Compony
         before_render do
           # Make sure the error message is going to be nice if form_fields were not implemented
           fail "#{component.inspect} requires config.form_fields do ..." if @form_fields.nil?
+          if @cancancan_action == :missing
+            fail("Missing cancancan_action for #{component.inspect}, you must provide one (e.g. :edit) or pass nil explicitely.")
+          end
 
           # Must render the buttons now as the rendering within simple form breaks the form
           @submit_button = Compony.button_component_class.new(
@@ -23,7 +27,7 @@ module Compony
 
         content do
           form_html = simple_form_for(data, method: @comp_opts[:submit_verb], url: @submit_path) do |f|
-            component.with_simpleform(f) do
+            component.with_simpleform(f, controller) do
               instance_exec(&form_fields)
               div @submit_button, class: 'compony-form-buttons'
             end
@@ -49,7 +53,7 @@ module Compony
       end
 
       # Attr reader for @schema_block with auto-calculated default
-      def schema_block_for(data)
+      def schema_block_for(data, controller)
         if @schema_block
           return @schema_block
         else
@@ -57,7 +61,8 @@ module Compony
           local_schema_lines_for_data = @schema_lines_for_data
           return proc do
             local_schema_lines_for_data.each do |schema_line|
-              instance_exec(&schema_line.call(data))
+              schema_line_proc = schema_line.call(data, controller) # This may return nil, e.g. is the user is not authorized to set a field
+              instance_exec(&schema_line_proc) unless schema_line_proc.nil?
             end
           end
         end
@@ -67,17 +72,24 @@ module Compony
       # methods from inside `form_fields`. This is a workaround required because the form does not exist when the
       # RequestContext is being built, and we want the method `field` to be available inside the `form_fields` block.
       # @todo Refactor? Could this be greatly simplified by having `form_field to |f|` ?
-      def with_simpleform(simpleform)
+      def with_simpleform(simpleform, controller)
         @simpleform = simpleform
+        @controller = controller
         @focus_given = false
         yield
         @simpleform = nil
+        @controller = nil
       end
 
       # Called inside the form_fields block. This makes the method `field` available in the block.
       # See also notes for `with_simpleform`.
       def field(name, **input_opts)
         fail("The `field` method may only be called inside `form_fields` for #{inspect}.") unless @simpleform
+
+        # Check per-field authorization
+        if @cancancan_action.present? && @controller.current_ability.permitted_attributes(@cancancan_action, @simpleform.object).exclude?(name.to_sym)
+          return
+        end
 
         hidden = input_opts.delete(:hidden)
         model_field = @simpleform.object.fields[name.to_sym]
@@ -109,15 +121,20 @@ module Compony
       protected
 
       # DSL method, adds a new line to the schema whitelisting a single param inside the schema's wrapper
+      # The block should be something like `str? :foo` and will run in a Schemacop3 context.
       def schema_line(&block)
-        @schema_lines_for_data << proc { block }
+        @schema_lines_for_data << proc { |_data, _controller| block }
       end
 
       # DSL method, adds a new field to the schema whitelisting a single field of data_class
       # This auto-generates the correct schema line for the field.
       def schema_field(field_name)
-        @schema_lines_for_data << proc do |data|
+        # This runs upon component setup.
+        @schema_lines_for_data << proc do |data, controller|
+          # This runs within a request context.
           field = data.class.fields[field_name.to_sym] || fail("No field #{field_name.to_sym.inspect} found for #{data.inspect} in #{inspect}.")
+          # Check per-field authorization
+          next nil if controller.current_ability.permitted_attributes(@cancancan_action.to_sym, data).exclude?(field_name.to_sym)
           next field.schema_line
         end
       end
