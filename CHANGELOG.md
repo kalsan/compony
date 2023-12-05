@@ -1,4 +1,4 @@
-# unreleased
+# 0.2.0
 
 - Cleanup old code
   - Remove `check_config!` that was barely used
