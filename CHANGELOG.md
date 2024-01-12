@@ -1,5 +1,6 @@
 # unreleased
 
+- Implement `skip_autofocus` in Form
 - Allow partial override of standalone verb configs. Example:
   ```ruby
     verb :get do

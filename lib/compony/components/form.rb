@@ -86,7 +86,7 @@ module Compony
         if hidden
           return model_field.simpleform_input_hidden(@simpleform, self, **input_opts)
         else
-          unless @focus_given
+          unless @focus_given || @skip_autofocus
             input_opts[:autofocus] = true unless input_opts.key? :autofocus
             @focus_given = true
           end
@@ -135,6 +135,11 @@ module Compony
         else
           fail 'schema requires a block to be given'
         end
+      end
+
+      # DSL method, skips adding autofocus to the first field
+      def skip_autofocus
+        @skip_autofocus = true
       end
     end
   end
