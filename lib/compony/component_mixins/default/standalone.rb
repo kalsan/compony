@@ -107,8 +107,11 @@ module Compony
         def standalone(name = nil, *args, **nargs, &block)
           block = proc {} unless block_given? # If called without a block, must default to an empty block to provide a binding to the DSL.
           name = name&.to_sym # nil name is the most common case
-          @standalone_configs[name] ||= Compony::MethodAccessibleHash.new
-          @standalone_configs[name].deep_merge! StandaloneDsl.new(self, name, *args, **nargs).to_conf(&block)
+          if @standalone_configs[name]
+            @standalone_configs[name].deep_merge! StandaloneDsl.new(self, name, *args, provide_defaults: false, **nargs).to_conf(&block)
+          else
+            @standalone_configs[name] = Compony::MethodAccessibleHash.new(StandaloneDsl.new(self, name, *args, provide_defaults: true, **nargs).to_conf(&block))
+          end
         end
 
         # Undoes previous standalone calls

@@ -14,7 +14,7 @@ module Compony
           end
 
           # For internal usage only, processes the block and returns a config hash.
-          def to_conf(&)
+          def to_conf(provide_defaults:, &)
             return super.deep_merge({
                                       load_data_block:         @load_data_block,
                                       assign_attributes_block: @assign_attributes_block,

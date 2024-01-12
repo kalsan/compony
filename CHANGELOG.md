@@ -1,3 +1,16 @@
+# unreleased
+
+- Allow partial override of standalone verb configs. Example:
+  ```ruby
+    verb :get do
+      authorize { true }
+    end
+    verb :post do
+      authorize { true }
+      # Parent class implements more logic here, which will no longer be overwritten by calling `verb :post`.
+    end
+  ```
+
 # 0.2.0
 
 - Cleanup old code
