@@ -1,5 +1,6 @@
 # unreleased
 
+- Add French translation
 - Implement `skip_autofocus` in Form
 - Allow partial override of standalone verb configs. Example:
   ```ruby
