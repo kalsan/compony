@@ -1,5 +1,6 @@
 # unreleased
 
+- Show more details about failing authorization block
 - Implement `submit_path` DSL call for WithForm
 - Add French translation
 - Implement `skip_autofocus` in Form

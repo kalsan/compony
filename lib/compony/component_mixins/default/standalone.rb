@@ -57,7 +57,7 @@ module Compony
           end
 
           # TODO: Make much prettier, providing message, action, subject and conditions
-          fail CanCan::AccessDenied, inspect unless request_context.evaluate(&verb_config.authorize_block)
+          fail CanCan::AccessDenied, [inspect, verb_config.authorize_block.inspect].join(', ') unless request_context.evaluate(&verb_config.authorize_block)
 
           if verb_config.store_data_block
             request_context.evaluate_with_backfire(&verb_config.store_data_block)
