@@ -2,9 +2,9 @@ module Compony
   module Version
     MAJOR = 0
     MINOR = 2
-    PATCH = 1
+    PATCH = 2
 
-    EDGE = false
+    EDGE = true
 
     LABEL = [MAJOR, MINOR, PATCH, EDGE ? 'edge' : nil].compact.join('.')
   end
