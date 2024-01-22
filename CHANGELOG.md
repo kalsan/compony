@@ -1,4 +1,4 @@
-# unreleased
+# 0.2.1
 
 - Fix a bug where the app crashed on HEAD verb
 - Show more details about failing authorization block
