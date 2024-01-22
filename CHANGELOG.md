@@ -1,5 +1,6 @@
 # unreleased
 
+- Fix a bug where the app crashed on HEAD verb
 - Show more details about failing authorization block
 - Implement `submit_path` DSL call for WithForm
 - Add French translation
