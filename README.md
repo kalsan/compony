@@ -275,6 +275,8 @@ The result looks like this:
 
 ![Index component](doc/imgs/intro-example-index.png)
 
+Note how the admin's delete button is disabled due to the feasibility framework. Pointing the mouse at it causes a tooltip saying: "Cannot destroy admins.", as specified in the model's prevention.
+
 # TODO
 
 # Caveats
