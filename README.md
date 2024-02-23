@@ -41,10 +41,10 @@ Compony's key aspects:
 - A Compony component is a single class that exports route(s), controller action(s) and a view to Rails.
   - Refactor common logic into your own components and inherit from them to DRY up your code.
 - Compony's powerful model mixin allows you to define metadata in your models and react to them. Examples:
-  - Compony fields capture attributes that should be made visible in your UI. They allow you to implement formatting behavior for various types, e.g. URLs, phone numbers, colors etc.
+  - Compony fields capture attributes that should be made visible in your UI. They allow you to implement formatting behavior and parameter sanitization for various types, e.g. URLs, phone numbers, colors etc. ready to be used in your lists, detail panels, or forms.
   - Compony's feasibility framework allows you to prohibit actions based on conditions, along with an error message. This causes all buttons pointing to that action to be disabled with a meaningful error message.
 - Compony only structures your code, but provides no style whatsoever. It is like a bookshelf rather than a reader's library. You still implement your own layouts, CSS and Javascript to define the behavior of your front-end.
-- Using Compony, you **can** write your application as components, but it is still possible to have regular routes, controllers and views in parallel to it. This way, you can migrate your applications to Compony little by little. It is also possible to render Compony components from regular views and vice versa.
+- Using Compony, you **can** write your application as components, but it is still possible to have regular routes, controllers and views side-to-side to it. This way, you can migrate your applications to Compony little by little and enter and leave the Compony world as you please. It is also possible to render Compony components from regular views and vice versa.
 - Compony is built for Rails 7 and fully supports Stimulus and Turbo Drive. Turbo Frames and Streams are not yet targetted, so Compony is currently meant for websites where every click triggers a "full page load" (in quotes because they are not actually full page loads due to Turbo Drive).
 - Compony uses CanCanCan (https://github.com/CanCanCommunity/cancancan) for authorization but does not provide an authentication mechanism. You can easily build your own by creating login/logout components that manage cookies, and configure Compony to enforce authentication using the `Compony.authentication_before_action` setter.
 
