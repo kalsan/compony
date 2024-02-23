@@ -277,7 +277,63 @@ The result looks like this:
 
 Note how the admin's delete button is disabled due to the feasibility framework. Pointing the mouse at it causes a tooltip saying: "Cannot destroy admins.", as specified in the model's prevention.
 
-# TODO
+# Installation
+
+TODO
+
+# Usage
+
+## A basic (bare) component
+
+TODO
+
+### Nesting
+
+TODO
+
+### Standalone
+
+TODO
+
+## Resourceful components
+
+TODO
+
+## Inheritance
+
+TODO
+
+## Pre-build components shipped with Compony
+
+TODO
+
+## Fields
+
+TODO
+
+## The feasibility framework
+
+TODO
+
+## Internal datastructures
+
+TODO
+
+### MethodAccessibleHash
+
+TODO
+
+### RequestContext
+
+TODO
+
+## Generators
+
+TODO
+
+# Contributing
+
+TODO
 
 # Caveats
 
