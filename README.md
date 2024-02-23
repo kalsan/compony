@@ -124,6 +124,7 @@ class Components::Users::Show < Compony::Component
 
     # Actions point to other components. They have a name that is used to identify them (e.g. in the `prevent` call above) and a block returning a button.
     # Compony buttons take the name to an action and either a family name or instance, e.g. a Rails model instance.
+    # Whether or not an instance must be passed is defined by the component the button is pointing to (see the comment for `label` earlier in the example).
     action(:index) { Compony.button(:index, :users) } # This points to `Components::Users::Index` without passing a model (because it's an index).
     action(:edit) { Compony.button(:edit, @data) } # This points to `Components::Users::Edit` for the currently loaded model. This also checks feasibility.
 
@@ -156,6 +157,8 @@ end
 Here is what our Show component looks like when we a layout with the bare minimum and no styling at all:
 
 ![Screenshot of our component with an absolutely minimal layout](doc/imgs/intro-example-show.png)
+
+It is important to note that actions, buttons, navigation, notifications etc. are handled by the application layout. In this and the subsequent screenshots, we explicitely use minimalism, as it makes the generated HTML clearer.
 
 ### The Destroy component
 
@@ -221,7 +224,56 @@ It then looks like this:
 
 ### The Index component
 
-TODO
+This component should list all users and provide buttons to manage them. We'll build it from scratch and make it resourceful, where `@data` holds the ActiveRecord relation.
+
+```ruby
+class Components::Users::Index < Compony::Component
+  # Making the component resourceful enables a few features for dealing with @data.
+  include Compony::ComponentMixins::Resourceful
+
+  setup do
+    label(:all) { 'Users' } # This sets all labels (long and short) to 'Users'. When pointing to this component using buttons, we will not provide a model.
+    standalone path: 'users' do # The path is simply /users, without a param. This conflicts with `Resourceful`, which we will fix in `load_data`.
+      verb :get do
+        authorize { true }
+      end
+    end
+
+    # This DSL call is specific to resourceful components and overrides how a model is loaded.
+    # The block is called before authorization and must assign a model or collection to `@data`.
+    load_data { @data = User.all }
+
+    content do
+      h4 'Users:' # Provide a title
+      # Provide a button that creates a new user. Note that we must write `:users` (plural) because the component's family is `Users`.
+      concat compony_button(:new, :users) # The `Users::New` component does not take a model, thus we just pass the symbol `:users`, not a model.
+
+      div class: 'users' do # Opening tag <div class="users">
+        @data.each do |user| # Iterate the collection
+          div class: 'user' do # For each element, open another div
+            User.fields.values.each do |field| # For each user, iterate all fields
+              span do # Open a <span> tag
+                concat "#{field.label}: #{field.value_for(user)} " # Display the field's label and apply it to value, as we did in the Show component.
+              end
+            end
+            # For each user, add three buttons show, edit, destroy. The method `with_button_defaults` applies its arguments to every `compony_button` call.
+            # The option `format: :short` causes the button to call the target component's `label(:short) {...}` label function.
+            Compony.with_button_defaults(label_opts: { format: :short }) do
+              concat compony_button(:show, user) # Now equivalent to: `compony_button(:show, user, label_opts: { format: :short })`
+              concat compony_button(:edit, user)
+              concat compony_button(:destroy, user)
+            end
+          end
+        end
+      end
+    end
+  end
+end
+```
+
+The result looks like this:
+
+![Index component](doc/imgs/intro-example-index.png)
 
 # TODO
 
