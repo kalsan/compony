@@ -568,6 +568,13 @@ end
 
 Please note that the idea here is to package things that belong together, not to provide different kinds of content in a single component. For displaying different pages, use multiple components and have eatch expose a single route.
 
+#### Naming of exposed routes
+
+The routes to standalone components are named and you can point to them using Rails' `..._path` and `..._url` helpers. The naming scheme is: `[standalone]_[component]_[family]_comp`. Examples:
+
+- Default standalone: `Components::Users::Index` exports `index_users_comp` and thus `index_users_comp_path` can be used.
+- Named standalone: If `standalone :foo, path: ...` is used, the exported name is `foo_index_users_comp`.
+
 #### Handling formats
 
 Compony is capable of responding to formats like Rails does. This is useful to deliver PDFs, CSV files etc. to a user from within Compony. This can be achieved by specifying the `respond` block:
@@ -597,7 +604,7 @@ Rails controller redirects can be issued both in a verb DSL's `respond` block an
 - If you want to redirect depending on the HTTP verb, use `respond`.
 - If you want to redirect depending on params, state, time etc.  **independently of the HTTP verb**, use `before_render`, as this is more convenient than writing a standalone -> verb -> respond tree.
 
-### Compony buttons and links
+### Compony helpers, buttons and links
 
 TODO
 
