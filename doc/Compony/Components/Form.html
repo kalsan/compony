@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Compony::Components::Form
+  
+    &mdash; Documentation by YARD 0.9.34
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Compony::Components::Form";
+  relpath = '../../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../../_index.html">Index (F)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../Compony.html" title="Compony (module)">Compony</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Components.html" title="Compony::Components (module)">Components</a></span></span>
+     &raquo; 
+    <span class="title">Form</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Compony::Components::Form
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="../Component.html" title="Compony::Component (class)">Compony::Component</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="../Component.html" title="Compony::Component (class)">Compony::Component</a></span></li>
+          
+            <li class="next">Compony::Components::Form</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/compony/components/form.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>This component is used for the _form partial in the Rails paradigm.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+  <h2>Instance Attribute Summary</h2>
+  
+  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="../Component.html" title="Compony::Component (class)">Compony::Component</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../Component.html#comp_opts-instance_method" title="Compony::Component#comp_opts (method)">#comp_opts</a></span>, <span class='object_link'><a href="../Component.html#parent_comp-instance_method" title="Compony::Component#parent_comp (method)">#parent_comp</a></span></p>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#collect-instance_method" title="#collect (instance method)">#<strong>collect</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Quick access for wrapping collections in Rails compatible format.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#f-instance_method" title="#f (instance method)">#<strong>f</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Called inside the form_fields block.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#field-instance_method" title="#field (instance method)">#<strong>field</strong>(name, **input_opts)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Called inside the form_fields block.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#form_fields-instance_method" title="#form_fields (instance method)">#<strong>form_fields</strong>(&amp;block)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method, use to set the form content.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>  &#x21d2; Form </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of Form.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#schema-instance_method" title="#schema (instance method)">#<strong>schema</strong>(wrapper_key, &amp;block)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method, use to replace the form’s schema and wrapper key for a completely manual schema.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#schema_block_for-instance_method" title="#schema_block_for (instance method)">#<strong>schema_block_for</strong>(data)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Attr reader for @schema_block with auto-calculated default.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#schema_field-instance_method" title="#schema_field (instance method)">#<strong>schema_field</strong>(field_name)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method, adds a new field to the schema whitelisting a single field of data_class This auto-generates the correct schema line for the field.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#schema_fields-instance_method" title="#schema_fields (instance method)">#<strong>schema_fields</strong>(*field_names)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method, mass-assigns schema fields.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#schema_line-instance_method" title="#schema_line (instance method)">#<strong>schema_line</strong>(&amp;block)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method, adds a new line to the schema whitelisting a single param inside the schema’s wrapper.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#schema_wrapper_key_for-instance_method" title="#schema_wrapper_key_for (instance method)">#<strong>schema_wrapper_key_for</strong>(data)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Attr reader for @schema_wrapper_key with auto-calculated default.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#skip_autofocus-instance_method" title="#skip_autofocus (instance method)">#<strong>skip_autofocus</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method, skips adding autofocus to the first field.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#with_simpleform-instance_method" title="#with_simpleform (instance method)">#<strong>with_simpleform</strong>(simpleform)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>This method is used by render to store the simpleform instance inside the component such that we can call methods from inside <code>form_fields</code>.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../Component.html" title="Compony::Component (class)">Compony::Component</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../Component.html#action-instance_method" title="Compony::Component#action (method)">#action</a></span>, <span class='object_link'><a href="../Component.html#add_content-instance_method" title="Compony::Component#add_content (method)">#add_content</a></span>, <span class='object_link'><a href="../Component.html#before_render-instance_method" title="Compony::Component#before_render (method)">#before_render</a></span>, <span class='object_link'><a href="../Component.html#comp_class_for-instance_method" title="Compony::Component#comp_class_for (method)">#comp_class_for</a></span>, <span class='object_link'><a href="../Component.html#comp_class_for!-instance_method" title="Compony::Component#comp_class_for! (method)">#comp_class_for!</a></span>, <span class='object_link'><a href="../Component.html#comp_cst-instance_method" title="Compony::Component#comp_cst (method)">#comp_cst</a></span>, <span class='object_link'><a href="../Component.html#comp_name-instance_method" title="Compony::Component#comp_name (method)">#comp_name</a></span>, <span class='object_link'><a href="../Component.html#content-instance_method" title="Compony::Component#content (method)">#content</a></span>, <span class='object_link'><a href="../Component.html#family_cst-instance_method" title="Compony::Component#family_cst (method)">#family_cst</a></span>, <span class='object_link'><a href="../Component.html#family_name-instance_method" title="Compony::Component#family_name (method)">#family_name</a></span>, <span class='object_link'><a href="../Component.html#id-instance_method" title="Compony::Component#id (method)">#id</a></span>, <span class='object_link'><a href="../Component.html#inspect-instance_method" title="Compony::Component#inspect (method)">#inspect</a></span>, <span class='object_link'><a href="../Component.html#param_name-instance_method" title="Compony::Component#param_name (method)">#param_name</a></span>, <span class='object_link'><a href="../Component.html#path-instance_method" title="Compony::Component#path (method)">#path</a></span>, <span class='object_link'><a href="../Component.html#path_hash-instance_method" title="Compony::Component#path_hash (method)">#path_hash</a></span>, <span class='object_link'><a href="../Component.html#render-instance_method" title="Compony::Component#render (method)">#render</a></span>, <span class='object_link'><a href="../Component.html#render_actions-instance_method" title="Compony::Component#render_actions (method)">#render_actions</a></span>, <span class='object_link'><a href="../Component.html#resourceful%3F-instance_method" title="Compony::Component#resourceful? (method)">#resourceful?</a></span>, <span class='object_link'><a href="../Component.html#root_comp-instance_method" title="Compony::Component#root_comp (method)">#root_comp</a></span>, <span class='object_link'><a href="../Component.html#root_comp%3F-instance_method" title="Compony::Component#root_comp? (method)">#root_comp?</a></span>, <span class='object_link'><a href="../Component.html#setup-class_method" title="Compony::Component.setup (method)">setup</a></span>, <span class='object_link'><a href="../Component.html#skip_action-instance_method" title="Compony::Component#skip_action (method)">#skip_action</a></span>, <span class='object_link'><a href="../Component.html#sub_comp-instance_method" title="Compony::Component#sub_comp (method)">#sub_comp</a></span></p>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>  &#x21d2; <tt><span class='object_link'><a href="" title="Compony::Components::Form (class)">Form</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns a new instance of Form.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+6
+7
+8
+9</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 6</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span>
+  <span class='ivar'>@schema_lines_for_data</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> <span class='comment'># Array of procs taking data returning a Schemacop proc
+</span>  <span class='kw'>super</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="collect-instance_method">
+  
+    #<strong>collect</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Quick access for wrapping collections in Rails compatible format</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+105
+106
+107</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 105</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_collect'>collect</span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="../../Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ModelFields.html" title="Compony::ModelFields (module)">ModelFields</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ModelFields/Anchormodel.html" title="Compony::ModelFields::Anchormodel (class)">Anchormodel</a></span></span><span class='period'>.</span><span class='id identifier rubyid_collect'><span class='object_link'><a href="../ModelFields/Anchormodel.html#collect-class_method" title="Compony::ModelFields::Anchormodel.collect (method)">collect</a></span></span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="f-instance_method">
+  
+    #<strong>f</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Called inside the form_fields block. This makes the method <code>f</code> available in the block. See also notes for <code>with_simpleform</code>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+99
+100
+101
+102</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 99</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_f'>f</span>
+  <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The `f` method may only be called inside `form_fields` for </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='ivar'>@simpleform</span>
+  <span class='kw'>return</span> <span class='ivar'>@simpleform</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="field-instance_method">
+  
+    #<strong>field</strong>(name, **input_opts)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Called inside the form_fields block. This makes the method <code>field</code> available in the block. See also notes for <code>with_simpleform</code>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 79</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_input_opts'>input_opts</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The `field` method may only be called inside `form_fields` for </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='ivar'>@simpleform</span>
+
+  <span class='id identifier rubyid_hidden'>hidden</span> <span class='op'>=</span> <span class='id identifier rubyid_input_opts'>input_opts</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:hidden</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_model_field'>model_field</span> <span class='op'>=</span> <span class='ivar'>@simpleform</span><span class='period'>.</span><span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Field </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'> is not defined on </span><span class='embexpr_beg'>#{</span><span class='ivar'>@simpleform</span><span class='period'>.</span><span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'> but was requested in </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_model_field'>model_field</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_hidden'>hidden</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_model_field'>model_field</span><span class='period'>.</span><span class='id identifier rubyid_simpleform_input_hidden'>simpleform_input_hidden</span><span class='lparen'>(</span><span class='ivar'>@simpleform</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_input_opts'>input_opts</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='kw'>unless</span> <span class='ivar'>@focus_given</span> <span class='op'>||</span> <span class='ivar'>@skip_autofocus</span>
+      <span class='id identifier rubyid_input_opts'>input_opts</span><span class='lbracket'>[</span><span class='symbol'>:autofocus</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>true</span> <span class='kw'>unless</span> <span class='id identifier rubyid_input_opts'>input_opts</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span> <span class='symbol'>:autofocus</span>
+      <span class='ivar'>@focus_given</span> <span class='op'>=</span> <span class='kw'>true</span>
+    <span class='kw'>end</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_model_field'>model_field</span><span class='period'>.</span><span class='id identifier rubyid_simpleform_input'>simpleform_input</span><span class='lparen'>(</span><span class='ivar'>@simpleform</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_input_opts'>input_opts</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="form_fields-instance_method">
+  
+    #<strong>form_fields</strong>(&amp;block)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method, use to set the form content</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38
+39</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 36</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_form_fields'>form_fields</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='ivar'>@form_fields</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+  <span class='ivar'>@form_fields</span> <span class='op'>=</span> <span class='id identifier rubyid_block'>block</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="schema-instance_method">
+  
+    #<strong>schema</strong>(wrapper_key, &amp;block)  &#x21d2; <tt>Object</tt>  <span class="extras">(protected)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method, use to replace the form’s schema and wrapper key for a completely manual schema</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+131
+132
+133
+134
+135
+136
+137
+138</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 131</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_schema'>schema</span><span class='lparen'>(</span><span class='id identifier rubyid_wrapper_key'>wrapper_key</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+    <span class='ivar'>@schema_wrapper_key</span> <span class='op'>=</span> <span class='id identifier rubyid_wrapper_key'>wrapper_key</span>
+    <span class='ivar'>@schema_block</span> <span class='op'>=</span> <span class='id identifier rubyid_block'>block</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_fail'>fail</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>schema requires a block to be given</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="schema_block_for-instance_method">
+  
+    #<strong>schema_block_for</strong>(data)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Attr reader for @schema_block with auto-calculated default</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 52</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_schema_block_for'>schema_block_for</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='ivar'>@schema_block</span>
+    <span class='kw'>return</span> <span class='ivar'>@schema_block</span>
+  <span class='kw'>else</span>
+    <span class='comment'># If schema was not called, auto-infer a default
+</span>    <span class='id identifier rubyid_local_schema_lines_for_data'>local_schema_lines_for_data</span> <span class='op'>=</span> <span class='ivar'>@schema_lines_for_data</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_proc'>proc</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_local_schema_lines_for_data'>local_schema_lines_for_data</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_schema_line'>schema_line</span><span class='op'>|</span>
+        <span class='id identifier rubyid_instance_exec'>instance_exec</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_schema_line'>schema_line</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="schema_field-instance_method">
+  
+    #<strong>schema_field</strong>(field_name)  &#x21d2; <tt>Object</tt>  <span class="extras">(protected)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method, adds a new field to the schema whitelisting a single field of data_class This auto-generates the correct schema line for the field.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+118
+119
+120
+121
+122
+123</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 118</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_schema_field'>schema_field</span><span class='lparen'>(</span><span class='id identifier rubyid_field_name'>field_name</span><span class='rparen'>)</span>
+  <span class='ivar'>@schema_lines_for_data</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_proc'>proc</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_data'>data</span><span class='op'>|</span>
+    <span class='id identifier rubyid_field'>field</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='id identifier rubyid_field_name'>field_name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No field </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_field_name'>field_name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'> found for </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'> in </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='kw'>next</span> <span class='id identifier rubyid_field'>field</span><span class='period'>.</span><span class='id identifier rubyid_schema_line'>schema_line</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="schema_fields-instance_method">
+  
+    #<strong>schema_fields</strong>(*field_names)  &#x21d2; <tt>Object</tt>  <span class="extras">(protected)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method, mass-assigns schema fields</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+126
+127
+128</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 126</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_schema_fields'>schema_fields</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_field_names'>field_names</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_field_names'>field_names</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_field_name'>field_name</span><span class='op'>|</span> <span class='id identifier rubyid_schema_field'>schema_field</span><span class='lparen'>(</span><span class='id identifier rubyid_field_name'>field_name</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="schema_line-instance_method">
+  
+    #<strong>schema_line</strong>(&amp;block)  &#x21d2; <tt>Object</tt>  <span class="extras">(protected)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method, adds a new line to the schema whitelisting a single param inside the schema’s wrapper</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+112
+113
+114</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 112</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_schema_line'>schema_line</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='ivar'>@schema_lines_for_data</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_proc'>proc</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_block'>block</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="schema_wrapper_key_for-instance_method">
+  
+    #<strong>schema_wrapper_key_for</strong>(data)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Attr reader for @schema_wrapper_key with auto-calculated default</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+42
+43
+44
+45
+46
+47
+48
+49</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 42</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_schema_wrapper_key_for'>schema_wrapper_key_for</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='ivar'>@schema_wrapper_key</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
+    <span class='kw'>return</span> <span class='ivar'>@schema_wrapper_key</span>
+  <span class='kw'>else</span>
+    <span class='comment'># If schema was not called, auto-infer a default
+</span>    <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_model_name'>model_name</span><span class='period'>.</span><span class='id identifier rubyid_singular'>singular</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="skip_autofocus-instance_method">
+  
+    #<strong>skip_autofocus</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(protected)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method, skips adding autofocus to the first field</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+141
+142
+143</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 141</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_skip_autofocus'>skip_autofocus</span>
+  <span class='ivar'>@skip_autofocus</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="with_simpleform-instance_method">
+  
+    #<strong>with_simpleform</strong>(simpleform)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note todo">
+    <strong>TODO:</strong>
+    <div class='inline'>
+<p>Refactor? Could this be greatly simplified by having <code>form_field to |f|</code> ?</p>
+</div>
+  </div>
+
+
+<p>This method is used by render to store the simpleform instance inside the component such that we can call methods from inside <code>form_fields</code>. This is a workaround required because the form does not exist when the RequestContext is being built, and we want the method <code>field</code> to be available inside the <code>form_fields</code> block.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+70
+71
+72
+73
+74
+75</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 70</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_with_simpleform'>with_simpleform</span><span class='lparen'>(</span><span class='id identifier rubyid_simpleform'>simpleform</span><span class='rparen'>)</span>
+  <span class='ivar'>@simpleform</span> <span class='op'>=</span> <span class='id identifier rubyid_simpleform'>simpleform</span>
+  <span class='ivar'>@focus_given</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='kw'>yield</span>
+  <span class='ivar'>@simpleform</span> <span class='op'>=</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Tue Feb 27 12:16:02 2024 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.34 (ruby-3.2.2).
+</div>
+
+    </div>
+  </body>
+</html>
