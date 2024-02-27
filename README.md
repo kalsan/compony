@@ -6,7 +6,7 @@ Notes:
 - `data` can be model or models
 - To redirect instead of rendering, use `before_render` if the redirect is conditional (e.g. if validation passes), or `respond` if always redirecting.
   - As a rule of thumb, use `before_render` if there is a `content` block (even by inheritance) and `respond` otherwise.
-- To protect a custom controller by compony authentication, use in the controller: `before_action Compony.authentication_before_action`
+- To protect a custom controller by Compony authentication, use in the controller: `before_action Compony.authentication_before_action`
 
 Feature sets:
 
@@ -135,7 +135,7 @@ class Components::Users::Show < Compony::Component
       end
     end
 
-    # After loading the model and passing authorization, the `content` block is evaluated. This is compony's equivalent to Rails' views.
+    # After loading the model and passing authorization, the `content` block is evaluated. This is Compony's equivalent to Rails' views.
     # Inside the `content` block, the templating Gem Dyny (https://github.com/kalsan/dyny) is used, allowing you to write views in plain Ruby.
     content do
       h3 @data.label # Display a <h3> title
@@ -279,9 +279,9 @@ Note how the admin's delete button is disabled due to the feasibility framework.
 
 # Installation
 
-## Installing compony
+## Installing Compony
 
-First, add compony to your Gemfile:
+First, add Compony to your Gemfile:
 
 ```ruby
 gem 'compony'
@@ -319,17 +319,138 @@ To take advantage of the anchormodel integration, follow the installation instru
 
 # Usage
 
+Compony components are nestable elements that are capable of replacing Rails' routes, views and controllers. They structure code for data manipulation, authentication and rendering into a single class that can easily be subclassed. This is achieved with Compony's DSL that provides a readable and overridable way to store your logic.
+
+Just like Rails, Compony is opinionated and you are advised to structure your code according to the examples and explanations. This makes it easier for others to dive into existing code.
+
 ## A basic (bare) component
 
+### Naming
+
+Compony components must be named according to the pattern `Components::FamilyName::ComponentName`.
+
+- The family name should be pluralized and is analog to naming a Rails controller. For instance, when you would create a `UsersController` in plain Rails, the Compony family equivalent is `Users`.
+- The component name is the Compony analog to a Rails action.
+
+Example: If your plain Rails `UsersController` has an action `show`, the equivalent Compony component is `Components::Users::Show` and is located under `app/components/users/show.rb`.
+
+If you have abstract components (i.e. components that your app never uses directly, but which you inherit from), you may name and place them arbitrarly.
+
+### Initialization
+
+You will rarely have to override `def initialize` of a component, as most of your code will go into the component's `setup` block as explained below. However, when you do, make sure to forward all default arguments to the parent class, as they are essential to the component's function:
+
+```ruby
+def initialize(some_positional_argument, another=nil, *args, some_keyword_argument:, yetanother: 42, **kwargs, &block)
+  super(*args, **kwargs, &block) # Typically you should call this first
+  @foo = some_positional_argument
+  @bar = another
+  @baz = some_keyword_argument
+  @stuff = yetanother
+end
+```
+
+You can also manually instantiate components and render them from your views:
+
+```erb
+<% index_users_comp = Components::Users::Index.new %>
+<%= index_users_comp.render(controller) %>
+```
+
+Note that rendering a component always requires the controller as an argument. It also possible to pass an argument `locals` that will be made available to `render` (see below):
+
+```erb
+<% index_users_comp = Components::Users::Index.new %>
+<%= index_users_comp.render(controller, locals: { weather: :sunny }) %>
+```
+
+### Setup
+
+Every component must call the static method `setup` which will contain most of the code of your components. This can be achieved either by a call directly from your class, or by inheriting from a component that calls `setup`. If both classes call the method, the inherited class' `setup` is run first and the inheriting's second, thus, the child class can override setup properties of the parent class.
+
+Call setup as follows:
+
+```ruby
+class Components::Users::Show < Compony::Component
+  setup do
+    # Your setup code goes here
+  end
+end
+```
+
+The code in setup is run at the end the component's initialization. In this block, you will call a number of methods that define the component's behavior and which we will explain now.
+
+#### Labelling
+
+This defines a component's label, both as seen from within the component and from the outside. You can query the label in order to display it as a title in your component. Links and buttons to components will also display the same label, allowing you to easily rename a component, including any parts of your UI that point to it.
+
+Labels come in different formats, short and long, with long being the default. Define them as follows if your component is about a specific object, for instance a show component for a specific user:
+
+```ruby
+setup do
+  label(:short) { |user| user.label } # Assuming your User model has a method or attribute `label`.
+  label(:long) { |user| "Displaying user #{user.label}" } # In practice, you'd probably use I18n.t or FastGettext here to deal with translations.
+
+  # Or use this short hand to set both long and short label to the user's label:
+  label(:all) { |user| user.label }
+end
+```
+
+To read the label, from within the component or from outside, proceed as follows:
+
+```ruby
+label(User.first) # This returns the long version: "Displaying user John Doe".
+label(User.first, format: :short) # This returns the short version "John Doe".
+```
+
+It is important to note that since your label block takes an argument, you must provide the argument when reading the label (exception: if the component implements the method `data` returning an object, the argument can be omitted and the label block will be provided that object). Only up to one argument is supported.
+
+Here is an example on how labelling looks like for a component that is not about a specific object, such as an index component for users:
+
+
+```ruby
+setup do
+  label(:long) { 'List of users' }
+  label(:short) { 'List' }
+end
+```
+
+And to read those:
+
+```ruby
+label # "List of users"
+label(format: :short) # "List"
+```
+
+If you do not define any labels, Compony will fallback to the default which is using Rail's `humanize` method to build a name from the family and component name, e.g. "index users".
+
+Additionally, components can specify an icon and a color. These are not used by Compony directly and it is up to you to to define how and where to use them. Example:
+
+```ruby
+setup do
+  color { '#AA0000' }
+  icon { %i[fa-solid circle] }
+end
+```
+
+To retrieve them from outside the component, use:
+
+```ruby
+my_component.color # '#AA0000'
+my_component.icon # [:'fa-solid', :circle]
+```
+
+### Standalone
+
 TODO
+
+### Compony buttons and links
 
 ### Nesting
 
 TODO
 
-### Standalone
-
-TODO
+Note that only the root component runs authentication and authorization. Thus, be careful which components you nest.
 
 #### Actions
 
@@ -338,6 +459,8 @@ TODO
 ## Resourceful components
 
 TODO
+
+Note that only the root component loads and stores data. TODO: say something about resourceful_sub_comp
 
 ## Inheritance
 
@@ -380,5 +503,6 @@ TODO
 - The API is not yet as consistent as I'd like it. Examples:
   - `content` replaces the content and `add_content` inserts some, but for actions the insertion is called `action`.
   - Every DSL call, in particular nested ones, should be able to insert and/or override a precise call in the parent class. Override behavior should be made consistent across the entire Compony DSL. For instance, it makes no sense that `add_content` uses an index while `action` uses `before` with a keyword.
+  - Instead of `skip_...` methods, `remove_...` should be implemented. This allows yet another level of classes to re-add properties. Skipping should be kept for options given via the constructor.
 - At this point, I haven't gotten into Turbo Streams and Turbo Frames. It would be interesting to exend Compony such it also makes writing applications using these features much easier.
 - The feasibility framework does not yet enforce prevention, but only has effects on buttons. Actions should be structured more explicitely such that prevention becomes as tight as authorization.
