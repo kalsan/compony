@@ -104,6 +104,10 @@ module Compony
         protected
 
         # DSL method
+        # This can be called multiple times to make a component listen to multiple paths. Each standalone config (path) has a name, the default being `nil`.
+        # To have a component listen to multiple paths, call standalone again and provide a name, e.g.: standalone(:autocomplete, path: 'foo/bar/autocomplete')
+        # @param name [Symbol,nil] The name of the standalone config, defaults to nil. Only provide if you add additional configs.
+        # @param path [String] Analog to the Rails route path
         def standalone(name = nil, *args, **nargs, &block)
           block = proc {} unless block_given? # If called without a block, must default to an empty block to provide a binding to the DSL.
           name = name&.to_sym # nil name is the most common case
