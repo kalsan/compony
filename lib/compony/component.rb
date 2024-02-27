@@ -145,7 +145,7 @@ module Compony
     end
 
     # Renders the component using the controller passsed to it and returns it as a string.
-    # @param [Boolean] standalone pass true iff `render` is called from `render_standalone`
+    # @param standalone: pass true iff `render` is called from `render_standalone`
     # Do not overwrite.
     def render(controller, standalone: false, **locals)
       # Call before_render hook if any and backfire instance variables back to the component
