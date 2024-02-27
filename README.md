@@ -279,7 +279,43 @@ Note how the admin's delete button is disabled due to the feasibility framework.
 
 # Installation
 
-TODO
+## Installing compony
+
+First, add compony to your Gemfile:
+
+```ruby
+gem 'compony'
+```
+
+Then run `bundle install`.
+
+Create the directory `app/components`.
+
+In `app/models/application_record.rb`, add the following line below `primary_abstract_class`:
+
+```ruby
+include Compony::ModelMixin
+```
+
+## Installing cancancan
+
+Create the file `app/models/abilty.rb` with the following content:
+
+```ruby
+class Ability
+  include CanCan::Ability
+
+  def initialize(_user)
+    can :manage, :all
+  end
+end
+```
+
+This is an initial dummy ability that allows anyone to do anything. Most likely, you will want to adjust the file. For documentation, refer to [https://github.com/CanCanCommunity/cancancan/](https://github.com/CanCanCommunity/cancancan/).
+
+## Optional: installing anchormodel
+
+To take advantage of the anchormodel integration, follow the installation instructions under [https://github.com/kalsan/anchormodel/](https://github.com/kalsan/anchormodel/).
 
 # Usage
 
@@ -292,6 +328,10 @@ TODO
 TODO
 
 ### Standalone
+
+TODO
+
+#### Actions
 
 TODO
 
