@@ -336,7 +336,7 @@ Example: If your plain Rails `UsersController` has an action `show`, the equival
 
 If you have abstract components (i.e. components that your app never uses directly, but which you inherit from), you may name and place them arbitrarly.
 
-### Initialization
+### Initialization, manual instantiation and rendering
 
 You will rarely have to override `def initialize` of a component, as most of your code will go into the component's `setup` block as explained below. However, when you do, make sure to forward all default arguments to the parent class, as they are essential to the component's function:
 
@@ -350,7 +350,7 @@ def initialize(some_positional_argument, another=nil, *args, some_keyword_argume
 end
 ```
 
-You can also manually instantiate components and render them from your views:
+Typically, your components will be instantiated and rendered by Compony through the "standalone" feature explained below. Nonetheless, it is possible to do so manually as well, for instance if you'd like to render a component from within an existing view in your application:
 
 ```erb
 <% index_users_comp = Components::Users::Index.new %>
@@ -407,7 +407,6 @@ It is important to note that since your label block takes an argument, you must 
 
 Here is an example on how labelling looks like for a component that is not about a specific object, such as an index component for users:
 
-
 ```ruby
 setup do
   label(:long) { 'List of users' }
@@ -440,11 +439,167 @@ my_component.color # '#AA0000'
 my_component.icon # [:'fa-solid', :circle]
 ```
 
+#### Providing content
+
+Basic components do not come with default content. Instead, you must call the method `content` inside the setup block and provide a block containing your view. It will be evaluated inside a `RequestContext` (more on that later).
+
+In this block, provide the HTML to be generated using Dyny: [https://github.com/kalsan/dyny](https://github.com/kalsan/dyny)
+
+Here is an example of a component that renders a title along with a paragraph:
+
+```ruby
+setup do
+  label(:all) { 'Welcome' }
+  content do
+    h1 'Welcome to my basic component'
+    para "It's not much, but it's honest work."
+  end
+end
+```
+
+If a subclass component calls `content`, it overwrites the block of the parent class, replacing the entire content. To make overwriting more granular, you can use `add_content` instead of `content`. This method can be called multiple times to create an array of content. If no argument is specified, the new content is placed at the bottom. Otherwise, it is inserted at the indicated position. Example:
+
+```ruby
+setup do
+  content do
+    h1 'Welcome to my basic component'
+  end
+  add_content do
+    para 'Thank you and see you tomorrow.'
+  end
+  add_content 1 do
+    para 'This paragraph is inserted between the others.'
+  end
+end
+```
+
+The result is the h1 with index 0, then the paragraph reading "This paragraph..." with index 1, and finally "Thank you..." with index 2.
+
+#### Redirecting away / Intercepting rendering
+
+Immediately before the `content` block(s) are evaluated, another block is evaluated if present: `before_render`. If this block creates a reponse body in the Rails controller, the content blocks are skipped.
+
+This is useful for redirecting. Here is an example of a component that provides a restaurant's lunch menu, but redirects to the menu overview page instead if it's not lunch time:
+
+```ruby
+setup do
+  label(:all){ 'Lunch menu' }
+
+  before_render do
+    current_time = Time.zone.now
+    if current_time.hour >= 11 && current_time.hour < 14
+      flash.notice = "Sorry, it's not lunch time."
+      redirect_to all_menus_path
+    end
+  end
+
+  content do # This is entirely skipped if it's not lunch time.
+    h1 label
+    para 'Today we have spaghetti.'
+  end
+end
+```
+
 ### Standalone
 
-TODO
+As stated earlier, Compony can generate routes to your components. This is achieved by using the standalone DSL inside the setup block. The first step is calling the method `standalone` with a path. Inside this block, you will then specify which HTTP verbs (e.g. GET, PATCH etc.) the component should listen to. As soon as both are specified, Compony will generate an appropriate route.
+
+Assume that you want to create a simple component `statics/welcome.rb` that displays a static welcome page. The component should be exposed under the route `'/welcome'` and respond to the GET method. Here is the complete code for making this happen:
+
+```ruby
+# app/components/statics/welcome.rb
+class Components::Statics::Welcome < Compony::Component
+  setup do
+    label(:all) { 'Welcome' }
+
+    standalone path: 'welcome' do
+      verb :get do
+        authorize { true }
+      end
+    end
+
+    content do
+      h1 'Welcome to my dummy site!'
+    end
+  end
+end
+```
+
+This is the minimal required code for standalone. For security, every verb config must provide an `authorize` block that specifies who has access to this standalone verb. The block is given the request context and is expected to return either true (access ok) or false (causing the request to fail with `Cancan::AccessDenied`).
+
+Typically, you would use this block to check authorization using the CanCanCan gem, such as `authorize { can?(:read, :welcome) }`. However, since we skip authentication in this simple example, we pass `true` to allow all access.
+
+The standalone DSL has more features than those presented in the minimal example above. Excluding resourceful features (which we will cover below), the full list is:
+
+- `standalone` can be called multiple times, for components that need to expose multiple paths, as described below. Inside each `standalone` call, you can call:
+  - `skip_authentication!` which disables authentication, in case you provided some. You need to implement `authorize` regardless.
+  - `layout` which takes the file name of a Rails layout and defaults to `layouts/application`. Use this to have your Rails application look differently depending on the component.
+  - `verb` which takes an HTTP verb as a symbol, one of: `%i[get head post put delete connect options trace patch]`. `verb` can be called up to once per verb. Inside each `verb` call, you can call (in the non-resourceful case):
+    - `authorize` is mandatory and explained above.
+    - `respond` can be used to implement special behavior that in plain Rails would be placed in a controller action. The default, which calls `before_render` and the `content` blocks, is usually the right choice, so you will rarely implement `respond` on your own. See below how `respond` can be used to handle different formats or redirecting clients. **Caution:** `authorize` is evaluated in the default implementation of `respond`, so when you override that block, you must perform authorization yourself!
+
+#### Exposing multiple paths in the same component (calling standalone multiple times)
+
+If your component loads data dynamically from a JavaScript front-end (e.g. implemented via Stimulus), you will find yourself in the situation where you need an extra route for a functionality that inherently belongs to the same component. Example use cases would be search fields that load data as the user types, maps that load tiles, dynamic photo galleries etc.
+
+In this case, you can call `standalone` a second time and provide a name for your extra route:
+
+```ruby
+setup do
+  # Regular route for rendering the content
+  standalone path: 'map/viewer' do
+    verb :get do
+      authorize { true }
+    end
+  end
+
+  # Extra route for loading tiles via AJAX
+  standalone :tiles, path: 'map/viewer/tiles' do
+    verb :get do
+      respond do # Again: overriding `respond` skips authorization! This is why we don't need to provide an `authroize` block here.
+        controller.render(json: MapTiler.load(params, current_ability)) # current_ability is provided by CanCanCan and made available by Compony.
+      end
+    end
+  end
+
+  # More code for labelling, content etc.
+end
+```
+
+Please note that the idea here is to package things that belong together, not to provide different kinds of content in a single component. For displaying different pages, use multiple components and have eatch expose a single route.
+
+#### Handling formats
+
+Compony is capable of responding to formats like Rails does. This is useful to deliver PDFs, CSV files etc. to a user from within Compony. This can be achieved by specifying the `respond` block:
+
+```ruby
+setup do
+  standalone path: 'generate/report' do
+    verb :get do
+      # Respond with a file when generate/report.pdf is GETed:
+      respond :pdf do
+        file, filename = PdfGenerator.generate(params, current_ability)
+        send_data(file, filename:, type: 'application/pdf')
+      end
+      # If someone visits generate/report, issue a 404:
+      respond do
+        fail ActionController::RoutingError, 'Unsupported format - please make sure your URL ends with `.pdf`.'
+      end
+    end
+  end
+end
+```
+
+#### Redirect in `respond` or in `before_render`?
+
+Rails controller redirects can be issued both in a verb DSL's `respond` block and in `before_render`. The rule of thumb that tells you which way to go is:
+
+- If you want to redirect depending on the HTTP verb, use `respond`.
+- If you want to redirect depending on params, state, time etc.  **independently of the HTTP verb**, use `before_render`, as this is more convenient than writing a standalone -> verb -> respond tree.
 
 ### Compony buttons and links
+
+TODO
 
 ### Nesting
 
