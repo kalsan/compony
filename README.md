@@ -604,10 +604,6 @@ Rails controller redirects can be issued both in a verb DSL's `respond` block an
 - If you want to redirect depending on the HTTP verb, use `respond`.
 - If you want to redirect depending on params, state, time etc.  **independently of the HTTP verb**, use `before_render`, as this is more convenient than writing a standalone -> verb -> respond tree.
 
-### Compony helpers, buttons and links
-
-TODO
-
 ### Nesting
 
 TODO
@@ -616,7 +612,7 @@ Note that only the root component runs authentication and authorization. Thus, b
 
 #### Actions
 
-TODO
+TODO, also view helper compony_actions
 
 ## Resourceful components
 
@@ -628,11 +624,56 @@ Note that only the root component loads and stores data. TODO: say something abo
 
 TODO
 
-## Pre-build components shipped with Compony
+### Compony helpers, buttons and links
+
+When pointing to or instanciating a component, writing the whole class name would be cumbersome. For this reason, Compony has several helpers that will retrieve the correct class for you. The most important ones are explained in this subsection. The terms are defined as follows:
+
+- Component name or constant: For a component `Components::Users::Show`, this would be `'Show'`, `'show'`, or `:show`
+- Family name or constant: For a component `Components::Users::Show`, this would be `'Users'`, `'users'`, or `:users`
+- Model: an instance of a class that implements the `model_name` method in the same way as `ActiveRecord::Base` does. For helpers that support giving models, Compony will use `model_name` to auto-infer the family name. This requires you to name the component according to convention, i.e. the family name must match the model's pluralized camelized `model_name`.
+
+#### Getting the class of a component
+
+- `Compony.comp_class_for(comp_name_or_cst, model_or_family_name_or_cst)` returns the class or nil if not found.
+- `Compony.comp_class_for!(comp_name_or_cst, model_or_family_name_or_cst)` returns the class. If the class is not found, an error will be raised.
+
+Example:
+
+```ruby
+my_component = Compony.comp_class_for!(:show, User.first).new
+my_component.class # Components::Users::Show
+```
+
+#### Getting a path to a component
+
+- `Compony.path(comp_name_or_cst, model_or_family_name_or_cst)` returns the route to a component. Additional positional and keyword arguments will be passed to the Rails helper.
+
+If a model is given, its ID will automatically be added as the `id` parameter when generating the route. This means:
+
+- To generate a path to a non-resourceful component, pass the family name.
+- To generate a path to a resourceful component, prefer passing an instance instead of a family name.
+
+Example:
+
+```ruby
+link_to Compony.path(:index, :users) # 'users/index'
+link_to Compony.path(:show, User.first) # 'users/show/1'
+link_to Compony.path(:show, :users, id: 1) # 'users/show/1'
+```
+
+#### Generating a button to a component
+
+TODO: lib/compony.rb, as well as view helper, as well as custom button class, as well as with_button_defaults
+
+#### Generating a link to a component
+
+TODO: view helper
+
+## Fields
 
 TODO
 
-## Fields
+## Pre-build components shipped with Compony
 
 TODO
 
