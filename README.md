@@ -500,7 +500,7 @@ setup do
 end
 ```
 
-### Standalone
+## Standalone
 
 As stated earlier, Compony can generate routes to your components. This is achieved by using the standalone DSL inside the setup block. The first step is calling the method `standalone` with a path. Inside this block, you will then specify which HTTP verbs (e.g. GET, PATCH etc.) the component should listen to. As soon as both are specified, Compony will generate an appropriate route.
 
@@ -538,7 +538,7 @@ The standalone DSL has more features than those presented in the minimal example
     - `authorize` is mandatory and explained above.
     - `respond` can be used to implement special behavior that in plain Rails would be placed in a controller action. The default, which calls `before_render` and the `content` blocks, is usually the right choice, so you will rarely implement `respond` on your own. See below how `respond` can be used to handle different formats or redirecting clients. **Caution:** `authorize` is evaluated in the default implementation of `respond`, so when you override that block, you must perform authorization yourself!
 
-#### Exposing multiple paths in the same component (calling standalone multiple times)
+### Exposing multiple paths in the same component (calling standalone multiple times)
 
 If your component loads data dynamically from a JavaScript front-end (e.g. implemented via Stimulus), you will find yourself in the situation where you need an extra route for a functionality that inherently belongs to the same component. Example use cases would be search fields that load data as the user types, maps that load tiles, dynamic photo galleries etc.
 
@@ -568,14 +568,14 @@ end
 
 Please note that the idea here is to package things that belong together, not to provide different kinds of content in a single component. For displaying different pages, use multiple components and have eatch expose a single route.
 
-#### Naming of exposed routes
+### Naming of exposed routes
 
 The routes to standalone components are named and you can point to them using Rails' `..._path` and `..._url` helpers. The naming scheme is: `[standalone]_[component]_[family]_comp`. Examples:
 
 - Default standalone: `Components::Users::Index` exports `index_users_comp` and thus `index_users_comp_path` can be used.
 - Named standalone: If `standalone :foo, path: ...` is used, the exported name is `foo_index_users_comp`.
 
-#### Handling formats
+### Handling formats
 
 Compony is capable of responding to formats like Rails does. This is useful to deliver PDFs, CSV files etc. to a user from within Compony. This can be achieved by specifying the `respond` block:
 
@@ -597,26 +597,163 @@ setup do
 end
 ```
 
-#### Redirect in `respond` or in `before_render`?
+### Redirect in `respond` or in `before_render`?
 
 Rails controller redirects can be issued both in a verb DSL's `respond` block and in `before_render`. The rule of thumb that tells you which way to go is:
 
 - If you want to redirect depending on the HTTP verb, use `respond`.
 - If you want to redirect depending on params, state, time etc.  **independently of the HTTP verb**, use `before_render`, as this is more convenient than writing a standalone -> verb -> respond tree.
 
-### Nesting
+## Nesting
 
-TODO
+Components can be arbitrarily nested. This means that any component exposing content can instanciate an arbitrary number of sub-components that will be rendered as part of its own content. This results in a component tree. Sub-components are aware of the nesting and even of their position within the parent. The topmost component is called the **root component** and it's the only component that must be standalone. If you instead render the topmost component from a custom view, there is conceptually no root component, but Compony has no way to detect this special case.
+
+Nesting is orthogonal to inheritance, they are two entirely different concepts. For disambiguating "parent component", we will make an effort to apply that term to nesting only, while writing "parent component class" if inheritance is meant.
+
+Sub-components are particularly useful for DRYing up your code, e.g. when a visual element is used in multiple places of your application or even multiple times on the same page.
+
+Nesting occurs when a component is being rendered. It is perfectly feasible to use an otherwise standalone component as a sub-component. Doing so simply plugs it into the content of another component and any arguments can be given to its constructor.
 
 Note that only the root component runs authentication and authorization. Thus, be careful which components you nest.
 
-#### Actions
+To create a sub-component, use `sub_comp` in a component's content block. Any keyword arguments given will be passed to the sub-component. It is strictly recommended to exclusively use `sub_comp` (or its resourceful pendent, see below) to nest components, as this method makes a component aware of its exact nesting.
 
-TODO, also view helper compony_actions
+Here is a simple example of a component that displays numbers as binary:
+
+```ruby
+# app/components/numbers/binary.rb
+class Components::Nestings::Binary < Compony::Component
+  def initialize(*args, number: nil, **kwargs, &block)
+    @number = nil # If this component is initialized with the argument `number`, it will be stored in the component instance.
+  end
+  setup do
+    # standalone and other configs are omitted in this example.
+    content do
+      # If the initializer did not store `number`, check whether the Rails request contains the parameter `number`:
+      # Note: do not do that, as we will demonostrate below.
+      @number ||= params[:number].presence&.to_i || 0
+      # Display the number as binary
+      para "The number #{@number} has the binary form #{@number.to_s(2)}."
+    end
+  end
+end
+```
+
+If used standalone, the number can be set by using a GET parameter, e.g. `?number=5`. The result is something like this:
+
+```
+The number 5 has the binary form 101.
+```
+
+Now, let's write a component that displays three different numbers side-by-side:
+
+```ruby
+# app/components/numbers/binary_comparator.rb
+class Components::Nestings::BinaryComparator < Compony::Component
+  setup do
+    # standalone and other configs are omitted in this example.
+    content do
+      concat sub_cop(Components::Nestings::Binary, number: 1).render(controller)
+      concat sub_cop(Components::Nestings::Binary, number: 2).render(controller)
+      concat sub_cop(Components::Nestings::Binary, number: 3).render(controller)
+    end
+  end
+end
+```
+
+The result is something like this:
+
+```
+The number 1 has the binary form 1.
+The number 2 has the binary form 10.
+The number 3 has the binary form 11.
+```
+
+However, this is static and no fun. We cannot use the HTTP GET parameter any more because all three `Binary` sub-components listen to the same parameter `number`. To fix this, we will need to scope the parameter using the `param_name` as explained in the next subsection.
+
+### Proper parameter naming for (nested) components
+
+As seen in above, even components can be arbitrarily nested, making it harder to identify which HTTP GET parameter in the request is intended for which component. To resolve this, Compony provides nesting-aware scoping of parameter names:
+
+- Each component has an `index`, given to it by the `sub_comp` call in the parent, informing it witch n-th child of the parent it is.
+  - For instance, in the example above, the three `Binary` components have indices 0, 1 and 2.
+- Each component has an `id` which corresponds to `"#{family_name}_#{comp_name}_#{@index}"`.
+  - For instance, the last `Binary` component from the example above has ID `nestings_binary_2`.
+  - The `BinaryComparator` has ID `nestings_binary_comparator_0`.
+- Each component has a `path` indicating its exact position in the nesting tree as seen from the root component.
+  - In the example above, the last `Binary` component has path `nestings_binary_comparator_0/nestings_binary_2`.
+  - `BinaryComparator` has path `nestings_binary_comparator_0`.
+- Each component provides the method `param_name` that takes the name of a parameter name and prepends the first 5 characters of the component's SHA1-hashed path to it.
+  - For instance, if `param_name(:number)` is called on the last `Binary` component, the output is `a9f3d_number`.
+  - If the same method is called on the first `Binary` component, the output is `f6e86_number`.
+
+In short, `param_name` should be used to prefix every parameter that is used in a component that could potentially be nested. It is good practice to apply it to all components. `param_name` has two important properties:
+
+- From the param name alone, it is not possible to determine to which component the parameter belongs. However:
+- `param_name` is consistent across reloads of the same URL (given that the components are still the same) and thus each component will be able to identify its own parameters and react to them.
+
+With that in mind, let's adjust our `Binary` component. In this example, we will assume that we have implemented yet another component called `NumberChooser` that provides a number input with a Stimulus controller attached. That controller is given the parameter as a String value, such that the it can set the appropriate HTTP GET param and trigger a full page reload to the `BinaryComparator` component.
+
+Further, we can drop the custom initializer from the `Binary` component, as the number to display is exclusively coming from the HTTP GET param. The resulting code looks something like:
+
+```ruby
+# app/components/numbers/binary_comparator.rb
+class Components::Nestings::BinaryComparator < Compony::Component
+  setup do
+    # standalone and other configs are omitted in this example.
+    content do
+      3.times do
+        concat sub_cop(Components::Nestings::Binary).render(controller)
+      end
+    end
+  end
+end
+
+# app/components/numbers/binary.rb
+class Components::Nestings::Binary < Compony::Component
+  setup do
+    # standalone and other configs are omitted in this example.
+    content do
+      # This is where we use param_name to retrieve the parameter for this component, regardless whether it's standalone or used as a sub-comp.
+      @number ||= params[param_name(:number)].presence&.to_i || 0
+      # Display the number as binary
+      para "The number #{@number} has the binary form #{@number.to_s(2)}."
+      # Display the number input that will reload the page to adjust to the user input. We give it the param_name such that it can set params accordingly.
+      concat sub_comp(Components::Nestings::NumberChooser, param_name: param_name(:number))
+    end
+  end
+end
+```
+
+The result for the URL `path/to/binary_comparator?a9f3d_number=2&e70b4_number=4&a9f3d_number=8` is something like this:
+
+```
+The number 2 has the binary form 10. Enter a number and press ENTER: [2]
+The number 4 has the binary form 100. Enter a number and press ENTER: [4]
+The number 8 has the binary form 1000. Enter a number and press ENTER: [8]
+```
+
+Note that this example is completely stateless, as all the info is encoded in the URL.
 
 ## Resourceful components
 
 TODO
+
+### Nesting resourceful components
+
+TODO
+
+Let us build an example:
+
+- The root component is a "comparator" component that compares products.
+- It creates three "panel" components that present a product each. The panel components are shown side-by-side by the comparator.
+- Each panel component shows its product's specs and additionally creates a "slideshow" component that provides a set of pictures for the parent's product.
+
+It is advisable to load all required data only in the root component in order to avoid inefficient "n+1 queries" in the database. The root component is resourceful and its `data` is an ActiveRecord collection of three products (e.g. using `.where(id: [id_1, id_2, id_3])`), including all necessary data.
+
+## Actions
+
+TODO, also view helper compony_actions
 
 Note that only the root component loads and stores data. TODO: say something about resourceful_sub_comp
 
@@ -624,7 +761,7 @@ Note that only the root component loads and stores data. TODO: say something abo
 
 TODO
 
-### Compony helpers, links and buttons
+## Compony helpers, links and buttons
 
 When pointing to or instanciating a component, writing the whole class name would be cumbersome. For this reason, Compony has several helpers that will retrieve the correct class for you. The most important ones are explained in this subsection. The terms are defined as follows:
 
@@ -632,7 +769,7 @@ When pointing to or instanciating a component, writing the whole class name woul
 - Family name or constant: For a component `Components::Users::Show`, this would be `'Users'`, `'users'`, or `:users`
 - Model: an instance of a class that implements the `model_name` method in the same way as `ActiveRecord::Base` does. For helpers that support giving models, Compony will use `model_name` to auto-infer the family name. This requires you to name the component according to convention, i.e. the family name must match the model's pluralized camelized `model_name`.
 
-#### Getting the class of a component
+### Getting the class of a component
 
 - `Compony.comp_class_for(comp_name_or_cst, model_or_family_name_or_cst)` returns the class or nil if not found.
 - `Compony.comp_class_for!(comp_name_or_cst, model_or_family_name_or_cst)` returns the class. If the class is not found, an error will be raised.
@@ -663,7 +800,7 @@ link_to 'See user page', Compony.path(:show, :users, id: 1) # -> 'users/show/1'
 
 Note that the generated paths in the example are just for illustration purposes. The paths point to whatever path you configure in the target component's default standalone config. Also, this example is not how you should generate links to components, as is explained in the next subsection.
 
-#### Generating a link to a component
+### Generating a link to a component
 
 In order to allow a user to visit another component, don't implement your links and buttons manually. Instead, use Compony's links and buttons, as those extract information from the target component, avoiding redundant code and making refactoring much easier.
 
@@ -685,7 +822,7 @@ compony_link(:destroy, User.first, method: :delete) # "Delete John Doe" -> 'user
 # NOT working:
 compony_link(:show, :users, id: 1) # Error: The label for the Users::Show component takes an argument which was not provided (the user's label)
 ```
-#### Generating a button to a component
+### Generating a button to a component
 
 Compony buttons are components that render a button to another component. While the view helper `compony_button` works similar to `compony_link`, you can also manually instantiate a button and work with it like with any other component.
 
@@ -747,7 +884,7 @@ Compony.with_button_defaults(label_opts: { format: :short }, method: :post) do
 end
 ```
 
-##### Implementing custom buttons
+#### Implementing custom buttons
 
 Plain HTML buttons are not exactly eye candy, so you will likely want to implement your button kind with black jack and icons. For this reason, the button instanciated by Compony's button helpers can be customized.
 
@@ -806,3 +943,7 @@ TODO
 - Feasibility:
   - The feasibility framework does not yet enforce prevention, but only has effects on buttons. Actions should be structured more explicitely such that prevention becomes as tight as authorization.
   - Feasibility for links is not yet implemented.
+
+# Acknowledgements
+
+TODO
