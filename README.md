@@ -809,15 +809,17 @@ end
 
 ### Nesting resourceful components
 
-TODO
+As mentionned earlier, hooks such as those provided by Resourceful typically run only when a component is accessed standalone. This means that in a nested setting, only the component running those hooks is the root component.
 
-Let us build an example:
+When nesting resourceful components, it is therefore best to load all necessary data in the root component. Make sure to include any relations used by sub-components in order to avoid "n+1" queries in the database.
 
-- The root component is a "comparator" component that compares products.
-- It creates three "panel" components that present a product each. The panel components are shown side-by-side by the comparator.
-- Each panel component shows its product's specs and additionally creates a "slideshow" component that provides a set of pictures for the parent's product.
+`resourceful_sub_comp` is the resourceful sibling of `sub_comp` and both are used the same way. Under the hood, the resourceful call passes two extra parameters to the sub component: `data` and `data_class`.
 
-It is advisable to load all required data only in the root component in order to avoid inefficient "n+1 queries" in the database. The root component is resourceful and its `data` is an ActiveRecord collection of three products (e.g. using `.where(id: [id_1, id_2, id_3])`), including all necessary data.
+The rule of thumb thus becomes:
+
+- When a resourceful component instanciates a resourceful sub-component, use `resourceful_sub_comp` in the parent component.
+- When a resourceful component instanciates a non-resourceful sub-component, use `sub_comp`.
+- The situation where a non-resourceful component instanciates a resourceful component should not occur. Instead, make your parent component resourceful, even if it doesn't use the data itself. By housing a resourceful sub-comp, the parent component's nature inherently becomes resourceful and you should use the Resourceful mixin.
 
 ## Actions
 
