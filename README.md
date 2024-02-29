@@ -604,6 +604,49 @@ Rails controller redirects can be issued both in a verb DSL's `respond` block an
 - If you want to redirect depending on the HTTP verb, use `respond`.
 - If you want to redirect depending on params, state, time etc.  **independently of the HTTP verb**, use `before_render`, as this is more convenient than writing a standalone -> verb -> respond tree.
 
+## Inheritance
+
+When inheriting from another component class, `setup` can be called in the child as well in order to overwrite specified configurations. The parent's `setup` block will be run first, then the child's, then the grand-child's and so on.
+
+Omit any configuration that you want to keep from the parent class. For instance, if your parent's setup looks like this:
+
+```ruby
+setup do
+  standalone path: 'foo/bar' do
+    layout 'funky'
+    verb :get do
+      authorize { true }
+    end
+  end
+  content do
+    h1 'Test'
+  end
+end
+```
+
+Assuming you want to implement a child class that only differs by layout and adds more content below "test", you can implement:
+
+```ruby
+setup do
+  standalone do
+    layout 'dark'
+  end
+  add_content do
+    para 'This will appear below "Test".'
+  end
+end
+```
+
+### Un-exposing a component
+
+If a component's parent class is standalone but the child should not be, use `clear_standalone!`:
+
+```ruby
+setup do
+  clear_standalone!
+end
+```
+
 ## Nesting
 
 Components can be arbitrarily nested. This means that any component exposing content can instanciate an arbitrary number of sub-components that will be rendered as part of its own content. This results in a component tree. Sub-components are aware of the nesting and even of their position within the parent. The topmost component is called the **root component** and it's the only component that must be standalone. If you instead render the topmost component from a custom view, there is conceptually no root component, but Compony has no way to detect this special case.
@@ -826,10 +869,6 @@ The rule of thumb thus becomes:
 TODO, also view helper compony_actions
 
 Note that only the root component loads and stores data. TODO: say something about resourceful_sub_comp
-
-## Inheritance
-
-TODO
 
 ## Compony helpers, links and buttons
 
