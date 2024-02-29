@@ -741,11 +741,13 @@ So far, we have mainly seen how to present static content, without considering h
 
 Resourceful components use an instance variable `@data` and provide a reader `data` for it. As a convention, always store the data the component "is about" in this variable.
 
+Further, the class of which `data` should be can be specified and retrieved by using `data_class`. By default, `data_class` is inferred from the component's family name, i.e. `Components::User::Show` will automatically return `User` as `data_class`.
+
 The mixin adds extra hooks that can be used to store logic that can be executed in the request context when the component is rendered standalone. The formulation of that sentence is important, as the decision which of these blocks are executed depends on the verb DSL. But before elaborating on that, let's first look at all the available hooks provided by the Resourceful mixin:
 
 - `load_data`: Important. Speficy a block that assigns something to `@data` here. The block will be run before authorization - thus, you can check `@data` for authorizing (e.g. `can?(:read, @data)`).
 - `after_load_data`: Optional. If a block is specified, it is run immediately after `load_data`. This is useful if you inherit from a component that loads data but you need to alter something, e.g. refining a collection.
-- `assign_attributes`: Important for components that alter data, e.g. New, Edit. Specify a block that assigns attributes to your model from `load_data`. The model is now dirty, which is important: **do not save your model here**, as authorization has not yet been performed.
+- `assign_attributes`: Important for components that alter data, e.g. New, Edit. Specify a block that assigns attributes to your model from `load_data`. The model is now dirty, which is important: **do not save your model here**, as authorization has not yet been performed. Also, **do not forget to validate params before assigning them to attributes**.
 - `after_assign_attributes`: Optional. If a block is specified, it is run immediately after `assign_attributes`. Its usage is similar to that of `after_load_data`.
 - (At this point, your `authorize` block is executed, throwing a `CanCan::AccessDenied` exception causing HTTP 403 not authorized if the block returns false.)
 - `store_data`: Important for components that alter data, e.g. New, Edit. This is where you save your model stored in `@data` to the database.
@@ -761,7 +763,49 @@ Unlike the calls above, which are global for the entire component, the ones in t
 - If multiple verbs use the same logic for a hook, place it in the global hook. For example, let us consider an Edit component: if GET is called on it, the model is loaded and parameters are assigned to it in order to fill the form's inputs. If PATCH is called, the exact same thing is done before attempting to save the model. In this case, you would implement both `load_data` and `assign_attributes` as global hooks.
 - If a hook is specific to a single verb, place it in the verb config.
 
-TODO: Add an example
+Let's build an example of a simplified Destroy component. In practice, you'd instead inherit from `Compony::Components::Destroy`. However, for the sake of demonstration, we will implement it from scratch:
+
+```ruby
+class Components::Users::Destroy < Compony::Component
+  # Make the component resourceful
+  include Compony::ComponentMixins::Resourceful
+
+  setup do
+    # Let the path be of the form users/42/destroy
+    standalone path: 'users/:id/destroy' do
+      verb :get do
+        # In the case of a GET request, ask for confirmation, not deleting anything.
+        # Nevertheless, we should authorize :destroy, not :read.
+        # Reason: this way, buttons pointing to this component will not be shown
+        # to users which lack the permission to destroy @data.
+        authorize { can?(:destroy, @data) }
+      end
+
+      verb :delete do
+        # In the case of a DELETE request, the record will be destroyed.
+        authorize { can?(:destroy, @data) }
+        store_data { @data.destroy! }
+        # We overwrite the repond block because we want to redirect, not render
+        respond do
+          flash.notice = "#{@data.label} was deleted."
+          redirect_to Compony.path(:index, :users)
+        end
+      end
+    end
+
+    # Resourceful components have a default `load_data` block that loads the model.
+    # Therefore, the default behavior is already set to:
+    # load_data { @data = User.find(params[:id]) }
+
+    label(:short) { |_| 'Delete' }
+    label(:long) { |data| "Delete #{data.label}" }
+    content do
+      h1 "Are you sure to delete #{@data.label}?"
+      div compony_button(:destroy, @data, label: 'Yes, delete', method: :delete)
+    end
+  end
+end
+```
 
 ### Nesting resourceful components
 
