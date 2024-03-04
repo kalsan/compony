@@ -19,7 +19,6 @@ module Compony
       end
 
       # DSL method, defines a new field which will be translated and can be added to field groups
-      # For virtual attributes, you must pass a type explicitely, otherwise it's auto-infered.
       def field(name, type, **extra_attrs)
         name = name.to_sym
         self.fields = fields.dup
