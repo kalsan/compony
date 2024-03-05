@@ -850,6 +850,20 @@ class Components::Users::Destroy < Compony::Component
 end
 ```
 
+### Complete resourceful lifecycle
+
+This graph documents a typical resourceful lifecycle according to which Compony's pre-built components (see below) are implemented.
+
+- `load_data` creates or fetches the resource from the database.
+- `after_load_data` can refine the resource, e.g. add scopes to a relation.
+- `assign_attributes` takes the HTTP parameters, validates them and assigns them to the resource.
+- `after_assign_attributes` can refine the assigned resource, e.g. provide defaults for blank attributes.
+- `authorize` is called.
+- `store_data` creates/updates/destroys the resource.
+- `respond` typically shows a flash and redirects to another component.
+
+![Graph of the complete resourceful lifecycle](doc/resourceful_lifecycle.png)
+
 ### Nesting resourceful components
 
 As mentionned earlier, hooks such as those provided by Resourceful typically run only when a component is accessed standalone. This means that in a nested setting, only the component running those hooks is the root component.
