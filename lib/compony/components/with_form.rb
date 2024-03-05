@@ -5,6 +5,7 @@ module Compony
     # It can be called via :get or via `submit_verb` depending on whether its form should be shown or submitted.
     class WithForm < Component
       def initialize(...)
+        # TODO: On the next line, use Compony.path instead? Likely, this was implemented before that method existed.
         @submit_path_block = ->(controller) { controller.helpers.send("#{Compony.path_helper_name(comp_name, family_name)}_path") }
         super
       end
