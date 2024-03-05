@@ -1366,7 +1366,7 @@ RequestContext further provides the following methods on its own:
 
 Compony is Free Software under the LGPLv3 and you are most welcome to contribute to it.
 
-- If you spotted a security vulnerability, **do not open an issue** but instead use the contact form at [https://kalsan.ch](https://kalsan.ch) instead (English is just fine, even if the website is in German).
+- If you spotted a security vulnerability, **do not open an issue** but instead use the contact form at [https://kalsan.ch/#contact](https://kalsan.ch/#contact) instead (English is just fine, even if the website is in German).
 - If you'd like to contribute feedback or discuss something, please open an issue.
 - If you have an idea that is worth implementing, please fork the repo, implement your changes in your own fork, and open a pull request.
 
