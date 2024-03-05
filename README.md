@@ -1256,7 +1256,43 @@ WithForm adds the following DSL methods:
 
 ### Form
 
-TODO
+This component holds a form and should only be instanciated by the `form_comp` call of a component that inherits from WithForm.
+
+`Compony::Components::Form` is an abstract base class for any components presenting a regular form. This class comes with a lot of tooling for rendering forms and inputs, as well as validating parameters. When the component is rendered, the Gem simpleform is used to create the actual form: [https://github.com/heartcombo/simple_form](https://github.com/heartcombo/simple_form).
+
+Paramaters are structured like typical Rails forms. For instance, if you have a form for a `User` model and the attribute is `first_name`, the parameter looks like `user[first_name]=Tom`. In this case, we will call `user` the `schema_wrapper_key`. Parameters are validated using Schemacop: [https://github.com/sitrox/schemacop](https://github.com/sitrox/schemacop).
+
+The following DSL calls are provided by the Form component:
+
+- Required: `form_fields` takes a block that renders the inputs of your form. More on that below.
+- Optional: `skip_autofocus` will prevent the first input to be auto-focussed when the user visits the form.
+- Typically required: `schema_fields` takes the names of fields as a whitelist for strong parameters. Together with model fields, this will completely auto-generate a Schemacop schema suitable for validating this form. If your argument list gets too long, you can use multiple calls to `schema_field` instead to declare your fields one by one on separate lines.
+- Optional: `schema_line` takes a single Schemacop line. Use this for customly whitelisting an argument, e.g. if you have an input that does not have a corresponding model field.
+- Optional: `schema` allows you to instead fully define your own custom Schemacop V3 schema manually. Note that this disables all of the above schema calls.
+
+The `form_fields` block acts much like a content block and you will use Dyny there. Two additional methods are made available exculsively inside the block:
+
+- `field` (not to be confused with the model mixin's static method) takes the name of a model field and auto-generates a suitable simpleform input as defined in the field's type.
+- `f` gives you direct access to the `simple_form` instance. You can use it to write e.g. `f.input(...)`.
+
+Here is a simple example for a form for a sample user:
+
+```ruby
+class Components::Users::Form < Compony::Components::Form
+  setup do
+    form_fields do
+      concat field(:first_name)
+      concat field(:last_name)
+      concat field(:age)
+      concat field(:comment)
+      concat field(:role)
+    end
+    schema_fields :first_name, :last_name, :age, :comment, :role
+  end
+end
+```
+
+Note that the inputs and schema are two completely different concepts that are not auto-inferred from each other. You must make sure that they always correspond. If you forget to mention a field in `schema_fields`, posting the form will fail. Luckily, Schemacop's excellent error messaging will explain which parameter is prohibited.
 
 ### New
 
