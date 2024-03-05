@@ -1398,7 +1398,11 @@ RequestContext further provides the following methods on its own:
 
 # Contributing
 
-TODO
+Compony is Free Software under the LGPLv3 and you are most welcome to contribute to it.
+
+- If you spotted a security vulnerability, **do not open an issue** but instead use the contact form at [https://kalsan.ch](https://kalsan.ch) instead (English is just fine, even if the website is in German).
+- If you'd like to contribute feedback or discuss something, please open an issue.
+- If you have an idea that is worth implementing, please fork the repo, implement your changes in your own fork, and open a pull request.
 
 # Caveats
 
@@ -1416,4 +1420,6 @@ TODO
 
 # Acknowledgements
 
-TODO
+A big thank you to Alex and Koni who have patiently listened to my weird ideas and helped me developing them further, resulting in a few of the key concepts of Compony, such as `param_name`, or the way forms are structured.
+
+Further, it should be acknowledged that Compony would not be what it is if it weren't for the awesome Gems it can rely on, for instance Rails, CanCanCan, simpleform, or Schemacop.
