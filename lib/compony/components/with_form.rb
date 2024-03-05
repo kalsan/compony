@@ -5,6 +5,8 @@ module Compony
     # It can be called via :get or via `submit_verb` depending on whether its form should be shown or submitted.
     class WithForm < Component
       def initialize(...)
+        # TODO: On the next line, use Compony.path instead? Likely, this was implemented before that method existed.
+        @submit_path_block = ->(controller) { controller.helpers.send("#{Compony.path_helper_name(comp_name, family_name)}_path") }
         @form_cancancan_action = :missing
         super
       end
@@ -16,7 +18,7 @@ module Compony
           self,
           submit_verb:,
           # If applicable, Rails adds the route keys automatically, thus, e.g. :id does not need to be passed here, as it comes from the request.
-          submit_path:      ->(controller) { controller.helpers.send("#{Compony.path_helper_name(comp_name, family_name)}_path") },
+          submit_path:      @submit_path_block,
           cancancan_action: form_cancancan_action
         )
       end
@@ -46,6 +48,13 @@ module Compony
           @form_cancancan_action = new_form_cancancan_action
         end
         return @form_cancancan_action
+      end
+
+      # DSL method
+      # Overrides the submit path which would otherwise default to this component
+      # This takes a block that will be called and given a controller
+      def submit_path(&new_submit_path_block)
+        @submit_path_block = new_submit_path_block
       end
     end
   end

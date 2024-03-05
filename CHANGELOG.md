@@ -1,4 +1,22 @@
-# unreleased
+# 0.2.1
+
+- Fix a bug where the app crashed on HEAD verb
+- Show more details about failing authorization block
+- Implement `submit_path` DSL call for WithForm
+- Add French translation
+- Implement `skip_autofocus` in Form
+- Allow partial override of standalone verb configs. Example:
+  ```ruby
+    verb :get do
+      authorize { true }
+    end
+    verb :post do
+      authorize { true }
+      # Parent class implements more logic here, which will no longer be overwritten by calling `verb :post`.
+    end
+  ```
+
+# 0.2.0
 
 - Cleanup old code
   - Remove `check_config!` that was barely used

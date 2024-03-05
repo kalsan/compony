@@ -1,0 +1,33 @@
+fr:
+  compony:
+    cancel: 'Annuler'
+    filtered: '[Filtré]' # Not translated as this appears in log
+    boolean:
+      true: 'Oui'
+      false: 'Non'
+    feasibility:
+      has_dependent_models: 'il existe des %{dependent_class} dépendants'
+    model_fields:
+      attachment:
+        download: 'Télécharger'
+    components:
+      form:
+        submit: 'Envoyer'
+        cancel: 'Annuler'
+      edit:
+        label:
+          long: 'Modifier %{data_label}'
+          short: 'Modifier'
+        data_was_updated: '%{data_label} a été enregistré.'
+      new:
+        label:
+          long: 'Créer %{data_class}'
+          short: 'Nouveau'
+        data_was_created: '%{data_label} a été créé.'
+      destroy:
+        label:
+          long: 'Supprimer %{data_label}'
+          short: 'Supprimer'
+        confirm_question: 'Voulez-vous vraiment supprimer %{data_label} ?'
+        confirm_button: 'Oui, supprimer'
+        data_was_destroyed: '%{data_label} a été supprimé.'

@@ -19,7 +19,6 @@ module Compony
       end
 
       # DSL method, defines a new field which will be translated and can be added to field groups
-      # For virtual attributes, you must pass a type explicitely, otherwise it's auto-infered.
       def field(name, type, **extra_attrs)
         name = name.to_sym
         self.fields = fields.dup
@@ -63,8 +62,12 @@ module Compony
       end
     end
 
-    # Retrieves feasibility for the given instance
+    # Retrieves feasibility for the given instance, returning a boolean indicating whether the action is feasibly.
     # Calling this with an invalid action name will always return true.
+    # This also generates appropriate error messages for any reason causing it to return false.
+    # Feasilbility is cached, thus the second access will be faster.
+    # @param action_name [Symbol,String] the action that the feasibility should be checked for, e.g. :destroy
+    # @param recompute [Boolean] whether feasibility should be forcably recomputed even if a cached result is present
     def feasible?(action_name, recompute: false)
       action_name = action_name.to_sym
       @feasibility_messages ||= {}
@@ -83,12 +86,19 @@ module Compony
       return @feasibility_messages[action_name].none?
     end
 
+    # Retrieves feasibility for the given instance and returns an array of reasons preventing the feasibility. Returns an empty array if feasible.
+    # Conceptually, this is comparable to a model's `errors`.
+    # @param action_name [Symbol,String] the action that the feasibility should be checked for, e.g. :destroy
     def feasibility_messages(action_name)
       action_name = action_name.to_sym
       feasible?(action_name) if @feasibility_messages&.[](action_name).nil? # If feasibility check hasn't been performed yet for this action, perform it now
       return @feasibility_messages[action_name]
     end
 
+    # Retrieves feasibility for the given instance and returns a string holding all reasons preventing the feasibility. Returns an empty string if feasible.
+    # Messages are joined using commata. The first character is capitalized and a period is added to the end.
+    # Conceptually, this is comparable to a model's `full_messages`.
+    # @param action_name [Symbol,String] the action that the feasibility should be checked for, e.g. :destroy
     def full_feasibility_messages(action_name)
       text = feasibility_messages(action_name).join(', ').upcase_first
       text += '.' if text.present?

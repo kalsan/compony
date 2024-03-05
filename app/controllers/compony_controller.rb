@@ -15,7 +15,9 @@ class ComponyController < ApplicationController
 
         # Define controller action for each standalone config
         define_method(standalone_config.rails_action_name) do
-          verb_config = standalone_config.verbs[request.raw_request_method.downcase.to_sym]
+          translated_verb = request.raw_request_method.downcase.to_sym
+          translated_verb = :get if translated_verb == :head # Rails transparently converts HEAD to GET, so we must do the same for fetching the config.
+          verb_config = standalone_config.verbs[translated_verb]
           Compony.comp_class_for!(comp_cst, family_cst).new.on_standalone_access(verb_config, self)
         end
 

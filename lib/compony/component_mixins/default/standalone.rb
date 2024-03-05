@@ -57,7 +57,7 @@ module Compony
           end
 
           # TODO: Make much prettier, providing message, action, subject and conditions
-          fail CanCan::AccessDenied, inspect unless request_context.evaluate(&verb_config.authorize_block)
+          fail CanCan::AccessDenied, [inspect, verb_config.authorize_block.inspect].join(', ') unless request_context.evaluate(&verb_config.authorize_block)
 
           if verb_config.store_data_block
             request_context.evaluate_with_backfire(&verb_config.store_data_block)
@@ -104,11 +104,18 @@ module Compony
         protected
 
         # DSL method
+        # This can be called multiple times to make a component listen to multiple paths. Each standalone config (path) has a name, the default being `nil`.
+        # To have a component listen to multiple paths, call standalone again and provide a name, e.g.: standalone(:autocomplete, path: 'foo/bar/autocomplete')
+        # @param name [Symbol,nil] The name of the standalone config, defaults to nil. Only provide if you add additional configs.
+        # @param path [String] Analog to the Rails route path
         def standalone(name = nil, *args, **nargs, &block)
           block = proc {} unless block_given? # If called without a block, must default to an empty block to provide a binding to the DSL.
           name = name&.to_sym # nil name is the most common case
-          @standalone_configs[name] ||= Compony::MethodAccessibleHash.new
-          @standalone_configs[name].deep_merge! StandaloneDsl.new(self, name, *args, **nargs).to_conf(&block)
+          if @standalone_configs[name]
+            @standalone_configs[name].deep_merge! StandaloneDsl.new(self, name, *args, provide_defaults: false, **nargs).to_conf(&block)
+          else
+            @standalone_configs[name] = Compony::MethodAccessibleHash.new(StandaloneDsl.new(self, name, *args, provide_defaults: true, **nargs).to_conf(&block))
+          end
         end
 
         # Undoes previous standalone calls

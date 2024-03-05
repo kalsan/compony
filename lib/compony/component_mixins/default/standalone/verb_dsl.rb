@@ -17,18 +17,19 @@ module Compony
 
             @component = component
             @verb = verb
-            @respond_blocks = { nil => proc { render_standalone(controller) } } # default format
+            @respond_blocks = {}
             @authorize_block = nil
           end
 
           # For internal usage only, processes the block and returns a config hash.
-          def to_conf(&)
+          def to_conf(provide_defaults:, &)
             evaluate(&) if block_given?
-            return {
+            base_config = provide_defaults ? default_config : {}
+            return base_config.deep_merge({
               verb:            @verb,
-              authorize_block: @authorize_block || proc { can?(comp_name.to_sym, family_name.to_sym) },
+              authorize_block: @authorize_block,
               respond_blocks:  @respond_blocks
-            }.compact
+            }.compact)
           end
 
           protected
@@ -44,6 +45,14 @@ module Compony
           # @param format [String, Symbol] Format this block should respond to, defaults to `nil` which means "all other formats".
           def respond(format = nil, &block)
             @respond_blocks[format&.to_sym] = block
+          end
+
+          # Internal, do not use
+          def default_config
+            return {
+              authorize_block: proc { can?(comp_name.to_sym, family_name.to_sym) },
+              respond_blocks:  { nil => proc { render_standalone(controller) } }
+            }
           end
         end
       end
