@@ -1346,7 +1346,11 @@ The following DSL calls are implemented to allow for convenient overrides of def
 
 ## Generators
 
-TODO
+To make your life easier and coding faster, Compony comes with two generators:
+
+- `rails g component Users::New` will create `app/components/users/new.rb` and, since the component's name coinsides with a a pre-built component, automatically inherit from that. If the name is unknown, the generated component will inherit form `Compony::Component` instead. The generator also equips generated components with the boilerplate code that wil be required to make the component work.
+  - The generator can also be called via its alternativee form `rails g component users/new`.
+- `rails g components Users` will generate a set of the most used components.
 
 ## Internal datastructures
 
