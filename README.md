@@ -1004,6 +1004,13 @@ class MyButton < Compony::Components::Button
 end
 ```
 
+Then, in the Compony initializer, register your custom button class to have Compony instanciate it whenever `Compony.button` or another helper is called:
+
+```ruby
+# config/initializers/compony.rb
+Compony.button_component_class = 'MyButton'
+```
+
 ## Actions
 
 The word "actions" is heavily overused, so here is a disambiguation:
@@ -1187,6 +1194,20 @@ You can then implement `MyCustomModelFields::Animal`, `MyCustomModelFields::Stri
 
 ## Pre-built components shipped with Compony
 
+Compony comes with a few pre-built components that cover the most common cases that can be speed up development. They are meant to be inherited from and the easiest way to do this is by using the Rails generator `rails new component` (described below).
+
+The pre-built components can be found in the module `Compony::Components`. As you can see, there is no Show and no Index component. The reason is that these will depend a lot on your application's UI framework (e.g. Bootstrap) and thus the benefits a UI-agnositic base component can provide are minimal. Additionally, these components are very easy to implement, as is illustrated in the example at the beginning of this documentation.
+
+In the following, the pre-built components currently shipped with Compony are presented.
+
+### Button
+
+As stated earlier, buttons are just regular components that rendered in-place. They don't make use of nesting logic (and presumably never will), and thus they are rendered as-is, without `sub_comp`.
+
+You will rarely (or probably never) instanciate a button on your own, but use helpers like `Compony.button` or `compony_button`. For this reason, the documentation for instanciating buttons is located in the section documenting those helpers above.
+
+## Generators
+
 TODO
 
 ## Internal datastructures
@@ -1198,10 +1219,6 @@ TODO
 TODO
 
 ### RequestContext
-
-TODO
-
-## Generators
 
 TODO
 
