@@ -6,7 +6,9 @@ task :gemspec do
     s.name = 'compony'
     s.version = Compony::Version::LABEL
     s.author = ['Sandro Kalbermatter', 'contributors']
-    s.summary = 'Needs summary'
+    s.summary = 'Compony is a Gem that allows you to write your Rails application in component-style fashion. It combines a controller action and route along \
+    with its view into a single Ruby class. This allows writing much DRYer code, using inheritance even in views and much easier refactoring for your Rails \
+    applications, helping you to keep the code clean as the application evolves.'
     s.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
     s.executables   = []
     s.require_paths = ['lib']
