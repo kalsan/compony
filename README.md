@@ -1,3 +1,5 @@
+<img src="logo.svg" height=250 alt="Compony logo"/>
+
 # Introduction
 
 Compony is a Gem that allows you to write your Rails application in component-style fashion. It combines a controller action and route along with its view into a single Ruby class. This allows writing much DRYer code, using inheritance even in views and much easier refactoring for your Rails applications, helping you to keep the code clean as the application evolves.
