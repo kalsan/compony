@@ -120,7 +120,7 @@ class Components::Users::Show < Compony::Component
 end
 ```
 
-Here is what our Show component looks like when we a layout with the bare minimum and no styling at all:
+Here is what our Show component looks like when we have a layout with the bare minimum and no styling at all:
 
 ![Screenshot of our component with an absolutely minimal layout](doc/imgs/intro-example-show.png)
 
