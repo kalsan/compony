@@ -265,7 +265,7 @@ In `app/models/application_record.rb`, add the following line below `primary_abs
 include Compony::ModelMixin
 ```
 
-## Installing cancancan
+## Installing CanCanCan
 
 Create the file `app/models/ability.rb` with the following content:
 
@@ -1227,7 +1227,7 @@ WithForm adds the following DSL methods:
 
 This component holds a form and should only be instantiated by the `form_comp` call of a component that inherits from WithForm.
 
-`Compony::Components::Form` is an abstract base class for any components presenting a regular form. This class comes with a lot of tooling for rendering forms and inputs, as well as validating parameters. When the component is rendered, the Gem Simpleform is used to create the actual form: [https://github.com/heartcombo/simple_form](https://github.com/heartcombo/simple_form).
+`Compony::Components::Form` is an abstract base class for any components presenting a regular form. This class comes with a lot of tooling for rendering forms and inputs, as well as validating parameters. When the component is rendered, the Gem SimpleForm is used to create the actual form: [https://github.com/heartcombo/simple_form](https://github.com/heartcombo/simple_form).
 
 Parameters are structured like typical Rails forms. For instance, if you have a form for a `User` model and the attribute is `first_name`, the parameter looks like `user[first_name]=Tom`. In this case, we will call `user` the `schema_wrapper_key`. Parameters are validated using Schemacop: [https://github.com/sitrox/schemacop](https://github.com/sitrox/schemacop).
 
@@ -1241,7 +1241,7 @@ The following DSL calls are provided by the Form component:
 
 The `form_fields` block acts much like a content block and you will use Dyny there. Two additional methods are made available exclusively inside the block:
 
-- `field` (not to be confused with the model mixin's static method) takes the name of a model field and auto-generates a suitable Simpleform input as defined in the field's type.
+- `field` (not to be confused with the model mixin's static method) takes the name of a model field and auto-generates a suitable SimpleForm input as defined in the field's type.
 - `f` gives you direct access to the `simple_form` instance. You can use it to write e.g. `f.input(...)`.
 
 Here is a simple example for a form for a sample user:
@@ -1391,4 +1391,4 @@ Compony is Free Software under the LGPLv3 and you are most welcome to contribute
 
 A big thank you to Alex and Koni who have patiently listened to my weird ideas and helped me developing them further, resulting in a few of the key concepts of Compony, such as `param_name`, or the way forms are structured.
 
-Further, it should be acknowledged that Compony would not be what it is if it weren't for the awesome Gems it can rely on, for instance Rails, CanCanCan, simpleform, or Schemacop.
+Further, it should be acknowledged that Compony would not be what it is if it weren't for the awesome Gems it can rely on, for instance Rails, CanCanCan, SimpleForm, or Schemacop.
