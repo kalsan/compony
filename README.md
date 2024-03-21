@@ -13,7 +13,7 @@ Compony's key aspects:
   - Compony's feasibility framework allows you to prohibit actions based on conditions, along with an error message. This causes all buttons pointing to that action to be disabled with a meaningful error message.
 - Compony only structures your code, but provides no style whatsoever. It is like a bookshelf rather than a reader's library. You still implement your own layouts, CSS and Javascript to define the behavior of your front-end.
 - Using Compony, you **can** write your application as components, but it is still possible to have regular routes, controllers and views side-to-side to it. This way, you can migrate your applications to Compony little by little and enter and leave the Compony world as you please. It is also possible to render Compony components from regular views and vice versa.
-- Compony is built for Rails 7 and fully supports Stimulus and Turbo Drive. Turbo Frames and Streams are not yet targetted, so Compony is currently meant for websites where every click triggers a "full page load" (in quotes because they are not actually full page loads due to Turbo Drive).
+- Compony is built for Rails 7 and fully supports Stimulus and Turbo Drive. Turbo Frames and Streams are not yet targeted, so Compony is currently meant for websites where every click triggers a "full page load" (in quotes because they are not actually full page loads due to Turbo Drive).
 - Compony uses CanCanCan (https://github.com/CanCanCommunity/cancancan) for authorization but does not provide an authentication mechanism. You can easily build your own by creating login/logout components that manage cookies, and configure Compony to enforce authentication using the `Compony.authentication_before_action` setter.
 
 ## State of the project
@@ -82,9 +82,9 @@ class Components::Users::Show < Compony::Component
   # The model's class is inferred from the component's name: `Users::Show` -> `User`
   include Compony::ComponentMixins::Resourceful
 
-  # Components are configured in the `setup` method, which prevents loading order isues.
+  # Components are configured in the `setup` method, which prevents loading order issues.
   setup do
-    # The DSL call `label` defines what what is the title of the component and which text is displayed on links and buttons pointing to it.
+    # The DSL call `label` defines what is the title of the component and which text is displayed on links as well as buttons pointing to it.
     # It accepts different formats and takes a block. Given that this component always loads one model, the block must take an argument which is the model.
     # The argument must be provided by links and buttons pointing to this component.
     label(:short) { |_u| 'Show' } # The short format is suitable for e.g. a button in a list of users.
@@ -167,7 +167,7 @@ class Components::Users::Form < Compony::Components::Form
     end
 
     # This DSL call is mandatory as well and automatically generates strong param validation for this form.
-    # The generatd underlying implementation is Schemacop V3 (https://github.com/sitrox/schemacop/blob/master/README_V3.md).
+    # The generated underlying implementation is Schemacop V3 (https://github.com/sitrox/schemacop/blob/master/README_V3.md).
     schema_fields :name, :age, :comment, :role
   end
 end
@@ -267,7 +267,7 @@ include Compony::ModelMixin
 
 ## Installing cancancan
 
-Create the file `app/models/abilty.rb` with the following content:
+Create the file `app/models/ability.rb` with the following content:
 
 ```ruby
 class Ability
@@ -302,7 +302,7 @@ Compony components must be named according to the pattern `Components::FamilyNam
 
 Example: If your plain Rails `UsersController` has an action `show`, the equivalent Compony component is `Components::Users::Show` and is located under `app/components/users/show.rb`.
 
-If you have abstract components (i.e. components that your app never uses directly, but which you inherit from), you may name and place them arbitrarly.
+If you have abstract components (i.e. components that your app never uses directly, but which you inherit from), you may name and place them arbitrarily.
 
 ### Initialization, manual instantiation and rendering
 
@@ -524,7 +524,7 @@ setup do
   # Extra route for loading tiles via AJAX
   standalone :tiles, path: 'map/viewer/tiles' do
     verb :get do
-      respond do # Again: overriding `respond` skips authorization! This is why we don't need to provide an `authroize` block here.
+      respond do # Again: overriding `respond` skips authorization! This is why we don't need to provide an `authorize` block here.
         controller.render(json: MapTiler.load(params, current_ability)) # current_ability is provided by CanCanCan and made available by Compony.
       end
     end
@@ -534,14 +534,14 @@ setup do
 end
 ```
 
-Please note that the idea here is to package things that belong together, not to provide different kinds of content in a single component. For displaying different pages, use multiple components and have eatch expose a single route.
+Please note that the idea here is to package things that belong together, not to provide different kinds of content in a single component. For displaying different pages, use multiple components and have each expose a single route.
 
 ### Naming of exposed routes
 
 The routes to standalone components are named and you can point to them using Rails' `..._path` and `..._url` helpers. The naming scheme is: `[standalone]_[component]_[family]_comp`. Examples:
 
 - Default standalone: `Components::Users::Index` exports `index_users_comp` and thus `index_users_comp_path` can be used.
-- Named standalone: If `standalone :foo, path: ...` is used, the exported name is `foo_index_users_comp`.
+- Named standalone: If `standalone :foo, path: ...` is used within `Components::Users::Index`, the exported name is `foo_index_users_comp`.
 
 ### Handling formats
 
@@ -617,7 +617,7 @@ end
 
 ## Nesting
 
-Components can be arbitrarily nested. This means that any component exposing content can instanciate an arbitrary number of sub-components that will be rendered as part of its own content. This results in a component tree. Sub-components are aware of the nesting and even of their position within the parent. The topmost component is called the **root component** and it's the only component that must be standalone. If you instead render the topmost component from a custom view, there is conceptually no root component, but Compony has no way to detect this special case.
+Components can be arbitrarily nested. This means that any component exposing content can instantiate an arbitrary number of sub-components that will be rendered as part of its own content. This results in a component tree. Sub-components are aware of the nesting and even of their position within the parent. The topmost component is called the **root component** and it's the only component that must be standalone. If you instead render the topmost component from a custom view, there is conceptually no root component, but Compony has no way to detect this special case.
 
 Nesting is orthogonal to inheritance, they are two entirely different concepts. For disambiguating "parent component", we will make an effort to apply that term to nesting only, while writing "parent component class" if inheritance is meant.
 
@@ -641,7 +641,7 @@ class Components::Nestings::Binary < Compony::Component
     # standalone and other configs are omitted in this example.
     content do
       # If the initializer did not store `number`, check whether the Rails request contains the parameter `number`:
-      # Note: do not do that, as we will demonostrate below.
+      # Note: do not do that, as we will demonstrate below.
       @number ||= params[:number].presence&.to_i || 0
       # Display the number as binary
       para "The number #{@number} has the binary form #{@number.to_s(2)}."
@@ -652,7 +652,7 @@ end
 
 If used standalone, the number can be set by using a GET parameter, e.g. `?number=5`. The result is something like this:
 
-```
+```text
 The number 5 has the binary form 101.
 ```
 
@@ -674,7 +674,7 @@ end
 
 The result is something like this:
 
-```
+```text
 The number 1 has the binary form 1.
 The number 2 has the binary form 10.
 The number 3 has the binary form 11.
@@ -738,7 +738,7 @@ end
 
 The result for the URL `path/to/binary_comparator?a9f3d_number=2&e70b4_number=4&a9f3d_number=8` is something like this:
 
-```
+```text
 The number 2 has the binary form 10. Enter a number and press ENTER: [2]
 The number 4 has the binary form 100. Enter a number and press ENTER: [4]
 The number 8 has the binary form 1000. Enter a number and press ENTER: [8]
@@ -756,7 +756,7 @@ Further, the class of which `data` should be can be specified and retrieved by u
 
 The mixin adds extra hooks that can be used to store logic that can be executed in the request context when the component is rendered standalone. The formulation of that sentence is important, as the decision which of these blocks are executed depends on the verb DSL. But before elaborating on that, let's first look at all the available hooks provided by the Resourceful mixin:
 
-- `load_data`: Important. Speficy a block that assigns something to `@data` here. The block will be run before authorization - thus, you can check `@data` for authorizing (e.g. `can?(:read, @data)`).
+- `load_data`: Important. Specify a block that assigns something to `@data` here. The block will be run before authorization - thus, you can check `@data` for authorizing (e.g. `can?(:read, @data)`).
 - `after_load_data`: Optional. If a block is specified, it is run immediately after `load_data`. This is useful if you inherit from a component that loads data but you need to alter something, e.g. refining a collection.
 - `assign_attributes`: Important for components that alter data, e.g. New, Edit. Specify a block that assigns attributes to your model from `load_data`. The model is now dirty, which is important: **do not save your model here**, as authorization has not yet been performed. Also, **do not forget to validate params before assigning them to attributes**.
 - `after_assign_attributes`: Optional. If a block is specified, it is run immediately after `assign_attributes`. Its usage is similar to that of `after_load_data`.
@@ -796,7 +796,7 @@ class Components::Users::Destroy < Compony::Component
         # In the case of a DELETE request, the record will be destroyed.
         authorize { can?(:destroy, @data) }
         store_data { @data.destroy! }
-        # We overwrite the repond block because we want to redirect, not render
+        # We overwrite the respond block because we want to redirect, not render
         respond do
           flash.notice = "#{@data.label} was deleted."
           redirect_to Compony.path(:index, :users)
@@ -834,7 +834,7 @@ This graph documents a typical resourceful lifecycle according to which Compony'
 
 ### Nesting resourceful components
 
-As mentionned earlier, hooks such as those provided by Resourceful typically run only when a component is accessed standalone. This means that in a nested setting, only the component running those hooks is the root component.
+As mentioned earlier, hooks such as those provided by Resourceful typically run only when a component is accessed standalone. This means that in a nested setting, only the component running those hooks is the root component.
 
 When nesting resourceful components, it is therefore best to load all necessary data in the root component. Make sure to include any relations used by sub-components in order to avoid "n+1" queries in the database.
 
@@ -842,13 +842,13 @@ When nesting resourceful components, it is therefore best to load all necessary 
 
 The rule of thumb thus becomes:
 
-- When a resourceful component instanciates a resourceful sub-component, use `resourceful_sub_comp` in the parent component.
-- When a resourceful component instanciates a non-resourceful sub-component, use `sub_comp`.
-- The situation where a non-resourceful component instanciates a resourceful component should not occur. Instead, make your parent component resourceful, even if it doesn't use the data itself. By housing a resourceful sub-comp, the parent component's nature inherently becomes resourceful and you should use the Resourceful mixin.
+- When a resourceful component instantiates a resourceful sub-component, use `resourceful_sub_comp` in the parent component.
+- When a resourceful component instantiates a non-resourceful sub-component, use `sub_comp`.
+- The situation where a non-resourceful component instantiates a resourceful component should not occur. Instead, make your parent component resourceful, even if it doesn't use the data itself. By housing a resourceful sub-comp, the parent component's nature inherently becomes resourceful and you should use the Resourceful mixin.
 
 ## Compony helpers, links and buttons
 
-When pointing to or instanciating a component, writing the whole class name would be cumbersome. For this reason, Compony has several helpers that will retrieve the correct class for you. The most important ones are explained in this subsection. The terms are defined as follows:
+When pointing to or instantiating a component, writing the whole class name would be cumbersome. For this reason, Compony has several helpers that will retrieve the correct class for you. The most important ones are explained in this subsection. The terms are defined as follows:
 
 - Component name or constant: For a component `Components::Users::Show`, this would be `'Show'`, `'show'`, or `:show`
 - Family name or constant: For a component `Components::Users::Show`, this would be `'Users'`, `'users'`, or `:users`
@@ -907,6 +907,7 @@ compony_link(:destroy, User.first, method: :delete) # "Delete John Doe" -> 'user
 # NOT working:
 compony_link(:show, :users, id: 1) # Error: The label for the Users::Show component takes an argument which was not provided (the user's label)
 ```
+
 ### Generating a button to a component
 
 Compony buttons are components that render a button to another component. While the view helper `compony_button` works similar to `compony_link`, you can also manually instantiate a button and work with it like with any other component.
@@ -917,11 +918,11 @@ Compony buttons have a type that is either `:button` or `:submit`. While the fir
 
 A compony button figures out on it's own whether it's clickable or not:
 
-- Buttons can be disabled explicitely by passing `enabled: false` as a parameter.
+- Buttons can be disabled explicitly by passing `enabled: false` as a parameter.
 - If a user is not authorized to access the component a button is pointing to, the button is not displayed.
 - If the target component should not be accessible due to a prevention in the feasibility framework (explained later), the button is disabled and a tooltip is shown explaining why the button is not clickable.
 
-Do not directly instanciate `Compony::Components::Button`. Instead, use `Compony.button`:
+Do not directly instantiate `Compony::Components::Button`. Instead, use `Compony.button`:
 
 ```ruby
 my_button = Compony.button(:index, :users) # "View all users" -> 'users/index'
@@ -971,7 +972,7 @@ end
 
 #### Implementing custom buttons
 
-Plain HTML buttons are not exactly eye candy, so you will likely want to implement your button kind with black jack and icons. For this reason, the button instanciated by Compony's button helpers can be customized.
+Plain HTML buttons are not exactly eye candy, so you will likely want to implement your button kind with black jack and icons. For this reason, the button instantiated by Compony's button helpers can be customized.
 
 To build your own button class, inherit as follows:
 
@@ -986,7 +987,7 @@ class MyButton < Compony::Components::Button
 end
 ```
 
-Then, in the Compony initializer, register your custom button class to have Compony instanciate it whenever `Compony.button` or another helper is called:
+Then, in the Compony initializer, register your custom button class to have Compony instantiate it whenever `Compony.button` or another helper is called:
 
 ```ruby
 # config/initializers/compony.rb
@@ -1084,7 +1085,7 @@ prevent [:create_booking, :destroy_booking], 'the event is already over' do
 end
 ```
 
-**Note that the feasability framework currently only affects buttons pointing to actions, not the action itself.** If a user were to issue the HTTP call manually, the component happily responds and performs the action. This is why you should always back important preventions with an appropriate Rails model validation:
+**Note that the feasibility framework currently only affects buttons pointing to actions, not the action itself.** If a user were to issue the HTTP call manually, the component happily responds and performs the action. This is why you should always back important preventions with an appropriate Rails model validation:
 
 - The Rails model validation prevents that invalid data can be saved to the database.
 - The feasibility framework disables buttons and explains to guide the user.
@@ -1178,7 +1179,7 @@ You can then implement `MyCustomModelFields::Animal`, `MyCustomModelFields::Stri
 
 Compony comes with a few pre-built components that cover the most common cases that can be speed up development. They are meant to be inherited from and the easiest way to do this is by using the Rails generator `rails new component` (described below).
 
-The pre-built components can be found in the module `Compony::Components`. As you can see, there is no Show and no Index component. The reason is that these will depend a lot on your application's UI framework (e.g. Bootstrap) and thus the benefits a UI-agnositic base component can provide are minimal. Additionally, these components are very easy to implement, as is illustrated in the example at the beginning of this documentation.
+The pre-built components can be found in the module `Compony::Components`. As you can see, there is no Show and no Index component. The reason is that these will depend a lot on your application's UI framework (e.g. Bootstrap) and thus the benefits a UI-agnostic base component can provide are minimal. Additionally, these components are very easy to implement, as is illustrated in the example at the beginning of this documentation.
 
 In the following, the pre-built components currently shipped with Compony are presented.
 
@@ -1186,7 +1187,7 @@ In the following, the pre-built components currently shipped with Compony are pr
 
 As stated earlier, buttons are just regular components that rendered in-place. They don't make use of nesting logic (and presumably never will), and thus they are rendered as-is, without `sub_comp`.
 
-You will rarely (or probably never) instanciate a button on your own, but use helpers like `Compony.button` or `compony_button`. For this reason, the documentation for instanciating buttons is located in the section documenting those helpers above.
+You will rarely (or probably never) instantiate a button on your own, but use helpers like `Compony.button` or `compony_button`. For this reason, the documentation for instantiating buttons is located in the section documenting those helpers above.
 
 ### Destroy
 
@@ -1217,30 +1218,30 @@ The following DSL methods are implemented to allow for convenient overrides of d
 
 WithForm adds the following DSL methods:
 
-- `form_comp_class` sets the class that will be instanciated by `form_comp`
+- `form_comp_class` sets the class that will be instantiated by `form_comp`
 - `form_comp` returns an instance of the Form component twinned with this component. If `form_comp_class` was never set, it will default to loading the component named `Form` in the same family as this component.
 - `submit_verb` takes a symbol containing a verb, e.g. `:patch`. It defines this component's standalone verb that should be called when the twinned Form component is submitted.
 - `submit_path` defaults to this component's standalone path. You can override this to submit the form to another component, should you need it.
 
 ### Form
 
-This component holds a form and should only be instanciated by the `form_comp` call of a component that inherits from WithForm.
+This component holds a form and should only be instantiated by the `form_comp` call of a component that inherits from WithForm.
 
-`Compony::Components::Form` is an abstract base class for any components presenting a regular form. This class comes with a lot of tooling for rendering forms and inputs, as well as validating parameters. When the component is rendered, the Gem simpleform is used to create the actual form: [https://github.com/heartcombo/simple_form](https://github.com/heartcombo/simple_form).
+`Compony::Components::Form` is an abstract base class for any components presenting a regular form. This class comes with a lot of tooling for rendering forms and inputs, as well as validating parameters. When the component is rendered, the Gem Simpleform is used to create the actual form: [https://github.com/heartcombo/simple_form](https://github.com/heartcombo/simple_form).
 
-Paramaters are structured like typical Rails forms. For instance, if you have a form for a `User` model and the attribute is `first_name`, the parameter looks like `user[first_name]=Tom`. In this case, we will call `user` the `schema_wrapper_key`. Parameters are validated using Schemacop: [https://github.com/sitrox/schemacop](https://github.com/sitrox/schemacop).
+Parameters are structured like typical Rails forms. For instance, if you have a form for a `User` model and the attribute is `first_name`, the parameter looks like `user[first_name]=Tom`. In this case, we will call `user` the `schema_wrapper_key`. Parameters are validated using Schemacop: [https://github.com/sitrox/schemacop](https://github.com/sitrox/schemacop).
 
 The following DSL calls are provided by the Form component:
 
 - Required: `form_fields` takes a block that renders the inputs of your form. More on that below.
 - Optional: `skip_autofocus` will prevent the first input to be auto-focussed when the user visits the form.
 - Typically required: `schema_fields` takes the names of fields as a whitelist for strong parameters. Together with model fields, this will completely auto-generate a Schemacop schema suitable for validating this form. If your argument list gets too long, you can use multiple calls to `schema_field` instead to declare your fields one by one on separate lines.
-- Optional: `schema_line` takes a single Schemacop line. Use this for customly whitelisting an argument, e.g. if you have an input that does not have a corresponding model field.
+- Optional: `schema_line` takes a single Schemacop line. Use this for custom whitelisting of an argument, e.g. if you have an input that does not have a corresponding model field.
 - Optional: `schema` allows you to instead fully define your own custom Schemacop V3 schema manually. Note that this disables all of the above schema calls.
 
-The `form_fields` block acts much like a content block and you will use Dyny there. Two additional methods are made available exculsively inside the block:
+The `form_fields` block acts much like a content block and you will use Dyny there. Two additional methods are made available exclusively inside the block:
 
-- `field` (not to be confused with the model mixin's static method) takes the name of a model field and auto-generates a suitable simpleform input as defined in the field's type.
+- `field` (not to be confused with the model mixin's static method) takes the name of a model field and auto-generates a suitable Simpleform input as defined in the field's type.
 - `f` gives you direct access to the `simple_form` instance. You can use it to write e.g. `f.input(...)`.
 
 Here is a simple example for a form for a sample user:
@@ -1316,13 +1317,13 @@ The following DSL calls are implemented to allow for convenient overrides of def
 
 To make your life easier and coding faster, Compony comes with two generators:
 
-- `rails g component Users::New` will create `app/components/users/new.rb` and, since the component's name coinsides with a a pre-built component, automatically inherit from that. If the name is unknown, the generated component will inherit form `Compony::Component` instead. The generator also equips generated components with the boilerplate code that wil be required to make the component work.
-  - The generator can also be called via its alternativee form `rails g component users/new`.
+- `rails g component Users::New` will create `app/components/users/new.rb` and, since the component's name coincides with a a pre-built component, automatically inherit from that. If the name is unknown, the generated component will inherit form `Compony::Component` instead. The generator also equips generated components with the boilerplate code that wil be required to make the component work.
+  - The generator can also be called via its alternative form `rails g component users/new`.
 - `rails g components Users` will generate a set of the most used components.
 
 ## Internal datastructures
 
-Compony has a few internal datastructures that are worth mentionning. Especially when building your own UI framework on top of Compony, these might come in handy.
+Compony has a few internal data structures that are worth mentioning. Especially when building your own UI framework on top of Compony, these might come in handy.
 
 ### MethodAccessibleHash
 
@@ -1346,9 +1347,9 @@ The content blocks, as well as Form's `form_fields` block all run within a `Comp
 
 The main provider (refer to the Dslblend documentation to find out what that means) is set to the component. Additional providers are controller's helpers, the controller itself, as well as custom additional providers that can be fed to RequestContext in the initializer.
 
-To instanciate a RequestContext, the following arguments must be given:
+To instantiate a RequestContext, the following arguments must be given:
 
-- The first argument must be the component instanciating the RequestContext.
+- The first argument must be the component instantiating the RequestContext.
 - The second argument must be the controller holding the current HTTP request.
 - Optional: any further arguments will be given to Dslblend as additional providers.
 - Optional: the keyword argument `helpers` can be given to overwrite the `helpers` context. If not given, the helpers will be extracted from the controller.
@@ -1358,9 +1359,9 @@ RequestContext further provides the following methods on its own:
 
 - `controller` returns the controller.
 - `helpers` returns the helpers (either from the initializer or the controller).
-- `local_assigns` returns the locals that can be given to the RequestContext on instaniation through the `locals` keyword argument.
+- `local_assigns` returns the locals that can be given to the RequestContext on instantiation through the `locals` keyword argument.
 - `evaluate_with_backfire` is `evaluate` with enabled backfiring.
-- `component` returns the component the RequestContext was instanciated with.
+- `component` returns the component the RequestContext was instantiated with.
 - `request_context` returns self. This is for disambiguation purposes.
 - Any call to an unknown method will first be evaluated as a potential hit in `locals`. Only if no matching local is found, Dslblend takes over.
 
@@ -1381,9 +1382,9 @@ Compony is Free Software under the LGPLv3 and you are most welcome to contribute
   - Change resourceful hooks as follows:
     - Verb DSL hooks still take precedence over global hooks, but if given, they MUST provide a block.
     - If global hooks are present, they will be executed in every verb.
-- At this point, I haven't gotten into Turbo Streams and Turbo Frames. It would be interesting to exend Compony such it also makes writing applications using these features much easier.
+- At this point, I haven't gotten into Turbo Streams and Turbo Frames. It would be interesting to extend Compony such it also makes writing applications using these features much easier.
 - Feasibility:
-  - The feasibility framework does not yet enforce prevention, but only has effects on buttons. Actions should be structured more explicitely such that prevention becomes as tight as authorization.
+  - The feasibility framework does not yet enforce prevention, but only has effects on buttons. Actions should be structured more explicitly such that prevention becomes as tight as authorization.
   - Feasibility for links is not yet implemented.
 
 # Acknowledgements
