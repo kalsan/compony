@@ -1,3 +1,8 @@
+# unreleased
+
+- Adjust gemspec
+- Generate documentation
+
 # 0.2.1
 
 - Fix a bug where the app crashed on HEAD verb
