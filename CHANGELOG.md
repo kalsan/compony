@@ -2,6 +2,7 @@
 
 - Adjust gemspec
 - Generate documentation
+- Add VERSION file
 
 # 0.2.1
 

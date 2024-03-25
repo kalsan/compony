@@ -1,6 +1,8 @@
 require 'bundler/gem_tasks'
 require_relative 'lib/compony/version'
 
+File.open('VERSION', 'w') { |f| f.puts(Compony::Version::LABEL) }
+
 task :gemspec do
   specification = Gem::Specification.new do |s|
     s.name = 'compony'
