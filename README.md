@@ -1,6 +1,7 @@
 <img src="logo.svg" height=250 alt="Compony logo"/>
 
 - To see the README including images, refer to https://github.com/kalsan/compony
+- To see the class documentation, refer to https://www.rubydoc.info/github/kalsan/compony
 
 # Introduction
 
