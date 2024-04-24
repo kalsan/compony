@@ -10,28 +10,6 @@ module Compony
         return transform_and_join(data.send(@name), controller:) { |el| el&.label }
       end
 
-      def simpleform_input(form, _component, name: nil, **input_opts)
-        anchormodel_attribute = @model_class.anchormodel_attributes[@name]
-        anchormodel_class = anchormodel_attribute.anchormodel_class
-        input_opts[:input_html] ||= {}
-        # Attempt to read selected key from html input options "value", as the caller might not know that this is a select.
-        selected_key = input_opts[:input_html].delete(:value) # can also be both nil or blank
-        if selected_key.blank? && form.object
-          # No selected key override present and a model is present, use the model to find out what to select
-          selected_cst = form.object.send(@name)
-          selected_key = selected_cst&.key || anchormodel_class.all.first
-        end
-        opts = {
-          collection:    self.class.collect(anchormodel_class.all),
-          label_method:  :first,
-          value_method:  :second,
-          selected:      selected_key, # if used in select
-          checked:       selected_key, # if used in radio buttons
-          include_blank: anchormodel_attribute.optional
-        }.merge(input_opts)
-        return form.input name || @name, **opts
-      end
-
       def simpleform_input_hidden(form, _component, name: nil, **input_opts)
         if form.object
           selected_cst = form.object.send(@name)

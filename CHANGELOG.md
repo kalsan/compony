@@ -3,6 +3,7 @@
 - Adjust gemspec
 - Generate documentation
 - Add VERSION file
+- Replace custom anchormodel field implementation by Anchormodel's new implementation of SimpleForm Input
 
 # 0.2.1
 
