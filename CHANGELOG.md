@@ -1,4 +1,4 @@
-# 0.2.2
+# unreleased
 
 - Adjust gemspec
 - Generate documentation
