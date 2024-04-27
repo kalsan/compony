@@ -13,8 +13,10 @@ module Compony
       def simpleform_input_hidden(form, _component, name: nil, **input_opts)
         if form.object
           selected_cst = form.object.send(@name)
+          am_attr = form.object.class.anchormodel_attributes[@name]
+          am_serializer = (am_attr.multiple? ? ::Anchormodel::ActiveModelTypeValueMulti : ::Anchormodel::ActiveModelTypeValueSingle).new(am_attr)
           input_opts[:input_html] ||= {}
-          input_opts[:input_html][:value] = selected_cst.is_a?(::Anchormodel) ? selected_cst.key : selected_cst
+          input_opts[:input_html][:value] = am_serializer.serialize(selected_cst)
         end
         return form.input name || @name, as: :hidden, **input_opts
       end

@@ -1,3 +1,7 @@
+# unreleased
+
+- Support collection of Anchormodels in hidden input
+
 # 0.2.2
 
 - Adjust gemspec
