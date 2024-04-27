@@ -27,7 +27,7 @@ task :gemspec do
     s.add_runtime_dependency 'schemacop', '>= 3.0.17'
     s.add_runtime_dependency 'simple_form', '>= 5.1.0'
     s.add_runtime_dependency 'dslblend', '>= 0.0.3'
-    s.add_runtime_dependency 'anchormodel', '~> 0.1.5'
+    s.add_runtime_dependency 'anchormodel', '~> 0.2.0'
     s.add_runtime_dependency 'cancancan', '~> 3.4.0'
   end
 

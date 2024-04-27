@@ -2,11 +2,11 @@
 # This file is auto-generated via: 'rake gemspec'.
 
 # -*- encoding: utf-8 -*-
-# stub: compony 0.2.4.edge ruby lib
+# stub: compony 0.2.3.edge ruby lib
 
 Gem::Specification.new do |s|
   s.name = "compony".freeze
-  s.version = "0.2.4.edge".freeze
+  s.version = "0.2.3.edge".freeze
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
@@ -28,6 +28,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency(%q<schemacop>.freeze, [">= 3.0.17".freeze])
   s.add_runtime_dependency(%q<simple_form>.freeze, [">= 5.1.0".freeze])
   s.add_runtime_dependency(%q<dslblend>.freeze, [">= 0.0.3".freeze])
-  s.add_runtime_dependency(%q<anchormodel>.freeze, ["~> 0.1.5".freeze])
+  s.add_runtime_dependency(%q<anchormodel>.freeze, ["~> 0.2.0".freeze])
   s.add_runtime_dependency(%q<cancancan>.freeze, ["~> 3.4.0".freeze])
 end
