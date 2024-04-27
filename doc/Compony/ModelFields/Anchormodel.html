@@ -311,7 +311,9 @@
 17
 18
 19
-20</pre>
+20
+21
+22</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/compony/model_fields/anchormodel.rb', line 13</span>
@@ -319,8 +321,10 @@
 <span class='kw'>def</span> <span class='id identifier rubyid_simpleform_input_hidden'>simpleform_input_hidden</span><span class='lparen'>(</span><span class='id identifier rubyid_form'>form</span><span class='comma'>,</span> <span class='id identifier rubyid__component'>_component</span><span class='comma'>,</span> <span class='label'>name:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_input_opts'>input_opts</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_form'>form</span><span class='period'>.</span><span class='id identifier rubyid_object'>object</span>
     <span class='id identifier rubyid_selected_cst'>selected_cst</span> <span class='op'>=</span> <span class='id identifier rubyid_form'>form</span><span class='period'>.</span><span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='ivar'>@name</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_am_attr'>am_attr</span> <span class='op'>=</span> <span class='id identifier rubyid_form'>form</span><span class='period'>.</span><span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_anchormodel_attributes'>anchormodel_attributes</span><span class='lbracket'>[</span><span class='ivar'>@name</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_am_serializer'>am_serializer</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_am_attr'>am_attr</span><span class='period'>.</span><span class='id identifier rubyid_multiple?'>multiple?</span> <span class='op'>?</span> <span class='op'>::</span><span class='const'>Anchormodel</span><span class='op'>::</span><span class='const'>ActiveModelTypeValueMulti</span> <span class='op'>:</span> <span class='op'>::</span><span class='const'>Anchormodel</span><span class='op'>::</span><span class='const'>ActiveModelTypeValueSingle</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_am_attr'>am_attr</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_input_opts'>input_opts</span><span class='lbracket'>[</span><span class='symbol'>:input_html</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
-    <span class='id identifier rubyid_input_opts'>input_opts</span><span class='lbracket'>[</span><span class='symbol'>:input_html</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_selected_cst'>selected_cst</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Anchormodel</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_selected_cst'>selected_cst</span><span class='period'>.</span><span class='id identifier rubyid_key'>key</span> <span class='op'>:</span> <span class='id identifier rubyid_selected_cst'>selected_cst</span>
+    <span class='id identifier rubyid_input_opts'>input_opts</span><span class='lbracket'>[</span><span class='symbol'>:input_html</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_am_serializer'>am_serializer</span><span class='period'>.</span><span class='id identifier rubyid_serialize'>serialize</span><span class='lparen'>(</span><span class='id identifier rubyid_selected_cst'>selected_cst</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
   <span class='kw'>return</span> <span class='id identifier rubyid_form'>form</span><span class='period'>.</span><span class='id identifier rubyid_input'>input</span> <span class='id identifier rubyid_name'>name</span> <span class='op'>||</span> <span class='ivar'>@name</span><span class='comma'>,</span> <span class='label'>as:</span> <span class='symbol'>:hidden</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_input_opts'>input_opts</span>
 <span class='kw'>end</span></pre>
@@ -373,7 +377,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Apr 24 17:14:12 2024 by
+  Generated on Sat Apr 27 10:19:57 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>

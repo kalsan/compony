@@ -1,4 +1,4 @@
-# unreleased
+# 0.2.3
 
 - Support collection of Anchormodels in hidden input
 
