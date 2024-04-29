@@ -248,6 +248,10 @@ The result looks like this:
 
 Note how the admin's delete button is disabled due to the feasibility framework. Pointing the mouse at it causes a tooltip saying: "Cannot destroy admins.", as specified in the model's prevention.
 
+# Alternatives to Compony
+
+A project with a similar aim, but much more mature, is [Phlex]( https://github.com/phlex-ruby/phlex).
+
 # Installation
 
 ## Installing Compony
