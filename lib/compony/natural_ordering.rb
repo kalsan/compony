@@ -9,9 +9,10 @@ module Compony
   # collection.natural_push(:c, c_payload)
   # collection.natural_push(:b, b_payload, before: :c)
   # collection.natural_push(:d, d_payload, hidden: true)
+  # collection.natural_push(:a, a_new_payload) # overwrites :a
   #
   # collection.reject{|el| el.hidden}.map(&:name) # --> :a, :b, :c
-  # collection.map(&:payload) # --> a_payload, b_payload, c_payload, d_payload
+  # collection.map(&:payload) # --> a_new_payload, b_payload, c_payload, d_payload
   # ```
   class NaturalOrdering < Array
     def natural_push(name, payload, before: nil, **kwargs)
