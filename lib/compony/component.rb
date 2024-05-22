@@ -114,6 +114,9 @@ module Compony
     # DSL method
     # Adds or overrides a before_render block.
     # You can use controller.redirect_to to redirect away and halt the before_render/content chain
+    # @param [Symbol,String] name The name of the before_render block, defaults to `:main`
+    # @param [nil,Symbol,String] before If nil, the block will be added to the bottom of the before_render chain. Otherwise, pass the name of another block.
+    # @param [Proc] block The block that should be run as part of the before_render pipeline. Will run in the component's context.
     def before_render(name = :main, before: nil, &block)
       fail("`before_render` expects a block in #{inspect}.") unless block_given?
       @before_render_blocks.natural_push(name, block, before:)
@@ -121,7 +124,9 @@ module Compony
 
     # DSL method
     # Adds or overrides a content block.
-    # You can use dyny here.
+    # @param [Symbol,String] name The name of the content block, defaults to `:main`
+    # @param [nil,Symbol,String] before If nil, the block will be added to the bottom of the content chain. Otherwise, pass the name of another block.
+    # @param [Proc] block The block that should be run as part of the content pipeline. Will run in the component's context. You can use Dyny here.
     def content(name = :main, before: nil, &block)
       fail("`content` expects a block in #{inspect}.") unless block_given?
       @content_blocks.natural_push(name, block, before:)
