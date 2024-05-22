@@ -18,22 +18,22 @@ module Compony
     def natural_push(name, payload, before: nil, **kwargs)
       name = name.to_sym
       before_name = before&.to_sym
-      action = MethodAccessibleHash.new(name:, payload:, **kwargs)
+      element = MethodAccessibleHash.new(name:, payload:, **kwargs)
 
       existing_index = find_index { |el| el.name == name }
       if existing_index.present? && before_name.present?
         delete_at(existing_index) # Replacing an existing element with a before: directive - must delete before calculating indices
       end
       if before_name.present?
-        before_index = find_index { |el| el.name == before_name } || fail("Action #{before_name} for :before not found in #{inspect}.")
+        before_index = find_index { |el| el.name == before_name } || fail("Element #{before_name.inspect} for :before not found in #{inspect}.")
       end
 
       if before_index.present?
-        insert(before_index, action)
+        insert(before_index, element)
       elsif existing_index.present?
-        self[existing_index] = action
+        self[existing_index] = element
       else
-        self << action
+        self << element
       end
     end
   end
