@@ -87,7 +87,7 @@
 </li><li>
 <p>Compony is built for Rails 7 and fully supports Stimulus and Turbo Drive. Turbo Frames and Streams are not yet targeted, so Compony is currently meant for websites where every click triggers a “full page load” (in quotes because they are not actually full page loads due to Turbo Drive).</p>
 </li><li>
-<p>Compony uses CanCanCan (<a href="https://github.com/CanCanCommunity/cancancan">github.com/CanCanCommunity/cancancan</a>) for authorization but does not provide an authentication mechanism. You can easily build your own by creating login/logout components that manage cookies, and configure Compony to enforce authentication using the <code>Compony.authentication_before_action</code> setter.</p>
+<p>Compony uses <a href="https://github.com/CanCanCommunity/cancancan">CanCanCan</a> for authorization but does not provide an authentication mechanism. You can easily build your own by creating login/logout components that manage cookies, and configure Compony to enforce authentication using the <code>Compony.authentication_before_action</code> setter. We have also successfully tested Compony to work with <a href="https://github.com/heartcombo/devise">Devise</a>.</p>
 </li></ul>
 
 <h2 id="label-State+of+the+project">State of the project</h2>
@@ -1567,7 +1567,7 @@ my_button = Compony.button(:index, :users, enabled: -&gt; { |controller| control
 </div></div>
 
       <div id="footer">
-  Generated on Wed May 22 12:01:03 2024 by
+  Generated on Wed May 22 12:04:06 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>
