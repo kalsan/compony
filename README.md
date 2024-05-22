@@ -500,7 +500,7 @@ So when you subclass this component, you can forget about the card and just over
 ```ruby
 # Components::Hello::HelloCard < Components::Bootstrap::Card
 setup do
-  content hidden: true do
+  content do # hidden is still true because the old :main content block specified that already.
     h1 'Hello'
     para 'Welcome to my site.'
   end

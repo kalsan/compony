@@ -118,9 +118,9 @@ module Compony
     # @param [Symbol,String] name The name of the before_render block, defaults to `:main`
     # @param [nil,Symbol,String] before If nil, the block will be added to the bottom of the before_render chain. Otherwise, pass the name of another block.
     # @param [Proc] block The block that should be run as part of the before_render pipeline. Will run in the component's context.
-    def before_render(name = :main, before: nil, &block)
+    def before_render(name = :main, before: nil, **kwargs, &block)
       fail("`before_render` expects a block in #{inspect}.") unless block_given?
-      @before_render_blocks.natural_push(name, block, before:)
+      @before_render_blocks.natural_push(name, block, before:, **kwargs)
     end
 
     # DSL method
@@ -129,9 +129,9 @@ module Compony
     # @param [nil,Symbol,String] before If nil, the block will be added to the bottom of the content chain. Otherwise, pass the name of another block.
     # @param [Boolean] hidden If true, the content will not be rendered by default, allowing you to nest it in another content block.
     # @param [Proc] block The block that should be run as part of the content pipeline. Will run in the component's context. You can use Dyny here.
-    def content(name = :main, before: nil, hidden: false, &block)
+    def content(name = :main, before: nil, **kwargs, &block)
       fail("`content` expects a block in #{inspect}.") unless block_given?
-      @content_blocks.natural_push(name, block, before:, hidden:)
+      @content_blocks.natural_push(name, block, before:, **kwargs)
     end
 
     # Renders the component using the controller passsed to it and returns it as a string.

@@ -214,7 +214,23 @@
 35
 36
 37
-38</pre>
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/compony/natural_ordering.rb', line 18</span>
@@ -222,22 +238,38 @@
 <span class='kw'>def</span> <span class='id identifier rubyid_natural_push'>natural_push</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_payload'>payload</span><span class='comma'>,</span> <span class='label'>before:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
   <span class='id identifier rubyid_before_name'>before_name</span> <span class='op'>=</span> <span class='id identifier rubyid_before'>before</span><span class='op'>&amp;.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
-  <span class='id identifier rubyid_element'>element</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="MethodAccessibleHash.html" title="Compony::MethodAccessibleHash (class)">MethodAccessibleHash</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="MethodAccessibleHash.html#initialize-instance_method" title="Compony::MethodAccessibleHash#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>name:</span><span class='comma'>,</span> <span class='label'>payload:</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_old_kwargs'>old_kwargs</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
 
-  <span class='id identifier rubyid_existing_index'>existing_index</span> <span class='op'>=</span> <span class='id identifier rubyid_find_index'>find_index</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_el'>el</span><span class='op'>|</span> <span class='id identifier rubyid_el'>el</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='id identifier rubyid_name'>name</span> <span class='rbrace'>}</span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_existing_index'>existing_index</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_before_name'>before_name</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
-    <span class='id identifier rubyid_delete_at'>delete_at</span><span class='lparen'>(</span><span class='id identifier rubyid_existing_index'>existing_index</span><span class='rparen'>)</span> <span class='comment'># Replacing an existing element with a before: directive - must delete before calculating indices
-</span>  <span class='kw'>end</span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_before_name'>before_name</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
+  <span class='comment'># Fetch existing element if any
+</span>  <span class='id identifier rubyid_existing_index'>existing_index</span> <span class='op'>=</span> <span class='id identifier rubyid_find_index'>find_index</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_el'>el</span><span class='op'>|</span> <span class='id identifier rubyid_el'>el</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='id identifier rubyid_name'>name</span> <span class='rbrace'>}</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_existing_index'>existing_index</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
+    <span class='comment'># Copy all non-mentionned kwargs from the element we are about to overwrite
+</span>    <span class='id identifier rubyid_old_kwargs'>old_kwargs</span> <span class='op'>=</span> <span class='kw'>self</span><span class='lbracket'>[</span><span class='id identifier rubyid_existing_index'>existing_index</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_except'>except</span><span class='lparen'>(</span><span class='symbol'>:name</span><span class='comma'>,</span> <span class='symbol'>:payload</span><span class='rparen'>)</span>
+
+    <span class='comment'># Replacing an existing element with a before: directive - must delete before calculating indices
+</span>    <span class='kw'>if</span> <span class='id identifier rubyid_before_name'>before_name</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
+      <span class='id identifier rubyid_delete_at'>delete_at</span><span class='lparen'>(</span><span class='id identifier rubyid_existing_index'>existing_index</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Fetch before element
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_before_name'>before_name</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
     <span class='id identifier rubyid_before_index'>before_index</span> <span class='op'>=</span> <span class='id identifier rubyid_find_index'>find_index</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_el'>el</span><span class='op'>|</span> <span class='id identifier rubyid_el'>el</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='id identifier rubyid_before_name'>before_name</span> <span class='rbrace'>}</span> <span class='op'>||</span> <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Element </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_before_name'>before_name</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'> for :before not found in </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
-  <span class='kw'>if</span> <span class='id identifier rubyid_before_index'>before_index</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
-    <span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='id identifier rubyid_before_index'>before_index</span><span class='comma'>,</span> <span class='id identifier rubyid_element'>element</span><span class='rparen'>)</span>
+  <span class='comment'># Create the element to insert
+</span>  <span class='id identifier rubyid_element'>element</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="MethodAccessibleHash.html" title="Compony::MethodAccessibleHash (class)">MethodAccessibleHash</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="MethodAccessibleHash.html#initialize-instance_method" title="Compony::MethodAccessibleHash#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>name:</span><span class='comma'>,</span> <span class='label'>payload:</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_old_kwargs'>old_kwargs</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span><span class='rparen'>)</span>
+
+  <span class='comment'># Insert new element
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_before_index'>before_index</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
+    <span class='comment'># Insert before another element
+</span>    <span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='id identifier rubyid_before_index'>before_index</span><span class='comma'>,</span> <span class='id identifier rubyid_element'>element</span><span class='rparen'>)</span>
   <span class='kw'>elsif</span> <span class='id identifier rubyid_existing_index'>existing_index</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
-    <span class='kw'>self</span><span class='lbracket'>[</span><span class='id identifier rubyid_existing_index'>existing_index</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_element'>element</span>
+    <span class='comment'># Override another element
+</span>    <span class='kw'>self</span><span class='lbracket'>[</span><span class='id identifier rubyid_existing_index'>existing_index</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_element'>element</span>
   <span class='kw'>else</span>
-    <span class='kw'>self</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_element'>element</span>
+    <span class='comment'># Append at the end
+</span>    <span class='kw'>self</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_element'>element</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -250,7 +282,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed May 22 16:49:34 2024 by
+  Generated on Wed May 22 18:40:06 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>

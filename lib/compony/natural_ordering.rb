@@ -18,21 +18,37 @@ module Compony
     def natural_push(name, payload, before: nil, **kwargs)
       name = name.to_sym
       before_name = before&.to_sym
-      element = MethodAccessibleHash.new(name:, payload:, **kwargs)
+      old_kwargs = {}
 
+      # Fetch existing element if any
       existing_index = find_index { |el| el.name == name }
-      if existing_index.present? && before_name.present?
-        delete_at(existing_index) # Replacing an existing element with a before: directive - must delete before calculating indices
+      if existing_index.present?
+        # Copy all non-mentionned kwargs from the element we are about to overwrite
+        old_kwargs = self[existing_index].except(:name, :payload)
+
+        # Replacing an existing element with a before: directive - must delete before calculating indices
+        if before_name.present?
+          delete_at(existing_index)
+        end
       end
+
+      # Fetch before element
       if before_name.present?
         before_index = find_index { |el| el.name == before_name } || fail("Element #{before_name.inspect} for :before not found in #{inspect}.")
       end
 
+      # Create the element to insert
+      element = MethodAccessibleHash.new(name:, payload:, **old_kwargs.merge(kwargs))
+
+      # Insert new element
       if before_index.present?
+        # Insert before another element
         insert(before_index, element)
       elsif existing_index.present?
+        # Override another element
         self[existing_index] = element
       else
+        # Append at the end
         self << element
       end
     end

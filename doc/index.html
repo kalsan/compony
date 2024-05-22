@@ -483,6 +483,8 @@
 <span class='kw'>end</span>
 </code></pre>
 
+<h5 id="label-Naming+content+blocks-2C+ordering+and+overriding+them+in+subclasses">Naming content blocks, ordering and overriding them in subclasses</h5>
+
 <p>Content blocks are actually named. The <code>content</code> call adds or replaces a previously defined content block, e.g. in an earlier call to <code>setup</code> in a component’s superclass. When calling <code>content</code> without a name, it defaults to <code>main</code> and will overwrite any previous <code>main</code> content. However, you can provide your own name and refer to other names by using the <code>before:</code> keyword.</p>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
@@ -509,6 +511,49 @@
 <p>As you see, overusing this feature can lead to messy code as it becomes unclear what happens in what order. For this reason, this feature should only be used to decouple the content of your abstract components for allowing surgical overrides in subclasses.</p>
 
 <p>It is a good convention to always have one content block named <code>:main</code>, as you might want to refer to it in subclasses.</p>
+
+<h5 id="label-Nesting+content+blocks-2C+calling+a+content+block+from+another">Nesting content blocks, calling a content block from another</h5>
+
+<p>In some situations, such as in forms, it can be useful to nest content blocks. This will also allow subclasses to override a wrapper while keeping the content, and vice versa. To make this possible, you can also use the <code>content</code> keyword inside a content block. Note that unlike the call in <code>setup</code>, this call will render a content block instead of defining it. This happens inside the request context and the content block must be defined inside the current component.</p>
+
+<p>Note that you cannot call another component’s content block this way.</p>
+
+<p>Here is an example on how to use this feature, e.g. to create a bootstrap card that can be overridden with precision:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># Components::Bootstrap::Card
+</span><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_content'>content</span> <span class='label'>hidden:</span> <span class='kw'>true</span> <span class='kw'>do</span> <span class='comment'># hidden: true will cause `render` to skip this content block. You can still use it in the nested fashion.
+</span>    <span class='id identifier rubyid_div'>div</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>I am the default content for the card</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_content'>content</span> <span class='symbol'>:card</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_div'>div</span> <span class='label'>class:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>card card-body</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_content'>content</span> <span class='symbol'>:main</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>The output is:</p>
+
+<pre class="code ruby"><code class="ruby">&lt;div class=&quot;card card-body&quot;&gt;&lt;div&gt;I am the default content for the card&lt;/div&gt;&lt;/div&gt;
+</code></pre>
+
+<p>So when you subclass this component, you can forget about the card and just overwrite <code>:main</code> as follows:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># Components::Hello::HelloCard &lt; Components::Bootstrap::Card
+</span><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_content'>content</span> <span class='kw'>do</span> <span class='comment'># hidden is still true because the old :main content block specified that already.
+</span>    <span class='id identifier rubyid_h1'>h1</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Hello</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_para'>para</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Welcome to my site.</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>The output is:</p>
+
+<pre class="code ruby"><code class="ruby">&lt;div class=&quot;card card-body&quot;&gt;&lt;h1&gt;Hello&lt;/h1&gt;&lt;p&gt;Welcome to my site.&lt;/p&gt;&lt;/div&gt;
+</code></pre>
 
 <h4 id="label-Redirecting+away+-2F+Intercepting+rendering">Redirecting away / Intercepting rendering</h4>
 
@@ -1567,7 +1612,7 @@ my_button = Compony.button(:index, :users, enabled: -&gt; { |controller| control
 </div></div>
 
       <div id="footer">
-  Generated on Wed May 22 16:49:32 2024 by
+  Generated on Wed May 22 18:40:04 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>
