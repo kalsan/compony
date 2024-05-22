@@ -4,6 +4,11 @@
   - Change internal parameter handling in edit and update (now use validated params only)
   - Create `NaturalOrdering` which provides an interface for the `action` call behavior
   - Switch actions to `NaturalOrdering`
+- Remove `Component`'s dynamic `comp_class_for` and `comp_class_for!`
+
+## Steps to take in your application
+
+- Search for `comp_class_for` and `comp_class_for!` and replace them by `Compony.comp_class_for` and `Compony.comp_class_for!`
 
 # 0.2.3
 
