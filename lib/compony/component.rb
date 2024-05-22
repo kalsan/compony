@@ -26,7 +26,7 @@ module Compony
       @comp_opts = comp_opts
       @before_render_block = nil
       @content_blocks = []
-      @actions = []
+      @actions = NaturalOrdering.new
       @skipped_actions = Set.new
 
       init_standalone
@@ -179,25 +179,7 @@ module Compony
     # Adds or replaces an action (for action buttons)
     # If before: is specified, will insert the action before the named action. When replacing, an element keeps its position unless before: is specified.
     def action(action_name, before: nil, &block)
-      action_name = action_name.to_sym
-      before_name = before&.to_sym
-      action = MethodAccessibleHash.new(name: action_name, block:)
-
-      existing_index = @actions.find_index { |el| el.name == action_name }
-      if existing_index.present? && before_name.present?
-        @actions.delete_at(existing_index) # Replacing an existing element with a before: directive - must delete before calculating indices
-      end
-      if before_name.present?
-        before_index = @actions.find_index { |el| el.name == before_name } || fail("Action #{before_name} for :before not found in #{inspect}.")
-      end
-
-      if before_index.present?
-        @actions.insert(before_index, action)
-      elsif existing_index.present?
-        @actions[existing_index] = action
-      else
-        @actions << action
-      end
+      @actions.natural_push(action_name, block, before:)
     end
 
     # DSL method
@@ -213,7 +195,7 @@ module Compony
         button_htmls = @actions.map do |action|
           next if @skipped_actions.include?(action.name)
           Compony.with_button_defaults(feasibility_action: action.name.to_sym) do
-            action_button = action.block.call(controller)
+            action_button = action.payload.call(controller)
             next unless action_button
             button_html = action_button.render(controller)
             next if button_html.blank?
