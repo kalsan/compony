@@ -5,10 +5,13 @@
   - Create `NaturalOrdering` which provides an interface for the `action` call behavior
   - Switch actions to `NaturalOrdering`
 - Remove `Component`'s dynamic `comp_class_for` and `comp_class_for!`
+- Switch `content` to `NaturalOrdering`, enabling `before:`
+  - Remove `add_content`
 
-## Steps to take in your application
+## Steps to take
 
 - Search for `comp_class_for` and `comp_class_for!` and replace them by `Compony.comp_class_for` and `Compony.comp_class_for!`
+- Search for `add_content` and replace it by `content` along with a name. If you used an index in `add_content`, replace it by `before:` (see documentation)
 
 # 0.2.3
 

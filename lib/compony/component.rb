@@ -25,7 +25,7 @@ module Compony
       @index = index
       @comp_opts = comp_opts
       @before_render_block = nil
-      @content_blocks = []
+      @content_blocks = NaturalOrdering.new
       @actions = NaturalOrdering.new
       @skipped_actions = Set.new
 
@@ -117,21 +117,11 @@ module Compony
     end
 
     # DSL method
-    # Overrides previous content (also from superclasses). Will be the first content block to run.
+    # Adds or overrides a content block.
     # You can use dyny here.
-    def content(&block)
+    def content(name = :main, before: nil, &block)
       fail("`content` expects a block in #{inspect}.") unless block_given?
-      @content_blocks = [block]
-    end
-
-    # DSL method
-    # Adds a content block that will be executed after all previous ones.
-    # It is safe to use this method even if `content` has never been called
-    # You can use dyny here.
-    def add_content(index = -1, &block)
-      fail("`content` expects a block in #{inspect}.") unless block_given?
-      @content_blocks ||= []
-      @content_blocks.insert(index, block)
+      @content_blocks.natural_push(name, block, before:)
     end
 
     # Renders the component using the controller passsed to it and returns it as a string.
@@ -151,9 +141,9 @@ module Compony
             if Compony.content_before_root_comp_block && standalone
               Compony::RequestContext.new(component, controller, helpers: self, locals: render_locals).evaluate(&Compony.content_before_root_comp_block)
             end
-            content_blocks.each do |block|
+            content_blocks.each do |element|
               # Instanciate and evaluate a fresh RequestContext in order to use the buffer allocated by the ActionView (needed for `concat` calls)
-              Compony::RequestContext.new(component, controller, helpers: self, locals: render_locals).evaluate(&block)
+              Compony::RequestContext.new(component, controller, helpers: self, locals: render_locals).evaluate(&element.payload)
             end
             if Compony.content_after_root_comp_block && standalone
               Compony::RequestContext.new(component, controller, helpers: self, locals: render_locals).evaluate(&Compony.content_after_root_comp_block)

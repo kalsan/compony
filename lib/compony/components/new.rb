@@ -32,10 +32,10 @@ module Compony
         label(:short) { I18n.t('compony.components.new.label.short') }
         icon { :plus }
 
-        add_content do
+        content :label do
           h2 component.label
         end
-        add_content do
+        content do
           concat form_comp.render(controller, data: @data)
         end
 

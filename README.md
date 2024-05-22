@@ -426,29 +426,43 @@ Here is an example of a component that renders a title along with a paragraph:
 setup do
   label(:all) { 'Welcome' }
   content do
-    h1 'Welcome to my basic component'
+    h1 'Welcome to my basic component.'
     para "It's not much, but it's honest work."
   end
 end
 ```
 
-If a subclass component calls `content`, it overwrites the block of the parent class, replacing the entire content. To make overwriting more granular, you can use `add_content` instead of `content`. This method can be called multiple times to create an array of content. If no argument is specified, the new content is placed at the bottom. Otherwise, it is inserted at the indicated position. Example:
+Content blocks are actually named. The `content` call adds or replaces a previously defined content block, e.g. in an earlier call to `setup` in a component's superclass. When calling `content` without a name, it defaults to `main` and will overwrite any previous `main` content. However, you can provide your own name and refer to other names by using the `before:` keyword.
 
 ```ruby
 setup do
-  content do
-    h1 'Welcome to my basic component'
+  content do # will become :main
+    h1 'Welcome to my basic component.'
   end
-  add_content do
+  content :thanks do
     para 'Thank you and see you tomorrow.'
   end
-  add_content 1 do
+  content :middle, before: :thanks do
     para 'This paragraph is inserted between the others.'
+  end
+  content :thanks do
+    para 'Thank you and see you tonight.' # this overwrites "Thank you and see you tomorrow."
+  end
+  content :first, before: :main do
+    para 'This appears first.'
   end
 end
 ```
 
-The result is the h1 with index 0, then the paragraph reading "This paragraph..." with index 1, and finally "Thank you..." with index 2.
+This results in:
+  - This appears first.
+  - Welcome to my basic component.
+  - This paragraph is inserted between the others.
+  - Thank you and see you tonight.
+
+As you see, overusing this feature can lead to messy code as it becomes unclear what happens in what order. For this reason, this feature should only be used to decouple the content of your abstract components for allowing surgical overrides in subclasses.
+
+It is a good convention to always have one content block named `:main`, as you might want to refer to it in subclasses.
 
 #### Redirecting away / Intercepting rendering
 
