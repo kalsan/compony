@@ -432,6 +432,8 @@ setup do
 end
 ```
 
+##### Naming content blocks, ordering and overriding them in subclasses
+
 Content blocks are actually named. The `content` call adds or replaces a previously defined content block, e.g. in an earlier call to `setup` in a component's superclass. When calling `content` without a name, it defaults to `main` and will overwrite any previous `main` content. However, you can provide your own name and refer to other names by using the `before:` keyword.
 
 ```ruby
@@ -463,6 +465,53 @@ This results in:
 As you see, overusing this feature can lead to messy code as it becomes unclear what happens in what order. For this reason, this feature should only be used to decouple the content of your abstract components for allowing surgical overrides in subclasses.
 
 It is a good convention to always have one content block named `:main`, as you might want to refer to it in subclasses.
+
+##### Nesting content blocks, calling a content block from another
+
+In some situations, such as in forms, it can be useful to nest content blocks. This will also allow subclasses to override a wrapper while keeping the content, and vice versa. To make this possible, you can also use the `content` keyword inside a content block. Note that unlike the call in `setup`, this call will render a content block instead of defining it. This happens inside the request context and the content block must be defined inside the current component.
+
+Note that you cannot call another component's content block this way.
+
+Here is an example on how to use this feature, e.g. to create a bootstrap card that can be overridden with precision:
+
+```ruby
+# Components::Bootstrap::Card
+setup do
+  content hidden: true do # hidden: true will cause `render` to skip this content block. You can still use it in the nested fashion.
+    div 'I am the default content for the card'
+  end
+
+  content :card do
+    div class: 'card card-body' do
+      content :main
+    end
+  end
+end
+```
+
+The output is:
+
+```html
+<div class="card card-body"><div>I am the default content for the card</div></div>
+```
+
+So when you subclass this component, you can forget about the card and just overwrite `:main` as follows:
+
+```ruby
+# Components::Hello::HelloCard < Components::Bootstrap::Card
+setup do
+  content hidden: true do
+    h1 'Hello'
+    para 'Welcome to my site.'
+  end
+end
+```
+
+The output is:
+
+```html
+<div class="card card-body"><h1>Hello</h1><p>Welcome to my site.</p></div>
+```
 
 #### Redirecting away / Intercepting rendering
 

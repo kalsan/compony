@@ -10,6 +10,7 @@
   - Remove `add_content`
 - Switch `before_render` to `NaturalOrdering`, allowing having multiple `before_render` blocks and overwriting them selectively
   - This change is backwards-compatible as the default behavior of `before_render` is to overwrite `:main`.
+- Implement nesting of content blocks, as described in README.md -> "Nesting content blocks, calling a content block from another"
 
 ## Steps to take
 

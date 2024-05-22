@@ -7,6 +7,7 @@ module Compony
 
     attr_reader :parent_comp
     attr_reader :comp_opts
+    attr_reader :content_blocks # needed in RequestContext for nesting
 
     # root comp: component that is registered to be root of the application.
     # parent comp: component that is registered to be the parent of this comp. If there is none, this is the root comp.
@@ -126,10 +127,11 @@ module Compony
     # Adds or overrides a content block.
     # @param [Symbol,String] name The name of the content block, defaults to `:main`
     # @param [nil,Symbol,String] before If nil, the block will be added to the bottom of the content chain. Otherwise, pass the name of another block.
+    # @param [Boolean] hidden If true, the content will not be rendered by default, allowing you to nest it in another content block.
     # @param [Proc] block The block that should be run as part of the content pipeline. Will run in the component's context. You can use Dyny here.
-    def content(name = :main, before: nil, &block)
+    def content(name = :main, before: nil, hidden: false, &block)
       fail("`content` expects a block in #{inspect}.") unless block_given?
-      @content_blocks.natural_push(name, block, before:)
+      @content_blocks.natural_push(name, block, before:, hidden:)
     end
 
     # Renders the component using the controller passsed to it and returns it as a string.
@@ -153,7 +155,7 @@ module Compony
             if Compony.content_before_root_comp_block && standalone
               Compony::RequestContext.new(component, controller, helpers: self, locals: render_locals).evaluate(&Compony.content_before_root_comp_block)
             end
-            content_blocks.each do |element|
+            content_blocks.reject{ |el| el.hidden }.each do |element|
               # Instanciate and evaluate a fresh RequestContext in order to use the buffer allocated by the ActionView (needed for `concat` calls)
               Compony::RequestContext.new(component, controller, helpers: self, locals: render_locals).evaluate(&element.payload)
             end
