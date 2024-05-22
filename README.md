@@ -466,7 +466,7 @@ It is a good convention to always have one content block named `:main`, as you m
 
 #### Redirecting away / Intercepting rendering
 
-Immediately before the `content` block(s) are evaluated, another block is evaluated if present: `before_render`. If this block creates a reponse body in the Rails controller, the content blocks are skipped.
+Immediately before the `content` block(s) are evaluated, another chain of blocks is evaluated if present: `before_render`. If on of these blocks creates a reponse body in the Rails controller, the subsequent `before_render` blocks and all `content` blocks are skipped.
 
 This is useful for redirecting. Here is an example of a component that provides a restaurant's lunch menu, but redirects to the menu overview page instead if it's not lunch time:
 
@@ -488,6 +488,8 @@ setup do
   end
 end
 ```
+
+Similarly to `content`, the `before_render` method also accepts a name, defaulting to `:main`, as well as a `before:` keyword. This allows you to selectively extend and/or override `before_render` blocks in subclasses.
 
 ## Standalone
 

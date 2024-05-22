@@ -8,6 +8,8 @@
 - Remove `Component`'s dynamic `comp_class_for` and `comp_class_for!`
 - Switch `content` to `NaturalOrdering`, enabling `before:`
   - Remove `add_content`
+- Switch `before_render` to `NaturalOrdering`, allowing having multiple `before_render` blocks and overwriting them selectively
+  - This change is backwards-compatible as the default behavior of `before_render` is to overwrite `:main`.
 
 ## Steps to take
 

@@ -24,7 +24,7 @@ module Compony
       @sub_comps = []
       @index = index
       @comp_opts = comp_opts
-      @before_render_block = nil
+      @before_render_blocks = NaturalOrdering.new
       @content_blocks = NaturalOrdering.new
       @actions = NaturalOrdering.new
       @skipped_actions = Set.new
@@ -112,8 +112,11 @@ module Compony
     end
 
     # DSL method
-    def before_render(&block)
-      @before_render_block = block
+    # Adds or overrides a before_render block.
+    # You can use controller.redirect_to to redirect away and halt the before_render/content chain
+    def before_render(name = :main, before: nil, &block)
+      fail("`before_render` expects a block in #{inspect}.") unless block_given?
+      @before_render_blocks.natural_push(name, block, before:)
     end
 
     # DSL method
@@ -128,8 +131,13 @@ module Compony
     # @param [Boolean] standalone pass true iff `render` is called from `render_standalone`
     # Do not overwrite.
     def render(controller, standalone: false, **locals)
-      # Call before_render hook if any and backfire instance variables back to the component
-      RequestContext.new(self, controller, locals:).evaluate_with_backfire(&@before_render_block) if @before_render_block
+      # Call before_render hooks (if any) and backfire instance variables back to the component
+      @before_render_blocks.each do |element|
+        RequestContext.new(self, controller, locals:).evaluate_with_backfire(&element.payload)
+        # Stop if a `before_render` block issued a body (e.g. through redirecting)
+        break unless controller.response_body.nil?
+      end
+
       # Render, unless before_render has already issued a body (e.g. through redirecting).
       if controller.response_body.nil?
         fail "#{self.class.inspect} must define `content` or set a response body in `before_render`" if @content_blocks.none?
