@@ -12,7 +12,6 @@ module Compony
   # collection.names # --> :a, :b, :c
   # collection.payloads # --> a_payload, b_payload, c_payload
   # ```
-  # See: https://gist.github.com/kalsan/87826048ea0ade92ab1be93c0919b405
   class NaturalOrdering < Array
     def natural_push(name, payload, before: nil)
       name = name.to_sym
