@@ -311,6 +311,10 @@
 
 <p>Note how the admin’s delete button is disabled due to the feasibility framework. Pointing the mouse at it causes a tooltip saying: “Cannot destroy admins.”, as specified in the model’s prevention.</p>
 
+<h1 id="label-Alternatives+to+Compony">Alternatives to Compony</h1>
+
+<p>A project with a similar aim, but much more mature, is <a href="https://github.com/phlex-ruby/phlex">Phlex</a>.</p>
+
 <h1 id="label-Installation">Installation</h1>
 
 <h2 id="label-Installing+Compony">Installing Compony</h2>
@@ -473,32 +477,42 @@
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
   <span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='symbol'>:all</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Welcome</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span>
   <span class='id identifier rubyid_content'>content</span> <span class='kw'>do</span>
-    <span class='id identifier rubyid_h1'>h1</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Welcome to my basic component</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_h1'>h1</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Welcome to my basic component.</span><span class='tstring_end'>&#39;</span></span>
     <span class='id identifier rubyid_para'>para</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>It&#39;s not much, but it&#39;s honest work.</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
 
-<p>If a subclass component calls <code>content</code>, it overwrites the block of the parent class, replacing the entire content. To make overwriting more granular, you can use <code>add_content</code> instead of <code>content</code>. This method can be called multiple times to create an array of content. If no argument is specified, the new content is placed at the bottom. Otherwise, it is inserted at the indicated position. Example:</p>
+<p>Content blocks are actually named. The <code>content</code> call adds or replaces a previously defined content block, e.g. in an earlier call to <code>setup</code> in a component’s superclass. When calling <code>content</code> without a name, it defaults to <code>main</code> and will overwrite any previous <code>main</code> content. However, you can provide your own name and refer to other names by using the <code>before:</code> keyword.</p>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
-  <span class='id identifier rubyid_content'>content</span> <span class='kw'>do</span>
-    <span class='id identifier rubyid_h1'>h1</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Welcome to my basic component</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_content'>content</span> <span class='kw'>do</span> <span class='comment'># will become :main
+</span>    <span class='id identifier rubyid_h1'>h1</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Welcome to my basic component.</span><span class='tstring_end'>&#39;</span></span>
   <span class='kw'>end</span>
-  <span class='id identifier rubyid_add_content'>add_content</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_content'>content</span> <span class='symbol'>:thanks</span> <span class='kw'>do</span>
     <span class='id identifier rubyid_para'>para</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Thank you and see you tomorrow.</span><span class='tstring_end'>&#39;</span></span>
   <span class='kw'>end</span>
-  <span class='id identifier rubyid_add_content'>add_content</span> <span class='int'>1</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_content'>content</span> <span class='symbol'>:middle</span><span class='comma'>,</span> <span class='label'>before:</span> <span class='symbol'>:thanks</span> <span class='kw'>do</span>
     <span class='id identifier rubyid_para'>para</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>This paragraph is inserted between the others.</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_content'>content</span> <span class='symbol'>:thanks</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_para'>para</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Thank you and see you tonight.</span><span class='tstring_end'>&#39;</span></span> <span class='comment'># this overwrites &quot;Thank you and see you tomorrow.&quot;
+</span>  <span class='kw'>end</span>
+  <span class='id identifier rubyid_content'>content</span> <span class='symbol'>:first</span><span class='comma'>,</span> <span class='label'>before:</span> <span class='symbol'>:main</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_para'>para</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>This appears first.</span><span class='tstring_end'>&#39;</span></span>
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
 
-<p>The result is the h1 with index 0, then the paragraph reading “This paragraph…” with index 1, and finally “Thank you…” with index 2.</p>
+<p>This results in: - This appears first. - Welcome to my basic component. - This paragraph is inserted between the others. - Thank you and see you tonight.</p>
+
+<p>As you see, overusing this feature can lead to messy code as it becomes unclear what happens in what order. For this reason, this feature should only be used to decouple the content of your abstract components for allowing surgical overrides in subclasses.</p>
+
+<p>It is a good convention to always have one content block named <code>:main</code>, as you might want to refer to it in subclasses.</p>
 
 <h4 id="label-Redirecting+away+-2F+Intercepting+rendering">Redirecting away / Intercepting rendering</h4>
 
-<p>Immediately before the <code>content</code> block(s) are evaluated, another block is evaluated if present: <code>before_render</code>. If this block creates a reponse body in the Rails controller, the content blocks are skipped.</p>
+<p>Immediately before the <code>content</code> block(s) are evaluated, another chain of blocks is evaluated if present: <code>before_render</code>. If on of these blocks creates a reponse body in the Rails controller, the subsequent <code>before_render</code> blocks and all <code>content</code> blocks are skipped.</p>
 
 <p>This is useful for redirecting. Here is an example of a component that provides a restaurant’s lunch menu, but redirects to the menu overview page instead if it’s not lunch time:</p>
 
@@ -519,6 +533,8 @@
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
+
+<p>Similarly to <code>content</code>, the <code>before_render</code> method also accepts a name, defaulting to <code>:main</code>, as well as a <code>before:</code> keyword. This allows you to selectively extend and/or override <code>before_render</code> blocks in subclasses.</p>
 
 <h2 id="label-Standalone">Standalone</h2>
 
@@ -657,7 +673,7 @@
   <span class='id identifier rubyid_standalone'>standalone</span> <span class='kw'>do</span>
     <span class='id identifier rubyid_layout'>layout</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>dark</span><span class='tstring_end'>&#39;</span></span>
   <span class='kw'>end</span>
-  <span class='id identifier rubyid_add_content'>add_content</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_content'>content</span> <span class='symbol'>:below</span> <span class='kw'>do</span>
     <span class='id identifier rubyid_para'>para</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>This will appear below &quot;Test&quot;.</span><span class='tstring_end'>&#39;</span></span>
   <span class='kw'>end</span>
 <span class='kw'>end</span>
@@ -1525,10 +1541,6 @@ my_button = Compony.button(:index, :users, enabled: -&gt; { |controller| control
 <ul><li>
 <p>The API is not yet as consistent as I’d like it. Examples:</p>
 </li><li>
-<p><code>content</code> replaces the content and <code>add_content</code> inserts some, but for actions the insertion is called <code>action</code>.</p>
-</li><li>
-<p>Every DSL call, in particular nested ones, should be able to insert and/or override a precise call in the parent class. Override behavior should be made consistent across the entire Compony DSL. For instance, it makes no sense that <code>add_content</code> uses an index while <code>action</code> uses <code>before</code> with a keyword.</p>
-</li><li>
 <p>Instead of <code>skip_...</code> methods, <code>remove_...</code> should be implemented. This allows yet another level of classes to re-add properties. Skipping should be kept for options given via the constructor.</p>
 </li><li>
 <p>Change resourceful hooks as follows:</p>
@@ -1555,7 +1567,7 @@ my_button = Compony.button(:index, :users, enabled: -&gt; { |controller| control
 </div></div>
 
       <div id="footer">
-  Generated on Sat Apr 27 10:22:18 2024 by
+  Generated on Wed May 22 12:01:04 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>

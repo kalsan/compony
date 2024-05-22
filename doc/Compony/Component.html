@@ -246,7 +246,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#add_content-instance_method" title="#add_content (instance method)">#<strong>add_content</strong>(index = -1,, &amp;block)  &#x21d2; Object </a>
+      <a href="#before_render-instance_method" title="#before_render (instance method)">#<strong>before_render</strong>(name = :main, before: nil, &amp;block)  &#x21d2; Object </a>
     
 
     
@@ -261,76 +261,8 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>DSL method Adds a content block that will be executed after all previous ones.</p>
+<p>DSL method Adds or overrides a before_render block.</p>
 </div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#before_render-instance_method" title="#before_render (instance method)">#<strong>before_render</strong>(&amp;block)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>DSL method.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#comp_class_for-instance_method" title="#comp_class_for (instance method)">#<strong>comp_class_for</strong>  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#comp_class_for!-instance_method" title="#comp_class_for! (instance method)">#<strong>comp_class_for!</strong>  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -386,7 +318,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#content-instance_method" title="#content (instance method)">#<strong>content</strong>(&amp;block)  &#x21d2; Object </a>
+      <a href="#content-instance_method" title="#content (instance method)">#<strong>content</strong>(name = :main, before: nil, &amp;block)  &#x21d2; Object </a>
     
 
     
@@ -401,7 +333,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>DSL method Overrides previous content (also from superclasses).</p>
+<p>DSL method Adds or overrides a content block.</p>
 </div></span>
   
 </li>
@@ -827,9 +759,9 @@
   <span class='ivar'>@sub_comps</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='ivar'>@index</span> <span class='op'>=</span> <span class='id identifier rubyid_index'>index</span>
   <span class='ivar'>@comp_opts</span> <span class='op'>=</span> <span class='id identifier rubyid_comp_opts'>comp_opts</span>
-  <span class='ivar'>@before_render_block</span> <span class='op'>=</span> <span class='kw'>nil</span>
-  <span class='ivar'>@content_blocks</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-  <span class='ivar'>@actions</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='ivar'>@before_render_blocks</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="NaturalOrdering.html" title="Compony::NaturalOrdering (class)">NaturalOrdering</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+  <span class='ivar'>@content_blocks</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="NaturalOrdering.html" title="Compony::NaturalOrdering (class)">NaturalOrdering</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+  <span class='ivar'>@actions</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="NaturalOrdering.html" title="Compony::NaturalOrdering (class)">NaturalOrdering</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
   <span class='ivar'>@skipped_actions</span> <span class='op'>=</span> <span class='const'>Set</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
 
   <span class='id identifier rubyid_init_standalone'>init_standalone</span>
@@ -1019,96 +951,15 @@
       <pre class="lines">
 
 
-181
-182
-183
-184
-185
-186
-187
-188
-189
-190
-191
-192
-193
-194
-195
-196
-197
-198
-199
-200
-201</pre>
+168
+169
+170</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 181</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 168</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_action'>action</span><span class='lparen'>(</span><span class='id identifier rubyid_action_name'>action_name</span><span class='comma'>,</span> <span class='label'>before:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_action_name'>action_name</span> <span class='op'>=</span> <span class='id identifier rubyid_action_name'>action_name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
-  <span class='id identifier rubyid_before_name'>before_name</span> <span class='op'>=</span> <span class='id identifier rubyid_before'>before</span><span class='op'>&amp;.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
-  <span class='id identifier rubyid_action'>action</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="MethodAccessibleHash.html" title="Compony::MethodAccessibleHash (class)">MethodAccessibleHash</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="MethodAccessibleHash.html#initialize-instance_method" title="Compony::MethodAccessibleHash#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>name:</span> <span class='id identifier rubyid_action_name'>action_name</span><span class='comma'>,</span> <span class='label'>block:</span><span class='rparen'>)</span>
-
-  <span class='id identifier rubyid_existing_index'>existing_index</span> <span class='op'>=</span> <span class='ivar'>@actions</span><span class='period'>.</span><span class='id identifier rubyid_find_index'>find_index</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_el'>el</span><span class='op'>|</span> <span class='id identifier rubyid_el'>el</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='id identifier rubyid_action_name'>action_name</span> <span class='rbrace'>}</span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_existing_index'>existing_index</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_before_name'>before_name</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
-    <span class='ivar'>@actions</span><span class='period'>.</span><span class='id identifier rubyid_delete_at'>delete_at</span><span class='lparen'>(</span><span class='id identifier rubyid_existing_index'>existing_index</span><span class='rparen'>)</span> <span class='comment'># Replacing an existing element with a before: directive - must delete before calculating indices
-</span>  <span class='kw'>end</span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_before_name'>before_name</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
-    <span class='id identifier rubyid_before_index'>before_index</span> <span class='op'>=</span> <span class='ivar'>@actions</span><span class='period'>.</span><span class='id identifier rubyid_find_index'>find_index</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_el'>el</span><span class='op'>|</span> <span class='id identifier rubyid_el'>el</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='id identifier rubyid_before_name'>before_name</span> <span class='rbrace'>}</span> <span class='op'>||</span> <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Action </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_before_name'>before_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> for :before not found in </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-  <span class='kw'>end</span>
-
-  <span class='kw'>if</span> <span class='id identifier rubyid_before_index'>before_index</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
-    <span class='ivar'>@actions</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='id identifier rubyid_before_index'>before_index</span><span class='comma'>,</span> <span class='id identifier rubyid_action'>action</span><span class='rparen'>)</span>
-  <span class='kw'>elsif</span> <span class='id identifier rubyid_existing_index'>existing_index</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
-    <span class='ivar'>@actions</span><span class='lbracket'>[</span><span class='id identifier rubyid_existing_index'>existing_index</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_action'>action</span>
-  <span class='kw'>else</span>
-    <span class='ivar'>@actions</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_action'>action</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="add_content-instance_method">
-  
-    #<strong>add_content</strong>(index = -1,, &amp;block)  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>DSL method Adds a content block that will be executed after all previous ones. It is safe to use this method even if <code>content</code> has never been called You can use dyny here.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-141
-142
-143
-144
-145</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 141</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_add_content'>add_content</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span> <span class='op'>=</span> <span class='op'>-</span><span class='int'>1</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>`content` expects a block in </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
-  <span class='ivar'>@content_blocks</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-  <span class='ivar'>@content_blocks</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='comma'>,</span> <span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='ivar'>@actions</span><span class='period'>.</span><span class='id identifier rubyid_natural_push'>natural_push</span><span class='lparen'>(</span><span class='id identifier rubyid_action_name'>action_name</span><span class='comma'>,</span> <span class='id identifier rubyid_block'>block</span><span class='comma'>,</span> <span class='label'>before:</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1118,7 +969,7 @@
       <div class="method_details ">
   <h3 class="signature " id="before_render-instance_method">
   
-    #<strong>before_render</strong>(&amp;block)  &#x21d2; <tt>Object</tt> 
+    #<strong>before_render</strong>(name = :main, before: nil, &amp;block)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1127,7 +978,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>DSL method</p>
+<p>DSL method Adds or overrides a before_render block. You can use controller.redirect_to to redirect away and halt the before_render/content chain</p>
 
 
   </div>
@@ -1141,109 +992,17 @@
       <pre class="lines">
 
 
-125
-126
-127</pre>
+117
+118
+119
+120</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 125</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 117</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_before_render'>before_render</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
-  <span class='ivar'>@before_render_block</span> <span class='op'>=</span> <span class='id identifier rubyid_block'>block</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="comp_class_for-instance_method">
-  
-    #<strong>comp_class_for</strong>  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-  <div class="note todo">
-    <strong>TODO:</strong>
-    <div class='inline'>
-<p>deprecate (check for usages beforehand)</p>
-</div>
-  </div>
-
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-115
-116
-117</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 115</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_comp_class_for'>comp_class_for</span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span>
-  <span class='const'><span class='object_link'><a href="../Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_comp_class_for'><span class='object_link'><a href="../Compony.html#comp_class_for-class_method" title="Compony.comp_class_for (method)">comp_class_for</a></span></span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="comp_class_for!-instance_method">
-  
-    #<strong>comp_class_for!</strong>  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-  <div class="note todo">
-    <strong>TODO:</strong>
-    <div class='inline'>
-<p>deprecate (check for usages beforehand)</p>
-</div>
-  </div>
-
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-120
-121
-122</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 120</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_comp_class_for!'>comp_class_for!</span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span>
-  <span class='const'><span class='object_link'><a href="../Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_comp_class_for!'><span class='object_link'><a href="../Compony.html#comp_class_for!-class_method" title="Compony.comp_class_for! (method)">comp_class_for!</a></span></span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_before_render'>before_render</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='symbol'>:main</span><span class='comma'>,</span> <span class='label'>before:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>`before_render` expects a block in </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+  <span class='ivar'>@before_render_blocks</span><span class='period'>.</span><span class='id identifier rubyid_natural_push'>natural_push</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_block'>block</span><span class='comma'>,</span> <span class='label'>before:</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1335,7 +1094,7 @@
       <div class="method_details ">
   <h3 class="signature " id="content-instance_method">
   
-    #<strong>content</strong>(&amp;block)  &#x21d2; <tt>Object</tt> 
+    #<strong>content</strong>(name = :main, before: nil, &amp;block)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1344,7 +1103,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>DSL method Overrides previous content (also from superclasses). Will be the first content block to run. You can use dyny here.</p>
+<p>DSL method Adds or overrides a content block. You can use dyny here.</p>
 
 
   </div>
@@ -1358,17 +1117,17 @@
       <pre class="lines">
 
 
-132
-133
-134
-135</pre>
+125
+126
+127
+128</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 132</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 125</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_content'>content</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_content'>content</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='symbol'>:main</span><span class='comma'>,</span> <span class='label'>before:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>`content` expects a block in </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
-  <span class='ivar'>@content_blocks</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_block'>block</span><span class='rbracket'>]</span>
+  <span class='ivar'>@content_blocks</span><span class='period'>.</span><span class='id identifier rubyid_natural_push'>natural_push</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_block'>block</span><span class='comma'>,</span> <span class='label'>before:</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1716,6 +1475,23 @@
       <pre class="lines">
 
 
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
 150
 151
 152
@@ -1729,28 +1505,19 @@
 160
 161
 162
-163
-164
-165
-166
-167
-168
-169
-170
-171
-172
-173
-174
-175
-176</pre>
+163</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 150</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 133</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='id identifier rubyid_controller'>controller</span><span class='comma'>,</span> <span class='label'>standalone:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_locals'>locals</span><span class='rparen'>)</span>
-  <span class='comment'># Call before_render hook if any and backfire instance variables back to the component
-</span>  <span class='comment'># TODO: Can .request_context be removed from the next line? Test well!
-</span>  <span class='const'><span class='object_link'><a href="RequestContext.html" title="Compony::RequestContext (class)">RequestContext</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="RequestContext.html#initialize-instance_method" title="Compony::RequestContext#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_controller'>controller</span><span class='comma'>,</span> <span class='label'>locals:</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_request_context'><span class='object_link'><a href="RequestContext.html#request_context-instance_method" title="Compony::RequestContext#request_context (method)">request_context</a></span></span><span class='period'>.</span><span class='id identifier rubyid_evaluate_with_backfire'>evaluate_with_backfire</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='ivar'>@before_render_block</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@before_render_block</span>
+  <span class='comment'># Call before_render hooks (if any) and backfire instance variables back to the component
+</span>  <span class='ivar'>@before_render_blocks</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_element'>element</span><span class='op'>|</span>
+    <span class='const'><span class='object_link'><a href="RequestContext.html" title="Compony::RequestContext (class)">RequestContext</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="RequestContext.html#initialize-instance_method" title="Compony::RequestContext#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_controller'>controller</span><span class='comma'>,</span> <span class='label'>locals:</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_evaluate_with_backfire'><span class='object_link'><a href="RequestContext.html#evaluate_with_backfire-instance_method" title="Compony::RequestContext#evaluate_with_backfire (method)">evaluate_with_backfire</a></span></span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_element'>element</span><span class='period'>.</span><span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span>
+    <span class='comment'># Stop if a `before_render` block issued a body (e.g. through redirecting)
+</span>    <span class='kw'>break</span> <span class='kw'>unless</span> <span class='id identifier rubyid_controller'>controller</span><span class='period'>.</span><span class='id identifier rubyid_response_body'>response_body</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='kw'>end</span>
+
   <span class='comment'># Render, unless before_render has already issued a body (e.g. through redirecting).
 </span>  <span class='kw'>if</span> <span class='id identifier rubyid_controller'>controller</span><span class='period'>.</span><span class='id identifier rubyid_response_body'>response_body</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
     <span class='id identifier rubyid_fail'>fail</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'> must define `content` or set a response body in `before_render`</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='ivar'>@content_blocks</span><span class='period'>.</span><span class='id identifier rubyid_none?'>none?</span>
@@ -1761,9 +1528,9 @@
 <span class='tstring_content'>        if Compony.content_before_root_comp_block &amp;&amp; standalone
 </span><span class='tstring_content'>          Compony::RequestContext.new(component, controller, helpers: self, locals: render_locals).evaluate(&amp;Compony.content_before_root_comp_block)
 </span><span class='tstring_content'>        end
-</span><span class='tstring_content'>        content_blocks.each do |block|
+</span><span class='tstring_content'>        content_blocks.each do |element|
 </span><span class='tstring_content'>          # Instanciate and evaluate a fresh RequestContext in order to use the buffer allocated by the ActionView (needed for `concat` calls)
-</span><span class='tstring_content'>          Compony::RequestContext.new(component, controller, helpers: self, locals: render_locals).evaluate(&amp;block)
+</span><span class='tstring_content'>          Compony::RequestContext.new(component, controller, helpers: self, locals: render_locals).evaluate(&amp;element.payload)
 </span><span class='tstring_content'>        end
 </span><span class='tstring_content'>        if Compony.content_after_root_comp_block &amp;&amp; standalone
 </span><span class='tstring_content'>          Compony::RequestContext.new(component, controller, helpers: self, locals: render_locals).evaluate(&amp;Compony.content_after_root_comp_block)
@@ -1805,25 +1572,25 @@
       <pre class="lines">
 
 
-210
-211
-212
-213
-214
-215
-216
-217
-218
-219
-220
-221
-222
-223
-224
-225</pre>
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 210</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 179</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_render_actions'>render_actions</span><span class='lparen'>(</span><span class='id identifier rubyid_controller'>controller</span><span class='comma'>,</span> <span class='label'>wrapper_class:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>action_class:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_h'>h</span> <span class='op'>=</span> <span class='id identifier rubyid_controller'>controller</span><span class='period'>.</span><span class='id identifier rubyid_helpers'>helpers</span>
@@ -1831,7 +1598,7 @@
     <span class='id identifier rubyid_button_htmls'>button_htmls</span> <span class='op'>=</span> <span class='ivar'>@actions</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_action'>action</span><span class='op'>|</span>
       <span class='kw'>next</span> <span class='kw'>if</span> <span class='ivar'>@skipped_actions</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
       <span class='const'><span class='object_link'><a href="../Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_with_button_defaults'><span class='object_link'><a href="../Compony.html#with_button_defaults-class_method" title="Compony.with_button_defaults (method)">with_button_defaults</a></span></span><span class='lparen'>(</span><span class='label'>feasibility_action:</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rparen'>)</span> <span class='kw'>do</span>
-        <span class='id identifier rubyid_action_button'>action_button</span> <span class='op'>=</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_block'>block</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_controller'>controller</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_action_button'>action_button</span> <span class='op'>=</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_payload'>payload</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_controller'>controller</span><span class='rparen'>)</span>
         <span class='kw'>next</span> <span class='kw'>unless</span> <span class='id identifier rubyid_action_button'>action_button</span>
         <span class='id identifier rubyid_button_html'>button_html</span> <span class='op'>=</span> <span class='id identifier rubyid_action_button'>action_button</span><span class='period'>.</span><span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='id identifier rubyid_controller'>controller</span><span class='rparen'>)</span>
         <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_button_html'>button_html</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
@@ -1885,12 +1652,12 @@
       <pre class="lines">
 
 
-228
-229
-230</pre>
+197
+198
+199</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 228</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 197</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_resourceful?'>resourceful?</span>
   <span class='kw'>return</span> <span class='kw'>false</span>
@@ -2023,12 +1790,12 @@
       <pre class="lines">
 
 
-205
-206
-207</pre>
+174
+175
+176</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 205</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 174</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_skip_action'>skip_action</span><span class='lparen'>(</span><span class='id identifier rubyid_action_name'>action_name</span><span class='rparen'>)</span>
   <span class='ivar'>@skipped_actions</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_action_name'>action_name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
@@ -2088,7 +1855,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sat Apr 27 10:22:18 2024 by
+  Generated on Wed May 22 12:01:05 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>

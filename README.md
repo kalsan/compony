@@ -622,7 +622,7 @@ setup do
   standalone do
     layout 'dark'
   end
-  add_content do
+  content :below do
     para 'This will appear below "Test".'
   end
 end
@@ -1399,8 +1399,6 @@ Compony is Free Software under the LGPLv3 and you are most welcome to contribute
 # Caveats
 
 - The API is not yet as consistent as I'd like it. Examples:
-  - `content` replaces the content and `add_content` inserts some, but for actions the insertion is called `action`.
-  - Every DSL call, in particular nested ones, should be able to insert and/or override a precise call in the parent class. Override behavior should be made consistent across the entire Compony DSL. For instance, it makes no sense that `add_content` uses an index while `action` uses `before` with a keyword.
   - Instead of `skip_...` methods, `remove_...` should be implemented. This allows yet another level of classes to re-add properties. Skipping should be kept for options given via the constructor.
   - Change resourceful hooks as follows:
     - Verb DSL hooks still take precedence over global hooks, but if given, they MUST provide a block.
