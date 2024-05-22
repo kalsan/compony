@@ -4,6 +4,7 @@
   - Change internal parameter handling in edit and update (now use validated params only)
   - Create `NaturalOrdering` which provides an interface for the `action` call behavior
   - Switch actions to `NaturalOrdering`
+  - Remove redundant code
 - Remove `Component`'s dynamic `comp_class_for` and `comp_class_for!`
 - Switch `content` to `NaturalOrdering`, enabling `before:`
   - Remove `add_content`
