@@ -1,3 +1,7 @@
+# unreleased
+
+- Change internal parameter handling in edit and update (now use validated params only)
+
 # 0.2.3
 
 - Support collection of Anchormodels in hidden input
