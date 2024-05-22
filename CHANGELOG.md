@@ -1,6 +1,8 @@
 # unreleased
 
-- Change internal parameter handling in edit and update (now use validated params only)
+- Internals:
+  - Change internal parameter handling in edit and update (now use validated params only)
+  - Create `NaturalOrdering` which provides an interface for the `action` call behavior
 
 # 0.2.3
 
