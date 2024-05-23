@@ -139,6 +139,30 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#form_cancancan_action-instance_method" title="#form_cancancan_action (instance method)">#<strong>form_cancancan_action</strong>(new_form_cancancan_action = :missing)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Sets and gets the form’s cancancan action (for cancancan’s accessible_attributes).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#form_comp-instance_method" title="#form_comp (instance method)">#<strong>form_comp</strong>  &#x21d2; Object </a>
     
 
@@ -305,7 +329,8 @@
 8
 9
 10
-11</pre>
+11
+12</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/compony/components/with_form.rb', line 7</span>
@@ -313,6 +338,7 @@
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span>
   <span class='comment'># TODO: On the next line, use Compony.path instead? Likely, this was implemented before that method existed.
 </span>  <span class='ivar'>@submit_path_block</span> <span class='op'>=</span> <span class='tlambda'>-&gt;</span><span class='lparen'>(</span><span class='id identifier rubyid_controller'>controller</span><span class='rparen'>)</span> <span class='tlambeg'>{</span> <span class='id identifier rubyid_controller'>controller</span><span class='period'>.</span><span class='id identifier rubyid_helpers'>helpers</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="../../Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_path_helper_name'><span class='object_link'><a href="../../Compony.html#path_helper_name-class_method" title="Compony.path_helper_name (method)">path_helper_name</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_comp_name'>comp_name</span><span class='comma'>,</span> <span class='id identifier rubyid_family_name'>family_name</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>_path</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='ivar'>@form_cancancan_action</span> <span class='op'>=</span> <span class='symbol'>:missing</span>
   <span class='kw'>super</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -328,7 +354,54 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="form_comp-instance_method">
+  <h3 class="signature first" id="form_cancancan_action-instance_method">
+  
+    #<strong>form_cancancan_action</strong>(new_form_cancancan_action = :missing)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method Sets and gets the form’s cancancan action (for cancancan’s accessible_attributes)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+46
+47
+48
+49
+50
+51</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/with_form.rb', line 46</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_form_cancancan_action'>form_cancancan_action</span><span class='lparen'>(</span><span class='id identifier rubyid_new_form_cancancan_action'>new_form_cancancan_action</span> <span class='op'>=</span> <span class='symbol'>:missing</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_new_form_cancancan_action'>new_form_cancancan_action</span> <span class='op'>!=</span> <span class='symbol'>:missing</span>
+    <span class='ivar'>@form_cancancan_action</span> <span class='op'>=</span> <span class='id identifier rubyid_new_form_cancancan_action'>new_form_cancancan_action</span>
+  <span class='kw'>end</span>
+  <span class='kw'>return</span> <span class='ivar'>@form_cancancan_action</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="form_comp-instance_method">
   
     #<strong>form_comp</strong>  &#x21d2; <tt>Object</tt> 
   
@@ -353,24 +426,26 @@
       <pre class="lines">
 
 
-15
 16
 17
 18
 19
 20
 21
-22</pre>
+22
+23
+24</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/with_form.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/with_form.rb', line 16</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_form_comp'>form_comp</span>
   <span class='ivar'>@form_comp</span> <span class='op'>||=</span> <span class='lparen'>(</span><span class='id identifier rubyid_form_comp_class'>form_comp_class</span> <span class='op'>||</span> <span class='const'><span class='object_link'><a href="../../Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_comp_class_for!'><span class='object_link'><a href="../../Compony.html#comp_class_for!-class_method" title="Compony.comp_class_for! (method)">comp_class_for!</a></span></span><span class='lparen'>(</span><span class='symbol'>:form</span><span class='comma'>,</span> <span class='id identifier rubyid_family_cst'>family_cst</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span>
     <span class='kw'>self</span><span class='comma'>,</span>
     <span class='label'>submit_verb:</span><span class='comma'>,</span>
     <span class='comment'># If applicable, Rails adds the route keys automatically, thus, e.g. :id does not need to be passed here, as it comes from the request.
-</span>    <span class='label'>submit_path:</span> <span class='ivar'>@submit_path_block</span>
+</span>    <span class='label'>submit_path:</span>      <span class='ivar'>@submit_path_block</span><span class='comma'>,</span>
+    <span class='label'>cancancan_action:</span> <span class='id identifier rubyid_form_cancancan_action'>form_cancancan_action</span>
   <span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -404,12 +479,12 @@
       <pre class="lines">
 
 
-38
-39
-40</pre>
+40
+41
+42</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/with_form.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/with_form.rb', line 40</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_form_comp_class'>form_comp_class</span><span class='lparen'>(</span><span class='id identifier rubyid_new_form_comp_class'>new_form_comp_class</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='ivar'>@form_comp_class</span> <span class='op'>||=</span> <span class='id identifier rubyid_new_form_comp_class'>new_form_comp_class</span>
@@ -445,12 +520,12 @@
       <pre class="lines">
 
 
-45
-46
-47</pre>
+56
+57
+58</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/with_form.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/with_form.rb', line 56</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_submit_path'>submit_path</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_new_submit_path_block'>new_submit_path_block</span><span class='rparen'>)</span>
   <span class='ivar'>@submit_path_block</span> <span class='op'>=</span> <span class='id identifier rubyid_new_submit_path_block'>new_submit_path_block</span>
@@ -486,18 +561,18 @@
       <pre class="lines">
 
 
-26
-27
 28
 29
 30
 31
 32
 33
-34</pre>
+34
+35
+36</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/with_form.rb', line 26</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/with_form.rb', line 28</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_submit_verb'>submit_verb</span><span class='lparen'>(</span><span class='id identifier rubyid_new_submit_verb'>new_submit_verb</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_new_submit_verb'>new_submit_verb</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
@@ -518,7 +593,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed May 22 18:40:06 2024 by
+  Generated on Thu May 23 18:28:58 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>
