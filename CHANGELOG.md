@@ -11,6 +11,11 @@
 - Switch `before_render` to `NaturalOrdering`, allowing having multiple `before_render` blocks and overwriting them selectively
   - This change is backwards-compatible as the default behavior of `before_render` is to overwrite `:main`.
 - Implement nesting of content blocks, as described in README.md -> "Nesting content blocks, calling a content block from another"
+- Support Cancancan's `accessible_attributes`
+  - Cancancan 3.6.0 fixes https://github.com/CanCanCommunity/cancancan/issues/838
+  - Require `cancancan_action` for every Form, respectively `form_cancancan_action` for every WithForm
+  - Filter form fields by Cancancan action, effectively providing per-field authorization
+  - Attention, this feature is only used when using `field` and `schema_field`, it will not affect custom inputs or schema lines.
 
 ## Steps to take
 
@@ -50,13 +55,6 @@
 
 - Cleanup old code
   - Remove `check_config!` that was barely used
-- Support Cancancan's `accessible_attributes`
-  - Require `cancancan_action` for every Form, respectively `form_cancancan_action` for every WithForm
-  - Filter form fields by Cancancan action, effectively providing per-field authorization
-  - Attention, this feature is only used when using `field` and `schema_field`, it will not affect custom inputs or schema lines.
-  - At this time, Cancancan does not support non-db-backed attributes, therefore you must add to Ability something like:
-    - `can :manage, User, [:password, :password_confirmation]`
-    - See also https://github.com/CanCanCommunity/cancancan/issues/838
 
 ## Steps to perform
 
