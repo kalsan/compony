@@ -34,10 +34,10 @@ module Compony
 
         form_cancancan_action :edit
 
-        add_content do
+        content :label do
           h2 component.label
         end
-        add_content do
+        content do
           concat form_comp.render(controller, data: @data)
         end
 
@@ -48,10 +48,8 @@ module Compony
           schema = Schemacop::Schema3.new :hash, additional_properties: true do
             hsh? local_form_comp.schema_wrapper_key_for(local_data), &local_form_comp.schema_block_for(local_data, local_controller)
           end
-          schema.validate!(controller.request.params)
-
-          # TODO: Why are we not saving the validated params?
-          attrs_to_assign = controller.request.params[form_comp.schema_wrapper_key_for(@data)]
+          validated_params = schema.validate!(controller.request.params)
+          attrs_to_assign = validated_params[form_comp.schema_wrapper_key_for(@data)]
           @data.assign_attributes(attrs_to_assign) if attrs_to_assign
         end
 

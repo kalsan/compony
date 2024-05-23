@@ -1,3 +1,33 @@
+# unreleased
+
+- Internals:
+  - Change internal parameter handling in edit and update (now use validated params only)
+  - Create `NaturalOrdering` which provides an interface for the `action` call behavior
+  - Switch actions to `NaturalOrdering`
+  - Remove redundant code
+- Remove `Component`'s dynamic `comp_class_for` and `comp_class_for!`
+- Switch `content` to `NaturalOrdering`, enabling `before:`
+  - Remove `add_content`
+- Switch `before_render` to `NaturalOrdering`, allowing having multiple `before_render` blocks and overwriting them selectively
+  - This change is backwards-compatible as the default behavior of `before_render` is to overwrite `:main`.
+- Implement nesting of content blocks, as described in README.md -> "Nesting content blocks, calling a content block from another"
+
+## Steps to take
+
+- Search for `comp_class_for` and `comp_class_for!` and replace them by `Compony.comp_class_for` and `Compony.comp_class_for!`
+- Search for `add_content` and replace it by `content` along with a name. If you used an index in `add_content`, replace it by `before:` (see documentation)
+
+# 0.2.3
+
+- Support collection of Anchormodels in hidden input
+
+# 0.2.2
+
+- Adjust gemspec
+- Generate documentation
+- Add VERSION file
+- Replace custom anchormodel field implementation by Anchormodel's new implementation of SimpleForm Input
+
 # 0.2.1
 
 - Fix a bug where the app crashed on HEAD verb

@@ -41,5 +41,13 @@ module Compony
       return true if @local_assigns.key?(method)
       return super
     end
+
+    # Renders a content block from the current component.
+    def content(name)
+      name = name.to_sym
+      content_block = component.content_blocks.find { |el| el.name == name } || fail("Content block #{name.inspect} not found in #{component.inspect}.")
+      # A fresh RequestContext is needed due to Rails' buffer
+      concat Compony::RequestContext.new(component, controller, helpers:, locals: local_assigns).evaluate(&content_block.payload)
+    end
   end
 end

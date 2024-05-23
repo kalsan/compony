@@ -7,6 +7,7 @@ module Compony
 
     attr_reader :parent_comp
     attr_reader :comp_opts
+    attr_reader :content_blocks # needed in RequestContext for nesting
 
     # root comp: component that is registered to be root of the application.
     # parent comp: component that is registered to be the parent of this comp. If there is none, this is the root comp.
@@ -24,9 +25,9 @@ module Compony
       @sub_comps = []
       @index = index
       @comp_opts = comp_opts
-      @before_render_block = nil
-      @content_blocks = []
-      @actions = []
+      @before_render_blocks = NaturalOrdering.new
+      @content_blocks = NaturalOrdering.new
+      @actions = NaturalOrdering.new
       @skipped_actions = Set.new
 
       init_standalone
@@ -111,46 +112,39 @@ module Compony
       comp_cst.to_s.underscore
     end
 
-    # @todo deprecate (check for usages beforehand)
-    def comp_class_for(...)
-      Compony.comp_class_for(...)
-    end
-
-    # @todo deprecate (check for usages beforehand)
-    def comp_class_for!(...)
-      Compony.comp_class_for!(...)
+    # DSL method
+    # Adds or overrides a before_render block.
+    # You can use controller.redirect_to to redirect away and halt the before_render/content chain
+    # @param [Symbol,String] name The name of the before_render block, defaults to `:main`
+    # @param [nil,Symbol,String] before If nil, the block will be added to the bottom of the before_render chain. Otherwise, pass the name of another block.
+    # @param [Proc] block The block that should be run as part of the before_render pipeline. Will run in the component's context.
+    def before_render(name = :main, before: nil, **kwargs, &block)
+      fail("`before_render` expects a block in #{inspect}.") unless block_given?
+      @before_render_blocks.natural_push(name, block, before:, **kwargs)
     end
 
     # DSL method
-    def before_render(&block)
-      @before_render_block = block
-    end
-
-    # DSL method
-    # Overrides previous content (also from superclasses). Will be the first content block to run.
-    # You can use dyny here.
-    def content(&block)
+    # Adds or overrides a content block.
+    # @param [Symbol,String] name The name of the content block, defaults to `:main`
+    # @param [nil,Symbol,String] before If nil, the block will be added to the bottom of the content chain. Otherwise, pass the name of another block.
+    # @param [Boolean] hidden If true, the content will not be rendered by default, allowing you to nest it in another content block.
+    # @param [Proc] block The block that should be run as part of the content pipeline. Will run in the component's context. You can use Dyny here.
+    def content(name = :main, before: nil, **kwargs, &block)
       fail("`content` expects a block in #{inspect}.") unless block_given?
-      @content_blocks = [block]
-    end
-
-    # DSL method
-    # Adds a content block that will be executed after all previous ones.
-    # It is safe to use this method even if `content` has never been called
-    # You can use dyny here.
-    def add_content(index = -1, &block)
-      fail("`content` expects a block in #{inspect}.") unless block_given?
-      @content_blocks ||= []
-      @content_blocks.insert(index, block)
+      @content_blocks.natural_push(name, block, before:, **kwargs)
     end
 
     # Renders the component using the controller passsed to it and returns it as a string.
     # @param [Boolean] standalone pass true iff `render` is called from `render_standalone`
     # Do not overwrite.
     def render(controller, standalone: false, **locals)
-      # Call before_render hook if any and backfire instance variables back to the component
-      # TODO: Can .request_context be removed from the next line? Test well!
-      RequestContext.new(self, controller, locals:).request_context.evaluate_with_backfire(&@before_render_block) if @before_render_block
+      # Call before_render hooks (if any) and backfire instance variables back to the component
+      @before_render_blocks.each do |element|
+        RequestContext.new(self, controller, locals:).evaluate_with_backfire(&element.payload)
+        # Stop if a `before_render` block issued a body (e.g. through redirecting)
+        break unless controller.response_body.nil?
+      end
+
       # Render, unless before_render has already issued a body (e.g. through redirecting).
       if controller.response_body.nil?
         fail "#{self.class.inspect} must define `content` or set a response body in `before_render`" if @content_blocks.none?
@@ -161,9 +155,9 @@ module Compony
             if Compony.content_before_root_comp_block && standalone
               Compony::RequestContext.new(component, controller, helpers: self, locals: render_locals).evaluate(&Compony.content_before_root_comp_block)
             end
-            content_blocks.each do |block|
+            content_blocks.reject{ |el| el.hidden }.each do |element|
               # Instanciate and evaluate a fresh RequestContext in order to use the buffer allocated by the ActionView (needed for `concat` calls)
-              Compony::RequestContext.new(component, controller, helpers: self, locals: render_locals).evaluate(&block)
+              Compony::RequestContext.new(component, controller, helpers: self, locals: render_locals).evaluate(&element.payload)
             end
             if Compony.content_after_root_comp_block && standalone
               Compony::RequestContext.new(component, controller, helpers: self, locals: render_locals).evaluate(&Compony.content_after_root_comp_block)
@@ -179,25 +173,7 @@ module Compony
     # Adds or replaces an action (for action buttons)
     # If before: is specified, will insert the action before the named action. When replacing, an element keeps its position unless before: is specified.
     def action(action_name, before: nil, &block)
-      action_name = action_name.to_sym
-      before_name = before&.to_sym
-      action = MethodAccessibleHash.new(name: action_name, block:)
-
-      existing_index = @actions.find_index { |el| el.name == action_name }
-      if existing_index.present? && before_name.present?
-        @actions.delete_at(existing_index) # Replacing an existing element with a before: directive - must delete before calculating indices
-      end
-      if before_name.present?
-        before_index = @actions.find_index { |el| el.name == before_name } || fail("Action #{before_name} for :before not found in #{inspect}.")
-      end
-
-      if before_index.present?
-        @actions.insert(before_index, action)
-      elsif existing_index.present?
-        @actions[existing_index] = action
-      else
-        @actions << action
-      end
+      @actions.natural_push(action_name, block, before:)
     end
 
     # DSL method
@@ -213,7 +189,7 @@ module Compony
         button_htmls = @actions.map do |action|
           next if @skipped_actions.include?(action.name)
           Compony.with_button_defaults(feasibility_action: action.name.to_sym) do
-            action_button = action.block.call(controller)
+            action_button = action.payload.call(controller)
             next unless action_button
             button_html = action_button.render(controller)
             next if button_html.blank?

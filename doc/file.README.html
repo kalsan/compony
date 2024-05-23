@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.9.34
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "README";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'>
+<p>&lt;img src=“logo.svg” height=250 alt=“Compony logo”/&gt;</p>
+<ul><li>
+<p>To see the README including images, refer to <a href="https://github.com/kalsan/compony">github.com/kalsan/compony</a></p>
+</li><li>
+<p>To see the class documentation, refer to <a href="https://www.rubydoc.info/github/kalsan/compony">www.rubydoc.info/github/kalsan/compony</a></p>
+</li></ul>
+
+<h1 id="label-Introduction">Introduction</h1>
+
+<p>Compony is a Gem that allows you to write your Rails application in component-style fashion. It combines a controller action and route along with its view into a single Ruby class. This allows writing much DRYer code, using inheritance even in views and much easier refactoring for your Rails applications, helping you to keep the code clean as the application evolves.</p>
+
+<p>Compony’s key aspects:</p>
+<ul><li>
+<p>A Compony component is a single class that exports route(s), controller action(s) and a view to Rails.</p>
+</li><li>
+<p>Refactor common logic into your own components and inherit from them to DRY up your code.</p>
+</li><li>
+<p>Compony’s powerful model mixin allows you to define metadata in your models and react to them. Examples:</p>
+</li><li>
+<p>Compony fields capture attributes that should be made visible in your UI. They allow you to implement formatting behavior and parameter sanitization for various types, e.g. URLs, phone numbers, colors etc. ready to be used in your lists, detail panels, or forms.</p>
+</li><li>
+<p>Compony’s feasibility framework allows you to prohibit actions based on conditions, along with an error message. This causes all buttons pointing to that action to be disabled with a meaningful error message.</p>
+</li><li>
+<p>Compony only structures your code, but provides no style whatsoever. It is like a bookshelf rather than a reader’s library. You still implement your own layouts, CSS and Javascript to define the behavior of your front-end.</p>
+</li><li>
+<p>Using Compony, you <strong>can</strong> write your application as components, but it is still possible to have regular routes, controllers and views side-to-side to it. This way, you can migrate your applications to Compony little by little and enter and leave the Compony world as you please. It is also possible to render Compony components from regular views and vice versa.</p>
+</li><li>
+<p>Compony is built for Rails 7 and fully supports Stimulus and Turbo Drive. Turbo Frames and Streams are not yet targeted, so Compony is currently meant for websites where every click triggers a “full page load” (in quotes because they are not actually full page loads due to Turbo Drive).</p>
+</li><li>
+<p>Compony uses <a href="https://github.com/CanCanCommunity/cancancan">CanCanCan</a> for authorization but does not provide an authentication mechanism. You can easily build your own by creating login/logout components that manage cookies, and configure Compony to enforce authentication using the <code>Compony.authentication_before_action</code> setter. We have also successfully tested Compony to work with <a href="https://github.com/heartcombo/devise">Devise</a>.</p>
+</li></ul>
+
+<h2 id="label-State+of+the+project">State of the project</h2>
+
+<p>I am actively using this framework in various applications and both performance and reliability are good. However, the project is at an early stage and is lacking peer reviews and especially automatic testing, such as unit and integration tests. Also, expect there to be (documented) breaking changes in the future, as the API will likely be further refined, resulting in renamings and deprecation of various methods.</p>
+
+<h2 id="label-Example">Example</h2>
+
+<p>To get you a rough idea what working with Compony feels like, let’s look at a small dummy application using Compony from scratch, to make this example as explicit as possible. In practice, much of the logic shown here would be moved to abstract components that you can inherit from.</p>
+
+<p>The example is meant to be read top-down and information will mostly not be repeated. Comments will give you a rough idea of what’s going on on each line. The features are more completely documented in subsequent chapters.</p>
+
+<p>Let’s implement a simple user management page with Compony. User’s have a name, an integer age, a comment, as well as a role (which we will conveniently model using <code>AnchorModel</code>: <a href="https://github.com/kalsan/anchormodel">github.com/kalsan/anchormodel</a>). We want to be able to list, show, create, edit and destroy users. Users having the role Admin shall not be destroyed.</p>
+
+<h3 id="label-The+User+model">The User model</h3>
+
+<p>We’ll assume a model that has the standard Rails schema:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_create_table'>create_table</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>users</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>force:</span> <span class='symbol'>:cascade</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_t'>t</span><span class='op'>|</span>
+    <span class='id identifier rubyid_t'>t</span><span class='period'>.</span><span class='id identifier rubyid_string'>string</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>name</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_t'>t</span><span class='period'>.</span><span class='id identifier rubyid_string'>string</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>comment</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_t'>t</span><span class='period'>.</span><span class='id identifier rubyid_integer'>integer</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>age</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_t'>t</span><span class='period'>.</span><span class='id identifier rubyid_datetime'>datetime</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>created_at</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>false</span>
+    <span class='id identifier rubyid_t'>t</span><span class='period'>.</span><span class='id identifier rubyid_datetime'>datetime</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>updated_at</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>false</span>
+    <span class='id identifier rubyid_t'>t</span><span class='period'>.</span><span class='id identifier rubyid_string'>string</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>role</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>default:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>guest</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>false</span>
+  <span class='kw'>end</span>
+</code></pre>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>User</span> <span class='op'>&lt;</span> <span class='const'>ApplicationRecord</span>
+  <span class='comment'># Refer to https://github.com/kalsan/anchormodel
+</span>  <span class='id identifier rubyid_belongs_to_anchormodel'>belongs_to_anchormodel</span> <span class='symbol'>:role</span>
+
+  <span class='comment'># Fields define which attributes are relevant in the GUI and how they should be presented.
+</span>  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='symbol'>:string</span>
+  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:age</span><span class='comma'>,</span> <span class='symbol'>:integer</span>
+  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:comment</span><span class='comma'>,</span> <span class='symbol'>:string</span>
+  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:role</span><span class='comma'>,</span> <span class='symbol'>:anchormodel</span>
+  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='symbol'>:datetime</span>
+  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:updated_at</span><span class='comma'>,</span> <span class='symbol'>:datetime</span>
+
+  <span class='comment'># The method `label` must be implemented on all Compony models. Instead of this method, we could also rename the column :name to :label.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_label'>label</span>
+    <span class='id identifier rubyid_name'>name</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># This is how we tell Compony that admins are not to be destroyed.
+</span>  <span class='id identifier rubyid_prevent'>prevent</span> <span class='symbol'>:destroy</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Cannot destroy admins</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_role'>role</span> <span class='op'>==</span> <span class='const'>Role</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='symbol'>:admin</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<h3 id="label-The+Show+component">The Show component</h3>
+
+<p>This components loads a user by reading the param <code>id</code>. It then displays a simple table showing all the fields defined above.</p>
+
+<p>We will implement this component on our own, giving you an insight into many of Compony’s mechanisms:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># All components (except abstract ones) must be placed in the `Components` namespace living under `app/components`.
+</span><span class='comment'># They must be nested in another namespace, called &quot;family&quot; (here, `Users`), followed by the component&#39;s name (here, `Show`).
+</span><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Users</span><span class='op'>::</span><span class='const'>Show</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Component.html" title="Compony::Component (class)">Component</a></span></span>
+  <span class='comment'># The Resourceful mixin causes a component to automatically load a model from the `id` parameter and store it under `@data`.
+</span>  <span class='comment'># The model&#39;s class is inferred from the component&#39;s name: `Users::Show` -&gt; `User`
+</span>  <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/ComponentMixins.html" title="Compony::ComponentMixins (module)">ComponentMixins</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/ComponentMixins/Resourceful.html" title="Compony::ComponentMixins::Resourceful (module)">Resourceful</a></span></span>
+
+  <span class='comment'># Components are configured in the `setup` method, which prevents loading order issues.
+</span>  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='comment'># The DSL call `label` defines what is the title of the component and which text is displayed on links as well as buttons pointing to it.
+</span>    <span class='comment'># It accepts different formats and takes a block. Given that this component always loads one model, the block must take an argument which is the model.
+</span>    <span class='comment'># The argument must be provided by links and buttons pointing to this component.
+</span>    <span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='symbol'>:short</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid__u'>_u</span><span class='op'>|</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Show</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span> <span class='comment'># The short format is suitable for e.g. a button in a list of users.
+</span>    <span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='symbol'>:long</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_u'>u</span><span class='op'>|</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Show user </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_u'>u</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span> <span class='comment'># The long format is suitable e.g. in a link in a text about this user.
+</span>
+    <span class='comment'># Actions point to other components. They have a name that is used to identify them (e.g. in the `prevent` call above) and a block returning a button.
+</span>    <span class='comment'># Compony buttons take the name to an action and either a family name or instance, e.g. a Rails model instance.
+</span>    <span class='comment'># Whether or not an instance must be passed is defined by the component the button is pointing to (see the comment for `label` earlier in the example).
+</span>    <span class='id identifier rubyid_action'>action</span><span class='lparen'>(</span><span class='symbol'>:index</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_button'><span class='object_link'><a href="Compony.html#button-class_method" title="Compony.button (method)">button</a></span></span><span class='lparen'>(</span><span class='symbol'>:index</span><span class='comma'>,</span> <span class='symbol'>:users</span><span class='rparen'>)</span> <span class='rbrace'>}</span> <span class='comment'># This points to `Components::Users::Index` without passing a model (because it&#39;s an index).
+</span>    <span class='id identifier rubyid_action'>action</span><span class='lparen'>(</span><span class='symbol'>:edit</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_button'><span class='object_link'><a href="Compony.html#button-class_method" title="Compony.button (method)">button</a></span></span><span class='lparen'>(</span><span class='symbol'>:edit</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='rparen'>)</span> <span class='rbrace'>}</span> <span class='comment'># This points to `Components::Users::Edit` for the currently loaded model. This also checks feasibility.
+</span>
+    <span class='comment'># When a standalone config is present, Compony creates one or multiple Rails routes. Components without standalone config must be nested within others.
+</span>    <span class='id identifier rubyid_standalone'>standalone</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>users/show/:id</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span> <span class='comment'># This specifies the path to this component.
+</span>      <span class='id identifier rubyid_verb'>verb</span> <span class='symbol'>:get</span> <span class='kw'>do</span> <span class='comment'># This speficies that a GET route should be created for the path specified above.
+</span>        <span class='id identifier rubyid_authorize'>authorize</span> <span class='lbrace'>{</span> <span class='kw'>true</span> <span class='rbrace'>}</span> <span class='comment'># Immediately after loading the model, this is called to check for authorization. `true` means that anybody can get access.
+</span>      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># After loading the model and passing authorization, the `content` block is evaluated. This is Compony&#39;s equivalent to Rails&#39; views.
+</span>    <span class='comment'># Inside the `content` block, the templating Gem Dyny (https://github.com/kalsan/dyny) is used, allowing you to write views in plain Ruby.
+</span>    <span class='id identifier rubyid_content'>content</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_h3'>h3</span> <span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span> <span class='comment'># Display a &lt;h3&gt; title
+</span>      <span class='id identifier rubyid_table'>table</span> <span class='kw'>do</span> <span class='comment'># Open a &lt;table&gt; tag
+</span>        <span class='id identifier rubyid_tr'>tr</span> <span class='kw'>do</span> <span class='comment'># Open a &lt;tr&gt; tag
+</span>          <span class='comment'># Iterate over all the fields defined in the model above and display its translated label (this uses Rails&#39; `human_attribute_name`), e.g. &quot;Name&quot;.
+</span>          <span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_fields'>fields</span><span class='period'>.</span><span class='id identifier rubyid_each_value'>each_value</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_field'>field</span><span class='op'>|</span> <span class='id identifier rubyid_th'>th</span> <span class='id identifier rubyid_field'>field</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span> <span class='rbrace'>}</span>
+        <span class='kw'>end</span> <span class='comment'># Closing &lt;/tr&gt;
+</span>        <span class='id identifier rubyid_tr'>tr</span> <span class='kw'>do</span>
+          <span class='comment'># Iterate over the fields again and call `value_for` which formats each field&#39;s value according to the field type.
+</span>          <span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_fields'>fields</span><span class='period'>.</span><span class='id identifier rubyid_each_value'>each_value</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_field'>field</span><span class='op'>|</span> <span class='id identifier rubyid_td'>td</span> <span class='id identifier rubyid_field'>field</span><span class='period'>.</span><span class='id identifier rubyid_value_for'>value_for</span><span class='lparen'>(</span><span class='ivar'>@data</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>Here is what our Show component looks like when we have a layout with the bare minimum and no styling at all:</p>
+
+<p><img src="doc/imgs/intro-example-show.png"></p>
+
+<p>It is important to note that actions, buttons, navigation, notifications etc. are handled by the application layout. In this and the subsequent screenshots, we explicitely use minimalism, as it makes the generated HTML clearer.</p>
+
+<h3 id="label-The+Destroy+component">The Destroy component</h3>
+
+<p>Compony has a built-in abstract <code>Destroy</code> component which displays a confirmation message and destroys the record if the verb is <code>DELETE</code>. This is a good example for how DRY code can become for “boring” components. Since everything is provided with an overridable default, components without special logic can actually be left blank:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Users</span><span class='op'>::</span><span class='const'>Destroy</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Destroy.html" title="Compony::Components::Destroy (class)">Destroy</a></span></span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>Note that this component is fully functional. All is handled by the class it inherits from:</p>
+
+<p><img src="doc/imgs/intro-example-destroy.png"></p>
+
+<h3 id="label-The+New+component+and+the+Form+component">The New component and the Form component</h3>
+
+<p>Compony also has a pre-built abstract <code>New</code> component that handles routing and resource manipulation. It combines the controller actions <code>new</code> and <code>create</code>, depending on the HTTP verb of the request. Since it’s pre-built, any “boring” code can be omitted and our <code>New</code> components looks like this:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Users</span><span class='op'>::</span><span class='const'>New</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/New.html" title="Compony::Components::New (class)">New</a></span></span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>By default, this component looks for another component called <code>Form</code> in the same directory, which can look like this:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Users</span><span class='op'>::</span><span class='const'>Form</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Form.html" title="Compony::Components::Form (class)">Form</a></span></span>
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='comment'># This mandatory DSL call prepares and opens a form in which you can write your HTML in Dyny.
+</span>    <span class='comment'># The form is realized using the simple_form Gem (https://github.com/heartcombo/simple_form).
+</span>    <span class='comment'># Inside this block, more DSL calls are available, such as `field`, which automatically generates
+</span>    <span class='comment'>#    a suitable simple_form input from the field specified in the model.
+</span>    <span class='id identifier rubyid_form_fields'>form_fields</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='symbol'>:name</span><span class='rparen'>)</span> <span class='comment'># `field` checks the model to find out that a string input is needed here. `concat` is the Dyny equivalent to ERB&#39;s &lt;%= %&gt;.
+</span>      <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='symbol'>:age</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='symbol'>:comment</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='symbol'>:role</span><span class='rparen'>)</span> <span class='comment'># Compony has built-in support for Anchormodel and as the model declares `role` to be of type `anchormodel`, a select is rendered.
+</span>    <span class='kw'>end</span>
+
+    <span class='comment'># This DSL call is mandatory as well and automatically generates strong param validation for this form.
+</span>    <span class='comment'># The generated underlying implementation is Schemacop V3 (https://github.com/sitrox/schemacop/blob/master/README_V3.md).
+</span>    <span class='id identifier rubyid_schema_fields'>schema_fields</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='symbol'>:age</span><span class='comma'>,</span> <span class='symbol'>:comment</span><span class='comma'>,</span> <span class='symbol'>:role</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>This is enough to render a fully functional form that creates new users:</p>
+
+<p><img src="doc/imgs/intro-example-new.png"></p>
+
+<h3 id="label-The+Edit+component">The Edit component</h3>
+
+<p>Just like <code>New</code>, <code>Edit</code> is a pre-built component that handles routing and resource manipulation for editing models, combinding the controller actions <code>edit</code> and <code>update</code> depending on the HTTP verb. It uses that same <code>Form</code> component we wrote above and thus the code is as simple as:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Users</span><span class='op'>::</span><span class='const'>Edit</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Edit.html" title="Compony::Components::Edit (class)">Edit</a></span></span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>It then looks like this:</p>
+
+<p><img src="doc/imgs/intro-example-edit.png"></p>
+
+<h3 id="label-The+Index+component">The Index component</h3>
+
+<p>This component should list all users and provide buttons to manage them. We’ll build it from scratch and make it resourceful, where <code>@data</code> holds the ActiveRecord relation.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Users</span><span class='op'>::</span><span class='const'>Index</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Component.html" title="Compony::Component (class)">Component</a></span></span>
+  <span class='comment'># Making the component resourceful enables a few features for dealing with @data.
+</span>  <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/ComponentMixins.html" title="Compony::ComponentMixins (module)">ComponentMixins</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/ComponentMixins/Resourceful.html" title="Compony::ComponentMixins::Resourceful (module)">Resourceful</a></span></span>
+
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='symbol'>:all</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Users</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span> <span class='comment'># This sets all labels (long and short) to &#39;Users&#39;. When pointing to this component using buttons, we will not provide a model.
+</span>    <span class='id identifier rubyid_standalone'>standalone</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>users</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span> <span class='comment'># The path is simply /users, without a param. This conflicts with `Resourceful`, which we will fix in `load_data`.
+</span>      <span class='id identifier rubyid_verb'>verb</span> <span class='symbol'>:get</span> <span class='kw'>do</span>
+        <span class='id identifier rubyid_authorize'>authorize</span> <span class='lbrace'>{</span> <span class='kw'>true</span> <span class='rbrace'>}</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># This DSL call is specific to resourceful components and overrides how a model is loaded.
+</span>    <span class='comment'># The block is called before authorization and must assign a model or collection to `@data`.
+</span>    <span class='id identifier rubyid_load_data'>load_data</span> <span class='lbrace'>{</span> <span class='ivar'>@data</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span> <span class='rbrace'>}</span>
+
+    <span class='id identifier rubyid_content'>content</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_h4'>h4</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Users:</span><span class='tstring_end'>&#39;</span></span> <span class='comment'># Provide a title
+</span>      <span class='comment'># Provide a button that creates a new user. Note that we must write `:users` (plural) because the component&#39;s family is `Users`.
+</span>      <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_compony_button'>compony_button</span><span class='lparen'>(</span><span class='symbol'>:new</span><span class='comma'>,</span> <span class='symbol'>:users</span><span class='rparen'>)</span> <span class='comment'># The `Users::New` component does not take a model, thus we just pass the symbol `:users`, not a model.
+</span>
+      <span class='id identifier rubyid_div'>div</span> <span class='label'>class:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>users</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span> <span class='comment'># Opening tag &lt;div class=&quot;users&quot;&gt;
+</span>        <span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_user'>user</span><span class='op'>|</span> <span class='comment'># Iterate the collection
+</span>          <span class='id identifier rubyid_div'>div</span> <span class='label'>class:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>user</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span> <span class='comment'># For each element, open another div
+</span>            <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_fields'>fields</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_field'>field</span><span class='op'>|</span> <span class='comment'># For each user, iterate all fields
+</span>              <span class='id identifier rubyid_span'>span</span> <span class='kw'>do</span> <span class='comment'># Open a &lt;span&gt; tag
+</span>                <span class='id identifier rubyid_concat'>concat</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_field'>field</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='embexpr_end'>}</span><span class='tstring_content'>: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_field'>field</span><span class='period'>.</span><span class='id identifier rubyid_value_for'>value_for</span><span class='lparen'>(</span><span class='id identifier rubyid_user'>user</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span> <span class='comment'># Display the field&#39;s label and apply it to value, as we did in the Show component.
+</span>              <span class='kw'>end</span>
+            <span class='kw'>end</span>
+            <span class='comment'># For each user, add three buttons show, edit, destroy. The method `with_button_defaults` applies its arguments to every `compony_button` call.
+</span>            <span class='comment'># The option `format: :short` causes the button to call the target component&#39;s `label(:short) {...}` label function.
+</span>            <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_with_button_defaults'><span class='object_link'><a href="Compony.html#with_button_defaults-class_method" title="Compony.with_button_defaults (method)">with_button_defaults</a></span></span><span class='lparen'>(</span><span class='label'>label_opts:</span> <span class='lbrace'>{</span> <span class='label'>format:</span> <span class='symbol'>:short</span> <span class='rbrace'>}</span><span class='rparen'>)</span> <span class='kw'>do</span>
+              <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_compony_button'>compony_button</span><span class='lparen'>(</span><span class='symbol'>:show</span><span class='comma'>,</span> <span class='id identifier rubyid_user'>user</span><span class='rparen'>)</span> <span class='comment'># Now equivalent to: `compony_button(:show, user, label_opts: { format: :short })`
+</span>              <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_compony_button'>compony_button</span><span class='lparen'>(</span><span class='symbol'>:edit</span><span class='comma'>,</span> <span class='id identifier rubyid_user'>user</span><span class='rparen'>)</span>
+              <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_compony_button'>compony_button</span><span class='lparen'>(</span><span class='symbol'>:destroy</span><span class='comma'>,</span> <span class='id identifier rubyid_user'>user</span><span class='rparen'>)</span>
+            <span class='kw'>end</span>
+          <span class='kw'>end</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>The result looks like this:</p>
+
+<p><img src="doc/imgs/intro-example-index.png"></p>
+
+<p>Note how the admin’s delete button is disabled due to the feasibility framework. Pointing the mouse at it causes a tooltip saying: “Cannot destroy admins.”, as specified in the model’s prevention.</p>
+
+<h1 id="label-Alternatives+to+Compony">Alternatives to Compony</h1>
+
+<p>A project with a similar aim, but much more mature, is <a href="https://github.com/phlex-ruby/phlex">Phlex</a>.</p>
+
+<h1 id="label-Installation">Installation</h1>
+
+<h2 id="label-Installing+Compony">Installing Compony</h2>
+
+<p>First, add Compony to your Gemfile:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>compony</span><span class='tstring_end'>&#39;</span></span>
+</code></pre>
+
+<p>Then run <code>bundle install</code>.</p>
+
+<p>Create the directory <code>app/components</code>.</p>
+
+<p>In <code>app/models/application_record.rb</code>, add the following line below <code>primary_abstract_class</code>:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/ModelMixin.html" title="Compony::ModelMixin (module)">ModelMixin</a></span></span>
+</code></pre>
+
+<h2 id="label-Installing+CanCanCan">Installing CanCanCan</h2>
+
+<p>Create the file <code>app/models/ability.rb</code> with the following content:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>Ability</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'>CanCan</span><span class='op'>::</span><span class='const'>Ability</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid__user'>_user</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_can'>can</span> <span class='symbol'>:manage</span><span class='comma'>,</span> <span class='symbol'>:all</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>This is an initial dummy ability that allows anyone to do anything. Most likely, you will want to adjust the file. For documentation, refer to <a href="https://github.com/CanCanCommunity/cancancan/">github.com/CanCanCommunity/cancancan/</a>.</p>
+
+<h2 id="label-Optional-3A+installing+anchormodel">Optional: installing anchormodel</h2>
+
+<p>To take advantage of the anchormodel integration, follow the installation instructions under <a href="https://github.com/kalsan/anchormodel/">github.com/kalsan/anchormodel/</a>.</p>
+
+<h1 id="label-Usage">Usage</h1>
+
+<p>Compony components are nestable elements that are capable of replacing Rails’ routes, views and controllers. They structure code for data manipulation, authentication and rendering into a single class that can easily be subclassed. This is achieved with Compony’s DSL that provides a readable and overridable way to store your logic.</p>
+
+<p>Just like Rails, Compony is opinionated and you are advised to structure your code according to the examples and explanations. This makes it easier for others to dive into existing code.</p>
+
+<h2 id="label-A+basic+-28bare-29+component">A basic (bare) component</h2>
+
+<h3 id="label-Naming">Naming</h3>
+
+<p>Compony components must be named according to the pattern <code>Components::FamilyName::ComponentName</code>.</p>
+<ul><li>
+<p>The family name should be pluralized and is analog to naming a Rails controller. For instance, when you would create a <code>UsersController</code> in plain Rails, the Compony family equivalent is <code>Users</code>.</p>
+</li><li>
+<p>The component name is the Compony analog to a Rails action.</p>
+</li></ul>
+
+<p>Example: If your plain Rails <code>UsersController</code> has an action <code>show</code>, the equivalent Compony component is <code>Components::Users::Show</code> and is located under <code>app/components/users/show.rb</code>.</p>
+
+<p>If you have abstract components (i.e. components that your app never uses directly, but which you inherit from), you may name and place them arbitrarily.</p>
+
+<h3 id="label-Initialization-2C+manual+instantiation+and+rendering">Initialization, manual instantiation and rendering</h3>
+
+<p>You will rarely have to override <code>def initialize</code> of a component, as most of your code will go into the component’s <code>setup</code> block as explained below. However, when you do, make sure to forward all default arguments to the parent class, as they are essential to the component’s function:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_some_positional_argument'>some_positional_argument</span><span class='comma'>,</span> <span class='id identifier rubyid_another'>another</span><span class='op'>=</span><span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='label'>some_keyword_argument:</span><span class='comma'>,</span> <span class='label'>yetanother:</span> <span class='int'>42</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span> <span class='comment'># Typically you should call this first
+</span>  <span class='ivar'>@foo</span> <span class='op'>=</span> <span class='id identifier rubyid_some_positional_argument'>some_positional_argument</span>
+  <span class='ivar'>@bar</span> <span class='op'>=</span> <span class='id identifier rubyid_another'>another</span>
+  <span class='ivar'>@baz</span> <span class='op'>=</span> <span class='id identifier rubyid_some_keyword_argument'>some_keyword_argument</span>
+  <span class='ivar'>@stuff</span> <span class='op'>=</span> <span class='id identifier rubyid_yetanother'>yetanother</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>Typically, your components will be instantiated and rendered by Compony through the “standalone” feature explained below. Nonetheless, it is possible to do so manually as well, for instance if you’d like to render a component from within an existing view in your application:</p>
+
+<pre class="code ruby"><code class="ruby">&lt;% index_users_comp = Components::Users::Index.new %&gt;
+&lt;%= index_users_comp.render(controller) %&gt;
+</code></pre>
+
+<p>Note that rendering a component always requires the controller as an argument. It also possible to pass an argument <code>locals</code> that will be made available to <code>render</code> (see below):</p>
+
+<pre class="code ruby"><code class="ruby">&lt;% index_users_comp = Components::Users::Index.new %&gt;
+&lt;%= index_users_comp.render(controller, locals: { weather: :sunny }) %&gt;
+</code></pre>
+
+<h3 id="label-Setup">Setup</h3>
+
+<p>Every component must call the static method <code>setup</code> which will contain most of the code of your components. This can be achieved either by a call directly from your class, or by inheriting from a component that calls <code>setup</code>. If both classes call the method, the inherited class’ <code>setup</code> is run first and the inheriting’s second, thus, the child class can override setup properties of the parent class.</p>
+
+<p>Call setup as follows:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Users</span><span class='op'>::</span><span class='const'>Show</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Component.html" title="Compony::Component (class)">Component</a></span></span>
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='comment'># Your setup code goes here
+</span>  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>The code in setup is run at the end the component’s initialization. In this block, you will call a number of methods that define the component’s behavior and which we will explain now.</p>
+
+<h4 id="label-Labelling">Labelling</h4>
+
+<p>This defines a component’s label, both as seen from within the component and from the outside. You can query the label in order to display it as a title in your component. Links and buttons to components will also display the same label, allowing you to easily rename a component, including any parts of your UI that point to it.</p>
+
+<p>Labels come in different formats, short and long, with long being the default. Define them as follows if your component is about a specific object, for instance a show component for a specific user:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='symbol'>:short</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_user'>user</span><span class='op'>|</span> <span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span> <span class='rbrace'>}</span> <span class='comment'># Assuming your User model has a method or attribute `label`.
+</span>  <span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='symbol'>:long</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_user'>user</span><span class='op'>|</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Displaying user </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span> <span class='comment'># In practice, you&#39;d probably use I18n.t or FastGettext here to deal with translations.
+</span>
+  <span class='comment'># Or use this short hand to set both long and short label to the user&#39;s label:
+</span>  <span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='symbol'>:all</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_user'>user</span><span class='op'>|</span> <span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>To read the label, from within the component or from outside, proceed as follows:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='rparen'>)</span> <span class='comment'># This returns the long version: &quot;Displaying user John Doe&quot;.
+</span><span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='comma'>,</span> <span class='label'>format:</span> <span class='symbol'>:short</span><span class='rparen'>)</span> <span class='comment'># This returns the short version &quot;John Doe&quot;.
+</span></code></pre>
+
+<p>It is important to note that since your label block takes an argument, you must provide the argument when reading the label (exception: if the component implements the method <code>data</code> returning an object, the argument can be omitted and the label block will be provided that object). Only up to one argument is supported.</p>
+
+<p>Here is an example on how labelling looks like for a component that is not about a specific object, such as an index component for users:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='symbol'>:long</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>List of users</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='symbol'>:short</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>List</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>And to read those:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_label'>label</span> <span class='comment'># &quot;List of users&quot;
+</span><span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='label'>format:</span> <span class='symbol'>:short</span><span class='rparen'>)</span> <span class='comment'># &quot;List&quot;
+</span></code></pre>
+
+<p>If you do not define any labels, Compony will fallback to the default which is using Rail’s <code>humanize</code> method to build a name from the family and component name, e.g. “index users”.</p>
+
+<p>Additionally, components can specify an icon and a color. These are not used by Compony directly and it is up to you to to define how and where to use them. Example:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_color'>color</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>#AA0000</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_icon'>icon</span> <span class='lbrace'>{</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>fa-solid</span><span class='words_sep'> </span><span class='tstring_content'>circle</span><span class='tstring_end'>]</span></span> <span class='rbrace'>}</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>To retrieve them from outside the component, use:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_my_component'>my_component</span><span class='period'>.</span><span class='id identifier rubyid_color'>color</span> <span class='comment'># &#39;#AA0000&#39;
+</span><span class='id identifier rubyid_my_component'>my_component</span><span class='period'>.</span><span class='id identifier rubyid_icon'>icon</span> <span class='comment'># [:&#39;fa-solid&#39;, :circle]
+</span></code></pre>
+
+<h4 id="label-Providing+content">Providing content</h4>
+
+<p>Basic components do not come with default content. Instead, you must call the method <code>content</code> inside the setup block and provide a block containing your view. It will be evaluated inside a <code>RequestContext</code> (more on that later).</p>
+
+<p>In this block, provide the HTML to be generated using Dyny: <a href="https://github.com/kalsan/dyny">github.com/kalsan/dyny</a></p>
+
+<p>Here is an example of a component that renders a title along with a paragraph:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='symbol'>:all</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Welcome</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_content'>content</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_h1'>h1</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Welcome to my basic component.</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_para'>para</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>It&#39;s not much, but it&#39;s honest work.</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<h5 id="label-Naming+content+blocks-2C+ordering+and+overriding+them+in+subclasses">Naming content blocks, ordering and overriding them in subclasses</h5>
+
+<p>Content blocks are actually named. The <code>content</code> call adds or replaces a previously defined content block, e.g. in an earlier call to <code>setup</code> in a component’s superclass. When calling <code>content</code> without a name, it defaults to <code>main</code> and will overwrite any previous <code>main</code> content. However, you can provide your own name and refer to other names by using the <code>before:</code> keyword.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_content'>content</span> <span class='kw'>do</span> <span class='comment'># will become :main
+</span>    <span class='id identifier rubyid_h1'>h1</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Welcome to my basic component.</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_content'>content</span> <span class='symbol'>:thanks</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_para'>para</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Thank you and see you tomorrow.</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_content'>content</span> <span class='symbol'>:middle</span><span class='comma'>,</span> <span class='label'>before:</span> <span class='symbol'>:thanks</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_para'>para</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>This paragraph is inserted between the others.</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_content'>content</span> <span class='symbol'>:thanks</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_para'>para</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Thank you and see you tonight.</span><span class='tstring_end'>&#39;</span></span> <span class='comment'># this overwrites &quot;Thank you and see you tomorrow.&quot;
+</span>  <span class='kw'>end</span>
+  <span class='id identifier rubyid_content'>content</span> <span class='symbol'>:first</span><span class='comma'>,</span> <span class='label'>before:</span> <span class='symbol'>:main</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_para'>para</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>This appears first.</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>This results in: - This appears first. - Welcome to my basic component. - This paragraph is inserted between the others. - Thank you and see you tonight.</p>
+
+<p>As you see, overusing this feature can lead to messy code as it becomes unclear what happens in what order. For this reason, this feature should only be used to decouple the content of your abstract components for allowing surgical overrides in subclasses.</p>
+
+<p>It is a good convention to always have one content block named <code>:main</code>, as you might want to refer to it in subclasses.</p>
+
+<h5 id="label-Nesting+content+blocks-2C+calling+a+content+block+from+another">Nesting content blocks, calling a content block from another</h5>
+
+<p>In some situations, such as in forms, it can be useful to nest content blocks. This will also allow subclasses to override a wrapper while keeping the content, and vice versa. To make this possible, you can also use the <code>content</code> keyword inside a content block. Note that unlike the call in <code>setup</code>, this call will render a content block instead of defining it. This happens inside the request context and the content block must be defined inside the current component.</p>
+
+<p>Note that you cannot call another component’s content block this way.</p>
+
+<p>Here is an example on how to use this feature, e.g. to create a bootstrap card that can be overridden with precision:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># Components::Bootstrap::Card
+</span><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_content'>content</span> <span class='label'>hidden:</span> <span class='kw'>true</span> <span class='kw'>do</span> <span class='comment'># hidden: true will cause `render` to skip this content block. You can still use it in the nested fashion.
+</span>    <span class='id identifier rubyid_div'>div</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>I am the default content for the card</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_content'>content</span> <span class='symbol'>:card</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_div'>div</span> <span class='label'>class:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>card card-body</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_content'>content</span> <span class='symbol'>:main</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>The output is:</p>
+
+<pre class="code ruby"><code class="ruby">&lt;div class=&quot;card card-body&quot;&gt;&lt;div&gt;I am the default content for the card&lt;/div&gt;&lt;/div&gt;
+</code></pre>
+
+<p>So when you subclass this component, you can forget about the card and just overwrite <code>:main</code> as follows:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># Components::Hello::HelloCard &lt; Components::Bootstrap::Card
+</span><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_content'>content</span> <span class='kw'>do</span> <span class='comment'># hidden is still true because the old :main content block specified that already.
+</span>    <span class='id identifier rubyid_h1'>h1</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Hello</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_para'>para</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Welcome to my site.</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>The output is:</p>
+
+<pre class="code ruby"><code class="ruby">&lt;div class=&quot;card card-body&quot;&gt;&lt;h1&gt;Hello&lt;/h1&gt;&lt;p&gt;Welcome to my site.&lt;/p&gt;&lt;/div&gt;
+</code></pre>
+
+<h4 id="label-Redirecting+away+-2F+Intercepting+rendering">Redirecting away / Intercepting rendering</h4>
+
+<p>Immediately before the <code>content</code> block(s) are evaluated, another chain of blocks is evaluated if present: <code>before_render</code>. If on of these blocks creates a reponse body in the Rails controller, the subsequent <code>before_render</code> blocks and all <code>content</code> blocks are skipped.</p>
+
+<p>This is useful for redirecting. Here is an example of a component that provides a restaurant’s lunch menu, but redirects to the menu overview page instead if it’s not lunch time:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='symbol'>:all</span><span class='rparen'>)</span><span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Lunch menu</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span>
+
+  <span class='id identifier rubyid_before_render'>before_render</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_current_time'>current_time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_zone'>zone</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_current_time'>current_time</span><span class='period'>.</span><span class='id identifier rubyid_hour'>hour</span> <span class='op'>&gt;=</span> <span class='int'>11</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_current_time'>current_time</span><span class='period'>.</span><span class='id identifier rubyid_hour'>hour</span> <span class='op'>&lt;</span> <span class='int'>14</span>
+      <span class='id identifier rubyid_flash'>flash</span><span class='period'>.</span><span class='id identifier rubyid_notice'>notice</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Sorry, it&#39;s not lunch time.</span><span class='tstring_end'>&quot;</span></span>
+      <span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='id identifier rubyid_all_menus_path'>all_menus_path</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_content'>content</span> <span class='kw'>do</span> <span class='comment'># This is entirely skipped if it&#39;s not lunch time.
+</span>    <span class='id identifier rubyid_h1'>h1</span> <span class='id identifier rubyid_label'>label</span>
+    <span class='id identifier rubyid_para'>para</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Today we have spaghetti.</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>Similarly to <code>content</code>, the <code>before_render</code> method also accepts a name, defaulting to <code>:main</code>, as well as a <code>before:</code> keyword. This allows you to selectively extend and/or override <code>before_render</code> blocks in subclasses.</p>
+
+<h2 id="label-Standalone">Standalone</h2>
+
+<p>As stated earlier, Compony can generate routes to your components. This is achieved by using the standalone DSL inside the setup block. The first step is calling the method <code>standalone</code> with a path. Inside this block, you will then specify which HTTP verbs (e.g. GET, PATCH etc.) the component should listen to. As soon as both are specified, Compony will generate an appropriate route.</p>
+
+<p>Assume that you want to create a simple component <code>statics/welcome.rb</code> that displays a static welcome page. The component should be exposed under the route <code>&#39;/welcome&#39;</code> and respond to the GET method. Here is the complete code for making this happen:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># app/components/statics/welcome.rb
+</span><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Statics</span><span class='op'>::</span><span class='const'>Welcome</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Component.html" title="Compony::Component (class)">Component</a></span></span>
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='symbol'>:all</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Welcome</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span>
+
+    <span class='id identifier rubyid_standalone'>standalone</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>welcome</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_verb'>verb</span> <span class='symbol'>:get</span> <span class='kw'>do</span>
+        <span class='id identifier rubyid_authorize'>authorize</span> <span class='lbrace'>{</span> <span class='kw'>true</span> <span class='rbrace'>}</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_content'>content</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_h1'>h1</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Welcome to my dummy site!</span><span class='tstring_end'>&#39;</span></span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>This is the minimal required code for standalone. For security, every verb config must provide an <code>authorize</code> block that specifies who has access to this standalone verb. The block is given the request context and is expected to return either true (access ok) or false (causing the request to fail with <code>Cancan::AccessDenied</code>).</p>
+
+<p>Typically, you would use this block to check authorization using the CanCanCan gem, such as <code>authorize { can?(:read, :welcome) }</code>. However, since we skip authentication in this simple example, we pass <code>true</code> to allow all access.</p>
+
+<p>The standalone DSL has more features than those presented in the minimal example above. Excluding resourceful features (which we will cover below), the full list is:</p>
+<ul><li>
+<p><code>standalone</code> can be called multiple times, for components that need to expose multiple paths, as described below. Inside each <code>standalone</code> call, you can call:</p>
+</li><li>
+<p><code>skip_authentication!</code> which disables authentication, in case you provided some. You need to implement <code>authorize</code> regardless.</p>
+</li><li>
+<p><code>layout</code> which takes the file name of a Rails layout and defaults to <code>layouts/application</code>. Use this to have your Rails application look differently depending on the component.</p>
+</li><li>
+<p><code>verb</code> which takes an HTTP verb as a symbol, one of: <code>%i[get head post put delete connect options trace patch]</code>. <code>verb</code> can be called up to once per verb. Inside each <code>verb</code> call, you can call (in the non-resourceful case):</p>
+<ul><li>
+<p><code>authorize</code> is mandatory and explained above.</p>
+</li><li>
+<p><code>respond</code> can be used to implement special behavior that in plain Rails would be placed in a controller action. The default, which calls <code>before_render</code> and the <code>content</code> blocks, is usually the right choice, so you will rarely implement <code>respond</code> on your own. See below how <code>respond</code> can be used to handle different formats or redirecting clients. <strong>Caution:</strong> <code>authorize</code> is evaluated in the default implementation of <code>respond</code>, so when you override that block, you must perform authorization yourself!</p>
+</li></ul>
+</li></ul>
+
+<h3 id="label-Exposing+multiple+paths+in+the+same+component+-28calling+standalone+multiple+times-29">Exposing multiple paths in the same component (calling standalone multiple times)</h3>
+
+<p>If your component loads data dynamically from a JavaScript front-end (e.g. implemented via Stimulus), you will find yourself in the situation where you need an extra route for a functionality that inherently belongs to the same component. Example use cases would be search fields that load data as the user types, maps that load tiles, dynamic photo galleries etc.</p>
+
+<p>In this case, you can call <code>standalone</code> a second time and provide a name for your extra route:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+  <span class='comment'># Regular route for rendering the content
+</span>  <span class='id identifier rubyid_standalone'>standalone</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>map/viewer</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_verb'>verb</span> <span class='symbol'>:get</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_authorize'>authorize</span> <span class='lbrace'>{</span> <span class='kw'>true</span> <span class='rbrace'>}</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Extra route for loading tiles via AJAX
+</span>  <span class='id identifier rubyid_standalone'>standalone</span> <span class='symbol'>:tiles</span><span class='comma'>,</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>map/viewer/tiles</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_verb'>verb</span> <span class='symbol'>:get</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_respond'>respond</span> <span class='kw'>do</span> <span class='comment'># Again: overriding `respond` skips authorization! This is why we don&#39;t need to provide an `authorize` block here.
+</span>        <span class='id identifier rubyid_controller'>controller</span><span class='period'>.</span><span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='label'>json:</span> <span class='const'>MapTiler</span><span class='period'>.</span><span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='id identifier rubyid_current_ability'>current_ability</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='comment'># current_ability is provided by CanCanCan and made available by Compony.
+</span>      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># More code for labelling, content etc.
+</span><span class='kw'>end</span>
+</code></pre>
+
+<p>Please note that the idea here is to package things that belong together, not to provide different kinds of content in a single component. For displaying different pages, use multiple components and have each expose a single route.</p>
+
+<h3 id="label-Naming+of+exposed+routes">Naming of exposed routes</h3>
+
+<p>The routes to standalone components are named and you can point to them using Rails’ <code>..._path</code> and <code>..._url</code> helpers. The naming scheme is: <code>[standalone]<em>[component]</em>[family]_comp</code>. Examples:</p>
+<ul><li>
+<p>Default standalone: <code>Components::Users::Index</code> exports <code>index_users_comp</code> and thus <code>index_users_comp_path</code> can be used.</p>
+</li><li>
+<p>Named standalone: If <code>standalone :foo, path: ...</code> is used within <code>Components::Users::Index</code>, the exported name is <code>foo_index_users_comp</code>.</p>
+</li></ul>
+
+<h3 id="label-Handling+formats">Handling formats</h3>
+
+<p>Compony is capable of responding to formats like Rails does. This is useful to deliver PDFs, CSV files etc. to a user from within Compony. This can be achieved by specifying the <code>respond</code> block:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_standalone'>standalone</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>generate/report</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_verb'>verb</span> <span class='symbol'>:get</span> <span class='kw'>do</span>
+      <span class='comment'># Respond with a file when generate/report.pdf is GETed:
+</span>      <span class='id identifier rubyid_respond'>respond</span> <span class='symbol'>:pdf</span> <span class='kw'>do</span>
+        <span class='id identifier rubyid_file'>file</span><span class='comma'>,</span> <span class='id identifier rubyid_filename'>filename</span> <span class='op'>=</span> <span class='const'>PdfGenerator</span><span class='period'>.</span><span class='id identifier rubyid_generate'>generate</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='id identifier rubyid_current_ability'>current_ability</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_send_data'>send_data</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='comma'>,</span> <span class='label'>filename:</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>application/pdf</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
+      <span class='comment'># If someone visits generate/report, issue a 404:
+</span>      <span class='id identifier rubyid_respond'>respond</span> <span class='kw'>do</span>
+        <span class='id identifier rubyid_fail'>fail</span> <span class='const'>ActionController</span><span class='op'>::</span><span class='const'>RoutingError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Unsupported format - please make sure your URL ends with `.pdf`.</span><span class='tstring_end'>&#39;</span></span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<h3 id="label-Redirect+in+respond+or+in+before_render-3F">Redirect in <code>respond</code> or in <code>before_render</code>?</h3>
+
+<p>Rails controller redirects can be issued both in a verb DSL’s <code>respond</code> block and in <code>before_render</code>. The rule of thumb that tells you which way to go is:</p>
+<ul><li>
+<p>If you want to redirect depending on the HTTP verb, use <code>respond</code>.</p>
+</li><li>
+<p>If you want to redirect depending on params, state, time etc. <strong>independently of the HTTP verb</strong>, use <code>before_render</code>, as this is more convenient than writing a standalone -&gt; verb -&gt; respond tree.</p>
+</li></ul>
+
+<h2 id="label-Inheritance">Inheritance</h2>
+
+<p>When inheriting from another component class, <code>setup</code> can be called in the child as well in order to overwrite specified configurations. The parent’s <code>setup</code> block will be run first, then the child’s, then the grand-child’s and so on.</p>
+
+<p>Omit any configuration that you want to keep from the parent class. For instance, if your parent’s setup looks like this:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_standalone'>standalone</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>foo/bar</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_layout'>layout</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>funky</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_verb'>verb</span> <span class='symbol'>:get</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_authorize'>authorize</span> <span class='lbrace'>{</span> <span class='kw'>true</span> <span class='rbrace'>}</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_content'>content</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_h1'>h1</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Test</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>Assuming you want to implement a child class that only differs by layout and adds more content below “test”, you can implement:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_standalone'>standalone</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_layout'>layout</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>dark</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_content'>content</span> <span class='symbol'>:below</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_para'>para</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>This will appear below &quot;Test&quot;.</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<h3 id="label-Un-exposing+a+component">Un-exposing a component</h3>
+
+<p>If a component’s parent class is standalone but the child should not be, use <code>clear_standalone!</code>:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_clear_standalone!'>clear_standalone!</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<h2 id="label-Nesting">Nesting</h2>
+
+<p>Components can be arbitrarily nested. This means that any component exposing content can instantiate an arbitrary number of sub-components that will be rendered as part of its own content. This results in a component tree. Sub-components are aware of the nesting and even of their position within the parent. The topmost component is called the <strong>root component</strong> and it’s the only component that must be standalone. If you instead render the topmost component from a custom view, there is conceptually no root component, but Compony has no way to detect this special case.</p>
+
+<p>Nesting is orthogonal to inheritance, they are two entirely different concepts. For disambiguating “parent component”, we will make an effort to apply that term to nesting only, while writing “parent component class” if inheritance is meant.</p>
+
+<p>Sub-components are particularly useful for DRYing up your code, e.g. when a visual element is used in multiple places of your application or even multiple times on the same page.</p>
+
+<p>Nesting occurs when a component is being rendered. It is perfectly feasible to use an otherwise standalone component as a sub-component. Doing so simply plugs it into the content of another component and any arguments can be given to its constructor.</p>
+
+<p>Note that only the root component runs authentication and authorization. Thus, be careful which components you nest.</p>
+
+<p>To create a sub-component, use <code>sub_comp</code> in a component’s content block. Any keyword arguments given will be passed to the sub-component. It is strictly recommended to exclusively use <code>sub_comp</code> (or its resourceful pendent, see below) to nest components, as this method makes a component aware of its exact nesting.</p>
+
+<p>Here is a simple example of a component that displays numbers as binary:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># app/components/numbers/binary.rb
+</span><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Nestings</span><span class='op'>::</span><span class='const'>Binary</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Component.html" title="Compony::Component (class)">Component</a></span></span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='label'>number:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+    <span class='ivar'>@number</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='comment'># If this component is initialized with the argument `number`, it will be stored in the component instance.
+</span>  <span class='kw'>end</span>
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='comment'># standalone and other configs are omitted in this example.
+</span>    <span class='id identifier rubyid_content'>content</span> <span class='kw'>do</span>
+      <span class='comment'># If the initializer did not store `number`, check whether the Rails request contains the parameter `number`:
+</span>      <span class='comment'># Note: do not do that, as we will demonstrate below.
+</span>      <span class='ivar'>@number</span> <span class='op'>||=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:number</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_presence'>presence</span><span class='op'>&amp;.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='op'>||</span> <span class='int'>0</span>
+      <span class='comment'># Display the number as binary
+</span>      <span class='id identifier rubyid_para'>para</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The number </span><span class='embexpr_beg'>#{</span><span class='ivar'>@number</span><span class='embexpr_end'>}</span><span class='tstring_content'> has the binary form </span><span class='embexpr_beg'>#{</span><span class='ivar'>@number</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='lparen'>(</span><span class='int'>2</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>If used standalone, the number can be set by using a GET parameter, e.g. <code>?number=5</code>. The result is something like this:</p>
+
+<pre class="code ruby"><code class="ruby">The number 5 has the binary form 101.
+</code></pre>
+
+<p>Now, let’s write a component that displays three different numbers side-by-side:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># app/components/numbers/binary_comparator.rb
+</span><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Nestings</span><span class='op'>::</span><span class='const'>BinaryComparator</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Component.html" title="Compony::Component (class)">Component</a></span></span>
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='comment'># standalone and other configs are omitted in this example.
+</span>    <span class='id identifier rubyid_content'>content</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_sub_cop'>sub_cop</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Nestings</span><span class='op'>::</span><span class='const'>Binary</span><span class='comma'>,</span> <span class='label'>number:</span> <span class='int'>1</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='id identifier rubyid_controller'>controller</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_sub_cop'>sub_cop</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Nestings</span><span class='op'>::</span><span class='const'>Binary</span><span class='comma'>,</span> <span class='label'>number:</span> <span class='int'>2</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='id identifier rubyid_controller'>controller</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_sub_cop'>sub_cop</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Nestings</span><span class='op'>::</span><span class='const'>Binary</span><span class='comma'>,</span> <span class='label'>number:</span> <span class='int'>3</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='id identifier rubyid_controller'>controller</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>The result is something like this:</p>
+
+<pre class="code ruby"><code class="ruby">The number 1 has the binary form 1.
+The number 2 has the binary form 10.
+The number 3 has the binary form 11.
+</code></pre>
+
+<p>However, this is static and no fun. We cannot use the HTTP GET parameter any more because all three <code>Binary</code> sub-components listen to the same parameter <code>number</code>. To fix this, we will need to scope the parameter using the <code>param_name</code> as explained in the next subsection.</p>
+
+<h3 id="label-Proper+parameter+naming+for+-28nested-29+components">Proper parameter naming for (nested) components</h3>
+
+<p>As seen in above, even components can be arbitrarily nested, making it harder to identify which HTTP GET parameter in the request is intended for which component. To resolve this, Compony provides nesting-aware scoping of parameter names:</p>
+<ul><li>
+<p>Each component has an <code>index</code>, given to it by the <code>sub_comp</code> call in the parent, informing it witch n-th child of the parent it is.</p>
+</li><li>
+<p>For instance, in the example above, the three <code>Binary</code> components have indices 0, 1 and 2.</p>
+</li><li>
+<p>Each component has an <code>id</code> which corresponds to <code>&quot;#{family_name}_#{comp_name}_#{@index}&quot;</code>.</p>
+</li><li>
+<p>For instance, the last <code>Binary</code> component from the example above has ID <code>nestings_binary_2</code>.</p>
+</li><li>
+<p>The <code>BinaryComparator</code> has ID <code>nestings_binary_comparator_0</code>.</p>
+</li><li>
+<p>Each component has a <code>path</code> indicating its exact position in the nesting tree as seen from the root component.</p>
+</li><li>
+<p>In the example above, the last <code>Binary</code> component has path <code>nestings_binary_comparator_0/nestings_binary_2</code>.</p>
+</li><li>
+<p><code>BinaryComparator</code> has path <code>nestings_binary_comparator_0</code>.</p>
+</li><li>
+<p>Each component provides the method <code>param_name</code> that takes the name of a parameter name and prepends the first 5 characters of the component’s SHA1-hashed path to it.</p>
+</li><li>
+<p>For instance, if <code>param_name(:number)</code> is called on the last <code>Binary</code> component, the output is <code>a9f3d_number</code>.</p>
+</li><li>
+<p>If the same method is called on the first <code>Binary</code> component, the output is <code>f6e86_number</code>.</p>
+</li></ul>
+
+<p>In short, <code>param_name</code> should be used to prefix every parameter that is used in a component that could potentially be nested. It is good practice to apply it to all components. <code>param_name</code> has two important properties:</p>
+<ul><li>
+<p>From the param name alone, it is not possible to determine to which component the parameter belongs. However:</p>
+</li><li>
+<p><code>param_name</code> is consistent across reloads of the same URL (given that the components are still the same) and thus each component will be able to identify its own parameters and react to them.</p>
+</li></ul>
+
+<p>With that in mind, let’s adjust our <code>Binary</code> component. In this example, we will assume that we have implemented yet another component called <code>NumberChooser</code> that provides a number input with a Stimulus controller attached. That controller is given the parameter as a String value, such that the it can set the appropriate HTTP GET param and trigger a full page reload to the <code>BinaryComparator</code> component.</p>
+
+<p>Further, we can drop the custom initializer from the <code>Binary</code> component, as the number to display is exclusively coming from the HTTP GET param. The resulting code looks something like:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># app/components/numbers/binary_comparator.rb
+</span><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Nestings</span><span class='op'>::</span><span class='const'>BinaryComparator</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Component.html" title="Compony::Component (class)">Component</a></span></span>
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='comment'># standalone and other configs are omitted in this example.
+</span>    <span class='id identifier rubyid_content'>content</span> <span class='kw'>do</span>
+      <span class='int'>3</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span> <span class='kw'>do</span>
+        <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_sub_cop'>sub_cop</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Nestings</span><span class='op'>::</span><span class='const'>Binary</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='id identifier rubyid_controller'>controller</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+
+<span class='comment'># app/components/numbers/binary.rb
+</span><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Nestings</span><span class='op'>::</span><span class='const'>Binary</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Component.html" title="Compony::Component (class)">Component</a></span></span>
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='comment'># standalone and other configs are omitted in this example.
+</span>    <span class='id identifier rubyid_content'>content</span> <span class='kw'>do</span>
+      <span class='comment'># This is where we use param_name to retrieve the parameter for this component, regardless whether it&#39;s standalone or used as a sub-comp.
+</span>      <span class='ivar'>@number</span> <span class='op'>||=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='id identifier rubyid_param_name'>param_name</span><span class='lparen'>(</span><span class='symbol'>:number</span><span class='rparen'>)</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_presence'>presence</span><span class='op'>&amp;.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='op'>||</span> <span class='int'>0</span>
+      <span class='comment'># Display the number as binary
+</span>      <span class='id identifier rubyid_para'>para</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The number </span><span class='embexpr_beg'>#{</span><span class='ivar'>@number</span><span class='embexpr_end'>}</span><span class='tstring_content'> has the binary form </span><span class='embexpr_beg'>#{</span><span class='ivar'>@number</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='lparen'>(</span><span class='int'>2</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span>
+      <span class='comment'># Display the number input that will reload the page to adjust to the user input. We give it the param_name such that it can set params accordingly.
+</span>      <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_sub_comp'>sub_comp</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Nestings</span><span class='op'>::</span><span class='const'>NumberChooser</span><span class='comma'>,</span> <span class='label'>param_name:</span> <span class='id identifier rubyid_param_name'>param_name</span><span class='lparen'>(</span><span class='symbol'>:number</span><span class='rparen'>)</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>The result for the URL <code>path/to/binary_comparator?a9f3d_number=2&amp;e70b4_number=4&amp;a9f3d_number=8</code> is something like this:</p>
+
+<pre class="code ruby"><code class="ruby">The number 2 has the binary form 10. Enter a number and press ENTER: [2]
+The number 4 has the binary form 100. Enter a number and press ENTER: [4]
+The number 8 has the binary form 1000. Enter a number and press ENTER: [8]
+</code></pre>
+
+<p>Note that this example is completely stateless, as all the info is encoded in the URL.</p>
+
+<h2 id="label-Resourceful+components">Resourceful components</h2>
+
+<p>So far, we have mainly seen how to present static content, without considering how loading and storing data is handled. Whenever a component is about data, be it a collection (e.g. index, list) or a single instance (e.g. new, show, edit, destroy, form), that component typically becomes resourceful. In order to implement a resourceful component, include the mixin <code>Compony::ComponentMixins::Resourceful</code>.</p>
+
+<p>Resourceful components use an instance variable <code>@data</code> and provide a reader <code>data</code> for it. As a convention, always store the data the component “is about” in this variable.</p>
+
+<p>Further, the class of which <code>data</code> should be can be specified and retrieved by using <code>data_class</code>. By default, <code>data_class</code> is inferred from the component’s family name, i.e. <code>Components::User::Show</code> will automatically return <code>User</code> as <code>data_class</code>.</p>
+
+<p>The mixin adds extra hooks that can be used to store logic that can be executed in the request context when the component is rendered standalone. The formulation of that sentence is important, as the decision which of these blocks are executed depends on the verb DSL. But before elaborating on that, let’s first look at all the available hooks provided by the Resourceful mixin:</p>
+<ul><li>
+<p><code>load_data</code>: Important. Specify a block that assigns something to <code>@data</code> here. The block will be run before authorization - thus, you can check <code>@data</code> for authorizing (e.g. <code>can?(:read, @data)</code>).</p>
+</li><li>
+<p><code>after_load_data</code>: Optional. If a block is specified, it is run immediately after <code>load_data</code>. This is useful if you inherit from a component that loads data but you need to alter something, e.g. refining a collection.</p>
+</li><li>
+<p><code>assign_attributes</code>: Important for components that alter data, e.g. New, Edit. Specify a block that assigns attributes to your model from <code>load_data</code>. The model is now dirty, which is important: <strong>do not save your model here</strong>, as authorization has not yet been performed. Also, <strong>do not forget to validate params before assigning them to attributes</strong>.</p>
+</li><li>
+<p><code>after_assign_attributes</code>: Optional. If a block is specified, it is run immediately after <code>assign_attributes</code>. Its usage is similar to that of <code>after_load_data</code>.</p>
+</li><li>
+<p>(At this point, your <code>authorize</code> block is executed, throwing a <code>CanCan::AccessDenied</code> exception causing HTTP 403 not authorized if the block returns false.)</p>
+</li><li>
+<p><code>store_data</code>: Important for components that alter data, e.g. New, Edit. This is where you save your model stored in <code>@data</code> to the database.</p>
+</li></ul>
+
+<p>Another important aspect of the Resourceful mixin is that it also <strong>extends the Verb DSL</strong> available in the component. The added calls are:</p>
+<ul><li>
+<p><code>load_data</code></p>
+</li><li>
+<p><code>assign_attributes</code></p>
+</li><li>
+<p><code>store_data</code></p>
+</li></ul>
+
+<p>Unlike the calls above, which are global for the entire component, the ones in the Verb DSL are on a per-verb basis, same as the <code>authorize</code> call. If the same hook is both given as a global hook and in the Verb DSL, the Verb DSL hook overwrites the global one. The rule of thumb on where to place logic is:</p>
+<ul><li>
+<p>If multiple verbs use the same logic for a hook, place it in the global hook. For example, let us consider an Edit component: if GET is called on it, the model is loaded and parameters are assigned to it in order to fill the form’s inputs. If PATCH is called, the exact same thing is done before attempting to save the model. In this case, you would implement both <code>load_data</code> and <code>assign_attributes</code> as global hooks.</p>
+</li><li>
+<p>If a hook is specific to a single verb, place it in the verb config.</p>
+</li></ul>
+
+<p>Let’s build an example of a simplified Destroy component. In practice, you’d instead inherit from <code>Compony::Components::Destroy</code>. However, for the sake of demonstration, we will implement it from scratch:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Users</span><span class='op'>::</span><span class='const'>Destroy</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Component.html" title="Compony::Component (class)">Component</a></span></span>
+  <span class='comment'># Make the component resourceful
+</span>  <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/ComponentMixins.html" title="Compony::ComponentMixins (module)">ComponentMixins</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/ComponentMixins/Resourceful.html" title="Compony::ComponentMixins::Resourceful (module)">Resourceful</a></span></span>
+
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='comment'># Let the path be of the form users/42/destroy
+</span>    <span class='id identifier rubyid_standalone'>standalone</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>users/:id/destroy</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_verb'>verb</span> <span class='symbol'>:get</span> <span class='kw'>do</span>
+        <span class='comment'># In the case of a GET request, ask for confirmation, not deleting anything.
+</span>        <span class='comment'># Nevertheless, we should authorize :destroy, not :read.
+</span>        <span class='comment'># Reason: this way, buttons pointing to this component will not be shown
+</span>        <span class='comment'># to users which lack the permission to destroy @data.
+</span>        <span class='id identifier rubyid_authorize'>authorize</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_can?'>can?</span><span class='lparen'>(</span><span class='symbol'>:destroy</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+      <span class='kw'>end</span>
+
+      <span class='id identifier rubyid_verb'>verb</span> <span class='symbol'>:delete</span> <span class='kw'>do</span>
+        <span class='comment'># In the case of a DELETE request, the record will be destroyed.
+</span>        <span class='id identifier rubyid_authorize'>authorize</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_can?'>can?</span><span class='lparen'>(</span><span class='symbol'>:destroy</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+        <span class='id identifier rubyid_store_data'>store_data</span> <span class='lbrace'>{</span> <span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_destroy!'>destroy!</span> <span class='rbrace'>}</span>
+        <span class='comment'># We overwrite the respond block because we want to redirect, not render
+</span>        <span class='id identifier rubyid_respond'>respond</span> <span class='kw'>do</span>
+          <span class='id identifier rubyid_flash'>flash</span><span class='period'>.</span><span class='id identifier rubyid_notice'>notice</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='embexpr_end'>}</span><span class='tstring_content'> was deleted.</span><span class='tstring_end'>&quot;</span></span>
+          <span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_path'><span class='object_link'><a href="Compony.html#path-class_method" title="Compony.path (method)">path</a></span></span><span class='lparen'>(</span><span class='symbol'>:index</span><span class='comma'>,</span> <span class='symbol'>:users</span><span class='rparen'>)</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># Resourceful components have a default `load_data` block that loads the model.
+</span>    <span class='comment'># Therefore, the default behavior is already set to:
+</span>    <span class='comment'># load_data { @data = User.find(params[:id]) }
+</span>
+    <span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='symbol'>:short</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid__'>_</span><span class='op'>|</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Delete</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='symbol'>:long</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_data'>data</span><span class='op'>|</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Delete </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_content'>content</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_h1'>h1</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Are you sure to delete </span><span class='embexpr_beg'>#{</span><span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='embexpr_end'>}</span><span class='tstring_content'>?</span><span class='tstring_end'>&quot;</span></span>
+      <span class='id identifier rubyid_div'>div</span> <span class='id identifier rubyid_compony_button'>compony_button</span><span class='lparen'>(</span><span class='symbol'>:destroy</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='comma'>,</span> <span class='label'>label:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Yes, delete</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>method:</span> <span class='symbol'>:delete</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<h3 id="label-Complete+resourceful+lifecycle">Complete resourceful lifecycle</h3>
+
+<p>This graph documents a typical resourceful lifecycle according to which Compony’s pre-built components (see below) are implemented.</p>
+<ul><li>
+<p><code>load_data</code> creates or fetches the resource from the database.</p>
+</li><li>
+<p><code>after_load_data</code> can refine the resource, e.g. add scopes to a relation.</p>
+</li><li>
+<p><code>assign_attributes</code> takes the HTTP parameters, validates them and assigns them to the resource.</p>
+</li><li>
+<p><code>after_assign_attributes</code> can refine the assigned resource, e.g. provide defaults for blank attributes.</p>
+</li><li>
+<p><code>authorize</code> is called.</p>
+</li><li>
+<p><code>store_data</code> creates/updates/destroys the resource.</p>
+</li><li>
+<p><code>respond</code> typically shows a flash and redirects to another component.</p>
+</li></ul>
+
+<p><img src="doc/resourceful_lifecycle.png"></p>
+
+<h3 id="label-Nesting+resourceful+components">Nesting resourceful components</h3>
+
+<p>As mentioned earlier, hooks such as those provided by Resourceful typically run only when a component is accessed standalone. This means that in a nested setting, only the component running those hooks is the root component.</p>
+
+<p>When nesting resourceful components, it is therefore best to load all necessary data in the root component. Make sure to include any relations used by sub-components in order to avoid “n+1” queries in the database.</p>
+
+<p><code>resourceful_sub_comp</code> is the resourceful sibling of <code>sub_comp</code> and both are used the same way. Under the hood, the resourceful call passes two extra parameters to the sub component: <code>data</code> and <code>data_class</code>.</p>
+
+<p>The rule of thumb thus becomes:</p>
+<ul><li>
+<p>When a resourceful component instantiates a resourceful sub-component, use <code>resourceful_sub_comp</code> in the parent component.</p>
+</li><li>
+<p>When a resourceful component instantiates a non-resourceful sub-component, use <code>sub_comp</code>.</p>
+</li><li>
+<p>The situation where a non-resourceful component instantiates a resourceful component should not occur. Instead, make your parent component resourceful, even if it doesn’t use the data itself. By housing a resourceful sub-comp, the parent component’s nature inherently becomes resourceful and you should use the Resourceful mixin.</p>
+</li></ul>
+
+<h2 id="label-Compony+helpers-2C+links+and+buttons">Compony helpers, links and buttons</h2>
+
+<p>When pointing to or instantiating a component, writing the whole class name would be cumbersome. For this reason, Compony has several helpers that will retrieve the correct class for you. The most important ones are explained in this subsection. The terms are defined as follows:</p>
+<ul><li>
+<p>Component name or constant: For a component <code>Components::Users::Show</code>, this would be <code>&#39;Show&#39;</code>, <code>&#39;show&#39;</code>, or <code>:show</code></p>
+</li><li>
+<p>Family name or constant: For a component <code>Components::Users::Show</code>, this would be <code>&#39;Users&#39;</code>, <code>&#39;users&#39;</code>, or <code>:users</code></p>
+</li><li>
+<p>Model: an instance of a class that implements the <code>model_name</code> method in the same way as <code>ActiveRecord::Base</code> does. For helpers that support giving models, Compony will use <code>model_name</code> to auto-infer the family name. This requires you to name the component according to convention, i.e. the family name must match the model’s pluralized camelized <code>model_name</code>.</p>
+</li></ul>
+
+<h3 id="label-Getting+the+class+of+a+component">Getting the class of a component</h3>
+<ul><li>
+<p><code>Compony.comp_class_for(comp_name_or_cst, model_or_family_name_or_cst)</code> returns the class or nil if not found.</p>
+</li><li>
+<p><code>Compony.comp_class_for!(comp_name_or_cst, model_or_family_name_or_cst)</code> returns the class. If the class is not found, an error will be raised.</p>
+</li></ul>
+
+<p>Example:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_my_component'>my_component</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_comp_class_for!'><span class='object_link'><a href="Compony.html#comp_class_for!-class_method" title="Compony.comp_class_for! (method)">comp_class_for!</a></span></span><span class='lparen'>(</span><span class='symbol'>:show</span><span class='comma'>,</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+<span class='id identifier rubyid_my_component'>my_component</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='comment'># Components::Users::Show
+</span></code></pre>
+
+<h4 id="label-Getting+a+path+to+a+component">Getting a path to a component</h4>
+<ul><li>
+<p><code>Compony.path(comp_name_or_cst, model_or_family_name_or_cst)</code> returns the route to a component. Additional positional and keyword arguments will be passed to the Rails helper.</p>
+</li></ul>
+
+<p>If a model is given, its ID will automatically be added as the <code>id</code> parameter when generating the route. This means:</p>
+<ul><li>
+<p>To generate a path to a non-resourceful component, pass the family name.</p>
+</li><li>
+<p>To generate a path to a resourceful component, prefer passing an instance instead of a family name.</p>
+</li></ul>
+
+<p>Examples:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_link_to'>link_to</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>User overview</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_path'><span class='object_link'><a href="Compony.html#path-class_method" title="Compony.path (method)">path</a></span></span><span class='lparen'>(</span><span class='symbol'>:index</span><span class='comma'>,</span> <span class='symbol'>:users</span><span class='rparen'>)</span> <span class='comment'># -&gt; &#39;users/index&#39;
+</span><span class='id identifier rubyid_link_to'>link_to</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>See user page</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_path'><span class='object_link'><a href="Compony.html#path-class_method" title="Compony.path (method)">path</a></span></span><span class='lparen'>(</span><span class='symbol'>:show</span><span class='comma'>,</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='rparen'>)</span> <span class='comment'># -&gt; &#39;users/show/1&#39;
+</span><span class='id identifier rubyid_link_to'>link_to</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>See user page</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_path'><span class='object_link'><a href="Compony.html#path-class_method" title="Compony.path (method)">path</a></span></span><span class='lparen'>(</span><span class='symbol'>:show</span><span class='comma'>,</span> <span class='symbol'>:users</span><span class='comma'>,</span> <span class='label'>id:</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='comment'># -&gt; &#39;users/show/1&#39;
+</span></code></pre>
+
+<p>Note that the generated paths in the example are just for illustration purposes. The paths point to whatever path you configure in the target component’s default standalone config. Also, this example is not how you should generate links to components, as is explained in the next subsection.</p>
+
+<h3 id="label-Generating+a+link+to+a+component">Generating a link to a component</h3>
+
+<p>In order to allow a user to visit another component, don’t implement your links and buttons manually. Instead, use Compony’s links and buttons, as those extract information from the target component, avoiding redundant code and making refactoring much easier.</p>
+
+<p>Compony comes with the view helper <code>compony_link</code> that is available in any of your views, including a component’s <code>content</code> blocks. The link’s label is inferred from the component the link points to. <code>compony_link</code> is used as follows:</p>
+<ul><li>
+<p>To generate a link to a non-resourceful component, pass the family name.</p>
+</li><li>
+<p>To generate a link to a resourceful component, prefer passing an instance instead of a family name. More precisely, you must pass an instance if the component’s label requires an argument.</p>
+</li></ul>
+
+<p>Any additional arguments passed to <code>compony_link</code> will be given to Rails’ <code>link_to</code> method, allowing you to set parameters, HTTP method, terget, rel etc.</p>
+
+<p>Examples:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_compony_link'>compony_link</span><span class='lparen'>(</span><span class='symbol'>:index</span><span class='comma'>,</span> <span class='symbol'>:users</span><span class='rparen'>)</span> <span class='comment'># &quot;View all users&quot; -&gt; &#39;users/index&#39;
+</span><span class='id identifier rubyid_compony_link'>compony_link</span><span class='lparen'>(</span><span class='symbol'>:index</span><span class='comma'>,</span> <span class='symbol'>:users</span><span class='comma'>,</span> <span class='label'>label_opts:</span> <span class='lbrace'>{</span> <span class='label'>format:</span> <span class='symbol'>:short</span> <span class='rbrace'>}</span><span class='rparen'>)</span> <span class='comment'># &quot;All&quot; -&gt; &#39;users/index&#39;
+</span><span class='id identifier rubyid_compony_link'>compony_link</span><span class='lparen'>(</span><span class='symbol'>:show</span><span class='comma'>,</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='rparen'>)</span> <span class='comment'># &quot;View John Doe&quot; -&gt; &#39;users/show/1&#39;
+</span><span class='id identifier rubyid_compony_link'>compony_link</span><span class='lparen'>(</span><span class='symbol'>:destroy</span><span class='comma'>,</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='comma'>,</span> <span class='label'>method:</span> <span class='symbol'>:delete</span><span class='rparen'>)</span> <span class='comment'># &quot;Delete John Doe&quot; -&gt; &#39;users/destroy/1&#39;
+</span>
+<span class='comment'># NOT working:
+</span><span class='id identifier rubyid_compony_link'>compony_link</span><span class='lparen'>(</span><span class='symbol'>:show</span><span class='comma'>,</span> <span class='symbol'>:users</span><span class='comma'>,</span> <span class='label'>id:</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='comment'># Error: The label for the Users::Show component takes an argument which was not provided (the user&#39;s label)
+</span></code></pre>
+
+<h3 id="label-Generating+a+button+to+a+component">Generating a button to a component</h3>
+
+<p>Compony buttons are components that render a button to another component. While the view helper <code>compony_button</code> works similar to <code>compony_link</code>, you can also manually instantiate a button and work with it like with any other component.</p>
+
+<p>Similar to links, Compony buttons take a component name and either a family or model. The label, path, method and title (i.e. tooltip) can be overwritten by passing the respective arguments as shown below.</p>
+
+<p>Compony buttons have a type that is either <code>:button</code> or <code>:submit</code>. While the first works like a link redirecting the user elsewhere, the second is used for submitting forms. It can be used inside a <code>form_for</code> or <code>simple_form_for</code>.</p>
+
+<p>A compony button figures out on it’s own whether it’s clickable or not:</p>
+<ul><li>
+<p>Buttons can be disabled explicitly by passing <code>enabled: false</code> as a parameter.</p>
+</li><li>
+<p>If a user is not authorized to access the component a button is pointing to, the button is not displayed.</p>
+</li><li>
+<p>If the target component should not be accessible due to a prevention in the feasibility framework (explained later), the button is disabled and a tooltip is shown explaining why the button is not clickable.</p>
+</li></ul>
+
+<p>Do not directly instantiate <code>Compony::Components::Button</code>. Instead, use <code>Compony.button</code>:</p>
+
+<pre class="code ruby"><code class="ruby">my_button = Compony.button(:index, :users) # &quot;View all users&quot; -&gt; &#39;users/index&#39;
+my_button = Compony.button(:index, :users, label_opts: { format: :short }) # &quot;All&quot; -&gt; &#39;users/index&#39;
+my_button = Compony.button(:index, :users, label: &#39;Back&#39;) # &quot;Back&quot; -&gt; &#39;users/index&#39;
+my_button = Compony.button(:show, User.first) # &quot;View John Doe&quot; -&gt; &#39;users/show/1&#39;
+my_button = Compony.button(:new, :users, label: &#39;New customer&#39;, params: { user: { type: &#39;customer&#39; } }) # &quot;New customer&quot; -&gt; &#39;users/new?user[type]=customer&#39;
+my_button = Compony.button(:new, :users, label: &#39;New customer&#39;, params: { user: { type: &#39;customer&#39; } }, method: :post) # Instantly creates user.
+my_button = Compony.button(label: &#39;I point to a plain Rails route&#39;, path: &#39;some/path&#39;) # Specifying a custom path
+my_button = Compony.button(label: &#39;Nothing happens if you click me&#39;) # javascript:void()
+my_button = Compony.button(label: &#39;Not implemented yet&#39;, enabled: false) # Disabled button
+
+# `enabled` and `path` can also be provided with a callable (block or lambda) to defer evaluation until when the button is rendered.
+# The lambdas will be called in the button&#39;s `before_render` and given the controller, allowing you to query request specific data.
+my_button = Compony.button(label: &#39;I point to a plain Rails route&#39;, path: -&gt;{ |controller| controller.helpers.some_rails_path })
+my_button = Compony.button(:index, :users, enabled: -&gt; { |controller| controller.current_ability.can?(:read, :index_pages) })
+</code></pre>
+
+<p>A Compony button can be rendered like any other component:</p>
+
+<pre class="code ruby"><code class="ruby">&lt;%= my_button.render(controller) %&gt;
+</code></pre>
+
+<p>However, it is much easier to just use the appropriate view helper instead, which takes the same arguments as <code>Compony.button</code>:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_compony_button'>compony_button</span><span class='lparen'>(</span><span class='symbol'>:index</span><span class='comma'>,</span> <span class='symbol'>:users</span><span class='rparen'>)</span>
+</code></pre>
+
+<p>If you need to render many buttons that share a parameter, the call <code>Compony.with_button_defaults</code> allows you to DRY up your code:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># Assuming this is inside a Dyny view context and each button should be inside a div.
+</span><span class='comment'># Without with_button_defaults:
+</span>  <span class='id identifier rubyid_div'>div</span> <span class='id identifier rubyid_compony_button'>compony_button</span><span class='lparen'>(</span><span class='symbol'>:new</span><span class='comma'>,</span> <span class='symbol'>:documents</span><span class='comma'>,</span> <span class='label'>label_opts:</span> <span class='lbrace'>{</span> <span class='label'>format:</span> <span class='symbol'>:short</span> <span class='rbrace'>}</span><span class='comma'>,</span> <span class='label'>method:</span> <span class='symbol'>:post</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_div'>div</span> <span class='id identifier rubyid_compony_button'>compony_button</span><span class='lparen'>(</span><span class='symbol'>:new</span><span class='comma'>,</span> <span class='symbol'>:letters</span><span class='comma'>,</span> <span class='label'>label_opts:</span> <span class='lbrace'>{</span> <span class='label'>format:</span> <span class='symbol'>:short</span> <span class='rbrace'>}</span><span class='comma'>,</span> <span class='label'>method:</span> <span class='symbol'>:post</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_div'>div</span> <span class='id identifier rubyid_compony_button'>compony_button</span><span class='lparen'>(</span><span class='symbol'>:new</span><span class='comma'>,</span> <span class='symbol'>:articles</span><span class='comma'>,</span> <span class='label'>label_opts:</span> <span class='lbrace'>{</span> <span class='label'>format:</span> <span class='symbol'>:short</span> <span class='rbrace'>}</span><span class='comma'>,</span> <span class='label'>method:</span> <span class='symbol'>:post</span><span class='rparen'>)</span>
+
+<span class='comment'># Equivalent using with_button_defaults:
+</span><span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_with_button_defaults'><span class='object_link'><a href="Compony.html#with_button_defaults-class_method" title="Compony.with_button_defaults (method)">with_button_defaults</a></span></span><span class='lparen'>(</span><span class='label'>label_opts:</span> <span class='lbrace'>{</span> <span class='label'>format:</span> <span class='symbol'>:short</span> <span class='rbrace'>}</span><span class='comma'>,</span> <span class='label'>method:</span> <span class='symbol'>:post</span><span class='rparen'>)</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_div'>div</span> <span class='id identifier rubyid_compony_button'>compony_button</span><span class='lparen'>(</span><span class='symbol'>:new</span><span class='comma'>,</span> <span class='symbol'>:documents</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_div'>div</span> <span class='id identifier rubyid_compony_button'>compony_button</span><span class='lparen'>(</span><span class='symbol'>:new</span><span class='comma'>,</span> <span class='symbol'>:letters</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_div'>div</span> <span class='id identifier rubyid_compony_button'>compony_button</span><span class='lparen'>(</span><span class='symbol'>:new</span><span class='comma'>,</span> <span class='symbol'>:articles</span><span class='rparen'>)</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<h4 id="label-Implementing+custom+buttons">Implementing custom buttons</h4>
+
+<p>Plain HTML buttons are not exactly eye candy, so you will likely want to implement your button kind with black jack and icons. For this reason, the button instantiated by Compony’s button helpers can be customized.</p>
+
+<p>To build your own button class, inherit as follows:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>MyButton</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Button.html" title="Compony::Components::Button (class)">Button</a></span></span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span> <span class='comment'># Add extra arguments here
+</span>    <span class='kw'>super</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+    <span class='comment'># Add extra initialization code here
+</span>  <span class='kw'>end</span>
+
+  <span class='comment'># Add/replace before_render/content here. Be careful to not overwrite code you depend on. Check Compony&#39;s button&#39;s code for details.
+</span><span class='kw'>end</span>
+</code></pre>
+
+<p>Then, in the Compony initializer, register your custom button class to have Compony instantiate it whenever <code>Compony.button</code> or another helper is called:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># config/initializers/compony.rb
+</span><span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_button_component_class'><span class='object_link'><a href="Compony.html#button_component_class-class_method" title="Compony.button_component_class (method)">button_component_class</a></span></span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>MyButton</span><span class='tstring_end'>&#39;</span></span>
+</code></pre>
+
+<h2 id="label-Actions">Actions</h2>
+
+<p>The word “actions” is heavily overused, so here is a disambiguation:</p>
+<ul><li>
+<p>Rails controller actions: a method that is implemented in a Rails controller</p>
+</li><li>
+<p>CanCanCan actions: the first method to CanCanCan’s <code>can?</code> method</p>
+</li><li>
+<p>Compony actions: buttons that point to other components</p>
+</li></ul>
+
+<p>At this point, Compony actions are a loose concept, which will likely be refined in the future. Currently, Compony actions are defined as buttons that point to other components. These buttons can be disabled by the prevention framework (explained below).</p>
+
+<h3 id="label-Defining+and+manipulating+root+actions">Defining and manipulating root actions</h3>
+
+<p>In addition to regular buttons that are rendered as part of the content blocks, components can expose root actions with the <code>actions</code> call. Root actions will only be rendered if the component they are defined in is currently the root component.</p>
+
+<p>To have a component expose a root action, call the method <code>action</code> in a <code>setup</code> block and return a Compony button:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_action'>action</span> <span class='symbol'>:edit</span> <span class='kw'>do</span>
+    <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_button'><span class='object_link'><a href="Compony.html#button-class_method" title="Compony.button (method)">button</a></span></span><span class='lparen'>(</span><span class='symbol'>:edit</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_action'>action</span> <span class='symbol'>:destroy</span> <span class='kw'>do</span>
+    <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_button'><span class='object_link'><a href="Compony.html#button-class_method" title="Compony.button (method)">button</a></span></span><span class='lparen'>(</span><span class='symbol'>:destroy</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>The name of the action (“back” in the example above) allows you to refer to that action in a component inheriting from this one:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># Assuming that this component inherits from the example above
+</span><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_skip_action'>skip_action</span> <span class='symbol'>:destroy</span>
+
+  <span class='id identifier rubyid_action'>action</span> <span class='symbol'>:overview</span><span class='comma'>,</span> <span class='label'>before:</span> <span class='symbol'>:edit</span> <span class='kw'>do</span>
+    <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_button'><span class='object_link'><a href="Compony.html#button-class_method" title="Compony.button (method)">button</a></span></span><span class='lparen'>(</span><span class='symbol'>:index</span><span class='comma'>,</span> <span class='symbol'>:users</span><span class='comma'>,</span> <span class='label'>label:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Overview</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>In this example, two actions will be shown: overview and edit.</p>
+
+<p>An action button can be disabled through the prevention framework (explained below). However, it can also instead be hidden completely by returning nil from within the action block:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_action'>action</span> <span class='symbol'>:edit</span> <span class='kw'>do</span>
+  <span class='kw'>next</span> <span class='kw'>if</span> <span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_locked?'>locked?</span>
+  <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_button'><span class='object_link'><a href="Compony.html#button-class_method" title="Compony.button (method)">button</a></span></span><span class='lparen'>(</span><span class='symbol'>:edit</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='rparen'>)</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>The action in this example will be skipped entirely if <code>locked?</code> returns true.</p>
+
+<h3 id="label-Displaying+root+actions">Displaying root actions</h3>
+
+<p>Root actions are not shown by default in Compony because layouting is up to you. In order to display the root component’s actions, add the following view helper call to your layout:</p>
+
+<pre class="code ruby"><code class="ruby">&lt;%# layouts/application.html.erb %&gt;
+...
+&lt;%= compony_actions %&gt;
+</code></pre>
+
+<p>If there is currently no root component, or if the root component defines no actions, this does nothing. However, if there are root actions available, the Compony buttons returned by the root component will be rendered.</p>
+
+<h2 id="label-The+feasibility+framework">The feasibility framework</h2>
+
+<p>When a user has the permission to perform an action in general, but it is currently not feasible (for instance if the concerned object is incomplete, or if right now is not the right time to do the action), buttons pointing to that action should be disabled and a HTML <code>title</code> attribute should cause a tooltip explaining why this action cannot be performed right now.</p>
+
+<p>This can be easily achieved with the feasibility framework, which allows you to prevent actions on conditions, along with an error message. Formulate the error message similar to Rails validation errors (first letter not capital, no period at the end), as the prevention framework is able to concatenate multiple error messages if multiple conditions prevent an action.</p>
+
+<p>The feasibility framework currently only makes sense for resourceful components.</p>
+
+<p>Example:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># app/models/user.rb
+</span><span class='comment'># Prevent sending an e-mail to a user that has no e-mail address present
+</span><span class='id identifier rubyid_prevent'>prevent</span> <span class='symbol'>:send_mail</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>the e-mail address is missing</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_email'>email</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
+<span class='kw'>end</span>
+
+<span class='comment'># app/models/event.rb
+</span><span class='comment'># Multiple actions can be prevented at once:
+</span><span class='comment'># Prevent creating or removing a booking to an event that lies in the past or that is locked
+</span><span class='id identifier rubyid_prevent'>prevent</span> <span class='lbracket'>[</span><span class='symbol'>:create_booking</span><span class='comma'>,</span> <span class='symbol'>:destroy_booking</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>the event is already over</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_ends_at'>ends_at</span> <span class='op'>&lt;</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_zone'>zone</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span> <span class='op'>||</span> <span class='id identifier rubyid_locked?'>locked?</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p><strong>Note that the feasibility framework currently only affects buttons pointing to actions, not the action itself.</strong> If a user were to issue the HTTP call manually, the component happily responds and performs the action. This is why you should always back important preventions with an appropriate Rails model validation:</p>
+<ul><li>
+<p>The Rails model validation prevents that invalid data can be saved to the database.</p>
+</li><li>
+<p>The feasibility framework disables buttons and explains to guide the user.</p>
+</li><li>
+<p>Authorization is orthogonal to this, limiting the actions of a specific user.</p>
+</li><li>
+<p>If an action is both prevented and not authorized, the authorization “wins” and the action button is not shown at all.</p>
+</li></ul>
+
+<p>Compony has a feature that auto-detects feasibility. In particular, it checks for <code>dependent</code> relations in the <code>has_one</code>/<code>has_many</code> relations and disables delete buttons that point to objects that have dependent objects that cannot automatically be destroyed.</p>
+
+<p>To disable auto detection, call <code>skip_autodetect_feasibilities</code> in your model.</p>
+
+<h2 id="label-Ownership">Ownership</h2>
+
+<p>Ownership is a concept that captures the nature of data to be presented by Compony. It means that an object only makes sense within the context of another that it belongs to. Owned objects have therefore no index component, because they don’t have meaning on their own. For instance:</p>
+<ul><li>
+<p>typically NOT owned: visitors and vouchers: while a voucher can <code>belong_to</code> a visitor, the voucher can be managed on it’s own. Vouchers can have their own index page which makes it possible to search for a given voucher code across all vouchers.</p>
+</li><li>
+<p>typically owned: users and their permissions: a permission only makes sense with respect to its associated user and having a list of all permissions across the system would rarely be a use case. In this case, we consider the <code>Permission</code> model to be conceptually <strong>owned by</strong> the <code>User</code> model.</p>
+</li></ul>
+
+<p>In Compony, if a model class is owned by another, it means that:</p>
+<ul><li>
+<p>The owned model has a non-optional <code>belongs_to</code> relation ship to its owner.</p>
+</li><li>
+<p>The owned model class has no Index component.</p>
+</li><li>
+<p>Pre-built components (more on them later) offer root actions to the owner model and redirect to its Show component instead of to the current object’s Index component.</p>
+</li></ul>
+
+<p>To mark a model as owned by another, write the following code <strong>in the model</strong>:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># app/models/permission.rb
+</span><span class='id identifier rubyid_owned_by'>owned_by</span> <span class='symbol'>:user</span>
+</code></pre>
+
+<h2 id="label-Fields">Fields</h2>
+
+<p>Compony fields are your models’ attributes that you wish to expose in your application’s UI. They are a central place to store important information about those attributes, accessible from everywhere and without the need for a database connection.</p>
+
+<p>Every Compony field must define at least a name and type. Compony types and ActiveRecord types are similar but not equivalent. While ActiveRecord uses types for storing data in the DB, Compony fields use them for presenting it. For instance, the Compony “string” type covers any kind of string, including ActiveRecord’s “string”, “text” etc. Similarly, Compony has no “numeric” type - use “integer” or “decimal” instead, depending on whether or not you want to show decimals or not. There are additional field types like “color”, “url” etc. You can find a complete list of all Compony field types in the module <code>Compony::ModelFields</code>.</p>
+
+<p>Compony fields support Postgres arrays (non-nested).</p>
+
+<p>A particularly interesting model field is <code>Association</code> which handles <code>belongs_to</code>, <code>has_many</code> and <code>has_one</code> associations, automatically resolving the association’s nature and providing links to the appropriate component.</p>
+
+<p>Every Compony field can further take an arbitrary amount of additional named arguments. Those can be retrieved by calling <code>YourRailsModel.fields[:field_name].extra_attrs</code>.</p>
+
+<p>Here is an example call to fields for a User model:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># app/models/user.rb
+</span><span class='kw'>class</span> <span class='const'>User</span> <span class='op'>&lt;</span> <span class='const'>ApplicationRecord</span>
+  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:first_name</span><span class='comma'>,</span> <span class='symbol'>:string</span>
+  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:last_name</span><span class='comma'>,</span> <span class='symbol'>:string</span>
+  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:user_role</span><span class='comma'>,</span> <span class='symbol'>:anchormodel</span>
+  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:website</span><span class='comma'>,</span> <span class='symbol'>:url</span>
+  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:created_at</span><span class='comma'>,</span> <span class='symbol'>:datetime</span>
+  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:updated_at</span><span class='comma'>,</span> <span class='symbol'>:datetime</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>Compony fields provide the following features:</p>
+<ul><li>
+<p>a label that lets you generate a name for the column: <code>User.fields[:first_name].label</code></p>
+</li><li>
+<p><code>value_for</code>: given a model instance, formats the data (e.g. a field of type “url” will produce a link).</p>
+</li><li>
+<p>Features for forms:</p>
+</li><li>
+<p><code>simpleform_input</code> auto-generates in input for a simple form (from the <code>simple_form</code> gem).</p>
+</li><li>
+<p><code>simpleform_input_hidden</code> auto-generates a hidden input.</p>
+</li><li>
+<p><code>schema_line</code> auto-generates a DSL call for Schemacop v3 (from the <code>schemacop</code> gem), which is useful for parameter validation.</p>
+</li></ul>
+
+<p>You can then use these fields in other components, for instance a list as described in the example at the top of this guide:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_fields'>fields</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_field'>field</span><span class='op'>|</span>
+  <span class='id identifier rubyid_span'>span</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_concat'>concat</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_field'>field</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='embexpr_end'>}</span><span class='tstring_content'>: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_field'>field</span><span class='period'>.</span><span class='id identifier rubyid_value_for'>value_for</span><span class='lparen'>(</span><span class='id identifier rubyid_user'>user</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span> <span class='comment'># Display the field&#39;s label and apply it to value
+</span>  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<h3 id="label-Implementing+your+own+fields">Implementing your own fields</h3>
+
+<p>You can implement your own model fields. Make sure they are all within the same namespace and inherit at least from <code>Compony::ModelFields::Base</code>. To enable them, write an initializer that overwrites the array <code>Compony.model_field_namespaces</code>. Namespaces listed in the array are prioritized from first to last. If a field (e.g. <code>String</code>) exists in multiple declared namespaces, the first will be used. This allows you to overwrite Compony fields.</p>
+
+<p>Example:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># config/initializers/compony.rb
+</span><span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_model_field_namespaces'><span class='object_link'><a href="Compony.html#model_field_namespaces-class_method" title="Compony.model_field_namespaces (method)">model_field_namespaces</a></span></span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>MyCustomModelFields</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Compony::ModelFields</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+</code></pre>
+
+<p>You can then implement <code>MyCustomModelFields::Animal</code>, <code>MyCustomModelFields::String</code> etc. You can then use <code>field :fav_animal, :animal</code> in your model.</p>
+
+<h2 id="label-Pre-built+components+shipped+with+Compony">Pre-built components shipped with Compony</h2>
+
+<p>Compony comes with a few pre-built components that cover the most common cases that can be speed up development. They are meant to be inherited from and the easiest way to do this is by using the Rails generator <code>rails new component</code> (described below).</p>
+
+<p>The pre-built components can be found in the module <code>Compony::Components</code>. As you can see, there is no Show and no Index component. The reason is that these will depend a lot on your application’s UI framework (e.g. Bootstrap) and thus the benefits a UI-agnostic base component can provide are minimal. Additionally, these components are very easy to implement, as is illustrated in the example at the beginning of this documentation.</p>
+
+<p>In the following, the pre-built components currently shipped with Compony are presented.</p>
+
+<h3 id="label-Button">Button</h3>
+
+<p>As stated earlier, buttons are just regular components that rendered in-place. They don’t make use of nesting logic (and presumably never will), and thus they are rendered as-is, without <code>sub_comp</code>.</p>
+
+<p>You will rarely (or probably never) instantiate a button on your own, but use helpers like <code>Compony.button</code> or <code>compony_button</code>. For this reason, the documentation for instantiating buttons is located in the section documenting those helpers above.</p>
+
+<h3 id="label-Destroy">Destroy</h3>
+
+<p>This component is the Compony equivalent to a typical Rails controller’s <code>destroy</code> action.</p>
+
+<p><code>Compony::Components::Destroy</code> is a resourceful standalone component that listens to two verbs:</p>
+<ul><li>
+<p>GET will cause the Destroy component to ask if the resource should be destroyed, along with a button pointing to the DELETE verb. If the record does not exist, a HTTP 404 code is returned.</p>
+</li><li>
+<p>DELETE will <code>destroy!</code> the resource, show a flash and redirect to:</p>
+</li><li>
+<p>if present: the data’s Show component</p>
+</li><li>
+<p>otherwise: the data’s Index component</p>
+</li></ul>
+
+<p>Authorization checks for <code>destroy</code> even in GET. The reason is that users that aren’t able to destroy a resource shouldn’t even arrive at the page asking them whether they want to do so, unable to click the only button due to lacking permissions. This also causes any <code>compony_link</code> and <code>compony_button</code> to Destroy components to be hidden if the user is unable to destroy the corresponding resource.</p>
+
+<p>This component largely follows the resourceful lifecycle, explained in above under “Resourceful”. As can be expected, the resource is loaded by <code>Resourceful</code>‘s default load block and <code>store_data</code> is implemented to destroy the resource.</p>
+
+<p>If the resource is owned (see “Ownership” documentation above), the component provides a <code>:back_to_owner</code> root action in the form of a cancel button.</p>
+
+<p>The following DSL methods are implemented to allow for convenient overrides of default logic:</p>
+<ul><li>
+<p>The block <code>on_destroyed</code> is evaluated between successful record destruction and responding. By default, it is not implemented and doing so is optional. This would be a suitable location for hooks that update state after a resource was destroyed (like an <code>after_destroy</code> hook, but only executed if a record was destroyed by this component). Do not redirect or render here, use the next blocks instead.</p>
+</li><li>
+<p>The block given in <code>on_destroyed_respond</code> is evaluated after destruction and by default shows a flash, then redirects. The redirection is performed with HTTP code 303 (“see other”) in oder to force a GET request. This is required for the component to work with Turbo. Overwrite this block if you need to completely customize all logic that happens after destruction. If this block is overwritten, <code>on_destroyed_redirect_path</code> will not be called.</p>
+</li><li>
+<p><code>on_destroyed_redirect_path</code> is evaluated as the second step of <code>on_destroyed_respond</code> and redirects to the resource’s Show or Index component as described above. Overwrite this block in order to redirect to another component instead, while keeping the default flash provided by <code>on_destroyed_respond</code>.</p>
+</li></ul>
+
+<h3 id="label-WithForm">WithForm</h3>
+
+<p><code>Compony::Components::WithForm</code> is an abstract base class for components that render a form. Those components can further be resourceful, but don’t have to be. If a component inherits from WithForm, it is always twinned with another component that will provide the form.</p>
+
+<p>WithForm adds the following DSL methods:</p>
+<ul><li>
+<p><code>form_comp_class</code> sets the class that will be instantiated by <code>form_comp</code></p>
+</li><li>
+<p><code>form_comp</code> returns an instance of the Form component twinned with this component. If <code>form_comp_class</code> was never set, it will default to loading the component named <code>Form</code> in the same family as this component.</p>
+</li><li>
+<p><code>submit_verb</code> takes a symbol containing a verb, e.g. <code>:patch</code>. It defines this component’s standalone verb that should be called when the twinned Form component is submitted.</p>
+</li><li>
+<p><code>submit_path</code> defaults to this component’s standalone path. You can override this to submit the form to another component, should you need it.</p>
+</li></ul>
+
+<h3 id="label-Form">Form</h3>
+
+<p>This component holds a form and should only be instantiated by the <code>form_comp</code> call of a component that inherits from WithForm.</p>
+
+<p><code>Compony::Components::Form</code> is an abstract base class for any components presenting a regular form. This class comes with a lot of tooling for rendering forms and inputs, as well as validating parameters. When the component is rendered, the Gem SimpleForm is used to create the actual form: <a href="https://github.com/heartcombo/simple_form">github.com/heartcombo/simple_form</a>.</p>
+
+<p>Parameters are structured like typical Rails forms. For instance, if you have a form for a <code>User</code> model and the attribute is <code>first_name</code>, the parameter looks like <code>user[first_name]=Tom</code>. In this case, we will call <code>user</code> the <code>schema_wrapper_key</code>. Parameters are validated using Schemacop: <a href="https://github.com/sitrox/schemacop">github.com/sitrox/schemacop</a>.</p>
+
+<p>The following DSL calls are provided by the Form component:</p>
+<ul><li>
+<p>Required: <code>form_fields</code> takes a block that renders the inputs of your form. More on that below.</p>
+</li><li>
+<p>Optional: <code>skip_autofocus</code> will prevent the first input to be auto-focussed when the user visits the form.</p>
+</li><li>
+<p>Typically required: <code>schema_fields</code> takes the names of fields as a whitelist for strong parameters. Together with model fields, this will completely auto-generate a Schemacop schema suitable for validating this form. If your argument list gets too long, you can use multiple calls to <code>schema_field</code> instead to declare your fields one by one on separate lines.</p>
+</li><li>
+<p>Optional: <code>schema_line</code> takes a single Schemacop line. Use this for custom whitelisting of an argument, e.g. if you have an input that does not have a corresponding model field.</p>
+</li><li>
+<p>Optional: <code>schema</code> allows you to instead fully define your own custom Schemacop V3 schema manually. Note that this disables all of the above schema calls.</p>
+</li></ul>
+
+<p>The <code>form_fields</code> block acts much like a content block and you will use Dyny there. Two additional methods are made available exclusively inside the block:</p>
+<ul><li>
+<p><code>field</code> (not to be confused with the model mixin’s static method) takes the name of a model field and auto-generates a suitable SimpleForm input as defined in the field’s type.</p>
+</li><li>
+<p><code>f</code> gives you direct access to the <code>simple_form</code> instance. You can use it to write e.g. <code>f.input(...)</code>.</p>
+</li></ul>
+
+<p>Here is a simple example for a form for a sample user:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Users</span><span class='op'>::</span><span class='const'>Form</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Form.html" title="Compony::Components::Form (class)">Form</a></span></span>
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_form_fields'>form_fields</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='symbol'>:first_name</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='symbol'>:last_name</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='symbol'>:age</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='symbol'>:comment</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='symbol'>:role</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_schema_fields'>schema_fields</span> <span class='symbol'>:first_name</span><span class='comma'>,</span> <span class='symbol'>:last_name</span><span class='comma'>,</span> <span class='symbol'>:age</span><span class='comma'>,</span> <span class='symbol'>:comment</span><span class='comma'>,</span> <span class='symbol'>:role</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>Note that the inputs and schema are two completely different concepts that are not auto-inferred from each other. You must make sure that they always correspond. If you forget to mention a field in <code>schema_fields</code>, posting the form will fail. Luckily, Schemacop’s excellent error messaging will explain which parameter is prohibited.</p>
+
+<h3 id="label-New">New</h3>
+
+<p>This component is the Compony equivalent to a typical Rails controller’s <code>new</code> and <code>create</code> actions.</p>
+
+<p><code>Compony::Components::New</code> is a resourceful standalone component based on WithForm that listens to two verbs:</p>
+<ul><li>
+<p>GET will cause the New component to create a fresh instance of its <code>data_class</code> and render the form.</p>
+</li><li>
+<p>POST (equivalent to a <code>create</code> action in a controller) will attempt to save the resource. If that fails, the form is rendered again with a HTTP 422 code (“unprocessable entity”). If the creation succeeds, a flash is shown and the user is redirected:</p>
+</li><li>
+<p>if present: the data’s Show component</p>
+</li><li>
+<p>otherwise, if the resource is owned by another resource class: the owner’s Show component</p>
+</li><li>
+<p>otherwise, the data’s Index component</p>
+</li></ul>
+
+<p>Authorization checks for <code>create</code> even in GET. The reason is that it makes no sense to present an empty form to a user who cannot create a new record. This also causes any <code>compony_link</code> and <code>compony_button</code> to New components to be hidden to users lacking the permission.</p>
+
+<p>This component follows the resourceful lifecycle, explained in above under “Resourceful”. <code>load_data</code> is set to create a new record and <code>store_data</code> attempts to create it. Parameters are validated in <code>assign_attributes</code> using a Schemacop schema that is generated from the form. The schema corresponds to Rail’s typical strong parameter structure for forms. For example, a user’s New component would look for a parameter <code>user</code> holding a hash of attributes (e.g. <code>user[first_name]=Tom</code>).</p>
+
+<p>In case you overwrite <code>store_data</code>, make sure to set <code>@created_succeeded</code> to true if storing was successful (and to set it to false otherwise).</p>
+
+<p>The following DSL calls are implemented to allow for convenient overrides of default logic:</p>
+<ul><li>
+<p>The block <code>on_create_failed_respond</code> is run if <code>@create_succeeded</code> is not true. By default, it logs all error messages with level <code>warn</code> and renders the component again through HTTP 422, causing Turbo to correctly display the page. Error messages are displayed by the form inputs.</p>
+</li><li>
+<p>The block <code>on_created</code> is evaluated between successful record creation and responding. By default, it is not implemented and doing so is optional. This would be a suitable location for hooks that update state after a resource was created (like an <code>after_create</code> hook, but only executed if a record was created by this component). Do not redirect or render here, use the next blocks instead.</p>
+</li><li>
+<p>The block given in <code>on_created_respond</code> is evaluated after successful creation and by default shows a flash, then redirects. Overwrite this block if you need to completely customize all logic that happens after creation. If this block is overwritten, <code>on_created_redirect_path</code> will not be called.</p>
+</li><li>
+<p><code>on_created_redirect_path</code> is evaluated as the second step of <code>on_created_respond</code> and redirects to the resource’s Show, its owner’s Show, or its own Index component as described above. Overwrite this block in order to redirect ot another component instead, while keeping the default flash provided by <code>on_created_respond</code>.</p>
+</li></ul>
+
+<h3 id="label-Edit">Edit</h3>
+
+<p>This component is the Compony equivalent to a typical Rails controller’s <code>edit</code> and <code>update</code> actions.</p>
+
+<p><code>Compony::Components::Edit</code> is a resourceful standalone component based on WithForm that listens to two verbs:</p>
+<ul><li>
+<p>GET will cause the Edit component to load a record given by ID and render the form based on that record. If the record does not exist, a HTTP 404 code is returned.</p>
+</li><li>
+<p>PATCH (equivalent to a <code>update</code> action in a controller) will attempt to save the resource. If that fails, the form is rendered again with a HTTP 422 code (“unprocessable entity”). If the update succeeds, a flash is shown and the user is redirected:</p>
+</li><li>
+<p>if present: the data’s Show component</p>
+</li><li>
+<p>otherwise, if the resource is owned by another resource class: the owner’s Show component</p>
+</li><li>
+<p>otherwise, the data’s Index component</p>
+</li></ul>
+
+<p>Unlike in New and Destroy, Edit’s authorization checks for <code>edit</code> in GET and for <code>update</code> in PATCH. This enables you to “abuse” an Edit component to double as a Show component. Users having only <code>:read</code> permission will not see any links or buttons pointing to an Edit component. Users having only <code>:edit</code> permissions can see the form (including the data) but not submit it. Users having <code>:write</code> permissions can edit and update the Resource, in accordance to CanCanCan’s <code>:write</code> alias.</p>
+
+<p>This component follows the resourceful lifecycle, explained in above under “Resourceful”. Parameters are validated in <code>assign_attributes</code> using a Schemacop schema that is generated from the form. The schema corresponds to Rail’s typical strong parameter structure for forms. For example, a user’s Edit component would look for a parameter <code>user</code> holding a hash of attributes (e.g. <code>user[first_name]=Tom</code>).</p>
+
+<p>In case you overwrite <code>store_data</code>, make sure to set <code>@update_succeeded</code> to true if storing was successful (and to set it to false otherwise).</p>
+
+<p>The following DSL calls are implemented to allow for convenient overrides of default logic:</p>
+<ul><li>
+<p>The block <code>on_update_failed_respond</code> is run if <code>@update_succeeded</code> is not true. By default, it logs all error messages with level <code>warn</code> and renders the component again through HTTP 422, causing Turbo to correctly display the page. Error messages are displayed by the form inputs.</p>
+</li><li>
+<p>The block <code>on_updated</code> is evaluated between successful record creation and responding. By default, it is not implemented and doing so is optional. This would be a suitable location for hooks that update state after a resource was updated (like an <code>after_update</code> hook, but only executed if a record was updated by this component). Do not redirect or render here, use the next blocks instead.</p>
+</li><li>
+<p>The block given in <code>on_updated_respond</code> is evaluated after successful creation and by default shows a flash, then redirects. Overwrite this block if you need to completely customize all logic that happens after creation. If this block is overwritten, <code>on_updated_redirect_path</code> will not be called.</p>
+</li><li>
+<p><code>on_updated_redirect_path</code> is evaluated as the second step of <code>on_updated_respond</code> and redirects to the resource’s Show, its owner’s Show, or its own Index component as described above. Overwrite this block in order to redirect ot another component instead, while keeping the default flash provided by <code>on_updated_respond</code>.</p>
+</li></ul>
+
+<h2 id="label-Generators">Generators</h2>
+
+<p>To make your life easier and coding faster, Compony comes with two generators:</p>
+<ul><li>
+<p><code>rails g component Users::New</code> will create <code>app/components/users/new.rb</code> and, since the component’s name coincides with a a pre-built component, automatically inherit from that. If the name is unknown, the generated component will inherit form <code>Compony::Component</code> instead. The generator also equips generated components with the boilerplate code that wil be required to make the component work.</p>
+</li><li>
+<p>The generator can also be called via its alternative form <code>rails g component users/new</code>.</p>
+</li><li>
+<p><code>rails g components Users</code> will generate a set of the most used components.</p>
+</li></ul>
+
+<h2 id="label-Internal+datastructures">Internal datastructures</h2>
+
+<p>Compony has a few internal data structures that are worth mentioning. Especially when building your own UI framework on top of Compony, these might come in handy.</p>
+
+<h3 id="label-MethodAccessibleHash">MethodAccessibleHash</h3>
+
+<p>This is a simpler and safer version of <a href="https://github.com/ruby/ostruct">OpenStruct</a>, allowing you to access a hash’s keys via method accessors.</p>
+
+<p>Usage example:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_default_options'>default_options</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>foo:</span> <span class='symbol'>:bar</span> <span class='rbrace'>}</span>
+<span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/MethodAccessibleHash.html" title="Compony::MethodAccessibleHash (class)">MethodAccessibleHash</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Compony/MethodAccessibleHash.html#initialize-instance_method" title="Compony::MethodAccessibleHash#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_default_options'>default_options</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:color</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='symbol'>:green</span>
+<span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_foo'>foo</span> <span class='comment'># =&gt; :bar
+</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_color'>color</span> <span class='comment'># =&gt; green
+</span></code></pre>
+
+<p>This part of Compony is also made available under the MIT license at: <a href="https://gist.github.com/kalsan/87826048ea0ade92ab1be93c0919b405">gist.github.com/kalsan/87826048ea0ade92ab1be93c0919b405</a>.</p>
+
+<h3 id="label-RequestContext">RequestContext</h3>
+
+<p>The content blocks, as well as Form’s <code>form_fields</code> block all run within a <code>Compony::RequestContext</code>, which encapsulates useful methods for accessing data within a request. RequestContext is a Dslblend object and contains all the magic described in <a href="https://github.com/kalsan/dslblend">github.com/kalsan/dslblend</a>.</p>
+
+<p>The main provider (refer to the Dslblend documentation to find out what that means) is set to the component. Additional providers are controller’s helpers, the controller itself, as well as custom additional providers that can be fed to RequestContext in the initializer.</p>
+
+<p>To instantiate a RequestContext, the following arguments must be given:</p>
+<ul><li>
+<p>The first argument must be the component instantiating the RequestContext.</p>
+</li><li>
+<p>The second argument must be the controller holding the current HTTP request.</p>
+</li><li>
+<p>Optional: any further arguments will be given to Dslblend as additional providers.</p>
+</li><li>
+<p>Optional: the keyword argument <code>helpers</code> can be given to overwrite the <code>helpers</code> context. If not given, the helpers will be extracted from the controller.</p>
+</li><li>
+<p>Optional: the keyword argument <code>locals</code> can be given a hash of local assigns to be made available within the context.</p>
+</li></ul>
+
+<p>RequestContext further provides the following methods on its own:</p>
+<ul><li>
+<p><code>controller</code> returns the controller.</p>
+</li><li>
+<p><code>helpers</code> returns the helpers (either from the initializer or the controller).</p>
+</li><li>
+<p><code>local_assigns</code> returns the locals that can be given to the RequestContext on instantiation through the <code>locals</code> keyword argument.</p>
+</li><li>
+<p><code>evaluate_with_backfire</code> is <code>evaluate</code> with enabled backfiring.</p>
+</li><li>
+<p><code>component</code> returns the component the RequestContext was instantiated with.</p>
+</li><li>
+<p><code>request_context</code> returns self. This is for disambiguation purposes.</p>
+</li><li>
+<p>Any call to an unknown method will first be evaluated as a potential hit in <code>locals</code>. Only if no matching local is found, Dslblend takes over.</p>
+</li></ul>
+
+<h1 id="label-Contributing">Contributing</h1>
+
+<p>Compony is Free Software under the LGPLv3 and you are most welcome to contribute to it.</p>
+<ul><li>
+<p>If you spotted a security vulnerability, <strong>do not open an issue</strong> but instead use the contact form at <a href="https://kalsan.ch/#contact">kalsan.ch/#contact</a> instead (English is just fine, even if the website is in German).</p>
+</li><li>
+<p>If you’d like to contribute feedback or discuss something, please open an issue.</p>
+</li><li>
+<p>If you have an idea that is worth implementing, please fork the repo, implement your changes in your own fork, and open a pull request.</p>
+</li></ul>
+
+<h1 id="label-Caveats">Caveats</h1>
+<ul><li>
+<p>The API is not yet as consistent as I’d like it. Examples:</p>
+</li><li>
+<p>Instead of <code>skip_...</code> methods, <code>remove_...</code> should be implemented. This allows yet another level of classes to re-add properties. Skipping should be kept for options given via the constructor.</p>
+</li><li>
+<p>Change resourceful hooks as follows:</p>
+<ul><li>
+<p>Verb DSL hooks still take precedence over global hooks, but if given, they MUST provide a block.</p>
+</li><li>
+<p>If global hooks are present, they will be executed in every verb.</p>
+</li></ul>
+</li><li>
+<p>At this point, I haven’t gotten into Turbo Streams and Turbo Frames. It would be interesting to extend Compony such it also makes writing applications using these features much easier.</p>
+</li><li>
+<p>Feasibility:</p>
+</li><li>
+<p>The feasibility framework does not yet enforce prevention, but only has effects on buttons. Actions should be structured more explicitly such that prevention becomes as tight as authorization.</p>
+</li><li>
+<p>Feasibility for links is not yet implemented.</p>
+</li></ul>
+
+<h1 id="label-Acknowledgements">Acknowledgements</h1>
+
+<p>A big thank you to Alex and Koni who have patiently listened to my weird ideas and helped me developing them further, resulting in a few of the key concepts of Compony, such as <code>param_name</code>, or the way forms are structured.</p>
+
+<p>Further, it should be acknowledged that Compony would not be what it is if it weren’t for the awesome Gems it can rely on, for instance Rails, CanCanCan, SimpleForm, or Schemacop.</p>
+</div></div>
+
+      <div id="footer">
+  Generated on Wed May 22 18:40:05 2024 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.34 (ruby-3.2.2).
+</div>
+
+    </div>
+  </body>
+</html>
