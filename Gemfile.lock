@@ -1,9 +1,9 @@
 PATH
   remote: .
   specs:
-    compony (0.2.3.edge)
+    compony (0.3.0.edge)
       anchormodel (~> 0.2.0)
-      cancancan (~> 3.4.0)
+      cancancan (~> 3.6.0)
       dslblend (>= 0.0.3)
       dyny (>= 0.0.3)
       rails (>= 7.1.2)
@@ -94,7 +94,7 @@ GEM
     base64 (0.2.0)
     bigdecimal (3.1.4)
     builder (3.2.4)
-    cancancan (3.4.0)
+    cancancan (3.6.0)
     concurrent-ruby (1.2.2)
     connection_pool (2.4.1)
     crass (1.0.6)
