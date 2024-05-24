@@ -85,15 +85,19 @@ module Compony
       # See also notes for `with_simpleform`.
       def field(name, **input_opts)
         fail("The `field` method may only be called inside `form_fields` for #{inspect}.") unless @simpleform
+        name = name.to_sym
 
         # Check per-field authorization
-        if @cancancan_action.present? && @controller.current_ability.permitted_attributes(@cancancan_action, @simpleform.object).exclude?(name.to_sym)
+        if @cancancan_action.present? && @controller.current_ability.permitted_attributes(@cancancan_action, @simpleform.object).exclude?(name)
+          Rails.logger.debug do
+            "Skipping form_field #{name.inspect} because the current user is not allowed to perform #{@cancancan_action.inspect} on #{@simpleform.object}."
+          end
           return
         end
 
         hidden = input_opts.delete(:hidden)
-        model_field = @simpleform.object.fields[name.to_sym]
-        fail("Field #{name.to_sym.inspect} is not defined on #{@simpleform.object.inspect} but was requested in #{inspect}.") unless model_field
+        model_field = @simpleform.object.fields[name]
+        fail("Field #{name.inspect} is not defined on #{@simpleform.object.inspect} but was requested in #{inspect}.") unless model_field
 
         if hidden
           return model_field.simpleform_input_hidden(@simpleform, self, **input_opts)
@@ -134,7 +138,9 @@ module Compony
           # This runs within a request context.
           field = data.class.fields[field_name.to_sym] || fail("No field #{field_name.to_sym.inspect} found for #{data.inspect} in #{inspect}.")
           # Check per-field authorization
-          next nil if controller.current_ability.permitted_attributes(@cancancan_action.to_sym, data).exclude?(field_name.to_sym)
+          if @cancancan_action.present? && controller.current_ability.permitted_attributes(@cancancan_action.to_sym, data).exclude?(field_name.to_sym)
+            next nil
+          end
           next field.schema_line
         end
       end
