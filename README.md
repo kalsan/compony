@@ -1351,7 +1351,7 @@ Authorization checks for `create` even in GET. The reason is that it makes no se
 
 This component follows the resourceful lifecycle, explained in above under "Resourceful". `load_data` is set to create a new record and `store_data` attempts to create it. Parameters are validated in `assign_attributes` using a Schemacop schema that is generated from the form. The schema corresponds to Rail's typical strong parameter structure for forms. For example, a user's New component would look for a parameter `user` holding a hash of attributes (e.g. `user[first_name]=Tom`).
 
-In case you overwrite `store_data`, make sure to set `@created_succeeded` to true if storing was successful (and to set it to false otherwise).
+In case you overwrite `store_data`, make sure to set `@create_succeeded` to true if storing was successful (and to set it to false otherwise).
 
 The following DSL calls are implemented to allow for convenient overrides of default logic:
 

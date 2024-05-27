@@ -1458,7 +1458,7 @@ my_button = Compony.button(:index, :users, enabled: -&gt; { |controller| control
 
 <p>This component follows the resourceful lifecycle, explained in above under “Resourceful”. <code>load_data</code> is set to create a new record and <code>store_data</code> attempts to create it. Parameters are validated in <code>assign_attributes</code> using a Schemacop schema that is generated from the form. The schema corresponds to Rail’s typical strong parameter structure for forms. For example, a user’s New component would look for a parameter <code>user</code> holding a hash of attributes (e.g. <code>user[first_name]=Tom</code>).</p>
 
-<p>In case you overwrite <code>store_data</code>, make sure to set <code>@created_succeeded</code> to true if storing was successful (and to set it to false otherwise).</p>
+<p>In case you overwrite <code>store_data</code>, make sure to set <code>@create_succeeded</code> to true if storing was successful (and to set it to false otherwise).</p>
 
 <p>The following DSL calls are implemented to allow for convenient overrides of default logic:</p>
 <ul><li>
@@ -1612,7 +1612,7 @@ my_button = Compony.button(:index, :users, enabled: -&gt; { |controller| control
 </div></div>
 
       <div id="footer">
-  Generated on Wed May 22 18:40:05 2024 by
+  Generated on Mon May 27 12:37:31 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>
