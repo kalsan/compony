@@ -12,10 +12,11 @@
   - This change is backwards-compatible as the default behavior of `before_render` is to overwrite `:main`.
 - Implement nesting of content blocks, as described in README.md -> "Nesting content blocks, calling a content block from another"
 - Support Cancancan's `accessible_attributes`
-  - Cancancan likely soon fixes https://github.com/CanCanCommunity/cancancan/issues/838
+  - Cancancan has fixed https://github.com/CanCanCommunity/cancancan/issues/838
   - Require `cancancan_action` for every Form, respectively `form_cancancan_action` for every WithForm
   - Filter form fields by Cancancan action, effectively providing per-field authorization
   - Attention, this feature is only used when using `field` and `schema_field`, it will not affect custom inputs or schema lines.
+  - Attention, this feature does work with ActiveType attributes at this point.
 
 ## TODO
 

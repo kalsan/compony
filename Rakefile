@@ -28,7 +28,7 @@ task :gemspec do
     s.add_runtime_dependency 'simple_form', '>= 5.1.0'
     s.add_runtime_dependency 'dslblend', '>= 0.0.3'
     s.add_runtime_dependency 'anchormodel', '~> 0.2.0'
-    s.add_runtime_dependency 'cancancan', '~> 3.6.0'
+    s.add_runtime_dependency 'cancancan', '~> 3.6.1'
   end
 
   File.open('compony.gemspec', 'w') do |f|
