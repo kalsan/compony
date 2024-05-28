@@ -127,7 +127,7 @@ module Compony
     # Adds or overrides a content block.
     # @param [Symbol,String] name The name of the content block, defaults to `:main`
     # @param [nil,Symbol,String] before If nil, the block will be added to the bottom of the content chain. Otherwise, pass the name of another block.
-    # @param [Boolean] hidden If true, the content will not be rendered by default, allowing you to nest it in another content block.
+    # @param [Hash] kwargs If hidden is true, the content will not be rendered by default, allowing you to nest it in another content block.
     # @param [Proc] block The block that should be run as part of the content pipeline. Will run in the component's context. You can use Dyny here.
     def content(name = :main, before: nil, **kwargs, &block)
       fail("`content` expects a block in #{inspect}.") unless block_given?
