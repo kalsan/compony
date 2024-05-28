@@ -22,7 +22,16 @@ module Compony
       def field(name, type, **extra_attrs)
         name = name.to_sym
         self.fields = fields.dup
-        fields[name] = Compony.model_field_class_for(type.to_s.camelize).new(name, self, **extra_attrs)
+        field = Compony.model_field_class_for(type.to_s.camelize).new(name, self, **extra_attrs)
+        # Register all fields that are not attributes yet
+        if attribute_names.exclude?(field.schema_key.to_s)
+          attribute(name)
+          if attribute_names.exclude?(field.schema_key.to_s)
+            fail "Cannot register attributes for #{self}: calling `attribute #{name.inspect}` has no effect. \
+If this is an ActiveType object, consider placing `include ActiveModel::Attributes` at the top of the class."
+          end
+        end
+        fields[name] = field
       end
 
       # DSL method, sets the containing model.

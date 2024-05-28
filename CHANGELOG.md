@@ -13,10 +13,11 @@
 - Implement nesting of content blocks, as described in README.md -> "Nesting content blocks, calling a content block from another"
 - Support Cancancan's `accessible_attributes`
   - Cancancan has fixed https://github.com/CanCanCommunity/cancancan/issues/838
+  - Automatically declare all fields as ActiveModel attributes
+    - When using this feature together with ActiveType, be sure to add `include ActiveModel::Attributes` at the top of your virtual models.
   - Require `cancancan_action` for every Form, respectively `form_cancancan_action` for every WithForm
   - Filter form fields by Cancancan action, effectively providing per-field authorization
   - Attention, this feature is only used when using `field` and `schema_field`, it will not affect custom inputs or schema lines.
-  - When using this feature together with ActiveType, be sure to add `include ActiveModel::Attributes` at the top of your virtual models.
 
 ## Steps to take
 
