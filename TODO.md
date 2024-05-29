@@ -1,3 +1,1 @@
 - When cancelling in an owned form, prefer Show instead of owner.Index
-- Give `content` blocks names, similar to actions
-- Have multiple `before_render` blocks, give them names, similar to actions
