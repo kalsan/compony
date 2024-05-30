@@ -90,7 +90,7 @@ module Compony
         # Check per-field authorization
         if @cancancan_action.present? && @controller.current_ability.permitted_attributes(@cancancan_action, @simpleform.object).exclude?(name)
           Rails.logger.debug do
-            "Skipping form_field #{name.inspect} because the current user is not allowed to perform #{@cancancan_action.inspect} on #{@simpleform.object}."
+            "Skipping form field #{name.inspect} because the current user is not allowed to perform #{@cancancan_action.inspect} on #{@simpleform.object}."
           end
           return
         end
@@ -108,6 +108,28 @@ module Compony
           end
           return model_field.simpleform_input(@simpleform, self, **input_opts)
         end
+      end
+
+      # Called inside the form_fields block. This makes the method pw_field available in the block.
+      # This method should be called for the fields :password and :password_confirmation
+      # Note that :hidden is not supported here, as this would make no sense in conjunction with :password or :password_confirmation.
+      def pw_field(name, **input_opts)
+        fail("The `pw_field` method may only be called inside `form_fields` for #{inspect}.") unless @simpleform
+        name = name.to_sym
+
+        # Check for authorization
+        unless @cancancan_action.nil? || @controller.current_ability.can?(:set_password, @simpleform.object)
+          Rails.logger.debug do
+            "Skipping form pw_field #{name.inspect} because the current user is not allowed to perform :set_password on #{@simpleform.object}."
+          end
+          return
+        end
+
+        unless @focus_given || @skip_autofocus
+          input_opts[:autofocus] = true unless input_opts.key? :autofocus
+          @focus_given = true
+        end
+        return @simpleform.input name, **input_opts
       end
 
       # Called inside the form_fields block. This makes the method `f` available in the block.
@@ -142,6 +164,20 @@ module Compony
             next nil
           end
           next field.schema_line
+        end
+      end
+
+      # DSL method, adds a new password field to the schema whitelisting
+      # This checks for the permission :set_password and auto-generates the correct schema line for the field.
+      def schema_pw_field(field_name)
+        # This runs upon component setup.
+        @schema_lines_for_data << proc do |data, controller|
+          # This runs within a request context.
+          # Check per-field authorization
+          unless @cancancan_action.nil? || controller.current_ability.can?(:set_password, data)
+            next nil
+          end
+          next proc { obj? field_name.to_sym }
         end
       end
 

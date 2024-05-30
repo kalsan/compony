@@ -32,7 +32,7 @@ module Compony
         label(:short) { I18n.t('compony.components.new.label.short') }
         icon { :plus }
 
-        form_cancancan_action :edit
+        form_cancancan_action :new
 
         content :label do
           h2 component.label
