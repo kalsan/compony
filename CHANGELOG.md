@@ -85,7 +85,7 @@
 
 - Remove (hopefully) obsolete database safeguard in `resolve_association!` as we should no longer be accessing the DB.
 - BREAKING: Remove `primary_key_type` and tolerate int and str as primary and foreign key in all params.
-  - This fixes a bug introduced in 0.0.9 breaking polymorphic relations.
+  - This fixes a bug introduced in 0.0.10 breaking polymorphic relations.
 - Support Rails 7.1
   - No longer rely on `controller.response.body.blank?` but use `controller.response_body.nil?` instead
 
