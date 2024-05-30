@@ -1,4 +1,4 @@
-# unreleased
+# 0.3.0
 
 - Internals:
   - Change internal parameter handling in edit and update (now use validated params only)
