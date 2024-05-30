@@ -8,6 +8,10 @@
   - Filter form fields by Cancancan action, effectively providing per-field authorization
   - Attention, this feature is only used when using `field` and `schema_field`, it will not affect custom inputs or schema lines.
 
+## Steps to take
+
+- If using ActiveType, add `include ActiveModel::Attributes` at the top of your virtual models.
+
 # 0.3.0
 
 - Internals:
@@ -26,7 +30,6 @@
 
 - Search for `comp_class_for` and `comp_class_for!` and replace them by `Compony.comp_class_for` and `Compony.comp_class_for!`
 - Search for `add_content` and replace it by `content` along with a name. If you used an index in `add_content`, replace it by `before:` (see documentation)
-- If using ActiveType, add `include ActiveModel::Attributes` at the top of your virtual models.
 
 # 0.2.3
 
