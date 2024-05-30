@@ -8,9 +8,11 @@
   - Filter form fields by Cancancan action, effectively providing per-field authorization
   - Attention, this feature is only used when using `field` and `schema_field`, it will not affect custom inputs or schema lines.
 
-## Steps to take
+## Steps to perform
 
 - If using ActiveType, add `include ActiveModel::Attributes` at the top of your virtual models.
+- Make sure your forms work as expected, as cancancan action is now required (see above).
+  - Either supply the appropriate action (e.g. `:edit` or `:new`), or pass `nil` to disable per-field authorization for a form.
 
 # 0.3.0
 
@@ -64,11 +66,6 @@
 
 - Cleanup old code
   - Remove `check_config!` that was barely used
-
-## Steps to perform
-
-- Make sure your forms work as expected, as cancancan action is now required (see above).
-  - Either supply the appropriate action (e.g. `:edit` or `:new`), or pass `nil` to disable per-field authorization for a form.
 
 # 0.1.1
 
