@@ -513,6 +513,16 @@ The output is:
 <div class="card card-body"><h1>Hello</h1><p>Welcome to my site.</p></div>
 ```
 
+##### Removing content blocks
+
+If a component's parent class defines a content block that is undesired in a subclass component, the content block can be removed as follows:
+
+```ruby
+setup do
+  remove_content :some_content_defined_in_parent # This component will now behave as if this content block was never declared in its parent.
+end
+```
+
 #### Redirecting away / Intercepting rendering
 
 Immediately before the `content` block(s) are evaluated, another chain of blocks is evaluated if present: `before_render`. If on of these blocks creates a reponse body in the Rails controller, the subsequent `before_render` blocks and all `content` blocks are skipped.

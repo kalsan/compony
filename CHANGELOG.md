@@ -4,6 +4,7 @@
 - In `content`, tolerate omitting block if it's an override
 - Instanciate a fresh ActionView `output_buffer` when rendering nested content to prevent double render errors
 - Reshape `Destroy` and `Form` components to provide more fine-grained content blocks that can be selectively overridden
+- Implement `remove_content` which allows removing a previously defined content block (useful for usage in subclasses)
 
 # 0.3.0
 
