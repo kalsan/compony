@@ -161,6 +161,9 @@ module Compony
           field = data.class.fields[field_name.to_sym] || fail("No field #{field_name.to_sym.inspect} found for #{data.inspect} in #{inspect}.")
           # Check per-field authorization
           if @cancancan_action.present? && controller.current_ability.permitted_attributes(@cancancan_action.to_sym, data).exclude?(field_name.to_sym)
+            Rails.logger.debug do
+              "Skipping form schema_field #{field_name.inspect} because the current user is not allowed to perform #{@cancancan_action.inspect} on #{data}."
+            end
             next nil
           end
           next field.schema_line
@@ -175,6 +178,9 @@ module Compony
           # This runs within a request context.
           # Check per-field authorization
           unless @cancancan_action.nil? || controller.current_ability.can?(:set_password, data)
+            Rails.logger.debug do
+              "Skipping form schema_pw_field #{name.inspect} because the current user is not allowed to perform :set_password on #{data}."
+            end
             next nil
           end
           next proc { obj? field_name.to_sym }
