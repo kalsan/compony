@@ -14,6 +14,7 @@
 
 - If using ActiveType, add `include ActiveModel::Attributes` at the top of your virtual models.
 - In your User model, remove `field :password` and `field :password_confirmation`
+  - If on login, you get the ArgumentError "One or more password arguments are required", you have forgotten to do this.
 - In your User Form:
   - replace `concat field :password` by `concat pw_field :password`
   - replace `concat field :password_confirmation` by `concat pw_field :password_confirmation`

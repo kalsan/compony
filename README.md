@@ -1215,7 +1215,7 @@ class User < ApplicationRecord
 end
 ```
 
-All fields declared this way are automatically exported as Rails Model attributes. Note that this also means that you should never declare `password` and `password_confirmation` as a Compony field. Read more about this in the section about `Compony::Components::Form`.
+All fields declared this way are automatically exported as Rails Model attributes. Note that this also means that you should never declare `password` and `password_confirmation` as a Compony field, as you will get the ArgumentError "One or more password arguments are required" otherwise. Read more about handling password fields in the section about `Compony::Components::Form`.
 
 Compony fields provide the following features:
 
