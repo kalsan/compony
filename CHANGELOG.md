@@ -2,6 +2,7 @@
 
 - In `NaturalOrdering`, tolerate omitting payload only if it's an override
 - In `content`, tolerate omitting block if it's an override
+- Instanciate a fresh ActionView `output_buffer` when rendering nested content to prevent double render errors
 
 # 0.3.0
 
