@@ -13,19 +13,30 @@ module Compony
           # Make sure the error message is going to be nice if form_fields were not implemented
           fail "#{component.inspect} requires config.form_fields do ..." if @form_fields.nil?
 
-          # Must render the buttons now as the rendering within simple form breaks the form
-          @submit_button = Compony.button_component_class.new(
-            label: @submit_label || I18n.t('compony.components.form.submit'), icon: 'arrow-right', type: :submit
-          ).render(controller)
+          # Calculate paths
           @submit_path = @comp_opts[:submit_path]
           @submit_path = @submit_path.call(controller) if @submit_path.respond_to?(:call)
+        end
+
+        # Override this to provide a custom submit button
+        content :submit_button, hidden: true do
+          concat Compony.button_component_class.new(
+            label: @submit_label || I18n.t('compony.components.form.submit'), icon: 'arrow-right', type: :submit
+          ).render(controller)
+        end
+
+        # Override this to provide additional submit buttons.
+        content :buttons, hidden: true do
+          content(:submit_button)
         end
 
         content do
           form_html = simple_form_for(data, method: @comp_opts[:submit_verb], url: @submit_path) do |f|
             component.with_simpleform(f) do
               instance_exec(&form_fields)
-              div @submit_button, class: 'compony-form-buttons'
+              div class: 'compony-form-buttons' do
+                content(:buttons)
+              end
             end
           end
           concat form_html

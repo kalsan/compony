@@ -3,6 +3,7 @@
 - In `NaturalOrdering`, tolerate omitting payload only if it's an override
 - In `content`, tolerate omitting block if it's an override
 - Instanciate a fresh ActionView `output_buffer` when rendering nested content to prevent double render errors
+- Reshape `Destroy` and `Form` components to provide more fine-grained content blocks that can be selectively overridden
 
 # 0.3.0
 
