@@ -15,21 +15,25 @@ module Compony
   # collection.map(&:payload) # --> a_new_payload, b_payload, c_payload, d_payload
   # ```
   class NaturalOrdering < Array
-    def natural_push(name, payload, before: nil, **kwargs)
+    def natural_push(name, payload = :missing, before: nil, **kwargs)
       name = name.to_sym
       before_name = before&.to_sym
       old_kwargs = {}
+      old_payload = nil
 
       # Fetch existing element if any
       existing_index = find_index { |el| el.name == name }
       if existing_index.present?
         # Copy all non-mentionned kwargs from the element we are about to overwrite
         old_kwargs = self[existing_index].except(:name, :payload)
+        old_payload = self[existing_index].payload
 
         # Replacing an existing element with a before: directive - must delete before calculating indices
         if before_name.present?
           delete_at(existing_index)
         end
+      elsif payload == :missing
+        fail("Cannot insert new element #{name} without a payload (payload can only omitted if overriding another element) in #{inspect}.")
       end
 
       # Fetch before element
@@ -38,7 +42,7 @@ module Compony
       end
 
       # Create the element to insert
-      element = MethodAccessibleHash.new(name:, payload:, **old_kwargs.merge(kwargs))
+      element = MethodAccessibleHash.new(name:, payload: payload == :missing ? old_payload : payload, **old_kwargs.merge(kwargs))
 
       # Insert new element
       if before_index.present?

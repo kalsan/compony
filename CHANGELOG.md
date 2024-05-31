@@ -1,3 +1,7 @@
+# unreleased
+
+- In `NaturalOrdering`, tolerate omitting payload only if it's an override
+
 # 0.3.0
 
 - Internals:
