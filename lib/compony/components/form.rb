@@ -160,7 +160,7 @@ module Compony
           # This runs within a request context.
           field = data.class.fields[field_name.to_sym] || fail("No field #{field_name.to_sym.inspect} found for #{data.inspect} in #{inspect}.")
           # Check per-field authorization
-          if @cancancan_action.present? && controller.current_ability.permitted_attributes(@cancancan_action.to_sym, data).exclude?(field_name.to_sym)
+          if @cancancan_action.present? && controller.current_ability.permitted_attributes(@cancancan_action.to_sym, data).exclude?(field.name.to_sym)
             Rails.logger.debug do
               "Skipping form schema_field #{field_name.inspect} because the current user is not allowed to perform #{@cancancan_action.inspect} on #{data}."
             end
