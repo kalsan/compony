@@ -555,6 +555,15 @@
 <pre class="code ruby"><code class="ruby">&lt;div class=&quot;card card-body&quot;&gt;&lt;h1&gt;Hello&lt;/h1&gt;&lt;p&gt;Welcome to my site.&lt;/p&gt;&lt;/div&gt;
 </code></pre>
 
+<h5 id="label-Removing+content+blocks">Removing content blocks</h5>
+
+<p>If a component’s parent class defines a content block that is undesired in a subclass component, the content block can be removed as follows:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_remove_content'>remove_content</span> <span class='symbol'>:some_content_defined_in_parent</span> <span class='comment'># This component will now behave as if this content block was never declared in its parent.
+</span><span class='kw'>end</span>
+</code></pre>
+
 <h4 id="label-Redirecting+away+-2F+Intercepting+rendering">Redirecting away / Intercepting rendering</h4>
 
 <p>Immediately before the <code>content</code> block(s) are evaluated, another chain of blocks is evaluated if present: <code>before_render</code>. If on of these blocks creates a reponse body in the Rails controller, the subsequent <code>before_render</code> blocks and all <code>content</code> blocks are skipped.</p>
@@ -1612,7 +1621,7 @@ my_button = Compony.button(:index, :users, enabled: -&gt; { |controller| control
 </div></div>
 
       <div id="footer">
-  Generated on Wed May 29 15:53:06 2024 by
+  Generated on Fri May 31 14:28:29 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>

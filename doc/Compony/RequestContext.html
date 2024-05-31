@@ -697,7 +697,13 @@
 48
 49
 50
-51</pre>
+51
+52
+53
+54
+55
+56
+57</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/compony/request_context.rb', line 46</span>
@@ -705,8 +711,14 @@
 <span class='kw'>def</span> <span class='id identifier rubyid_content'>content</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
   <span class='id identifier rubyid_content_block'>content_block</span> <span class='op'>=</span> <span class='id identifier rubyid_component'>component</span><span class='period'>.</span><span class='id identifier rubyid_content_blocks'>content_blocks</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_el'>el</span><span class='op'>|</span> <span class='id identifier rubyid_el'>el</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='id identifier rubyid_name'>name</span> <span class='rbrace'>}</span> <span class='op'>||</span> <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Content block </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'> not found in </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_component'>component</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-  <span class='comment'># A fresh RequestContext is needed due to Rails&#39; buffer
-</span>  <span class='id identifier rubyid_concat'>concat</span> <span class='const'><span class='object_link'><a href="../Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Compony::RequestContext (class)">RequestContext</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="Compony::RequestContext#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_component'>component</span><span class='comma'>,</span> <span class='id identifier rubyid_controller'>controller</span><span class='comma'>,</span> <span class='label'>helpers:</span><span class='comma'>,</span> <span class='label'>locals:</span> <span class='id identifier rubyid_local_assigns'>local_assigns</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_evaluate'>evaluate</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_content_block'>content_block</span><span class='period'>.</span><span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span>
+  <span class='comment'># We have to clear Rails&#39; output_buffer to prevent double rendering of blocks. To achieve this, a fresh render context is instanciated.
+</span>  <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_controller'>controller</span><span class='period'>.</span><span class='id identifier rubyid_render_to_string'>render_to_string</span><span class='lparen'>(</span>
+    <span class='label'>type:</span>   <span class='symbol'>:dyny</span><span class='comma'>,</span>
+    <span class='label'>locals:</span> <span class='lbrace'>{</span> <span class='label'>render_component:</span> <span class='id identifier rubyid_component'>component</span><span class='comma'>,</span> <span class='label'>render_controller:</span> <span class='id identifier rubyid_controller'>controller</span><span class='comma'>,</span> <span class='label'>render_locals:</span> <span class='id identifier rubyid_local_assigns'>local_assigns</span><span class='comma'>,</span> <span class='label'>render_block:</span> <span class='id identifier rubyid_content_block'>content_block</span> <span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='label'>inline:</span> <span class='heredoc_beg'>&lt;&lt;~RUBY</span>
+<span class='tstring_content'>      Compony::RequestContext.new(render_component, render_controller, helpers: self, locals: local_assigns).evaluate_with_backfire(&amp;render_block.payload)
+</span><span class='heredoc_end'>    RUBY
+</span>  <span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -852,7 +864,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed May 29 15:53:07 2024 by
+  Generated on Fri May 31 14:28:30 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>

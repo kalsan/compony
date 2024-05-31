@@ -1,4 +1,4 @@
-# unreleased
+# 0.3.1
 
 - In `NaturalOrdering`, tolerate omitting payload only if it's an override
 - In `content`, tolerate omitting block if it's an override
