@@ -1,6 +1,7 @@
 # unreleased
 
 - Add label content block to edit component
+- Introduce `remove_content!` and make its non-bang pendant tolerate missing blocks
 
 # 0.3.1
 

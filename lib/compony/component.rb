@@ -141,9 +141,20 @@ module Compony
     # Removes a content block. Use this in subclasses if a content block defined in the parent should be removed from the child.
     # @param [Symbol,String] name Name of the content block that should be removed
     def remove_content(name)
-      name = name.to_sym
-      existing_index = @content_blocks.find_index { |el| el.name == name } || fail("Content block #{name.inspect} not found for removal in #{inspect}.")
-      @content_blocks.delete_at(existing_index)
+      existing_index = @content_blocks.find_index { |el| el.name == name.to_sym }
+      if existing_index.nil?
+        return false
+      else
+        @content_blocks.delete_at(existing_index)
+        return true
+      end
+    end
+
+    # DSL method
+    # Removes a content block and fails if the content block was not found.
+    # @param [Symbol,String] name Name of the content block that should be removed
+    def remove_content!(name)
+      remove_content(name) || fail("Content block #{name.inspect} not found for removal in #{inspect}.")
     end
 
     # Renders the component using the controller passsed to it and returns it as a string.
