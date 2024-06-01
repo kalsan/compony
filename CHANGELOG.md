@@ -1,3 +1,7 @@
+# unreleased
+
+- Add label content block to edit component
+
 # 0.3.1
 
 - In `NaturalOrdering`, tolerate omitting payload only if it's an override
