@@ -45,7 +45,9 @@ module Compony
     # Renders a content block from the current component.
     def content(name)
       name = name.to_sym
-      content_block = component.content_blocks.find { |el| el.name == name } || fail("Content block #{name.inspect} not found in #{component.inspect}.")
+      content_block = component.content_blocks.find { |el| el.name == name }
+      return false if content_block.nil?
+
       # We have to clear Rails' output_buffer to prevent double rendering of blocks. To achieve this, a fresh render context is instanciated.
       concat controller.render_to_string(
         type:   :dyny,
@@ -54,6 +56,11 @@ module Compony
           Compony::RequestContext.new(render_component, render_controller, helpers: self, locals: local_assigns).evaluate_with_backfire(&render_block.payload)
         RUBY
       )
+      return true
+    end
+
+    def content!(name)
+      content(name) || fail("Content block #{name.inspect} not found in #{component.inspect}.")
     end
   end
 end

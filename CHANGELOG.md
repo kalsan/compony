@@ -1,3 +1,7 @@
+# unreleased
+
+- In `RequestContext`, distinguish between `content` and `content!`, where the first allows for missing content blocks.
+
 # 0.3.2
 
 - Add label content block to edit component
