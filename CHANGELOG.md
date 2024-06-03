@@ -1,4 +1,4 @@
-# unreleased
+# 0.3.3
 
 - In `RequestContext`, distinguish between `content` and `content!`, where the first allows for missing content blocks.
 
