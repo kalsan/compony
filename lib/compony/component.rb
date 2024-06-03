@@ -130,8 +130,31 @@ module Compony
     # @param [Hash] kwargs If hidden is true, the content will not be rendered by default, allowing you to nest it in another content block.
     # @param [Proc] block The block that should be run as part of the content pipeline. Will run in the component's context. You can use Dyny here.
     def content(name = :main, before: nil, **kwargs, &block)
-      fail("`content` expects a block in #{inspect}.") unless block_given?
-      @content_blocks.natural_push(name, block, before:, **kwargs)
+      # A block is required here, but if this is an override (e.g. to hide another content block), we can tolerate the missing block.
+      if !block_given? && @content_blocks.find { |b| b.name == name }.nil?
+        fail("`content` expects a block in #{inspect}.")
+      end
+      @content_blocks.natural_push(name, block || :missing, before:, **kwargs)
+    end
+
+    # DSL method
+    # Removes a content block. Use this in subclasses if a content block defined in the parent should be removed from the child.
+    # @param [Symbol,String] name Name of the content block that should be removed
+    def remove_content(name)
+      existing_index = @content_blocks.find_index { |el| el.name == name.to_sym }
+      if existing_index.nil?
+        return false
+      else
+        @content_blocks.delete_at(existing_index)
+        return true
+      end
+    end
+
+    # DSL method
+    # Removes a content block and fails if the content block was not found.
+    # @param [Symbol,String] name Name of the content block that should be removed
+    def remove_content!(name)
+      remove_content(name) || fail("Content block #{name.inspect} not found for removal in #{inspect}.")
     end
 
     # Renders the component using the controller passsed to it and returns it as a string.

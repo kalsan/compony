@@ -26,14 +26,22 @@ module Compony
         icon { :trash }
         color { :danger }
 
-        content do
+        content :confirm_question, hidden: true do
           div I18n.t('compony.components.destroy.confirm_question', data_label: @data.label)
+        end
+
+        content :confirm_button, hidden: true do
           div do
             concat compony_button(comp_cst,
                                   @data,
                                   label:  I18n.t('compony.components.destroy.confirm_button'),
                                   method: :delete)
           end
+        end
+
+        content do
+          content :confirm_question
+          content :confirm_button
         end
 
         action :back_to_owner do

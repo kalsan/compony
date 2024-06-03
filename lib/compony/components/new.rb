@@ -37,6 +37,7 @@ module Compony
         content :label do
           h2 component.label
         end
+
         content do
           concat form_comp.render(controller, data: @data)
         end

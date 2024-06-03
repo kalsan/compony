@@ -37,6 +37,10 @@ module Compony
           Compony.button(:show, @data.send(data_class.owner_model_attr), icon: :xmark, color: :secondary, label: I18n.t('compony.cancel'))
         end
 
+        content :label do
+          h2 component.label
+        end
+
         content do
           concat form_comp.render(controller, data: @data)
         end

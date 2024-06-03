@@ -23,6 +23,23 @@
 - Make sure your forms work as expected, as cancancan action is now required (see above).
   - Either supply the appropriate action (e.g. `:edit` or `:new`), or pass `nil` to disable per-field authorization for a form.
 
+# 0.3.3
+
+- In `RequestContext`, distinguish between `content` and `content!`, where the first allows for missing content blocks.
+
+# 0.3.2
+
+- Add label content block to edit component
+- Introduce `remove_content!` and make its non-bang pendant tolerate missing blocks
+
+# 0.3.1
+
+- In `NaturalOrdering`, tolerate omitting payload only if it's an override
+- In `content`, tolerate omitting block if it's an override
+- Instanciate a fresh ActionView `output_buffer` when rendering nested content to prevent double render errors
+- Reshape `Destroy` and `Form` components to provide more fine-grained content blocks that can be selectively overridden
+- Implement `remove_content` which allows removing a previously defined content block (useful for usage in subclasses)
+
 # 0.3.0
 
 - Internals:
