@@ -23,14 +23,12 @@ module Compony
         name = name.to_sym
         self.fields = fields.dup
         field = Compony.model_field_class_for(type.to_s.camelize).new(name, self, **extra_attrs)
-        # Register all fields that are not attributes yet
-        if attribute_names.exclude?(field.name.to_s)
-          attribute(name)
-          if attribute_names.exclude?(field.name.to_s)
-            fail "Cannot register attributes for #{self}: calling `attribute #{name.inspect}` has no effect. \
-If this is an ActiveType object, consider placing `include ActiveModel::Attributes` at the top of the class."
-          end
+        # Handle the case where ActiveType would interfere with attribute registration
+        if defined?(ActiveType) && self <= ActiveType::Object && !include?(ActiveModel::Attributes)
+          fail "Please add `include ActiveModel::Attributes` at the top of the class #{self}, as attributes cannot be registered otherwise with ActiveType."
         end
+        # Register the field as an attribute
+        attribute(name)
         fields[name] = field
       end
 
