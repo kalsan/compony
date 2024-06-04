@@ -14,7 +14,7 @@ task :gemspec do
     s.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
     s.executables   = []
     s.require_paths = ['lib']
-    s.required_ruby_version = '>= 3.0.0'
+    s.required_ruby_version = '>= 3.2.2'
 
     # Dependencies
     s.add_development_dependency 'yard', '>= 0.9.28'
