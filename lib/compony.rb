@@ -237,7 +237,7 @@ module Compony
     end
     return_value = block.call
     # Restore previous value
-    keys_to_overwrite.each do |key, _new_value|
+    keys_to_overwrite.each_key do |key|
       RequestStore.store[:button_defaults][key] = old_values[key]
     end
     # Undefine keys that were not there previously

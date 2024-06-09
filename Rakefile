@@ -14,7 +14,7 @@ task :gemspec do
     s.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
     s.executables   = []
     s.require_paths = ['lib']
-    s.required_ruby_version = '>= 3.0.0'
+    s.required_ruby_version = '>= 3.2.2'
 
     # Dependencies
     s.add_development_dependency 'yard', '>= 0.9.28'
@@ -28,7 +28,7 @@ task :gemspec do
     s.add_runtime_dependency 'simple_form', '>= 5.1.0'
     s.add_runtime_dependency 'dslblend', '>= 0.0.3'
     s.add_runtime_dependency 'anchormodel', '~> 0.2.0'
-    s.add_runtime_dependency 'cancancan', '~> 3.4.0'
+    s.add_runtime_dependency 'cancancan', '~> 3.6.1'
   end
 
   File.open('compony.gemspec', 'w') do |f|

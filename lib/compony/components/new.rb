@@ -32,6 +32,8 @@ module Compony
         label(:short) { I18n.t('compony.components.new.label.short') }
         icon { :plus }
 
+        form_cancancan_action :new
+
         content :label do
           h2 component.label
         end
@@ -43,8 +45,9 @@ module Compony
         assign_attributes do
           local_form_comp = form_comp # Capture form_comp for usage in the Schemacop call
           local_data = @data # Capture data for usage in the Schemacop call
+          local_controller = controller # Capture controller for usage in the Schemacop call
           schema = Schemacop::Schema3.new :hash, additional_properties: true do
-            hsh? local_form_comp.schema_wrapper_key_for(local_data), &local_form_comp.schema_block_for(local_data)
+            hsh? local_form_comp.schema_wrapper_key_for(local_data), &local_form_comp.schema_block_for(local_data, local_controller)
           end
           validated_params = schema.validate!(controller.request.params)
           attrs_to_assign = validated_params[form_comp.schema_wrapper_key_for(@data)]

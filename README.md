@@ -1225,6 +1225,8 @@ class User < ApplicationRecord
 end
 ```
 
+All fields declared this way are automatically exported as Rails Model attributes. Note that this also means that you should never declare `password` and `password_confirmation` as a Compony field, as you will get the ArgumentError "One or more password arguments are required" otherwise. Read more about handling password fields in the section about `Compony::Components::Form`.
+
 Compony fields provide the following features:
 
 - a label that lets you generate a name for the column: `User.fields[:first_name].label`
@@ -1344,6 +1346,45 @@ end
 ```
 
 Note that the inputs and schema are two completely different concepts that are not auto-inferred from each other. You must make sure that they always correspond. If you forget to mention a field in `schema_fields`, posting the form will fail. Luckily, Schemacop's excellent error messaging will explain which parameter is prohibited.
+
+Both calls respect Cancancan's `permitted_attributes` directive. This means that you can safely declare `field` and `schema_field` in a form that is shared among users with different kinds of permissions. If the current user is not allowed to access a field, the input will be omitted automatically. Further, the parameter validation will exclude that field, effectively disallowing that user from submitting that parameter.
+
+#### Handling password fields
+
+When using Rails' `has_secure_password` method, which typically generates the attributes accessors `:password` and `password_confirmation`, do not declare these two as fields in your User model.
+
+There are two main reasons for this:
+
+- `password` and `password_confirmation` should never show up in lists and show pages, and as these kinds of components tend to iterate over all fields, it's best to have anything that should not show up there declared as a field in the first place.
+- Rails' `authenticate_by` does not work when `password` is declared as a model attribute.
+
+Instead of making these accessors Compony fields, ignore them in the User model and use the following methods in your Form:
+
+```ruby
+class Components::Users::Form < Compony::Components::Form
+  setup do
+    form_fields do
+      # ...
+      concat pw_field(:password)
+      concat pw_field(:password_confirmation)
+    end
+
+    # ...
+    schema_pw_field :password
+    schema_pw_field :password_confirmation
+  end
+end
+```
+
+In contrast to the regular `field` and `schema_field` calls, their `pw_...` pendants do not check for per-field authorization. Instead, they check whether the current user can `:set_password` on the form's object. Therefore, your ability may look something like:
+
+```ruby
+class Ability
+  # ...
+  can :manage, User # This allows full access to all users
+  cannot :manage, User, [:user_role] # This prohibits access to user_role, thus removing the input and making the parameter invalid if passed anyway
+  cannot :set_password, User # This prohibits setting and changing passwords of any user
+```
 
 ### New
 

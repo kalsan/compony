@@ -7,6 +7,7 @@ module Compony
       def initialize(...)
         # TODO: On the next line, use Compony.path instead? Likely, this was implemented before that method existed.
         @submit_path_block = ->(controller) { controller.helpers.send("#{Compony.path_helper_name(comp_name, family_name)}_path") }
+        @form_cancancan_action = :missing
         super
       end
 
@@ -17,7 +18,8 @@ module Compony
           self,
           submit_verb:,
           # If applicable, Rails adds the route keys automatically, thus, e.g. :id does not need to be passed here, as it comes from the request.
-          submit_path: @submit_path_block
+          submit_path:      @submit_path_block,
+          cancancan_action: form_cancancan_action
         )
       end
 
@@ -37,6 +39,15 @@ module Compony
       # Overrides the form comp class that is instanciated to render the form
       def form_comp_class(new_form_comp_class = nil)
         @form_comp_class ||= new_form_comp_class
+      end
+
+      # DSL method
+      # Sets and gets the form's cancancan action (for cancancan's accessible_attributes)
+      def form_cancancan_action(new_form_cancancan_action = :missing)
+        if new_form_cancancan_action != :missing
+          @form_cancancan_action = new_form_cancancan_action
+        end
+        return @form_cancancan_action
       end
 
       # DSL method

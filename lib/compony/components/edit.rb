@@ -30,6 +30,8 @@ module Compony
         label(:short) { |_| I18n.t('compony.components.edit.label.short') }
         icon { :pencil }
 
+        form_cancancan_action :edit
+
         action :back_to_owner do
           next if data_class.owner_model_attr.blank?
           Compony.button(:show, @data.send(data_class.owner_model_attr), icon: :xmark, color: :secondary, label: I18n.t('compony.cancel'))
@@ -47,12 +49,13 @@ module Compony
           # Validate params against the form's schema
           local_form_comp = form_comp # Capture form_comp for usage in the Schemacop call
           local_data = @data # Capture data for usage in the Schemacop call
+          local_controller = controller # Capture controller for usage in the Schemacop call
           schema = Schemacop::Schema3.new :hash, additional_properties: true do
             any_of! :id do
               str
               int cast_str: true
             end
-            hsh? local_form_comp.schema_wrapper_key_for(local_data), &local_form_comp.schema_block_for(local_data)
+            hsh? local_form_comp.schema_wrapper_key_for(local_data), &local_form_comp.schema_block_for(local_data, local_controller)
           end
           validated_params = schema.validate!(controller.request.params)
           attrs_to_assign = validated_params[form_comp.schema_wrapper_key_for(@data)]

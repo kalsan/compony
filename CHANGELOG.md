@@ -1,3 +1,28 @@
+# unreleased
+
+- Support Cancancan's `accessible_attributes`
+  - Cancancan has fixed https://github.com/CanCanCommunity/cancancan/issues/838
+  - Automatically declare all fields as ActiveModel attributes
+    - When using this feature together with ActiveType, be sure to add `include ActiveModel::Attributes` at the top of your virtual models.
+    - Due to Rails' implementation of `authenticate_by`, `:password` and `:password_confirmation` can not be attributes and thus should no longer be declared as fields in your applications.
+      - To handle password fields in forms, `pw_field` and `schema_pw_field` were added
+  - Require `cancancan_action` for every Form, respectively `form_cancancan_action` for every WithForm
+  - Filter form fields by Cancancan action, effectively providing per-field authorization
+  - Attention, this feature is only used when using `field` and `schema_field`, it will not affect custom inputs or schema lines.
+
+## Steps to perform
+
+- If using ActiveType, add `include ActiveModel::Attributes` at the top of your virtual models.
+- In your User model, remove `field :password` and `field :password_confirmation`
+  - If on login, you get the ArgumentError "One or more password arguments are required", you have forgotten to do this.
+- In your User Form:
+  - replace `concat field :password` by `concat pw_field :password`
+  - replace `concat field :password_confirmation` by `concat pw_field :password_confirmation`
+  - replace `schema_field :password` by `schema_pw_field :password`
+  - replace `schema_field :password_confirmation` by `schema_pw_field :password_confirmation`
+- Make sure your forms work as expected, as cancancan action is now required (see above).
+  - Either supply the appropriate action (e.g. `:edit` or `:new`), or pass `nil` to disable per-field authorization for a form.
+
 # 0.3.3
 
 - In `RequestContext`, distinguish between `content` and `content!`, where the first allows for missing content blocks.

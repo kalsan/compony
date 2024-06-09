@@ -37,18 +37,18 @@ module Compony
           # DSL call for defining a config for a verb. The block runs within the verb DSL, positional and named arguments are passed to the verb DSL.
           # @param verb [Symbol] The HTTP verb the config is for (e.g. :get, :post etc.)
           # @see Compony::ComponentMixins::Default::Standalone::VerbDsl
-          def verb(verb, *args, **nargs, &)
+          def verb(verb, *, **nargs, &)
             verb = verb.to_sym
             verb_dsl_class = @component.resourceful? ? ResourcefulVerbDsl : VerbDsl
             if @verbs[verb]
-              @verbs[verb].deep_merge! verb_dsl_class.new(@component, verb, *args, **nargs).to_conf(provide_defaults: false, &)
+              @verbs[verb].deep_merge! verb_dsl_class.new(@component, verb, *, **nargs).to_conf(provide_defaults: false, &)
             else
               # Note about provide_defaults:
               # - We must pass false if this is the second time `standalone` was called for this component -> see @provide_defaults
               # - We musst pass false if this is the second time `verb` was called for this component -> handled by the if statement (other branch)
               # - We must pass true otherwise (handled by this branch)
               @verbs[verb] = Compony::MethodAccessibleHash.new(
-                verb_dsl_class.new(@component, verb, *args, **nargs).to_conf(provide_defaults: @provide_defaults, &)
+                verb_dsl_class.new(@component, verb, *, **nargs).to_conf(provide_defaults: @provide_defaults, &)
               )
             end
           end

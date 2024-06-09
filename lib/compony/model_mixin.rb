@@ -22,7 +22,14 @@ module Compony
       def field(name, type, **extra_attrs)
         name = name.to_sym
         self.fields = fields.dup
-        fields[name] = Compony.model_field_class_for(type.to_s.camelize).new(name, self, **extra_attrs)
+        field = Compony.model_field_class_for(type.to_s.camelize).new(name, self, **extra_attrs)
+        # Handle the case where ActiveType would interfere with attribute registration
+        if defined?(ActiveType) && self <= ActiveType::Object && !include?(ActiveModel::Attributes)
+          fail "Please add `include ActiveModel::Attributes` at the top of the class #{self}, as attributes cannot be registered otherwise with ActiveType."
+        end
+        # Register the field as an attribute
+        attribute(name)
+        fields[name] = field
       end
 
       # DSL method, sets the containing model.
