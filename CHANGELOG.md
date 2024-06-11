@@ -1,4 +1,4 @@
-# unreleased
+# 0.4.0
 
 - Support Cancancan's `accessible_attributes`
   - Cancancan has fixed https://github.com/CanCanCommunity/cancancan/issues/838

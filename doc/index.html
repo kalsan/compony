@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   File: README
-
+  
     &mdash; Documentation by YARD 0.9.36
-
+  
 </title>
 
   <link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -35,14 +35,14 @@
     <div id="main" tabindex="-1">
       <div id="header">
         <div id="menu">
-
-    <a href="_index.html">Index</a> &raquo;
+  
+    <a href="_index.html">Index</a> &raquo; 
     <span class="title">File: README</span>
-
+  
 </div>
 
         <div id="search">
-
+  
     <a class="full_list_link" id="class_list_link"
         href="class_list.html">
 
@@ -52,7 +52,7 @@
           <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
         </svg>
     </a>
-
+  
 </div>
         <div class="clear"></div>
       </div>
@@ -1305,6 +1305,8 @@ my_button = Compony.button(:index, :users, enabled: -&gt; { |controller| control
 <span class='kw'>end</span>
 </code></pre>
 
+<p>All fields declared this way are automatically exported as Rails Model attributes. Note that this also means that you should never declare <code>password</code> and <code>password_confirmation</code> as a Compony field, as you will get the ArgumentError “One or more password arguments are required” otherwise. Read more about handling password fields in the section about <code>Compony::Components::Form</code>.</p>
+
 <p>Compony fields provide the following features:</p>
 <ul><li>
 <p>a label that lets you generate a name for the column: <code>User.fields[:first_name].label</code></p>
@@ -1445,6 +1447,45 @@ my_button = Compony.button(:index, :users, enabled: -&gt; { |controller| control
 </code></pre>
 
 <p>Note that the inputs and schema are two completely different concepts that are not auto-inferred from each other. You must make sure that they always correspond. If you forget to mention a field in <code>schema_fields</code>, posting the form will fail. Luckily, Schemacop’s excellent error messaging will explain which parameter is prohibited.</p>
+
+<p>Both calls respect Cancancan’s <code>permitted_attributes</code> directive. This means that you can safely declare <code>field</code> and <code>schema_field</code> in a form that is shared among users with different kinds of permissions. If the current user is not allowed to access a field, the input will be omitted automatically. Further, the parameter validation will exclude that field, effectively disallowing that user from submitting that parameter.</p>
+
+<h4 id="label-Handling+password+fields">Handling password fields</h4>
+
+<p>When using Rails’ <code>has_secure_password</code> method, which typically generates the attributes accessors <code>:password</code> and <code>password_confirmation</code>, do not declare these two as fields in your User model.</p>
+
+<p>There are two main reasons for this:</p>
+<ul><li>
+<p><code>password</code> and <code>password_confirmation</code> should never show up in lists and show pages, and as these kinds of components tend to iterate over all fields, it’s best to have anything that should not show up there declared as a field in the first place.</p>
+</li><li>
+<p>Rails’ <code>authenticate_by</code> does not work when <code>password</code> is declared as a model attribute.</p>
+</li></ul>
+
+<p>Instead of making these accessors Compony fields, ignore them in the User model and use the following methods in your Form:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Users</span><span class='op'>::</span><span class='const'>Form</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Form.html" title="Compony::Components::Form (class)">Form</a></span></span>
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_form_fields'>form_fields</span> <span class='kw'>do</span>
+      <span class='comment'># ...
+</span>      <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_pw_field'>pw_field</span><span class='lparen'>(</span><span class='symbol'>:password</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_pw_field'>pw_field</span><span class='lparen'>(</span><span class='symbol'>:password_confirmation</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># ...
+</span>    <span class='id identifier rubyid_schema_pw_field'>schema_pw_field</span> <span class='symbol'>:password</span>
+    <span class='id identifier rubyid_schema_pw_field'>schema_pw_field</span> <span class='symbol'>:password_confirmation</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>In contrast to the regular <code>field</code> and <code>schema_field</code> calls, their <code>pw_...</code> pendants do not check for per-field authorization. Instead, they check whether the current user can <code>:set_password</code> on the form’s object. Therefore, your ability may look something like:</p>
+
+<pre class="code ruby"><code class="ruby">class Ability
+  # ...
+  can :manage, User # This allows full access to all users
+  cannot :manage, User, [:user_role] # This prohibits access to user_role, thus removing the input and making the parameter invalid if passed anyway
+  cannot :set_password, User # This prohibits setting and changing passwords of any user
+</code></pre>
 
 <h3 id="label-New">New</h3>
 
@@ -1621,7 +1662,7 @@ my_button = Compony.button(:index, :users, enabled: -&gt; { |controller| control
 </div></div>
 
       <div id="footer">
-  Generated on Thu May 30 10:37:04 2024 by
+  Generated on Tue Jun 11 11:15:53 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.36 (ruby-3.2.2).
 </div>
