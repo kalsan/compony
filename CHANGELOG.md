@@ -9,6 +9,7 @@
   - Require `cancancan_action` for every Form, respectively `form_cancancan_action` for every WithForm
   - Filter form fields by Cancancan action, effectively providing per-field authorization
   - Attention, this feature is only used when using `field` and `schema_field`, it will not affect custom inputs or schema lines.
+  - Require Ruby 3.2.2
 
 ## Steps to perform
 
