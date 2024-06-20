@@ -1,3 +1,7 @@
+# unreleased
+
+- Allow the argument `standalone_name` in button and path helper
+
 # 0.4.0
 
 - Support Cancancan's `accessible_attributes`

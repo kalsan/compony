@@ -99,14 +99,15 @@ module Compony
   # @param model_or_family_name_or_cst [String,Symbol,ApplicationRecord] Either the family that contains the requested component,
   #                                    or an instance implementing `model_name` from which the family name is auto-generated. Examples:
   #                                    `Users`, `'Users'`, `:users`, `User.first`
+  # @param standalone_name [Symbol,nil] Name of the standalone config to point to (defaults to nil the default standalone config).
   # @param args_for_path_helper [Array] Positional arguments passed to the Rails helper
   # @param kwargs_for_path_helper [Hash] Named arguments passed to the Rails helper. If a model is given to `model_or_family_name_or_cst`,
   #                                      the param `id` defaults to the passed model's ID.
-  def self.path(comp_name_or_cst, model_or_family_name_or_cst, *args_for_path_helper, **kwargs_for_path_helper)
+  def self.path(comp_name_or_cst, model_or_family_name_or_cst, *args_for_path_helper, standalone_name: nil, **kwargs_for_path_helper)
     # Extract model if any, to get the ID
     kwargs_for_path_helper.merge!(id: model_or_family_name_or_cst.id) if model_or_family_name_or_cst.respond_to?(:model_name)
     return Rails.application.routes.url_helpers.send(
-      "#{path_helper_name(comp_name_or_cst, model_or_family_name_or_cst)}_path",
+      "#{path_helper_name(comp_name_or_cst, model_or_family_name_or_cst, standalone_name&.to_sym)}_path",
       *args_for_path_helper,
       **kwargs_for_path_helper
     )
@@ -162,6 +163,7 @@ module Compony
   # @param params [Hash] GET parameters to be inclued into the path this button points to. Special case: e.g. format: :pdf -> some.url/foo/bar.pdf
   # @param feasibility_action [Symbol] Name of the feasibility action that should be checked for this button, defaults to the component name
   # @param feasibility_target [Symbol] Name of the feasibility target (subject) that the feasibility should be checked on, defaults to the model if given
+  # @param standalone_name [Symbol,nil] Name of the standalone config to point to (defaults to nil the default standalone config).
   # @param override_kwargs [Hash] Override button options, see options for {Compony::Components::Button}
   # @see Compony::ViewHelpers#compony_button View helper providing a wrapper for this method that immediately renders a button.
   # @see Compony::Components::Button Compony::Components::Button: the default underlying implementation
@@ -172,6 +174,7 @@ module Compony
                   feasibility_action: nil,
                   feasibility_target: nil,
                   method: nil,
+                  standalone_name: nil,
                   **override_kwargs)
     label_opts ||= button_defaults[:label_opts] || {}
     params ||= button_defaults[:params] || {}
@@ -183,7 +186,7 @@ module Compony
       label:   target_comp_instance.label(model, **label_opts),
       icon:    target_comp_instance.icon,
       color:   target_comp_instance.color,
-      path:    Compony.path(target_comp_instance.comp_name, target_comp_instance.family_name, model, **params),
+      path:    Compony.path(target_comp_instance.comp_name, target_comp_instance.family_name, model, standalone_name:, **params),
       method:,
       visible: ->(controller) { target_comp_instance.standalone_access_permitted_for?(controller, verb: method) }
     }
