@@ -104,7 +104,7 @@ module Compony
   # @param args_for_path_helper [Array] Positional arguments passed to the Rails helper
   # @param kwargs_for_path_helper [Hash] Named arguments passed to the Rails helper. If a model is given to `model_or_family_name_or_cst`,
   #                                      the param `id` defaults to the passed model's ID.
-  def self.path(comp_name_or_cst, model_or_family_name_or_cst, *args_for_path_helper, standalone_name: nil, **kwargs_for_path_helper)
+  def self.path(comp_name_or_cst, model_or_family_name_or_cst = nil, *args_for_path_helper, standalone_name: nil, **kwargs_for_path_helper)
     # Extract model if any, to get the ID
     kwargs_for_path_helper.merge!(id: model_or_family_name_or_cst.id) if model_or_family_name_or_cst.respond_to?(:model_name)
     return Rails.application.routes.url_helpers.send(
@@ -152,9 +152,10 @@ module Compony
   # @param name [String,Symbol] If referring to an extra standalone entrypoint, specify its name using this param.
   # @see Compony#path
   def self.rails_action_name(comp_name_or_cst_or_class, model_or_family_name_or_cst, name = nil)
-    if comp_name_or_cst_or_class.is_a?(Class) && comp_name_or_cst_or_class <= Compony::Component
-      comp_name_or_cst_or_class = comp_name_or_cst_or_class.comp_name
-      model_or_family_name_or_cst = comp_name_or_cst_or_class.family_name
+    if comp_name_or_cst_or_class.is_a?(Class) && (comp_name_or_cst_or_class <= Compony::Component)
+      comp_class = comp_name_or_cst_or_class
+      comp_name_or_cst_or_class = comp_class.comp_name
+      model_or_family_name_or_cst = comp_class.family_name
     end
     [name.presence, comp_name_or_cst_or_class.to_s.underscore, family_name_for(model_or_family_name_or_cst)].compact.join('_')
   end
