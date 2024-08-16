@@ -1,6 +1,7 @@
 # unreleased
 
 - Allow the argument `standalone_name` in button and path helper
+- Provide family and comp name accessors in the static context as well for convenience
 
 # 0.4.0
 

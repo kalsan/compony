@@ -20,6 +20,26 @@ module Compony
       setup_blocks << block
     end
 
+    # Returns the name of the module constant (=family) of this component. Do not override.
+    def self.family_cst
+      module_parent.to_s.demodulize.to_sym
+    end
+
+    # Returns the family name
+    def self.family_name
+      family_cst.to_s.underscore
+    end
+
+    # Returns the name of the class constant of this component. Do not override.
+    def self.comp_cst
+      name.demodulize.to_sym
+    end
+
+    # Returns the component name
+    def self.comp_name
+      comp_cst.to_s.underscore
+    end
+
     def initialize(parent_comp = nil, index: 0, **comp_opts)
       @parent_comp = parent_comp
       @sub_comps = []
@@ -94,22 +114,22 @@ module Compony
 
     # Returns the name of the module constant (=family) of this component. Do not override.
     def family_cst
-      self.class.module_parent.to_s.demodulize.to_sym
+      self.class.family_cst
     end
 
     # Returns the family name
     def family_name
-      family_cst.to_s.underscore
+      self.class.family_name
     end
 
     # Returns the name of the class constant of this component. Do not override.
     def comp_cst
-      self.class.name.demodulize.to_sym
+      self.class.comp_cst
     end
 
     # Returns the component name
     def comp_name
-      comp_cst.to_s.underscore
+      self.class.comp_name
     end
 
     # DSL method
