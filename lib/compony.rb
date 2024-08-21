@@ -161,7 +161,7 @@ module Compony
   end
 
   # Given a component and a family/model, this instanciates and returns a button component.
-  # @param comp_name_or_cst [String,Symbol] The component that should be loaded, for instance `ShowForAll`, `'ShowForAll'` or `:show_for_all`
+  # @param comp_name_or_cst_or_class [String,Symbol,Class] The component that should be loaded, for instance `ShowForAll`, `'ShowForAll'` or `:show_for_all`
   # @param model_or_family_name_or_cst [String,Symbol,ApplicationRecord] Either the family that contains the requested component,
   #                                    or an instance implementing `model_name` from which the family name is auto-generated. Examples:
   #                                    `Users`, `'Users'`, `:users`, `User.first`
@@ -173,8 +173,8 @@ module Compony
   # @param override_kwargs [Hash] Override button options, see options for {Compony::Components::Button}
   # @see Compony::ViewHelpers#compony_button View helper providing a wrapper for this method that immediately renders a button.
   # @see Compony::Components::Button Compony::Components::Button: the default underlying implementation
-  def self.button(comp_name_or_cst,
-                  model_or_family_name_or_cst,
+  def self.button(comp_name_or_cst_or_class,
+                  model_or_family_name_or_cst = nil,
                   label_opts: nil,
                   params: nil,
                   feasibility_action: nil,
@@ -185,8 +185,12 @@ module Compony
     label_opts ||= button_defaults[:label_opts] || {}
     params ||= button_defaults[:params] || {}
     model = model_or_family_name_or_cst.respond_to?(:model_name) ? model_or_family_name_or_cst : nil
-    target_comp_instance = Compony.comp_class_for!(comp_name_or_cst, model_or_family_name_or_cst).new(data: model)
-    feasibility_action ||= button_defaults[:feasibility_action] || comp_name_or_cst.to_s.underscore.to_sym
+    if comp_name_or_cst_or_class.is_a?(Class) && (comp_name_or_cst_or_class <= Compony::Component)
+      target_comp_instance = comp_name_or_cst_or_class.new(data: model)
+    else
+      target_comp_instance = Compony.comp_class_for!(comp_name_or_cst_or_class, model_or_family_name_or_cst).new(data: model)
+    end
+    feasibility_action ||= button_defaults[:feasibility_action] || comp_name_or_cst_or_class.to_s.underscore.to_sym
     feasibility_target ||= button_defaults[:feasibility_target] || model
     options = {
       label:   target_comp_instance.label(model, **label_opts),

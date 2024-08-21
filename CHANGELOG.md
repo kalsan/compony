@@ -3,6 +3,7 @@
 - Allow the argument `standalone_name` in button and path helper
 - Provide family and comp name accessors in the static context as well for convenience
 - Make `Compony.path` accept a component class as well
+- Make Compony.button accept a component as well. Works in combination with passing a model.
 
 # 0.4.0
 
