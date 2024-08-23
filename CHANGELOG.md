@@ -4,6 +4,7 @@
 - Provide family and comp name accessors in the static context as well for convenience
 - Make `Compony.path` accept a component class as well
 - Make Compony.button accept a component as well. Works in combination with passing a model.
+- Fix a bug that caused an override of input option arguments if the `accept` parameter is present
 
 # 0.4.0
 

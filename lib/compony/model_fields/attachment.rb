@@ -12,7 +12,7 @@ module Compony
       end
 
       def simpleform_input(form, _component, name: nil, accept: nil, **input_opts)
-        input_opts.merge!(input_html: { accept: }) if accept
+        input_opts.deep_merge!(input_html: { accept: }) if accept
         return form.input(name || @name, **input_opts)
       end
     end
