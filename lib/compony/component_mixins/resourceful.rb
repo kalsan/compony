@@ -15,14 +15,14 @@ module Compony
       attr_reader :global_after_assign_attributes_block
       attr_reader :global_store_data_block
 
-      def initialize(*args, data: nil, data_class: nil, **nargs, &block)
+      def initialize(*, data: nil, data_class: nil, **nargs, &)
         @data = data
         @data_class = data_class
 
         # Provide defaults for hook blocks
         @global_load_data_block ||= proc { @data = self.data_class.find(controller.params[:id]) }
 
-        super(*args, **nargs, &block)
+        super(*, **nargs, &)
       end
 
       # DSL method
