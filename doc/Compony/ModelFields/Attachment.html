@@ -235,7 +235,7 @@
       <pre class="code"><span class="info file"># File 'lib/compony/model_fields/attachment.rb', line 14</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_simpleform_input'>simpleform_input</span><span class='lparen'>(</span><span class='id identifier rubyid_form'>form</span><span class='comma'>,</span> <span class='id identifier rubyid__component'>_component</span><span class='comma'>,</span> <span class='label'>name:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>accept:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_input_opts'>input_opts</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_input_opts'>input_opts</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='label'>input_html:</span> <span class='lbrace'>{</span> <span class='label'>accept:</span> <span class='rbrace'>}</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_accept'>accept</span>
+  <span class='id identifier rubyid_input_opts'>input_opts</span><span class='period'>.</span><span class='id identifier rubyid_deep_merge!'>deep_merge!</span><span class='lparen'>(</span><span class='label'>input_html:</span> <span class='lbrace'>{</span> <span class='label'>accept:</span> <span class='rbrace'>}</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_accept'>accept</span>
   <span class='kw'>return</span> <span class='id identifier rubyid_form'>form</span><span class='period'>.</span><span class='id identifier rubyid_input'>input</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span> <span class='op'>||</span> <span class='ivar'>@name</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_input_opts'>input_opts</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -295,7 +295,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Jun 11 11:16:01 2024 by
+  Generated on Thu Sep 12 16:31:18 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.36 (ruby-3.2.2).
 </div>
