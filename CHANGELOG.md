@@ -1,3 +1,20 @@
+# unreleased
+
+- Require Ruby 3.3.5 and Rails 7.2.1
+- Update Gems Compony depends on (this is to ensure all Compony users have versions Compony is frequently tested against)
+
+## Steps to take
+
+- Update your application to Ruby 3.3.5 and Rails 7.2.1. For instance, if you are running an rbenv setup, these would be typical steps involved:
+  - set `rbenv local 3.3.5` and perhaps restart your editor (in particular with VS code)
+  - In your Gemfile:
+    - switch ruby version to `3.3.5`
+    - switch Rails version to `7.2.1`
+  - Run bundler:
+    - Update bundler itself: `bundle update --bundler`
+    - Run `bundle update` or `bundle update --conservative` depending on your preference.
+- Check for warnings and react accordingly
+
 # 0.4.1
 
 - Allow the argument `standalone_name` in button and path helper

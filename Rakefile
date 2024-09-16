@@ -14,20 +14,20 @@ task :gemspec do
     s.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
     s.executables   = []
     s.require_paths = ['lib']
-    s.required_ruby_version = '>= 3.2.2'
+    s.required_ruby_version = '>= 3.3.5'
 
     # Dependencies
     s.add_development_dependency 'yard', '>= 0.9.28'
     s.add_development_dependency 'rubocop', '>= 1.48'
     s.add_development_dependency 'rubocop-rails', '>= 2.18.0'
 
-    s.add_runtime_dependency 'rails', '>= 7.1.2'
-    s.add_runtime_dependency 'request_store', '>= 1.5'
+    s.add_runtime_dependency 'rails', '>= 7.2.1'
+    s.add_runtime_dependency 'request_store', '>= 1.7'
     s.add_runtime_dependency 'dyny', '>= 0.0.3'
     s.add_runtime_dependency 'schemacop', '>= 3.0.17'
-    s.add_runtime_dependency 'simple_form', '>= 5.1.0'
+    s.add_runtime_dependency 'simple_form', '>= 5.3.1'
     s.add_runtime_dependency 'dslblend', '>= 0.0.3'
-    s.add_runtime_dependency 'anchormodel', '~> 0.2.0'
+    s.add_runtime_dependency 'anchormodel', '~> 0.2.1'
     s.add_runtime_dependency 'cancancan', '~> 3.6.1'
   end
 
