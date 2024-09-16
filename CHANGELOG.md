@@ -1,3 +1,7 @@
+# unreleased
+
+- Correctly handle `ActiveType::Object` virtual fields in Rails 7.2
+
 # 0.5.0
 
 - Require Ruby 3.3.5 and Rails 7.2.1

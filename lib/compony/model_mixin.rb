@@ -28,7 +28,11 @@ module Compony
           fail "Please add `include ActiveModel::Attributes` at the top of the class #{self}, as attributes cannot be registered otherwise with ActiveType."
         end
         # Register the field as an attribute
-        attribute(name)
+        if defined?(ActiveType) && self <= ActiveType::Object
+          ar_attribute(name)
+        else
+          attribute(name)
+        end
         fields[name] = field
       end
 
