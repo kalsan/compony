@@ -1,4 +1,4 @@
-# unreleased
+# 0.5.0
 
 - Require Ruby 3.3.5 and Rails 7.2.1
 - Update Gems Compony depends on (this is to ensure all Compony users have versions Compony is frequently tested against)
