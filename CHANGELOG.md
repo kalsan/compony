@@ -1,4 +1,4 @@
-# unreleased
+# 0.5.1
 
 - Correctly handle `ActiveType::Object` virtual fields in Rails 7.2
 
