@@ -6,12 +6,14 @@ Rails.application.routes.draw do
       # Standalone configs are already grouped in a hash, one entry per name/path
       comp.standalone_configs.each_value do |standalone_config|
         next if standalone_config[:path].blank? # Ignore incomplete standalone configs (these come from parent classes )
-        match(
-          standalone_config.path,
-          to:  "compony##{standalone_config.rails_action_name}",
-          as:  standalone_config.path_helper_name,
-          via: standalone_config.verbs.keys
-        )
+        scope standalone_config[:scope], **standalone_config[:scope_args] do
+          match(
+            standalone_config.path,
+            to:  "compony##{standalone_config.rails_action_name}",
+            as:  standalone_config.path_helper_name,
+            via: standalone_config.verbs.keys
+          )
+        end
       end
     end
   end

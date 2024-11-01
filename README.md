@@ -654,6 +654,24 @@ Rails controller redirects can be issued both in a verb DSL's `respond` block an
 - If you want to redirect depending on the HTTP verb, use `respond`.
 - If you want to redirect depending on params, state, time etc.  **independently of the HTTP verb**, use `before_render`, as this is more convenient than writing a standalone -> verb -> respond tree.
 
+### Passing scopes
+
+When calling `standalone`, you may specify the keyword `scope` to wrap the component's Rails route into a route scope. Additionally, you may specify a hash `scope_args`, which will be passed as keyword arguments to the `scope` call in the route:
+
+```ruby
+# In your component
+standalone path: '/welcome', scope: '(:lang)', scope_args: { lang: /([a-z]{2})?/i } do
+  verb :get do
+    # ....
+  end
+end
+
+# This will automatically lead to a route of this form:
+scope '(:lang)', lang: /([a-z]{2})?/i do
+  get 'welcome', to: 'compony#your_component'
+end
+```
+
 ## Inheritance
 
 When inheriting from another component class, `setup` can be called in the child as well in order to overwrite specified configurations. The parent's `setup` block will be run first, then the child's, then the grand-child's and so on.
