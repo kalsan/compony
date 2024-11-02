@@ -6,12 +6,13 @@ module Compony
         # Wrapper and DSL helper for component's standalone config
         # Pass `provide_defaults` true if this is the first standalone DSL of a component. Pass false if it is a subsequent one (e.g. if subclassed comp)
         class StandaloneDsl < Dslblend::Base
-          def initialize(component, name = nil, provide_defaults:, path: nil, scope: nil, scope_args: {})
+          def initialize(component, name = nil, provide_defaults:, path: nil, constraints: nil, scope: nil, scope_args: {})
             super()
             @component = component
             @name = name&.to_sym
             @provide_defaults = provide_defaults
             @path = path
+            @constraints = constraints
             @scope = scope
             @scope_args = scope_args
             @verbs = {}
@@ -26,6 +27,7 @@ module Compony
             return {
               name:                @name,
               path:                @path,
+              constraints:         @constraints,
               scope:               @scope,
               scope_args:          @scope_args,
               verbs:               @verbs,

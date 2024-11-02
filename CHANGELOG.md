@@ -1,5 +1,6 @@
 # unreleased
 
+- Add `constraints` to `standalone`
 - Add `scope` and `scope_args` to `standalone`
 
 # 0.5.1

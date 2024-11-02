@@ -654,6 +654,18 @@ Rails controller redirects can be issued both in a verb DSL's `respond` block an
 - If you want to redirect depending on the HTTP verb, use `respond`.
 - If you want to redirect depending on params, state, time etc.  **independently of the HTTP verb**, use `before_render`, as this is more convenient than writing a standalone -> verb -> respond tree.
 
+### Path constraints
+
+When calling `standalone`, you may specify the keyword `constraints` that will be passed to the route. For example:
+
+```ruby
+# In your component
+standelone path: '/:lang', constraints: { lang: /([a-z]{2})?/i }
+
+# This will automatically lead to a route of this form:
+get ':lang', constraints: { lang: /([a-z]{2})?/i }
+```
+
 ### Passing scopes
 
 When calling `standalone`, you may specify the keyword `scope` to wrap the component's Rails route into a route scope. Additionally, you may specify a hash `scope_args`, which will be passed as keyword arguments to the `scope` call in the route:

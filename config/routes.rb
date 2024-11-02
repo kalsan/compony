@@ -9,9 +9,10 @@ Rails.application.routes.draw do
         scope standalone_config[:scope], **standalone_config[:scope_args] do
           match(
             standalone_config.path,
-            to:  "compony##{standalone_config.rails_action_name}",
-            as:  standalone_config.path_helper_name,
-            via: standalone_config.verbs.keys
+            constraints: standalone_config[:constraints],
+            to:          "compony##{standalone_config.rails_action_name}",
+            as:          standalone_config.path_helper_name,
+            via:         standalone_config.verbs.keys
           )
         end
       end
