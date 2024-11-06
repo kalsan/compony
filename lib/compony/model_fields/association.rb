@@ -44,7 +44,7 @@ module Compony
       end
 
       def simpleform_input(form, _component, name: nil, **input_opts)
-        return form.association name || @name, **input_opts
+        return form.association name || @name, **{ label_method: :label }.deep_merge(input_opts)
       end
 
       def simpleform_input_hidden(form, _component, name: nil, **input_opts)

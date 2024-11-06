@@ -2,6 +2,7 @@
 
 - Add `constraints` to `standalone`
 - Add `scope` and `scope_args` to `standalone`
+- Set default `label_method` to `label` when generating a `simple_form` input for `:association`
 
 # 0.5.1
 
