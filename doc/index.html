@@ -6,7 +6,7 @@
 <title>
   File: README
   
-    &mdash; Documentation by YARD 0.9.34
+    &mdash; Documentation by YARD 0.9.37
   
 </title>
 
@@ -701,6 +701,34 @@
 </li><li>
 <p>If you want to redirect depending on params, state, time etc. <strong>independently of the HTTP verb</strong>, use <code>before_render</code>, as this is more convenient than writing a standalone -&gt; verb -&gt; respond tree.</p>
 </li></ul>
+
+<h3 id="label-Path+constraints">Path constraints</h3>
+
+<p>When calling <code>standalone</code>, you may specify the keyword <code>constraints</code> that will be passed to the route. For example:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># In your component
+</span><span class='id identifier rubyid_standelone'>standelone</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/:lang</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>constraints:</span> <span class='lbrace'>{</span> <span class='label'>lang:</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>([a-z]{2})?</span><span class='regexp_end'>/i</span></span> <span class='rbrace'>}</span>
+
+<span class='comment'># This will automatically lead to a route of this form:
+</span><span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>:lang</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>constraints:</span> <span class='lbrace'>{</span> <span class='label'>lang:</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>([a-z]{2})?</span><span class='regexp_end'>/i</span></span> <span class='rbrace'>}</span>
+</code></pre>
+
+<h3 id="label-Passing+scopes">Passing scopes</h3>
+
+<p>When calling <code>standalone</code>, you may specify the keyword <code>scope</code> to wrap the component’s Rails route into a route scope. Additionally, you may specify a hash <code>scope_args</code>, which will be passed as keyword arguments to the <code>scope</code> call in the route:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># In your component
+</span><span class='id identifier rubyid_standalone'>standalone</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/welcome</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>scope:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>(:lang)</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>scope_args:</span> <span class='lbrace'>{</span> <span class='label'>lang:</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>([a-z]{2})?</span><span class='regexp_end'>/i</span></span> <span class='rbrace'>}</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_verb'>verb</span> <span class='symbol'>:get</span> <span class='kw'>do</span>
+    <span class='comment'># ....
+</span>  <span class='kw'>end</span>
+<span class='kw'>end</span>
+
+<span class='comment'># This will automatically lead to a route of this form:
+</span><span class='id identifier rubyid_scope'>scope</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>(:lang)</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>lang:</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>([a-z]{2})?</span><span class='regexp_end'>/i</span></span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>welcome</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>to:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>compony#your_component</span><span class='tstring_end'>&#39;</span></span>
+<span class='kw'>end</span>
+</code></pre>
 
 <h2 id="label-Inheritance">Inheritance</h2>
 
@@ -1652,6 +1680,8 @@ my_button = Compony.button(:index, :users, enabled: -&gt; { |controller| control
 <p>The feasibility framework does not yet enforce prevention, but only has effects on buttons. Actions should be structured more explicitly such that prevention becomes as tight as authorization.</p>
 </li><li>
 <p>Feasibility for links is not yet implemented.</p>
+</li><li>
+<p>Compony is not compatible with <code>tailwindcss-rails</code>. This is likely due to Tailwind automatically removing any CSS that is not used by the application and the usage detection not picking up Compony components, as their content is not provided in views.</p>
 </li></ul>
 
 <h1 id="label-Acknowledgements">Acknowledgements</h1>
@@ -1662,9 +1692,9 @@ my_button = Compony.button(:index, :users, enabled: -&gt; { |controller| control
 </div></div>
 
       <div id="footer">
-  Generated on Mon Sep 16 14:57:57 2024 by
+  Generated on Wed Nov 20 10:54:23 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.34 (ruby-3.3.5).
+  0.9.37 (ruby-3.3.5).
 </div>
 
     </div>

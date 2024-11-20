@@ -6,7 +6,7 @@
 <title>
   Class: Compony::ModelFields::Association
   
-    &mdash; Documentation by YARD 0.9.34
+    &mdash; Documentation by YARD 0.9.37
   
 </title>
 
@@ -489,7 +489,7 @@
       <pre class="code"><span class="info file"># File 'lib/compony/model_fields/association.rb', line 46</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_simpleform_input'>simpleform_input</span><span class='lparen'>(</span><span class='id identifier rubyid_form'>form</span><span class='comma'>,</span> <span class='id identifier rubyid__component'>_component</span><span class='comma'>,</span> <span class='label'>name:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_input_opts'>input_opts</span><span class='rparen'>)</span>
-  <span class='kw'>return</span> <span class='id identifier rubyid_form'>form</span><span class='period'>.</span><span class='id identifier rubyid_association'>association</span> <span class='id identifier rubyid_name'>name</span> <span class='op'>||</span> <span class='ivar'>@name</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_input_opts'>input_opts</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_form'>form</span><span class='period'>.</span><span class='id identifier rubyid_association'>association</span> <span class='id identifier rubyid_name'>name</span> <span class='op'>||</span> <span class='ivar'>@name</span><span class='comma'>,</span> <span class='op'>**</span><span class='lbrace'>{</span> <span class='label'>label_method:</span> <span class='symbol'>:label</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_deep_merge'>deep_merge</span><span class='lparen'>(</span><span class='id identifier rubyid_input_opts'>input_opts</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -603,9 +603,9 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Sep 16 14:57:59 2024 by
+  Generated on Wed Nov 20 10:54:25 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.34 (ruby-3.3.5).
+  0.9.37 (ruby-3.3.5).
 </div>
 
     </div>
