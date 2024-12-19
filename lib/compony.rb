@@ -198,7 +198,7 @@ module Compony
       color:   target_comp_instance.color,
       path:    Compony.path(target_comp_instance.comp_name, target_comp_instance.family_name, model, standalone_name:, **params),
       method:,
-      visible: ->(controller) { target_comp_instance.standalone_access_permitted_for?(controller, verb: method) }
+      visible: ->(controller) { target_comp_instance.standalone_access_permitted_for?(controller, standalone_name:, verb: method) }
     }
     if feasibility_target
       options.merge!({

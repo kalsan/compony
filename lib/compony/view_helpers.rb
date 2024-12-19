@@ -19,11 +19,19 @@ module Compony
     # @param link_args [Array] Positional arguments that will be passed to the Rails `link_to` helper
     # @param label_opts [Hash] Options hash that will be passed to the label method (see {Compony::ComponentMixins::Default::Labelling#label})
     # @param link_kwargs [Hash] Named arguments that will be passed to the Rails `link_to` helper
-    def compony_link(comp_name_or_cst, model_or_family_name_or_cst, *link_args, label_opts: {}, **link_kwargs)
+    def compony_link(comp_name_or_cst_or_class, model_or_family_name_or_cst = nil, *link_args, label_opts: {}, params: {}, standalone_name: nil, **link_kwargs)
       model = model_or_family_name_or_cst.respond_to?(:model_name) ? model_or_family_name_or_cst : nil
-      comp = Compony.comp_class_for!(comp_name_or_cst, model_or_family_name_or_cst).new(data: model)
-      return unless comp.standalone_access_permitted_for?(self)
-      return helpers.link_to(comp.label(model, **label_opts), Compony.path(comp.comp_name, comp.family_name, model), *link_args, **link_kwargs)
+      if comp_name_or_cst_or_class.is_a?(Class) && (comp_name_or_cst_or_class <= Compony::Component)
+        target_comp_instance = comp_name_or_cst_or_class.new(data: model)
+      else
+        target_comp_instance = Compony.comp_class_for!(comp_name_or_cst_or_class, model_or_family_name_or_cst).new(data: model)
+      end
+      return unless target_comp_instance.standalone_access_permitted_for?(self, standalone_name:)
+      return helpers.link_to(
+        target_comp_instance.label(model, **label_opts),
+        Compony.path(target_comp_instance.comp_name, target_comp_instance.family_name, model, standalone_name:, **params),
+        *link_args, **link_kwargs
+      )
     end
 
     # Given a component and a family/model, this instanciates and renders a button component.

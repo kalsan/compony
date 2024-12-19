@@ -1012,6 +1012,7 @@ Examples:
 
 ```ruby
 compony_link(:index, :users) # "View all users" -> 'users/index'
+compony_link(Components::Users::Index) # same as above
 compony_link(:index, :users, label_opts: { format: :short }) # "All" -> 'users/index'
 compony_link(:show, User.first) # "View John Doe" -> 'users/show/1'
 compony_link(:destroy, User.first, method: :delete) # "Delete John Doe" -> 'users/destroy/1'

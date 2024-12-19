@@ -1,3 +1,10 @@
+# unreleased
+
+- Support `standalone_name` in `Compony.button` and `compony_link`
+- Support passing component classes directly to `compony_link`
+- Support `button_params` in regular buttons
+- Support `value` in submit buttons
+
 # 0.5.2
 
 - Add `constraints` to `standalone`

@@ -7,7 +7,7 @@ module Compony
 
       # path: If given a block, it will be evaluated in the helpers context when rendering
       # enabled: If given a block, it will be evaluated in the helpers context when rendering
-      def initialize(*, label: nil, path: nil, method: nil, type: nil, enabled: nil, visible: nil, title: nil, **, &)
+      def initialize(*, label: nil, path: nil, method: nil, type: nil, enabled: nil, visible: nil, title: nil, button_params: nil, value: nil, **, &)
         @label = label || Compony.button_defaults[:label]
         @type = type&.to_sym || Compony.button_defaults[:type] || :button
         @path = path || Compony.button_defaults[:path] || 'javascript:void(0)'
@@ -23,6 +23,8 @@ module Compony
         @visible = Compony.button_defaults[:visible] if @visible.nil?
         @visible = true if @visible.nil?
         @title = title || Compony.button_defaults[:title]
+        @button_params = button_params
+        @value = value
 
         fail "Unsupported button type #{@type}, use on of: #{SUPPORTED_TYPES.inspect}" unless SUPPORTED_TYPES.include?(@type)
 
@@ -47,9 +49,9 @@ module Compony
           if @visible
             case @type
             when :button
-              concat button_to(@label, @path, method: @method, disabled: !@enabled, title: @title)
+              concat button_to(@label, @path, method: @method, disabled: !@enabled, title: @title, params: @button_params)
             when :submit
-              concat button_tag(@label, type: :submit, disabled: !@enabled, title: @title)
+              concat button_tag(@label, type: :submit, disabled: !@enabled, title: @title, value: @value)
             end
           end
         end
