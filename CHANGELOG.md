@@ -1,4 +1,4 @@
-# unreleased
+# 0.5.3
 
 - Support `standalone_name` in `Compony.button` and `compony_link`
 - Support passing component classes directly to `compony_link`
