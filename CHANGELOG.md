@@ -4,6 +4,7 @@
 - Support passing component classes directly to `compony_link`
 - Support `button_params` in regular buttons
 - Support `value` in submit buttons
+- Support `disable!` and `disabled: true` in Form, disabling all inputs
 
 # 0.5.2
 

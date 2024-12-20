@@ -1353,6 +1353,7 @@ The following DSL calls are provided by the Form component:
 - Typically required: `schema_fields` takes the names of fields as a whitelist for strong parameters. Together with model fields, this will completely auto-generate a Schemacop schema suitable for validating this form. If your argument list gets too long, you can use multiple calls to `schema_field` instead to declare your fields one by one on separate lines.
 - Optional: `schema_line` takes a single Schemacop line. Use this for custom whitelisting of an argument, e.g. if you have an input that does not have a corresponding model field.
 - Optional: `schema` allows you to instead fully define your own custom Schemacop V3 schema manually. Note that this disables all of the above schema calls.
+- Optional: `disable!` causes generated inputs to be disabled. Alternatively, `disabled: true` can be passed to the initializer to achieve the same result.
 
 The `form_fields` block acts much like a content block and you will use Dyny there. Two additional methods are made available exclusively inside the block:
 

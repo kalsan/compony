@@ -3,9 +3,10 @@ module Compony
     # @api description
     # This component is used for the _form partial in the Rails paradigm.
     class Form < Component
-      def initialize(*args, cancancan_action: :missing, **kwargs)
+      def initialize(*args, cancancan_action: :missing, disabled: false, **kwargs)
         @schema_lines_for_data = [] # Array of procs taking data returning a Schemacop proc
         @cancancan_action = cancancan_action
+        @form_disabled = disabled
         super
       end
 
@@ -98,6 +99,8 @@ module Compony
         fail("The `field` method may only be called inside `form_fields` for #{inspect}.") unless @simpleform
         name = name.to_sym
 
+        input_opts.merge!(disabled: true) if @form_disabled
+
         # Check per-field authorization
         if @cancancan_action.present? && @controller.current_ability.permitted_attributes(@cancancan_action, @simpleform.object).exclude?(name)
           Rails.logger.debug do
@@ -153,6 +156,11 @@ module Compony
       # Quick access for wrapping collections in Rails compatible format
       def collect(...)
         Compony::ModelFields::Anchormodel.collect(...)
+      end
+
+      # DSL method, disables all inputs
+      def disable!
+        @form_disabled = true
       end
 
       protected
