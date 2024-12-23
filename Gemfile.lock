@@ -1,15 +1,15 @@
 PATH
   remote: .
   specs:
-    compony (0.4.2.edge)
-      anchormodel (~> 0.2.0)
+    compony (0.5.4.edge)
+      anchormodel (~> 0.2.1)
       cancancan (~> 3.6.1)
       dslblend (>= 0.0.3)
       dyny (>= 0.0.3)
       rails (>= 7.2.1)
-      request_store (>= 1.5)
+      request_store (>= 1.7)
       schemacop (>= 3.0.17)
-      simple_form (>= 5.1.0)
+      simple_form (>= 5.3.1)
 
 GEM
   remote: https://rubygems.org/
@@ -186,7 +186,7 @@ GEM
     regexp_parser (2.8.0)
     reline (0.5.10)
       io-console (~> 0.5)
-    request_store (1.5.1)
+    request_store (1.7.0)
       rack (>= 1.4)
     rexml (3.2.5)
     rubocop (1.51.0)
@@ -211,7 +211,7 @@ GEM
       activesupport (>= 4.0)
       ruby2_keywords (= 0.0.4)
     securerandom (0.3.1)
-    simple_form (5.2.0)
+    simple_form (5.3.1)
       actionpack (>= 5.2)
       activemodel (>= 5.2)
     stringio (3.0.9)
