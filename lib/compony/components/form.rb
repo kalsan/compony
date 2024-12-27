@@ -198,7 +198,7 @@ module Compony
           # Check per-field authorization
           unless @cancancan_action.nil? || controller.current_ability.can?(:set_password, data)
             Rails.logger.debug do
-              "Skipping form schema_pw_field #{name.inspect} because the current user is not allowed to perform :set_password on #{data}."
+              "Skipping form schema_pw_field #{field_name.inspect} because the current user is not allowed to perform :set_password on #{data}."
             end
             next nil
           end
