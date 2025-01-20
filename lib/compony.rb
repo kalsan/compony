@@ -79,13 +79,13 @@ module Compony
   end
 
   # Getter for content_before_root_comp_block
-  # @see Compony#content_before_root_comp
+  # @see Compony#content_before_root_comp=
   def self.content_before_root_comp_block
     @content_before_root_comp_block
   end
 
   # Getter for content_after_root_comp_block
-  # @see Compony#content_after_root_comp
+  # @see Compony#content_after_root_comp=
   def self.content_after_root_comp_block
     @content_after_root_comp_block
   end
