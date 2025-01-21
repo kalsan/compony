@@ -19,21 +19,27 @@ module Compony
       end
 
       # DSL method, defines a new field which will be translated and can be added to field groups
-      def field(name, type, **extra_attrs)
-        name = name.to_sym
-        self.fields = fields.dup
-        field = Compony.model_field_class_for(type.to_s.camelize).new(name, self, **extra_attrs)
-        # Handle the case where ActiveType would interfere with attribute registration
-        if defined?(ActiveType) && self <= ActiveType::Object && !include?(ActiveModel::Attributes)
-          fail "Please add `include ActiveModel::Attributes` at the top of the class #{self}, as attributes cannot be registered otherwise with ActiveType."
-        end
-        # Register the field as an attribute
-        if defined?(ActiveType) && self <= ActiveType::Object
-          ar_attribute(name)
+      # If multilang is true, a suffixed field is generated for every available locale, along with a non-suffixed virtual field (useful with gem "mobility")
+      def field(name, type, multilang: false, **extra_attrs)
+        if multilang
+          field(name, type, virtual: true, **extra_attrs)
+          I18n.available_locales.each { |locale| field("#{name}_#{locale}", type, **extra_attrs) }
         else
-          attribute(name)
+          name = name.to_sym
+          self.fields = fields.dup
+          field = Compony.model_field_class_for(type.to_s.camelize).new(name, self, **extra_attrs)
+          # Handle the case where ActiveType would interfere with attribute registration
+          if defined?(ActiveType) && self <= ActiveType::Object && !include?(ActiveModel::Attributes)
+            fail "Please add `include ActiveModel::Attributes` at the top of the class #{self}, as attributes cannot be registered otherwise with ActiveType."
+          end
+          # Register the field as an attribute
+          if defined?(ActiveType) && self <= ActiveType::Object
+            ar_attribute(name)
+          else
+            attribute(name)
+          end
+          fields[name] = field
         end
-        fields[name] = field
       end
 
       # DSL method, sets the containing model.

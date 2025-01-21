@@ -95,32 +95,38 @@ module Compony
 
       # Called inside the form_fields block. This makes the method `field` available in the block.
       # See also notes for `with_simpleform`.
-      def field(name, **input_opts)
+      # If multilang is true, a suffixed field is generated for every available locale (useful with gem "mobility"). Render the array as you wish.
+      def field(name, multilang: false, **input_opts)
         fail("The `field` method may only be called inside `form_fields` for #{inspect}.") unless @simpleform
-        name = name.to_sym
 
-        input_opts.merge!(disabled: true) if @form_disabled
-
-        # Check per-field authorization
-        if @cancancan_action.present? && @controller.current_ability.permitted_attributes(@cancancan_action, @simpleform.object).exclude?(name)
-          Rails.logger.debug do
-            "Skipping form field #{name.inspect} because the current user is not allowed to perform #{@cancancan_action.inspect} on #{@simpleform.object}."
-          end
-          return
-        end
-
-        hidden = input_opts.delete(:hidden)
-        model_field = @simpleform.object.fields[name]
-        fail("Field #{name.inspect} is not defined on #{@simpleform.object.inspect} but was requested in #{inspect}.") unless model_field
-
-        if hidden
-          return model_field.simpleform_input_hidden(@simpleform, self, **input_opts)
+        if multilang
+          I18n.available_locales.map { |locale| field("#{name}_#{locale}", **input_opts) }
         else
-          unless @focus_given || @skip_autofocus
-            input_opts[:autofocus] = true unless input_opts.key? :autofocus
-            @focus_given = true
+          name = name.to_sym
+
+          input_opts.merge!(disabled: true) if @form_disabled
+
+          # Check per-field authorization
+          if @cancancan_action.present? && @controller.current_ability.permitted_attributes(@cancancan_action, @simpleform.object).exclude?(name)
+            Rails.logger.debug do
+              "Skipping form field #{name.inspect} because the current user is not allowed to perform #{@cancancan_action.inspect} on #{@simpleform.object}."
+            end
+            return
           end
-          return model_field.simpleform_input(@simpleform, self, **input_opts)
+
+          hidden = input_opts.delete(:hidden)
+          model_field = @simpleform.object.fields[name]
+          fail("Field #{name.inspect} is not defined on #{@simpleform.object.inspect} but was requested in #{inspect}.") unless model_field
+
+          if hidden
+            return model_field.simpleform_input_hidden(@simpleform, self, **input_opts)
+          else
+            unless @focus_given || @skip_autofocus
+              input_opts[:autofocus] = true unless input_opts.key? :autofocus
+              @focus_given = true
+            end
+            return model_field.simpleform_input(@simpleform, self, **input_opts)
+          end
         end
       end
 
@@ -173,19 +179,24 @@ module Compony
 
       # DSL method, adds a new field to the schema whitelisting a single field of data_class
       # This auto-generates the correct schema line for the field.
-      def schema_field(field_name)
-        # This runs upon component setup.
-        @schema_lines_for_data << proc do |data, controller|
-          # This runs within a request context.
-          field = data.class.fields[field_name.to_sym] || fail("No field #{field_name.to_sym.inspect} found for #{data.inspect} in #{inspect}.")
-          # Check per-field authorization
-          if @cancancan_action.present? && controller.current_ability.permitted_attributes(@cancancan_action.to_sym, data).exclude?(field.name.to_sym)
-            Rails.logger.debug do
-              "Skipping form schema_field #{field_name.inspect} because the current user is not allowed to perform #{@cancancan_action.inspect} on #{data}."
+      # If multilang is true, a suffixed field is generated for every available locale (useful with gem "mobility")
+      def schema_field(field_name, multilang: false)
+        if multilang
+          I18n.available_locales.each { |locale| schema_field("#{field_name}_#{locale}") }
+        else
+          # This runs upon component setup.
+          @schema_lines_for_data << proc do |data, controller|
+            # This runs within a request context.
+            field = data.class.fields[field_name.to_sym] || fail("No field #{field_name.to_sym.inspect} found for #{data.inspect} in #{inspect}.")
+            # Check per-field authorization
+            if @cancancan_action.present? && controller.current_ability.permitted_attributes(@cancancan_action.to_sym, data).exclude?(field.name.to_sym)
+              Rails.logger.debug do
+                "Skipping form schema_field #{field_name.inspect} because the current user is not allowed to perform #{@cancancan_action.inspect} on #{data}."
+              end
+              next nil
             end
-            next nil
+            next field.schema_line
           end
-          next field.schema_line
         end
       end
 

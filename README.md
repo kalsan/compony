@@ -1418,6 +1418,41 @@ class Ability
   cannot :set_password, User # This prohibits setting and changing passwords of any user
 ```
 
+#### Dealing with multilingual fields
+
+When using Gems such as `mobility`, Compony provides support for multilingual fields. For instance, assuming that a model has the attribute `label` translated in English and German, making `label` a virtual attribute reading either `label_en` and `label_de`, depending on the user's language, Compony automatically generates a multilingual field if the following is used:
+
+In the model:
+
+```ruby
+class Foo < ApplicationRecord
+  # No need to write:
+  field :label, :string, virtual: true
+  I18n.available_locales.each do |locale|
+    field :"label_#{locale}", :string
+  end
+
+  # Instead, write this, which is equivalent:
+  field :label, :string, multilang: true
+end
+```
+
+In the same mindset, you can simplify your form as follows to generate one input per language:
+
+```ruby
+class Components::Foos::Form < Compony::Components::Form
+  setup do
+    form_fields do
+      # Since `field` only generates an input, you must loop over them and render them as you wish, e.g. with "concat":
+      field(:label, multilang: true).each { |inp| concat inp }
+    end
+
+    # Don't forget to mark `schema_field` as multilingual as well, which will accept label_en and label_de:
+    schema_field :label, multilang: true
+  end
+end
+```
+
 ### New
 
 This component is the Compony equivalent to a typical Rails controller's `new` and `create` actions.

@@ -1,6 +1,7 @@
 # unreleased
 
 - Fix a failure description in Form
+- Support `multilang: true` in `ModelMixin`'s and `Form`'s `field` call, as well as in `Form`'s `schema_field`
 
 # 0.5.3
 
