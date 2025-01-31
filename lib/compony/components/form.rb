@@ -36,7 +36,8 @@ module Compony
         end
 
         content do
-          form_html = simple_form_for(data, method: @comp_opts[:submit_verb], url: @submit_path) do |f|
+          form_params = { method: @comp_opts[:submit_verb], url: @submit_path }.merge(@form_params || {})
+          form_html = simple_form_for(data, **form_params) do |f|
             component.with_simpleform(f, controller) do
               instance_exec(&form_fields)
               div class: 'compony-form-buttons' do
@@ -167,6 +168,11 @@ module Compony
       # DSL method, disables all inputs
       def disable!
         @form_disabled = true
+      end
+
+      # DSL method, allows to customize parameters given to simple_form_for
+      def form_params(**new_form_params)
+        @form_params = new_form_params
       end
 
       protected
