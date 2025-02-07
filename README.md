@@ -583,6 +583,7 @@ The standalone DSL has more features than those presented in the minimal example
 
 - `standalone` can be called multiple times, for components that need to expose multiple paths, as described below. Inside each `standalone` call, you can call:
   - `skip_authentication!` which disables authentication, in case you provided some. You need to implement `authorize` regardless.
+  - `skip_forgery_protection!` which disables CSRF protection for the controller action generated for this standalone configuration.
   - `layout` which takes the file name of a Rails layout and defaults to `layouts/application`. Use this to have your Rails application look differently depending on the component.
   - `verb` which takes an HTTP verb as a symbol, one of: `%i[get head post put delete connect options trace patch]`. `verb` can be called up to once per verb. Inside each `verb` call, you can call (in the non-resourceful case):
     - `authorize` is mandatory and explained above.

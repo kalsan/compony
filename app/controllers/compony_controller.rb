@@ -1,6 +1,7 @@
 class ComponyController < ApplicationController
   # Init
   actions_without_authentication = []
+  actions_without_forgery_protection = []
 
   # Define a controller action for each route
   Components.constants.each do |family_cst|
@@ -23,6 +24,7 @@ class ComponyController < ApplicationController
 
         # Disable authentication for marked standalone configs
         actions_without_authentication << standalone_config.rails_action_name.to_sym if standalone_config.skip_authentication
+        actions_without_forgery_protection << standalone_config.rails_action_name.to_sym if standalone_config.skip_forgery_protection
       end
     end
   end
@@ -30,4 +32,6 @@ class ComponyController < ApplicationController
   if Compony.authentication_before_action.present?
     before_action Compony.authentication_before_action, except: actions_without_authentication
   end
+
+  skip_forgery_protection only: actions_without_forgery_protection
 end

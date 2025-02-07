@@ -17,6 +17,7 @@ module Compony
             @scope_args = scope_args
             @verbs = {}
             @skip_authentication = false
+            @skip_forgery_protection = false
             @layout = true # can be overriden by false or a string
           end
 
@@ -25,16 +26,17 @@ module Compony
             evaluate(&block)
             @component = block.binding.eval('self') # Fetches the component holding this DSL call (via the block)
             return {
-              name:                @name,
-              path:                @path,
-              constraints:         @constraints,
-              scope:               @scope,
-              scope_args:          @scope_args,
-              verbs:               @verbs,
-              rails_action_name:   Compony.rails_action_name(comp_name, family_name, @name),
-              path_helper_name:    Compony.path_helper_name(comp_name, family_name, @name),
-              skip_authentication: @skip_authentication,
-              layout:              @layout
+              name:                    @name,
+              path:                    @path,
+              constraints:             @constraints,
+              scope:                   @scope,
+              scope_args:              @scope_args,
+              verbs:                   @verbs,
+              rails_action_name:       Compony.rails_action_name(comp_name, family_name, @name),
+              path_helper_name:        Compony.path_helper_name(comp_name, family_name, @name),
+              skip_authentication:     @skip_authentication,
+              skip_forgery_protection: @skip_forgery_protection,
+              layout:                  @layout
             }.compact
           end
 
@@ -63,6 +65,12 @@ module Compony
           # Defines that for this component, no authentication should be performed.
           def skip_authentication!
             @skip_authentication = true
+          end
+
+          # DSL
+          # Defines that for this component, no forgery protection (CSRF) should be performed.
+          def skip_forgery_protection!
+            @skip_forgery_protection = true
           end
 
           # DSL
