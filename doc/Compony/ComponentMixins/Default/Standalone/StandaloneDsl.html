@@ -201,6 +201,30 @@
 </li>
 
       
+        <li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#skip_forgery_protection!-instance_method" title="#skip_forgery_protection! (instance method)">#<strong>skip_forgery_protection!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL Defines that for this component, no forgery protection (CSRF) should be performed.</p>
+</div></span>
+  
+</li>
+
+      
         <li class="public ">
   <span class="summary_signature">
     
@@ -294,7 +318,8 @@
 18
 19
 20
-21</pre>
+21
+22</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 9</span>
@@ -310,6 +335,7 @@
   <span class='ivar'>@scope_args</span> <span class='op'>=</span> <span class='id identifier rubyid_scope_args'>scope_args</span>
   <span class='ivar'>@verbs</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='ivar'>@skip_authentication</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='ivar'>@skip_forgery_protection</span> <span class='op'>=</span> <span class='kw'>false</span>
   <span class='ivar'>@layout</span> <span class='op'>=</span> <span class='kw'>true</span> <span class='comment'># can be overriden by false or a string
 </span><span class='kw'>end</span></pre>
     </td>
@@ -370,12 +396,12 @@
       <pre class="lines">
 
 
-72
-73
-74</pre>
+80
+81
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 72</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 80</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_layout'>layout</span><span class='lparen'>(</span><span class='id identifier rubyid_layout'>layout</span><span class='rparen'>)</span>
   <span class='ivar'>@layout</span> <span class='op'>=</span> <span class='id identifier rubyid_layout'>layout</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
@@ -411,15 +437,56 @@
       <pre class="lines">
 
 
-64
-65
-66</pre>
+66
+67
+68</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 64</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 66</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_skip_authentication!'>skip_authentication!</span>
   <span class='ivar'>@skip_authentication</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="skip_forgery_protection!-instance_method">
+  
+    #<strong>skip_forgery_protection!</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(protected)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL Defines that for this component, no forgery protection (CSRF) should be performed.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+72
+73
+74</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 72</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_skip_forgery_protection!'>skip_forgery_protection!</span>
+  <span class='ivar'>@skip_forgery_protection</span> <span class='op'>=</span> <span class='kw'>true</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -452,7 +519,6 @@
       <pre class="lines">
 
 
-24
 25
 26
 27
@@ -467,25 +533,28 @@
 36
 37
 38
-39</pre>
+39
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 25</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_conf'>to_conf</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_evaluate'>evaluate</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='ivar'>@component</span> <span class='op'>=</span> <span class='id identifier rubyid_block'>block</span><span class='period'>.</span><span class='id identifier rubyid_binding'>binding</span><span class='period'>.</span><span class='id identifier rubyid_eval'>eval</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>self</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='comment'># Fetches the component holding this DSL call (via the block)
 </span>  <span class='kw'>return</span> <span class='lbrace'>{</span>
-    <span class='label'>name:</span>                <span class='ivar'>@name</span><span class='comma'>,</span>
-    <span class='label'>path:</span>                <span class='ivar'>@path</span><span class='comma'>,</span>
-    <span class='label'>constraints:</span>         <span class='ivar'>@constraints</span><span class='comma'>,</span>
-    <span class='label'>scope:</span>               <span class='ivar'>@scope</span><span class='comma'>,</span>
-    <span class='label'>scope_args:</span>          <span class='ivar'>@scope_args</span><span class='comma'>,</span>
-    <span class='label'>verbs:</span>               <span class='ivar'>@verbs</span><span class='comma'>,</span>
-    <span class='label'>rails_action_name:</span>   <span class='const'><span class='object_link'><a href="../../../../Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_rails_action_name'><span class='object_link'><a href="../../../../Compony.html#rails_action_name-class_method" title="Compony.rails_action_name (method)">rails_action_name</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_comp_name'>comp_name</span><span class='comma'>,</span> <span class='id identifier rubyid_family_name'>family_name</span><span class='comma'>,</span> <span class='ivar'>@name</span><span class='rparen'>)</span><span class='comma'>,</span>
-    <span class='label'>path_helper_name:</span>    <span class='const'><span class='object_link'><a href="../../../../Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_path_helper_name'><span class='object_link'><a href="../../../../Compony.html#path_helper_name-class_method" title="Compony.path_helper_name (method)">path_helper_name</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_comp_name'>comp_name</span><span class='comma'>,</span> <span class='id identifier rubyid_family_name'>family_name</span><span class='comma'>,</span> <span class='ivar'>@name</span><span class='rparen'>)</span><span class='comma'>,</span>
-    <span class='label'>skip_authentication:</span> <span class='ivar'>@skip_authentication</span><span class='comma'>,</span>
-    <span class='label'>layout:</span>              <span class='ivar'>@layout</span>
+    <span class='label'>name:</span>                    <span class='ivar'>@name</span><span class='comma'>,</span>
+    <span class='label'>path:</span>                    <span class='ivar'>@path</span><span class='comma'>,</span>
+    <span class='label'>constraints:</span>             <span class='ivar'>@constraints</span><span class='comma'>,</span>
+    <span class='label'>scope:</span>                   <span class='ivar'>@scope</span><span class='comma'>,</span>
+    <span class='label'>scope_args:</span>              <span class='ivar'>@scope_args</span><span class='comma'>,</span>
+    <span class='label'>verbs:</span>                   <span class='ivar'>@verbs</span><span class='comma'>,</span>
+    <span class='label'>rails_action_name:</span>       <span class='const'><span class='object_link'><a href="../../../../Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_rails_action_name'><span class='object_link'><a href="../../../../Compony.html#rails_action_name-class_method" title="Compony.rails_action_name (method)">rails_action_name</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_comp_name'>comp_name</span><span class='comma'>,</span> <span class='id identifier rubyid_family_name'>family_name</span><span class='comma'>,</span> <span class='ivar'>@name</span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='label'>path_helper_name:</span>        <span class='const'><span class='object_link'><a href="../../../../Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_path_helper_name'><span class='object_link'><a href="../../../../Compony.html#path_helper_name-class_method" title="Compony.path_helper_name (method)">path_helper_name</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_comp_name'>comp_name</span><span class='comma'>,</span> <span class='id identifier rubyid_family_name'>family_name</span><span class='comma'>,</span> <span class='ivar'>@name</span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='label'>skip_authentication:</span>     <span class='ivar'>@skip_authentication</span><span class='comma'>,</span>
+    <span class='label'>skip_forgery_protection:</span> <span class='ivar'>@skip_forgery_protection</span><span class='comma'>,</span>
+    <span class='label'>layout:</span>                  <span class='ivar'>@layout</span>
   <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -546,8 +615,6 @@
       <pre class="lines">
 
 
-46
-47
 48
 49
 50
@@ -560,10 +627,12 @@
 57
 58
 59
-60</pre>
+60
+61
+62</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 48</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_verb'>verb</span><span class='lparen'>(</span><span class='id identifier rubyid_verb'>verb</span><span class='comma'>,</span> <span class='op'>*</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_nargs'>nargs</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_verb'>verb</span> <span class='op'>=</span> <span class='id identifier rubyid_verb'>verb</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
@@ -590,7 +659,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Dec 20 13:46:40 2024 by
+  Generated on Fri Feb 14 13:24:12 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.3.5).
 </div>

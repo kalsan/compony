@@ -624,6 +624,8 @@
 </li><li>
 <p><code>skip_authentication!</code> which disables authentication, in case you provided some. You need to implement <code>authorize</code> regardless.</p>
 </li><li>
+<p><code>skip_forgery_protection!</code> which disables CSRF protection for the controller action generated for this standalone configuration.</p>
+</li><li>
 <p><code>layout</code> which takes the file name of a Rails layout and defaults to <code>layouts/application</code>. Use this to have your Rails application look differently depending on the component.</p>
 </li><li>
 <p><code>verb</code> which takes an HTTP verb as a symbol, one of: <code>%i[get head post put delete connect options trace patch]</code>. <code>verb</code> can be called up to once per verb. Inside each <code>verb</code> call, you can call (in the non-resourceful case):</p>
@@ -1518,6 +1520,39 @@ my_button = Compony.button(:index, :users, enabled: -&gt; { |controller| control
   cannot :set_password, User # This prohibits setting and changing passwords of any user
 </code></pre>
 
+<h4 id="label-Dealing+with+multilingual+fields">Dealing with multilingual fields</h4>
+
+<p>When using Gems such as <code>mobility</code>, Compony provides support for multilingual fields. For instance, assuming that a model has the attribute <code>label</code> translated in English and German, making <code>label</code> a virtual attribute reading either <code>label_en</code> and <code>label_de</code>, depending on the user’s language, Compony automatically generates a multilingual field if the following is used:</p>
+
+<p>In the model:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>Foo</span> <span class='op'>&lt;</span> <span class='const'>ApplicationRecord</span>
+  <span class='comment'># No need to write:
+</span>  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:label</span><span class='comma'>,</span> <span class='symbol'>:string</span><span class='comma'>,</span> <span class='label'>virtual:</span> <span class='kw'>true</span>
+  <span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_available_locales'>available_locales</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_locale'>locale</span><span class='op'>|</span>
+    <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:&quot;label_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_locale'>locale</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:string</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Instead, write this, which is equivalent:
+</span>  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:label</span><span class='comma'>,</span> <span class='symbol'>:string</span><span class='comma'>,</span> <span class='label'>multilang:</span> <span class='kw'>true</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>In the same mindset, you can simplify your form as follows to generate one input per language:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Foos</span><span class='op'>::</span><span class='const'>Form</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Form.html" title="Compony::Components::Form (class)">Form</a></span></span>
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_form_fields'>form_fields</span> <span class='kw'>do</span>
+      <span class='comment'># Since `field` only generates an input, you must loop over them and render them as you wish, e.g. with &quot;concat&quot;:
+</span>      <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='symbol'>:label</span><span class='comma'>,</span> <span class='label'>multilang:</span> <span class='kw'>true</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_inp'>inp</span><span class='op'>|</span> <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_inp'>inp</span> <span class='rbrace'>}</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># Don&#39;t forget to mark `schema_field` as multilingual as well, which will accept label_en and label_de:
+</span>    <span class='id identifier rubyid_schema_field'>schema_field</span> <span class='symbol'>:label</span><span class='comma'>,</span> <span class='label'>multilang:</span> <span class='kw'>true</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
 <h3 id="label-New">New</h3>
 
 <p>This component is the Compony equivalent to a typical Rails controller’s <code>new</code> and <code>create</code> actions.</p>
@@ -1695,7 +1730,7 @@ my_button = Compony.button(:index, :users, enabled: -&gt; { |controller| control
 </div></div>
 
       <div id="footer">
-  Generated on Fri Dec 20 13:46:39 2024 by
+  Generated on Fri Feb 14 13:24:11 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.3.5).
 </div>
