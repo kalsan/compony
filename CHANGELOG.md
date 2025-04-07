@@ -1,3 +1,7 @@
+# unreleased
+
+- Support `has_one` associations for feasibility
+
 # 0.5.4
 
 - Fix a failure description in Form
