@@ -1,4 +1,4 @@
-# unreleased
+# 0.5.5
 
 - Support `has_one` associations for feasibility
 
