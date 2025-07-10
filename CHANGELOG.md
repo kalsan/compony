@@ -1,3 +1,7 @@
+# unreleased
+
+- Allow overriding the label in the view helper `compony_link`
+
 # 0.5.5
 
 - Support `has_one` associations for feasibility
