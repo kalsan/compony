@@ -1,4 +1,4 @@
-# unreleased
+# 0.5.6
 
 - Allow overriding the label in the view helper `compony_link`
 
