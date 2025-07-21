@@ -1,3 +1,7 @@
+# unreleased
+
+- Fix a minor bug causing unnecessary param `id` to be added to the path after creating or updating when redirecting back to the index component
+
 # 0.5.6
 
 - Allow overriding the label in the view helper `compony_link`
