@@ -1,6 +1,6 @@
 # unreleased
 
--
+- Apply most recent rubocop recommendations
 
 # 0.5.7
 
