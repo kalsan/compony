@@ -113,24 +113,16 @@ module Compony
     end
 
     # Returns the name of the module constant (=family) of this component. Do not override.
-    def family_cst
-      self.class.family_cst
-    end
+    delegate :family_cst, to: :class
 
     # Returns the family name
-    def family_name
-      self.class.family_name
-    end
+    delegate :family_name, to: :class
 
     # Returns the name of the class constant of this component. Do not override.
-    def comp_cst
-      self.class.comp_cst
-    end
+    delegate :comp_cst, to: :class
 
     # Returns the component name
-    def comp_name
-      self.class.comp_name
-    end
+    delegate :comp_name, to: :class
 
     # DSL method
     # Adds or overrides a before_render block.
