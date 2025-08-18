@@ -152,7 +152,7 @@ module Compony
     # DSL method
     # Removes a content block. Use this in subclasses if a content block defined in the parent should be removed from the child.
     # @param [Symbol,String] name Name of the content block that should be removed
-    def remove_content(name)
+    def remove_content(name) # rubocop:disable Naming/PredicateMethod
       existing_index = @content_blocks.find_index { |el| el.name == name.to_sym }
       if existing_index.nil?
         return false

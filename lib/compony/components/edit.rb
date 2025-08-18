@@ -4,6 +4,7 @@ module Compony
     # This component is used for the Rails edit and update paradigm. Performs update when the form is submitted.
     class Edit < Compony::Components::WithForm
       include Compony::ComponentMixins::Resourceful
+
       setup do
         submit_verb :patch
         standalone path: "#{family_name}/:id/edit" do

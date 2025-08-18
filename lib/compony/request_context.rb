@@ -43,7 +43,7 @@ module Compony
     end
 
     # Renders a content block from the current component.
-    def content(name)
+    def content(name) # rubocop:disable Naming/PredicateMethod
       name = name.to_sym
       content_block = component.content_blocks.find { |el| el.name == name }
       return false if content_block.nil?
