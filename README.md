@@ -1513,6 +1513,22 @@ To make your life easier and coding faster, Compony comes with two generators:
   - The generator can also be called via its alternative form `rails g component users/new`.
 - `rails g components Users` will generate a set of the most used components.
 
+### Support for custom base components
+
+If your application has many components that share the same functionality, it may be a good idea to create a custom base component, which acts as an abstract class.
+
+Examples:
+
+- Perhaps you have code shared in all of your `New` components. In this case, create `BaseComponents::New` and inherit from `Compony::Components::New`. In `setup` of your base component, you can now perform all the configurations needed. Now you may inherit from it: `class Components::Users::New < BaseComponents::New`.
+- Perhaps you often implement the same kind of component, for instance an index component displaying a filterable list. In this case, create `BaseComponents::Index` and inherit as follows: `class Components::Users::Index < BaseComponents::Index`.
+
+Compony has the following convention:
+
+- implement a custom base component in the directory `app/compony/base_components/your_component.rb`
+- name the class `BaseComponents::YourComponent` where `BaseComponents` is typically a module simple meant for namespacing
+
+When respecting these conventions, compony's generators will automatically make generated classes inherit from the suitable base component if one is available. In the example above, `rails g component Users::Index` will automatically make the generated class inherit from `BaseComponent::Index`.
+
 ## Internal datastructures
 
 Compony has a few internal data structures that are worth mentioning. Especially when building your own UI framework on top of Compony, these might come in handy.

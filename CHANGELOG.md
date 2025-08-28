@@ -3,6 +3,7 @@
 - Apply most recent rubocop recommendations
 - Update rubocop
 - #10: Implement feasibility framework for links
+- Support `BaseComponents`
 
 # 0.5.7
 
