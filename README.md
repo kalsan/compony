@@ -1199,14 +1199,15 @@ prevent [:create_booking, :destroy_booking], 'the event is already over' do
 end
 ```
 
-**Note that the feasibility framework currently only affects buttons pointing to actions, not the action itself.** If a user were to issue the HTTP call manually, the component happily responds and performs the action. This is why you should always back important preventions with an appropriate Rails model validation:
+**Note that the feasibility framework currently only affects buttons/links pointing to actions, not the action itself.** If a user were to issue the HTTP call manually, the component happily responds and performs the action. This is why you should always back important preventions with an appropriate Rails model validation:
 
 - The Rails model validation prevents that invalid data can be saved to the database.
-- The feasibility framework disables buttons and explains to guide the user.
+- The feasibility framework disables buttons and links and explains to guide the user.
+- Links are disabled by changing the href to `'#'` and adding the `.disabled` class, which is useful when bootstrap is used.
 - Authorization is orthogonal to this, limiting the actions of a specific user.
 - If an action is both prevented and not authorized, the authorization "wins" and the action button is not shown at all.
 
-Compony has a feature that auto-detects feasibility. In particular, it checks for `dependent` relations in the `has_one`/`has_many` relations and disables delete buttons that point to objects that have dependent objects that cannot automatically be destroyed.
+Compony has a feature that auto-detects feasibility of some actions. In particular, it checks for `dependent` relations in the `has_one`/`has_many` relations and disables delete buttons that point to objects that have dependent objects that cannot automatically be destroyed.
 
 To disable auto detection, call `skip_autodetect_feasibilities` in your model.
 
