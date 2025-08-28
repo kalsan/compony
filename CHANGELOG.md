@@ -2,6 +2,7 @@
 
 - Apply most recent rubocop recommendations
 - Update rubocop
+- #10: Implement feasibility framework for links
 
 # 0.5.7
 

@@ -25,6 +25,8 @@ module Compony
                      label: nil,
                      label_opts: {},
                      params: {},
+                     feasibility_action: nil,
+                     feasibility_target: nil,
                      standalone_name: nil,
                      **link_kwargs)
       model = model_or_family_name_or_cst.respond_to?(:model_name) ? model_or_family_name_or_cst : nil
@@ -34,11 +36,16 @@ module Compony
         target_comp_instance = Compony.comp_class_for!(comp_name_or_cst_or_class, model_or_family_name_or_cst).new(data: model)
       end
       return unless target_comp_instance.standalone_access_permitted_for?(self, standalone_name:)
-      return helpers.link_to(
-        label || target_comp_instance.label(model, **label_opts),
-        Compony.path(target_comp_instance.comp_name, target_comp_instance.family_name, model, standalone_name:, **params),
-        *link_args, **link_kwargs
-      )
+      feasibility_action ||= comp_name_or_cst_or_class.to_s.underscore.to_sym
+      feasibility_target ||= model
+      label ||= target_comp_instance.label(model, **label_opts)
+      path ||= Compony.path(target_comp_instance.comp_name, target_comp_instance.family_name, model, standalone_name:, **params)
+      if feasibility_target && !feasibility_target.feasible?(feasibility_action)
+        path = '#'
+        link_kwargs[:class] = link_kwargs[:class].is_a?(String) ? "#{link_kwargs[:class]} disabled" : 'disabled'
+        link_kwargs[:title] = feasibility_target.full_feasibility_messages(feasibility_action).presence
+      end
+      return helpers.link_to(label, path, *link_args, **link_kwargs)
     end
 
     # Given a component and a family/model, this instanciates and renders a button component.
