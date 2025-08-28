@@ -1272,18 +1272,20 @@ my_button = Compony.button(:index, :users, enabled: -&gt; { |controller| control
 <span class='kw'>end</span>
 </code></pre>
 
-<p><strong>Note that the feasibility framework currently only affects buttons pointing to actions, not the action itself.</strong> If a user were to issue the HTTP call manually, the component happily responds and performs the action. This is why you should always back important preventions with an appropriate Rails model validation:</p>
+<p><strong>Note that the feasibility framework currently only affects buttons/links pointing to actions, not the action itself.</strong> If a user were to issue the HTTP call manually, the component happily responds and performs the action. This is why you should always back important preventions with an appropriate Rails model validation:</p>
 <ul><li>
 <p>The Rails model validation prevents that invalid data can be saved to the database.</p>
 </li><li>
-<p>The feasibility framework disables buttons and explains to guide the user.</p>
+<p>The feasibility framework disables buttons and links and explains to guide the user.</p>
+</li><li>
+<p>Links are disabled by changing the href to <code>&#39;#&#39;</code> and adding the <code>.disabled</code> class, which is useful when bootstrap is used.</p>
 </li><li>
 <p>Authorization is orthogonal to this, limiting the actions of a specific user.</p>
 </li><li>
 <p>If an action is both prevented and not authorized, the authorization “wins” and the action button is not shown at all.</p>
 </li></ul>
 
-<p>Compony has a feature that auto-detects feasibility. In particular, it checks for <code>dependent</code> relations in the <code>has_one</code>/<code>has_many</code> relations and disables delete buttons that point to objects that have dependent objects that cannot automatically be destroyed.</p>
+<p>Compony has a feature that auto-detects feasibility of some actions. In particular, it checks for <code>dependent</code> relations in the <code>has_one</code>/<code>has_many</code> relations and disables delete buttons that point to objects that have dependent objects that cannot automatically be destroyed.</p>
 
 <p>To disable auto detection, call <code>skip_autodetect_feasibilities</code> in your model.</p>
 
@@ -1632,6 +1634,26 @@ my_button = Compony.button(:index, :users, enabled: -&gt; { |controller| control
 <p><code>rails g components Users</code> will generate a set of the most used components.</p>
 </li></ul>
 
+<h3 id="label-Support+for+custom+base+components">Support for custom base components</h3>
+
+<p>If your application has many components that share the same functionality, it may be a good idea to create a custom base component, which acts as an abstract class.</p>
+
+<p>Examples:</p>
+<ul><li>
+<p>Perhaps you have code shared in all of your <code>New</code> components. In this case, create <code>BaseComponents::New</code> and inherit from <code>Compony::Components::New</code>. In <code>setup</code> of your base component, you can now perform all the configurations needed. Now you may inherit from it: <code>class Components::Users::New &lt; BaseComponents::New</code>.</p>
+</li><li>
+<p>Perhaps you often implement the same kind of component, for instance an index component displaying a filterable list. In this case, create <code>BaseComponents::Index</code> and inherit as follows: <code>class Components::Users::Index &lt; BaseComponents::Index</code>.</p>
+</li></ul>
+
+<p>Compony has the following convention:</p>
+<ul><li>
+<p>implement a custom base component in the directory <code>app/compony/base_components/your_component.rb</code></p>
+</li><li>
+<p>name the class <code>BaseComponents::YourComponent</code> where <code>BaseComponents</code> is typically a module simple meant for namespacing</p>
+</li></ul>
+
+<p>When respecting these conventions, compony’s generators will automatically make generated classes inherit from the suitable base component if one is available. In the example above, <code>rails g component Users::Index</code> will automatically make the generated class inherit from <code>BaseComponent::Index</code>.</p>
+
 <h2 id="label-Internal+datastructures">Internal datastructures</h2>
 
 <p>Compony has a few internal data structures that are worth mentioning. Especially when building your own UI framework on top of Compony, these might come in handy.</p>
@@ -1730,7 +1752,7 @@ my_button = Compony.button(:index, :users, enabled: -&gt; { |controller| control
 </div></div>
 
       <div id="footer">
-  Generated on Mon Jul 21 15:44:53 2025 by
+  Generated on Thu Aug 28 14:18:35 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.3.5).
 </div>

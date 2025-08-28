@@ -1,4 +1,4 @@
-# unreleased
+# 0.5.8
 
 - Apply most recent rubocop recommendations
 - Update rubocop
