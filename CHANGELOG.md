@@ -1,4 +1,4 @@
-# unreleased
+# 0.5.9
 
 - Fix a bug in generator that was introduced with the previous commit
 

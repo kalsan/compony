@@ -2,11 +2,11 @@
 # This file is auto-generated via: 'rake gemspec'.
 
 # -*- encoding: utf-8 -*-
-# stub: compony 0.5.9.edge ruby lib
+# stub: compony 0.5.9 ruby lib
 
 Gem::Specification.new do |s|
   s.name = "compony".freeze
-  s.version = "0.5.9.edge".freeze
+  s.version = "0.5.9".freeze
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
