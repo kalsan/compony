@@ -11,7 +11,7 @@ class ComponentGenerator < Rails::Generators::NamedBase
     @args = args
 
     # If BaseComponents::ComponentAboutToBeGenerated is present, inherit from that
-    if defined?(BaseComponents.const_defined?(@comp_cst))
+    if defined?(BaseComponents) && BaseComponents.const_defined?(@comp_cst)
       @parent_base_component_class = BaseComponents.const_get(@comp_cst)
       template 'with_base_component.rb.erb', "app/components/#{@family}/#{@comp}.rb"
       return

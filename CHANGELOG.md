@@ -1,3 +1,7 @@
+# unreleased
+
+- Fix a bug in generator that was introduced with the previous commit
+
 # 0.5.8
 
 - Apply most recent rubocop recommendations
