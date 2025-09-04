@@ -71,15 +71,16 @@ module Compony
       # @param label [nil,String] The human displayed label for this attribte. If nil, will consider `name` to be a field name and load the field's label.
       # @param class [nil,String] Extra CSS classes for the column's value.
       # @param link_opts [Hash] Options to pass to the `link_to` helper. Only used in the case of a field column that will produce a link (e.g. accociation).
+      # @param link_to_component [Symbol] In the case a link is produced (e.g. association), defines the component the link points to. Detaults to `:show`.
       # @param block [Block] Custom code to run in order to provide the displayed value. Will be given the current record.
-      def column(name, label: nil, class: nil, link_opts: {}, **, &block)
+      def column(name, label: nil, class: nil, link_opts: {}, link_to_component: :show, **, &block)
         name = name.to_sym
         unless block_given?
           # Assume field column
           field = data_class.fields[name] || fail("Field #{name.inspect} was not found for data class #{data_class}")
           block = proc do |record|
             if controller.current_ability.permitted_attributes(:show, record).include?(field.name.to_sym)
-              next field.value_for(record, link_to_component: :show, controller:, link_opts:).to_s
+              next field.value_for(record, link_to_component:, controller:, link_opts:).to_s
             else
               Rails.logger.debug { "Skipping show col #{field.name.inspect} because the current user is not allowed to perform show on #{data}." }
               nil
