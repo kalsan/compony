@@ -1,6 +1,7 @@
 de:
   compony:
     cancel: 'Abbrechen'
+    back: 'Zurück'
     filtered: '[Filtered]' # Not translated as this appears in log
     boolean:
       true: 'Ja'
@@ -11,6 +12,9 @@ de:
       attachment:
         download: 'Herunterladen'
     components:
+      show:
+        label:
+          short: 'Zeigen'
       form:
         submit: 'Senden'
         cancel: 'Abbrechen'

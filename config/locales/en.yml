@@ -1,6 +1,7 @@
 en:
   compony:
     cancel: 'Cancel'
+    back: 'Back'
     filtered: '[Filtered]'
     boolean:
       yes: 'Yes'
@@ -11,6 +12,9 @@ en:
       attachment:
         download: 'Download'
     components:
+      show:
+        label:
+          short: 'Show'
       form:
         submit: 'Submit'
         cancel: 'Cancel'

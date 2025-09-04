@@ -18,6 +18,8 @@ class ComponentGenerator < Rails::Generators::NamedBase
     end
     # If a Compony component with the specified name exists, inherit from that
     case @comp_cst
+    when 'Show'
+      template 'show.rb.erb', "app/components/#{@family}/#{@comp}.rb"
     when 'Destroy'
       template 'destroy.rb.erb', "app/components/#{@family}/#{@comp}.rb"
     when 'Edit'

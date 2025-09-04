@@ -1306,6 +1306,12 @@ As stated earlier, buttons are just regular components that rendered in-place. T
 
 You will rarely (or probably never) instantiate a button on your own, but use helpers like `Compony.button` or `compony_button`. For this reason, the documentation for instantiating buttons is located in the section documenting those helpers above.
 
+### Show
+
+This resourceful component corresponds to a typical Rails controller's `show` action and presents `@data` which is typically a model instance.
+
+To use it, create a component of the style `Components::Users::Show` and inherit from `Compony::Components::Show`. By default, this will display all permitted fields along with their labels. Consult the component's class to learn about the methods you can use in `setup` in order to customize the behavior.
+
 ### Destroy
 
 This component is the Compony equivalent to a typical Rails controller's `destroy` action.

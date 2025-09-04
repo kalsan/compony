@@ -1,7 +1,8 @@
 fr:
   compony:
     cancel: 'Annuler'
-    filtered: '[Filtré]' # Not translated as this appears in log
+    back: 'Retour'
+    filtered: '[Filtered]' # Not translated as this appears in log
     boolean:
       true: 'Oui'
       false: 'Non'
@@ -11,6 +12,9 @@ fr:
       attachment:
         download: 'Télécharger'
     components:
+      show:
+        label:
+          short: 'Afficher'
       form:
         submit: 'Envoyer'
         cancel: 'Annuler'
