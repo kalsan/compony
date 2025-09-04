@@ -20,6 +20,19 @@ module Compony
         end
         return form.input name || @name, as: :hidden, **input_opts
       end
+
+      def ransack_filter_name
+        :"#{@name}_eq"
+      end
+
+      def ransack_filter_input(form, **input_opts)
+        form.select(
+          ransack_filter_name,
+          self.class.collect(@model_class.anchormodel_attributes[@name].anchormodel_class.all),
+          { include_blank: true },
+          { class: input_opts[:filter_select_class] }
+        )
+      end
     end
   end
 end

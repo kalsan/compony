@@ -52,6 +52,18 @@ module Compony
         return form.input name || @name, as: :hidden, **input_opts
       end
 
+      # Used in list component
+      # Given a column name, returns the most suitable ransack filter name
+      def ransack_filter_name
+        :"#{@name}_cont"
+      end
+
+      # Used in list component
+      # Given a ransack search form, returns a suitable search input
+      def ransack_filter_input(form, **input_opts)
+        form.search_field(ransack_filter_name, class: input_opts[:filter_input_class])
+      end
+
       protected
 
       # If given a scalar, calls the block on the scalar. If given a list, calls the block on every member and joins the result with ",".

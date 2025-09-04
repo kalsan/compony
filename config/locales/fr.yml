@@ -15,6 +15,15 @@ fr:
       show:
         label:
           short: 'Afficher'
+      index:
+        actions: 'Actions'
+        filters: 'Filtres'
+        sorting: 'Tri'
+        pagination:
+          first: 'Début'
+          previous: 'Arrière'
+          next: 'Avant'
+          last: 'Fin'
       form:
         submit: 'Envoyer'
         cancel: 'Annuler'

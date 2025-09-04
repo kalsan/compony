@@ -1305,12 +1305,27 @@ In the following, the pre-built components currently shipped with Compony are pr
 As stated earlier, buttons are just regular components that rendered in-place. They don't make use of nesting logic (and presumably never will), and thus they are rendered as-is, without `sub_comp`.
 
 You will rarely (or probably never) instantiate a button on your own, but use helpers like `Compony.button` or `compony_button`. For this reason, the documentation for instantiating buttons is located in the section documenting those helpers above.
-
 ### Show
 
 This resourceful component corresponds to a typical Rails controller's `show` action and presents `@data` which is typically a model instance.
 
 To use it, create a component of the style `Components::Users::Show` and inherit from `Compony::Components::Show`. By default, this will display all permitted fields along with their labels. Consult the component's class to learn about the methods you can use in `setup` in order to customize the behavior.
+
+### Index
+
+This stanalone component is resourceful, holds a collection of records and corresponds to Rail's `index` controller action. It is a wrapper for the `List` component (see below).
+
+### List
+
+This resourceful component displays a table / list of records. It is meant to be nested within another component, typically `Index` of the same family or `Show` of another family. Compony's implementation of this component features:
+
+- Inferrence of rows from model fields as well as custom rows
+- Row actions for each displayed record
+- Pagination
+- Sorting: if the Ransack gem is installed and at least one sorting column has been specified, the component can automatically generate a select input for sorting as well as sorting links.
+- Filtering / Searching: if the Ransack gem is installed and at least one filter has been specified, the component can automatically generate a filter / search form that works with Ransack.
+
+This component serves as a base block for building powerful management interfaces. Consult the component's class to learn about the various methods you can use in `setup` in order to customize the behavior. You will likely want to implement your own custom base component based on this component and overwrite the `content` blocks that you would like to customize.
 
 ### Destroy
 

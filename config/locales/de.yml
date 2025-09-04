@@ -15,6 +15,15 @@ de:
       show:
         label:
           short: 'Zeigen'
+      index:
+        actions: 'Aktionen'
+        filters: 'Filter'
+        sorting: 'Sortierung'
+        pagination:
+          first: 'Erste'
+          previous: 'Zurück'
+          next: 'Weiter'
+          last: 'Letzte'
       form:
         submit: 'Senden'
         cancel: 'Abbrechen'

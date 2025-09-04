@@ -81,6 +81,11 @@ module Compony
         end
         self.autodetect_feasibilities_completed = true
       end
+
+      # Provides Ransack defaults (auth_object must be a cancancan ability)
+      def ransackable_attributes(auth_object)
+        auth_object.permitted_attributes(:read, self).map(&:to_s)
+      end
     end
 
     # Retrieves feasibility for the given instance, returning a boolean indicating whether the action is feasibly.
