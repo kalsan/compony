@@ -1,7 +1,7 @@
 module Compony
   module Components
     # @api description
-    # This component is used for the Rails edit and update paradigm. Performs update when the form is submitted.
+    # This component is used for the Rails show paradigm.
     class Show < Compony::Component
       include Compony::ComponentMixins::Resourceful
 
