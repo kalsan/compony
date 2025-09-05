@@ -6,7 +6,7 @@
 <title>
   Class: Compony::ModelFields::Anchormodel
   
-    &mdash; Documentation by YARD 0.9.37
+    &mdash; Documentation by YARD 0.9.34
   
 </title>
 
@@ -166,6 +166,50 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#ransack_filter_input-instance_method" title="#ransack_filter_input (instance method)">#<strong>ransack_filter_input</strong>(form, **input_opts)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ransack_filter_name-instance_method" title="#ransack_filter_name (instance method)">#<strong>ransack_filter_name</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#simpleform_input_hidden-instance_method" title="#simpleform_input_hidden (instance method)">#<strong>simpleform_input_hidden</strong>(form, _component, name: nil, **input_opts)  &#x21d2; Object </a>
     
 
@@ -281,7 +325,95 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="simpleform_input_hidden-instance_method">
+  <h3 class="signature first" id="ransack_filter_input-instance_method">
+  
+    #<strong>ransack_filter_input</strong>(form, **input_opts)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+28
+29
+30
+31
+32
+33
+34
+35</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/model_fields/anchormodel.rb', line 28</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_ransack_filter_input'>ransack_filter_input</span><span class='lparen'>(</span><span class='id identifier rubyid_form'>form</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_input_opts'>input_opts</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_form'>form</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span><span class='lparen'>(</span>
+    <span class='id identifier rubyid_ransack_filter_name'>ransack_filter_name</span><span class='comma'>,</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lparen'>(</span><span class='ivar'>@model_class</span><span class='period'>.</span><span class='id identifier rubyid_anchormodel_attributes'>anchormodel_attributes</span><span class='lbracket'>[</span><span class='ivar'>@name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_anchormodel_class'>anchormodel_class</span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='lbrace'>{</span> <span class='label'>include_blank:</span> <span class='kw'>true</span> <span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='lbrace'>{</span> <span class='label'>class:</span> <span class='id identifier rubyid_input_opts'>input_opts</span><span class='lbracket'>[</span><span class='symbol'>:filter_select_class</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+  <span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="ransack_filter_name-instance_method">
+  
+    #<strong>ransack_filter_name</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/model_fields/anchormodel.rb', line 24</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_ransack_filter_name'>ransack_filter_name</span>
+  <span class='symbol'>:&quot;#{</span><span class='ivar'>@name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_eq</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="simpleform_input_hidden-instance_method">
   
     #<strong>simpleform_input_hidden</strong>(form, _component, name: nil, **input_opts)  &#x21d2; <tt>Object</tt> 
   
@@ -377,9 +509,9 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Aug 29 14:58:48 2025 by
+  Generated on Fri Sep  5 13:56:40 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.5).
+  0.9.34 (ruby-3.3.5).
 </div>
 
     </div>

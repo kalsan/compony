@@ -1,0 +1,2731 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Compony::Components::List
+  
+    &mdash; Documentation by YARD 0.9.34
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Compony::Components::List";
+  relpath = '../../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../../_index.html">Index (L)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../Compony.html" title="Compony (module)">Compony</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Components.html" title="Compony::Components (module)">Components</a></span></span>
+     &raquo; 
+    <span class="title">List</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Compony::Components::List
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="../Component.html" title="Compony::Component (class)">Compony::Component</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="../Component.html" title="Compony::Component (class)">Compony::Component</a></span></li>
+          
+            <li class="next">Compony::Components::List</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="../ComponentMixins/Resourceful.html" title="Compony::ComponentMixins::Resourceful (module)">Compony::ComponentMixins::Resourceful</a></span></dd>
+  </dl>
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/compony/components/list.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>This component is used for the Rails list paradigm. It is meant to be nested inside the same family’s <code>::Index</code> or an owner’s <code>::Show</code> component.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+  <h2>Instance Attribute Summary</h2>
+  
+  <h3 class="inherited">Attributes included from <span class='object_link'><a href="../ComponentMixins/Resourceful.html" title="Compony::ComponentMixins::Resourceful (module)">Compony::ComponentMixins::Resourceful</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../ComponentMixins/Resourceful.html#data-instance_method" title="Compony::ComponentMixins::Resourceful#data (method)">#data</a></span>, <span class='object_link'><a href="../ComponentMixins/Resourceful.html#global_after_assign_attributes_block-instance_method" title="Compony::ComponentMixins::Resourceful#global_after_assign_attributes_block (method)">#global_after_assign_attributes_block</a></span>, <span class='object_link'><a href="../ComponentMixins/Resourceful.html#global_after_load_data_block-instance_method" title="Compony::ComponentMixins::Resourceful#global_after_load_data_block (method)">#global_after_load_data_block</a></span>, <span class='object_link'><a href="../ComponentMixins/Resourceful.html#global_assign_attributes_block-instance_method" title="Compony::ComponentMixins::Resourceful#global_assign_attributes_block (method)">#global_assign_attributes_block</a></span>, <span class='object_link'><a href="../ComponentMixins/Resourceful.html#global_load_data_block-instance_method" title="Compony::ComponentMixins::Resourceful#global_load_data_block (method)">#global_load_data_block</a></span>, <span class='object_link'><a href="../ComponentMixins/Resourceful.html#global_store_data_block-instance_method" title="Compony::ComponentMixins::Resourceful#global_store_data_block (method)">#global_store_data_block</a></span></p>
+
+  
+  
+  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="../Component.html" title="Compony::Component (class)">Compony::Component</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../Component.html#comp_opts-instance_method" title="Compony::Component#comp_opts (method)">#comp_opts</a></span>, <span class='object_link'><a href="../Component.html#content_blocks-instance_method" title="Compony::Component#content_blocks (method)">#content_blocks</a></span>, <span class='object_link'><a href="../Component.html#parent_comp-instance_method" title="Compony::Component#parent_comp (method)">#parent_comp</a></span></p>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#column-instance_method" title="#column (instance method)">#<strong>column</strong>(name, label: nil, class: nil, link_opts: {}, &amp;block)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Adds a new column to the list.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#columns-instance_method" title="#columns (instance method)">#<strong>columns</strong>(*col_names)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Adds multiple columns at once, sharing the same kwargs.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#filter-instance_method" title="#filter (instance method)">#<strong>filter</strong>(name, label: nil, &amp;block)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Adds a ransack filter.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#filter_input_class-instance_method" title="#filter_input_class (instance method)">#<strong>filter_input_class</strong>(class_str)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Sets the CSS class attribute for string form inputs in filters.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#filter_item_wrapper_class-instance_method" title="#filter_item_wrapper_class (instance method)">#<strong>filter_item_wrapper_class</strong>(class_str)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Sets the CSS class attribute for the div that wraps input-related elements in filters (inputs, selects, labels).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#filter_label_class-instance_method" title="#filter_label_class (instance method)">#<strong>filter_label_class</strong>(class_str)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Sets the CSS class attribute for form label elements in filters.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#filter_select_class-instance_method" title="#filter_select_class (instance method)">#<strong>filter_select_class</strong>(class_str)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Sets the CSS class attribute for form select inputs in filters.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#filtering_enabled%3F-instance_method" title="#filtering_enabled? (instance method)">#<strong>filtering_enabled?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns whether filtering is possible and wanted in general (regardless of whether there are any filters defined).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#filters-instance_method" title="#filters (instance method)">#<strong>filters</strong>(*filter_names)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Adds multiple filters at once, sharing the same kwargs.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(skip_pagination: false, results_per_page: 20, skip_filtering: false, skip_sorting: false, skip_sorting_in_filter: false, skip_sorting_links: false, skip_columns: [], skip_row_actions: [], skip_filters: [])  &#x21d2; List </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The following parameters are meant for the case where this component is nested and therefore instanciated by a parent comp.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#pagination_enabled%3F-instance_method" title="#pagination_enabled? (instance method)">#<strong>pagination_enabled?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns whether pagination is enabled (regardless of whether there is more than one page).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#process_data!-instance_method" title="#process_data! (instance method)">#<strong>process_data!</strong>(controller)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>This method must be called before the data is read for the first time.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#results_per_page-instance_method" title="#results_per_page (instance method)">#<strong>results_per_page</strong>(new_results_per_page)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method In case pagination is active, defines the amount of records to display per page.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#row_action-instance_method" title="#row_action (instance method)">#<strong>row_action</strong>(name, button_opts: {}, &amp;block)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Adds a row action.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#skip_column-instance_method" title="#skip_column (instance method)">#<strong>skip_column</strong>(name)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Marks a single column as skipped.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#skip_filtering!-instance_method" title="#skip_filtering! (instance method)">#<strong>skip_filtering!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Disables filtering entirely (sorting is independent of this setting).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#skip_pagination!-instance_method" title="#skip_pagination! (instance method)">#<strong>skip_pagination!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Disables pagination (caution: all records will be loaded).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#skip_row_action-instance_method" title="#skip_row_action (instance method)">#<strong>skip_row_action</strong>(name)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Marks a single row action as skipped.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#skip_sorting!-instance_method" title="#skip_sorting! (instance method)">#<strong>skip_sorting!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Disables sorting entirely (both links and sorting input in filter).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#skip_sorting_in_filter!-instance_method" title="#skip_sorting_in_filter! (instance method)">#<strong>skip_sorting_in_filter!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Disables sorting in filter.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#skip_sorting_links!-instance_method" title="#skip_sorting_links! (instance method)">#<strong>skip_sorting_links!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Disables sorting links.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sort-instance_method" title="#sort (instance method)">#<strong>sort</strong>(name, label: nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Adds a sorting criterion that will be processed by ransack.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#sorting_enabled%3F-instance_method" title="#sorting_enabled? (instance method)">#<strong>sorting_enabled?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns whether sorting is possible and wanted in general (regardless of whether there are any sorts defined).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#sorting_in_filter_enabled%3F-instance_method" title="#sorting_in_filter_enabled? (instance method)">#<strong>sorting_in_filter_enabled?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns whether sorting in filter is possible and wanted in general (regardless of whether there are any sorts defined).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#sorting_in_filter_select_opts-instance_method" title="#sorting_in_filter_select_opts (instance method)">#<strong>sorting_in_filter_select_opts</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the select options for sorting suitable for passing in a <code>f.select</code>.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#sorting_links_enabled%3F-instance_method" title="#sorting_links_enabled? (instance method)">#<strong>sorting_links_enabled?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns whether generating sorting links is possible and wanted in general (regardless of whether there are any sorts defined).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sorts-instance_method" title="#sorts (instance method)">#<strong>sorts</strong>(*names)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Adds multiple sorts at once, sharing the same kwargs.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="../ComponentMixins/Resourceful.html" title="Compony::ComponentMixins::Resourceful (module)">Compony::ComponentMixins::Resourceful</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../ComponentMixins/Resourceful.html#after_assign_attributes-instance_method" title="Compony::ComponentMixins::Resourceful#after_assign_attributes (method)">#after_assign_attributes</a></span>, <span class='object_link'><a href="../ComponentMixins/Resourceful.html#after_load_data-instance_method" title="Compony::ComponentMixins::Resourceful#after_load_data (method)">#after_load_data</a></span>, <span class='object_link'><a href="../ComponentMixins/Resourceful.html#assign_attributes-instance_method" title="Compony::ComponentMixins::Resourceful#assign_attributes (method)">#assign_attributes</a></span>, <span class='object_link'><a href="../ComponentMixins/Resourceful.html#data_class-instance_method" title="Compony::ComponentMixins::Resourceful#data_class (method)">#data_class</a></span>, <span class='object_link'><a href="../ComponentMixins/Resourceful.html#load_data-instance_method" title="Compony::ComponentMixins::Resourceful#load_data (method)">#load_data</a></span>, <span class='object_link'><a href="../ComponentMixins/Resourceful.html#resourceful%3F-instance_method" title="Compony::ComponentMixins::Resourceful#resourceful? (method)">#resourceful?</a></span>, <span class='object_link'><a href="../ComponentMixins/Resourceful.html#resourceful_sub_comp-instance_method" title="Compony::ComponentMixins::Resourceful#resourceful_sub_comp (method)">#resourceful_sub_comp</a></span>, <span class='object_link'><a href="../ComponentMixins/Resourceful.html#store_data-instance_method" title="Compony::ComponentMixins::Resourceful#store_data (method)">#store_data</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../Component.html" title="Compony::Component (class)">Compony::Component</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../Component.html#action-instance_method" title="Compony::Component#action (method)">#action</a></span>, <span class='object_link'><a href="../Component.html#before_render-instance_method" title="Compony::Component#before_render (method)">#before_render</a></span>, <span class='object_link'><a href="../Component.html#comp_cst-class_method" title="Compony::Component.comp_cst (method)">comp_cst</a></span>, <span class='object_link'><a href="../Component.html#comp_name-class_method" title="Compony::Component.comp_name (method)">comp_name</a></span>, <span class='object_link'><a href="../Component.html#content-instance_method" title="Compony::Component#content (method)">#content</a></span>, <span class='object_link'><a href="../Component.html#family_cst-class_method" title="Compony::Component.family_cst (method)">family_cst</a></span>, <span class='object_link'><a href="../Component.html#family_name-class_method" title="Compony::Component.family_name (method)">family_name</a></span>, <span class='object_link'><a href="../Component.html#id-instance_method" title="Compony::Component#id (method)">#id</a></span>, <span class='object_link'><a href="../Component.html#inspect-instance_method" title="Compony::Component#inspect (method)">#inspect</a></span>, <span class='object_link'><a href="../Component.html#param_name-instance_method" title="Compony::Component#param_name (method)">#param_name</a></span>, <span class='object_link'><a href="../Component.html#path-instance_method" title="Compony::Component#path (method)">#path</a></span>, <span class='object_link'><a href="../Component.html#path_hash-instance_method" title="Compony::Component#path_hash (method)">#path_hash</a></span>, <span class='object_link'><a href="../Component.html#remove_content-instance_method" title="Compony::Component#remove_content (method)">#remove_content</a></span>, <span class='object_link'><a href="../Component.html#remove_content!-instance_method" title="Compony::Component#remove_content! (method)">#remove_content!</a></span>, <span class='object_link'><a href="../Component.html#render-instance_method" title="Compony::Component#render (method)">#render</a></span>, <span class='object_link'><a href="../Component.html#render_actions-instance_method" title="Compony::Component#render_actions (method)">#render_actions</a></span>, <span class='object_link'><a href="../Component.html#resourceful%3F-instance_method" title="Compony::Component#resourceful? (method)">#resourceful?</a></span>, <span class='object_link'><a href="../Component.html#root_comp-instance_method" title="Compony::Component#root_comp (method)">#root_comp</a></span>, <span class='object_link'><a href="../Component.html#root_comp%3F-instance_method" title="Compony::Component#root_comp? (method)">#root_comp?</a></span>, <span class='object_link'><a href="../Component.html#setup-class_method" title="Compony::Component.setup (method)">setup</a></span>, <span class='object_link'><a href="../Component.html#skip_action-instance_method" title="Compony::Component#skip_action (method)">#skip_action</a></span>, <span class='object_link'><a href="../Component.html#sub_comp-instance_method" title="Compony::Component#sub_comp (method)">#sub_comp</a></span></p>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(skip_pagination: false, results_per_page: 20, skip_filtering: false, skip_sorting: false, skip_sorting_in_filter: false, skip_sorting_links: false, skip_columns: [], skip_row_actions: [], skip_filters: [])  &#x21d2; <tt><span class='object_link'><a href="" title="Compony::Components::List (class)">List</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The following parameters are meant for the case where this component is nested and therefore instanciated by a parent comp. If the component is to configure itself, use the DSL calls below instead.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>skip_pagination</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Disables pagination (caution: all records will be loaded)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>results_per_page</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>20</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>In case pagination is active, defines the amount of records to display per page.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>skip_filtering</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Disables filtering entirely (sorting is independent of this setting).</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>skip_sorting</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Disables sorting entirely (both links and sorting input in filter).</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>skip_sorting_in_filter</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Disables sorting in filter.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>skip_sorting_links</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Disables sorting links.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>skip_columns</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>[]</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Column names to be skipped.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>skip_row_actions</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>[]</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Row action names to be skipped.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>skip_filters</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>[]</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Filter names to be skipped.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 19</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='op'>*</span><span class='comma'>,</span>
+               <span class='label'>skip_pagination:</span> <span class='kw'>false</span><span class='comma'>,</span>
+               <span class='label'>results_per_page:</span> <span class='int'>20</span><span class='comma'>,</span>
+               <span class='label'>skip_filtering:</span> <span class='kw'>false</span><span class='comma'>,</span>
+               <span class='label'>skip_sorting:</span> <span class='kw'>false</span><span class='comma'>,</span>
+               <span class='label'>skip_sorting_in_filter:</span> <span class='kw'>false</span><span class='comma'>,</span>
+               <span class='label'>skip_sorting_links:</span> <span class='kw'>false</span><span class='comma'>,</span>
+               <span class='label'>skip_columns:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span>
+               <span class='label'>skip_row_actions:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span>
+               <span class='label'>skip_filters:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span>
+               <span class='op'>**</span><span class='rparen'>)</span>
+  <span class='ivar'>@pagination</span> <span class='op'>=</span> <span class='op'>!</span><span class='id identifier rubyid_skip_pagination'>skip_pagination</span>
+  <span class='ivar'>@results_per_page</span> <span class='op'>=</span> <span class='id identifier rubyid_results_per_page'>results_per_page</span>
+  <span class='ivar'>@filtering</span> <span class='op'>=</span> <span class='op'>!</span><span class='id identifier rubyid_skip_filtering'>skip_filtering</span>
+  <span class='ivar'>@sorting_in_filter</span> <span class='op'>=</span> <span class='op'>!</span><span class='id identifier rubyid_skip_sorting'>skip_sorting</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_skip_sorting_in_filter'>skip_sorting_in_filter</span>
+  <span class='ivar'>@sorting_links</span> <span class='op'>=</span> <span class='op'>!</span><span class='id identifier rubyid_skip_sorting'>skip_sorting</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_skip_sorting_links'>skip_sorting_links</span>
+  <span class='ivar'>@columns</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../NaturalOrdering.html" title="Compony::NaturalOrdering (class)">NaturalOrdering</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+  <span class='ivar'>@row_actions</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../NaturalOrdering.html" title="Compony::NaturalOrdering (class)">NaturalOrdering</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+  <span class='ivar'>@skipped_columns</span> <span class='op'>=</span> <span class='id identifier rubyid_skip_columns'>skip_columns</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_sym</span><span class='rparen'>)</span>
+  <span class='ivar'>@skipped_row_actions</span> <span class='op'>=</span> <span class='id identifier rubyid_skip_row_actions'>skip_row_actions</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_sym</span><span class='rparen'>)</span>
+  <span class='ivar'>@filters</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../NaturalOrdering.html" title="Compony::NaturalOrdering (class)">NaturalOrdering</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+  <span class='ivar'>@sorts</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../NaturalOrdering.html" title="Compony::NaturalOrdering (class)">NaturalOrdering</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+  <span class='ivar'>@skipped_filters</span> <span class='op'>=</span> <span class='id identifier rubyid_skip_filters'>skip_filters</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_sym</span><span class='rparen'>)</span>
+  <span class='ivar'>@filter_label_class</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>list-filter-label</span><span class='tstring_end'>&#39;</span></span>
+  <span class='ivar'>@filter_input_class</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>list-filter-input</span><span class='tstring_end'>&#39;</span></span>
+  <span class='ivar'>@filter_select_class</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>list-filter-select</span><span class='tstring_end'>&#39;</span></span>
+  <span class='ivar'>@filter_item_wrapper_class</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='op'>*</span><span class='comma'>,</span> <span class='op'>**</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="column-instance_method">
+  
+    #<strong>column</strong>(name, label: nil, class: nil, link_opts: {}, &amp;block)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method Adds a new column to the list. If <code>name</code> corresponds to that of a field, everything is auto-inferred. Custom columns can be added by providing at least <code>label</code> and a block that will be given a record and instance-execed for every row. Please note that the column is only shown if the current user has permission to index the attribute.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Name of the field that is supposed to be displayed. If custom name, make sure the user has the permission to index the attribute.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>label</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Title of the column to be displayed in the table header.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>class</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Space-separated list of CSS classes for each cell</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>link_opts</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Only used in the case of a model field, this is used to pass options to the field’s <code>value_for</code>.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>block</span>
+      
+      
+        <span class='type'>(<tt>Block</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Custom block, given the record and instance-execed in the context of the cell for every row.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 123</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_column'>column</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='label'>label:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>class:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>link_opts:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>**</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+    <span class='comment'># Assume field column
+</span>    <span class='id identifier rubyid_field'>field</span> <span class='op'>=</span> <span class='id identifier rubyid_data_class'>data_class</span><span class='period'>.</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Field </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'> was not found for data class </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_data_class'>data_class</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_block'>block</span> <span class='op'>=</span> <span class='id identifier rubyid_proc'>proc</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_record'>record</span><span class='op'>|</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_controller'>controller</span><span class='period'>.</span><span class='id identifier rubyid_current_ability'>current_ability</span><span class='period'>.</span><span class='id identifier rubyid_permitted_attributes'>permitted_attributes</span><span class='lparen'>(</span><span class='symbol'>:index</span><span class='comma'>,</span> <span class='id identifier rubyid_record'>record</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_field'>field</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rparen'>)</span>
+        <span class='kw'>next</span> <span class='id identifier rubyid_field'>field</span><span class='period'>.</span><span class='id identifier rubyid_value_for'>value_for</span><span class='lparen'>(</span><span class='id identifier rubyid_record'>record</span><span class='comma'>,</span> <span class='label'>link_to_component:</span> <span class='symbol'>:show</span><span class='comma'>,</span> <span class='label'>controller:</span><span class='comma'>,</span> <span class='label'>link_opts:</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@columns</span><span class='period'>.</span><span class='id identifier rubyid_natural_push'>natural_push</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_block'>block</span><span class='comma'>,</span> <span class='label'>label:</span> <span class='id identifier rubyid_label'>label</span> <span class='op'>||</span> <span class='id identifier rubyid_field'>field</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='label'>class:</span><span class='comma'>,</span> <span class='op'>**</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="columns-instance_method">
+  
+    #<strong>columns</strong>(*col_names)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method Adds multiple columns at once, sharing the same kwargs.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+139
+140
+141</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 139</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_columns'>columns</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_col_names'>col_names</span><span class='comma'>,</span> <span class='op'>**</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_col_names'>col_names</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_col_name'>col_name</span><span class='op'>|</span> <span class='id identifier rubyid_column'>column</span><span class='lparen'>(</span><span class='id identifier rubyid_col_name'>col_name</span><span class='comma'>,</span> <span class='op'>**</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="filter-instance_method">
+  
+    #<strong>filter</strong>(name, label: nil, &amp;block)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method Adds a ransack filter. If <code>name</code> is the name of an existing model field, the filter is auto-generated. If <code>name</code> is a valid Ransack search string (e.g. <code>id_eq</code>), all you need to pass is <code>name</code> and <code>label</code>. To create a fully custom filter, pass <code>name</code> and <code>block</code>. The block will be given the Ransack search form and should return HTML.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The name of the filter. Can either be the name of a field, a ransack search string or a custom name (see above).</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>label</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The text to use in the input’s label.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>block</span>
+      
+      
+        <span class='type'>(<tt>Block</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Custom block that will be given the Ransack search form and should produce a label and a search input.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 182</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_filter'>filter</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='label'>label:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+    <span class='id identifier rubyid_field'>field</span> <span class='op'>=</span> <span class='id identifier rubyid_data_class'>data_class</span><span class='period'>.</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_block'>block</span> <span class='op'>||=</span> <span class='id identifier rubyid_proc'>proc</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span>
+      <span class='id identifier rubyid_label'>label</span> <span class='op'>||=</span> <span class='id identifier rubyid_field'>field</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span> <span class='kw'>if</span> <span class='id identifier rubyid_field'>field</span>
+      <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>You must provide a label to filter </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_label'>label</span>
+
+      <span class='kw'>if</span> <span class='id identifier rubyid_field'>field</span>
+        <span class='id identifier rubyid_filter_name'>filter_name</span> <span class='op'>=</span> <span class='id identifier rubyid_field'>field</span><span class='period'>.</span><span class='id identifier rubyid_ransack_filter_name'>ransack_filter_name</span>
+        <span class='id identifier rubyid_filter_input_html'>filter_input_html</span> <span class='op'>=</span> <span class='id identifier rubyid_capture'>capture</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_field'>field</span><span class='period'>.</span><span class='id identifier rubyid_ransack_filter_input'>ransack_filter_input</span><span class='lparen'>(</span><span class='id identifier rubyid_f'>f</span><span class='comma'>,</span> <span class='label'>filter_input_class:</span> <span class='ivar'>@filter_input_class</span><span class='comma'>,</span> <span class='label'>filter_select_class:</span> <span class='ivar'>@filter_select_class</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_filter_name'>filter_name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span>
+        <span class='id identifier rubyid_filter_input_html'>filter_input_html</span> <span class='op'>=</span> <span class='id identifier rubyid_capture'>capture</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_search_field'>search_field</span><span class='lparen'>(</span><span class='id identifier rubyid_filter_name'>filter_name</span><span class='comma'>,</span> <span class='label'>class:</span> <span class='ivar'>@filter_input_class</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+      <span class='kw'>end</span>
+      <span class='id identifier rubyid_div'>div</span> <span class='id identifier rubyid_tag'>tag</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='label'>for:</span> <span class='id identifier rubyid_filter_name'>filter_name</span><span class='comma'>,</span> <span class='label'>class:</span> <span class='ivar'>@filter_label_class</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>class:</span> <span class='ivar'>@filter_item_wrapper_class</span>
+      <span class='id identifier rubyid_div'>div</span> <span class='id identifier rubyid_filter_input_html'>filter_input_html</span><span class='comma'>,</span> <span class='label'>class:</span> <span class='ivar'>@filter_item_wrapper_class</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='ivar'>@filters</span><span class='period'>.</span><span class='id identifier rubyid_natural_push'>natural_push</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_block'>block</span><span class='comma'>,</span> <span class='op'>**</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="filter_input_class-instance_method">
+  
+    #<strong>filter_input_class</strong>(class_str)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method Sets the CSS class attribute for string form inputs in filters.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>class_str</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Space-separated list of CSS classes</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+96
+97
+98</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 96</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_filter_input_class'>filter_input_class</span><span class='lparen'>(</span><span class='id identifier rubyid_class_str'>class_str</span><span class='rparen'>)</span>
+  <span class='ivar'>@filter_input_class</span> <span class='op'>=</span> <span class='id identifier rubyid_class_str'>class_str</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="filter_item_wrapper_class-instance_method">
+  
+    #<strong>filter_item_wrapper_class</strong>(class_str)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method Sets the CSS class attribute for the div that wraps input-related elements in filters (inputs, selects, labels).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>class_str</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Space-separated list of CSS classes</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+110
+111
+112</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 110</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_filter_item_wrapper_class'>filter_item_wrapper_class</span><span class='lparen'>(</span><span class='id identifier rubyid_class_str'>class_str</span><span class='rparen'>)</span>
+  <span class='ivar'>@filter_item_wrapper_class</span> <span class='op'>=</span> <span class='id identifier rubyid_class_str'>class_str</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="filter_label_class-instance_method">
+  
+    #<strong>filter_label_class</strong>(class_str)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method Sets the CSS class attribute for form label elements in filters.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>class_str</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Space-separated list of CSS classes</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+89
+90
+91</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 89</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_filter_label_class'>filter_label_class</span><span class='lparen'>(</span><span class='id identifier rubyid_class_str'>class_str</span><span class='rparen'>)</span>
+  <span class='ivar'>@filter_label_class</span> <span class='op'>=</span> <span class='id identifier rubyid_class_str'>class_str</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="filter_select_class-instance_method">
+  
+    #<strong>filter_select_class</strong>(class_str)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method Sets the CSS class attribute for form select inputs in filters.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>class_str</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Space-separated list of CSS classes</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+103
+104
+105</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 103</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_filter_select_class'>filter_select_class</span><span class='lparen'>(</span><span class='id identifier rubyid_class_str'>class_str</span><span class='rparen'>)</span>
+  <span class='ivar'>@filter_select_class</span> <span class='op'>=</span> <span class='id identifier rubyid_class_str'>class_str</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="filtering_enabled?-instance_method">
+  
+    #<strong>filtering_enabled?</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(protected)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns whether filtering is possible and wanted in general (regardless of whether there are any filters defined)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+382
+383
+384</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 382</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_filtering_enabled?'>filtering_enabled?</span>
+  <span class='ivar'>@filtering</span> <span class='op'>&amp;&amp;</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>Ransack</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="filters-instance_method">
+  
+    #<strong>filters</strong>(*filter_names)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method Adds multiple filters at once, sharing the same kwargs.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+207
+208
+209</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 207</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_filters'>filters</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_filter_names'>filter_names</span><span class='comma'>,</span> <span class='op'>**</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_filter_names'>filter_names</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_filter_name'>filter_name</span><span class='op'>|</span> <span class='id identifier rubyid_filter'>filter</span><span class='lparen'>(</span><span class='id identifier rubyid_filter_name'>filter_name</span><span class='comma'>,</span> <span class='op'>**</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="pagination_enabled?-instance_method">
+  
+    #<strong>pagination_enabled?</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(protected)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns whether pagination is enabled (regardless of whether there is more than one page)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+402
+403
+404</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 402</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_pagination_enabled?'>pagination_enabled?</span>
+  <span class='ivar'>@pagination</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="process_data!-instance_method">
+  
+    #<strong>process_data!</strong>(controller)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>This method must be called before the data is read for the first time. It makes the data fit for display. Only call it once.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 228</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_process_data!'>process_data!</span><span class='lparen'>(</span><span class='id identifier rubyid_controller'>controller</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Data was already processed!</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@processed_data</span>
+  <span class='comment'># Filtering
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_filtering_enabled?'>filtering_enabled?</span>
+    <span class='ivar'>@q</span> <span class='op'>=</span> <span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_ransack'>ransack</span><span class='lparen'>(</span><span class='id identifier rubyid_controller'>controller</span><span class='period'>.</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='id identifier rubyid_param_name'>param_name</span><span class='lparen'>(</span><span class='symbol'>:q</span><span class='rparen'>)</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>auth_object:</span> <span class='id identifier rubyid_controller'>controller</span><span class='period'>.</span><span class='id identifier rubyid_current_ability'>current_ability</span><span class='comma'>,</span> <span class='label'>search_key:</span> <span class='id identifier rubyid_param_name'>param_name</span><span class='lparen'>(</span><span class='symbol'>:q</span><span class='rparen'>)</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_filtered_data'>filtered_data</span> <span class='op'>=</span> <span class='ivar'>@q</span><span class='period'>.</span><span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_accessible_by'>accessible_by</span><span class='lparen'>(</span><span class='id identifier rubyid_controller'>controller</span><span class='period'>.</span><span class='id identifier rubyid_current_ability'>current_ability</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_filtered_data'>filtered_data</span> <span class='op'>=</span> <span class='ivar'>@data</span>
+  <span class='kw'>end</span>
+  <span class='comment'># Pagination
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_pagination_enabled?'>pagination_enabled?</span>
+    <span class='ivar'>@page</span> <span class='op'>=</span> <span class='id identifier rubyid_controller'>controller</span><span class='period'>.</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='id identifier rubyid_param_name'>param_name</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>page</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_presence'>presence</span><span class='op'>&amp;.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='op'>||</span> <span class='int'>1</span>
+    <span class='ivar'>@pagination_offset</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='ivar'>@page</span> <span class='op'>-</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='ivar'>@results_per_page</span>
+    <span class='ivar'>@total_pages</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_filtered_data'>filtered_data</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span> <span class='op'>/</span> <span class='ivar'>@results_per_page</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_ceil'>ceil</span>
+    <span class='kw'>if</span> <span class='ivar'>@pagination_offset</span> <span class='op'>&lt;</span> <span class='int'>0</span> <span class='op'>||</span> <span class='ivar'>@pagination_offset</span> <span class='op'>&gt;=</span> <span class='id identifier rubyid_filtered_data'>filtered_data</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span> <span class='comment'># out of bounds check
+</span>      <span class='ivar'>@page</span> <span class='op'>=</span> <span class='int'>1</span>
+      <span class='ivar'>@pagination_offset</span> <span class='op'>=</span> <span class='int'>0</span>
+    <span class='kw'>end</span>
+    <span class='ivar'>@processed_data</span> <span class='op'>=</span> <span class='id identifier rubyid_filtered_data'>filtered_data</span><span class='period'>.</span><span class='id identifier rubyid_offset'>offset</span><span class='lparen'>(</span><span class='ivar'>@pagination_offset</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_limit'>limit</span><span class='lparen'>(</span><span class='ivar'>@results_per_page</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='ivar'>@processed_data</span> <span class='op'>=</span> <span class='id identifier rubyid_filtered_data'>filtered_data</span>
+  <span class='kw'>end</span>
+  <span class='comment'># Apply skips to configs
+</span>  <span class='comment'># Exclude columns that are skipped or the user is not allowed to display
+</span>  <span class='ivar'>@columns</span><span class='period'>.</span><span class='id identifier rubyid_select!'>select!</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_col'>col</span><span class='comma'>,</span> <span class='id identifier rubyid__'>_</span><span class='op'>|</span>
+    <span class='ivar'>@skipped_columns</span><span class='period'>.</span><span class='id identifier rubyid_exclude?'>exclude?</span><span class='lparen'>(</span><span class='id identifier rubyid_col'>col</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_controller'>controller</span><span class='period'>.</span><span class='id identifier rubyid_current_ability'>current_ability</span><span class='period'>.</span><span class='id identifier rubyid_permitted_attributes'>permitted_attributes</span><span class='lparen'>(</span><span class='symbol'>:index</span><span class='comma'>,</span> <span class='id identifier rubyid_data_class'>data_class</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_col'>col</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='comment'># Exclude skipped filters
+</span>  <span class='ivar'>@filters</span><span class='period'>.</span><span class='id identifier rubyid_select!'>select!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_filter'>filter</span><span class='comma'>,</span> <span class='id identifier rubyid__'>_</span><span class='op'>|</span> <span class='ivar'>@skipped_filters</span><span class='period'>.</span><span class='id identifier rubyid_exclude?'>exclude?</span><span class='lparen'>(</span><span class='id identifier rubyid_filter'>filter</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="results_per_page-instance_method">
+  
+    #<strong>results_per_page</strong>(new_results_per_page)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method In case pagination is active, defines the amount of records to display per page.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+57
+58
+59</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 57</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_results_per_page'>results_per_page</span><span class='lparen'>(</span><span class='id identifier rubyid_new_results_per_page'>new_results_per_page</span><span class='rparen'>)</span>
+  <span class='ivar'>@results_per_page</span> <span class='op'>=</span> <span class='id identifier rubyid_new_results_per_page'>new_results_per_page</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="row_action-instance_method">
+  
+    #<strong>row_action</strong>(name, button_opts: {}, &amp;block)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method Adds a row action. The very last col provides actions such as :show, :edit or :destroy. Use this method to add your own. In case the action exists as a component in the family of <code>data_class</code>, it is enough to pass the action’s name, and the rest is auto-generated. In order to create a custom row action, pass a block that will be given the current record and instance-execed once per row, for every record.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The name of the action (e.g. :edit).</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>button_opts</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Only relevant in case of an auto-generated row action, this allows to configure the generated button.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>block</span>
+      
+      
+        <span class='type'>(<tt>Block</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>To create a custom row action; block will be given the current record and instance-execed once per row, for every record.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 157</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_row_action'>row_action</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='label'>button_opts:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>**</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+    <span class='id identifier rubyid_block'>block</span> <span class='op'>=</span> <span class='id identifier rubyid_proc'>proc</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_record'>record</span><span class='op'>|</span>
+      <span class='kw'>next</span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../../Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_comp_class_for'><span class='object_link'><a href="../../Compony.html#comp_class_for-class_method" title="Compony.comp_class_for (method)">comp_class_for</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_record'>record</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+      <span class='id identifier rubyid_compony_button'>compony_button</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_record'>record</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_button_opts'>button_opts</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@row_actions</span><span class='period'>.</span><span class='id identifier rubyid_natural_push'>natural_push</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_block'>block</span><span class='comma'>,</span> <span class='op'>**</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="skip_column-instance_method">
+  
+    #<strong>skip_column</strong>(name)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method Marks a single column as skipped. It will not be displayed, even if it is defined.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Name of the column to be skipped.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+146
+147
+148</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 146</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_skip_column'>skip_column</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+  <span class='ivar'>@skipped_columns</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="skip_filtering!-instance_method">
+  
+    #<strong>skip_filtering!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method Disables filtering entirely (sorting is independent of this setting).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+63
+64
+65</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 63</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_skip_filtering!'>skip_filtering!</span>
+  <span class='ivar'>@filtering</span> <span class='op'>=</span> <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="skip_pagination!-instance_method">
+  
+    #<strong>skip_pagination!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method Disables pagination (caution: all records will be loaded).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+51
+52
+53</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 51</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_skip_pagination!'>skip_pagination!</span>
+  <span class='ivar'>@pagination</span> <span class='op'>=</span> <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="skip_row_action-instance_method">
+  
+    #<strong>skip_row_action</strong>(name)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method Marks a single row action as skipped. It will not be displayed, even if it is defined.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Name of the row action to be skipped.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+171
+172
+173</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 171</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_skip_row_action'>skip_row_action</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+  <span class='ivar'>@skipped_row_actions</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="skip_sorting!-instance_method">
+  
+    #<strong>skip_sorting!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method Disables sorting entirely (both links and sorting input in filter).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+69
+70
+71
+72</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 69</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_skip_sorting!'>skip_sorting!</span>
+  <span class='ivar'>@sorting_in_filter</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='ivar'>@sorting_links</span> <span class='op'>=</span> <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="skip_sorting_in_filter!-instance_method">
+  
+    #<strong>skip_sorting_in_filter!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method Disables sorting in filter.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+76
+77
+78</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 76</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_skip_sorting_in_filter!'>skip_sorting_in_filter!</span>
+  <span class='ivar'>@sorting_in_filter</span> <span class='op'>=</span> <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="skip_sorting_links!-instance_method">
+  
+    #<strong>skip_sorting_links!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method Disables sorting links.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+82
+83
+84</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 82</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_skip_sorting_links!'>skip_sorting_links!</span>
+  <span class='ivar'>@sorting_links</span> <span class='op'>=</span> <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="sort-instance_method">
+  
+    #<strong>sort</strong>(name, label: nil)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method Adds a sorting criterion that will be processed by ransack. <code>data_class</code> must be sortable by this criterion. See Ransack’s sorting for constraints. For every call of this method, one sorting link and two entries (asc, desc) in the sorting-in-filter feature will be generated, if enabled.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Sorting criteria, e.g. <code>:id</code> or <code>:label</code>.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>label</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Label of the sorting link / entries.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+216
+217
+218
+219</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 216</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_sort'>sort</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='label'>label:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_label'>label</span> <span class='op'>||=</span> <span class='id identifier rubyid_data_class'>data_class</span><span class='period'>.</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span>
+  <span class='ivar'>@sorts</span><span class='period'>.</span><span class='id identifier rubyid_natural_push'>natural_push</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>label:</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="sorting_enabled?-instance_method">
+  
+    #<strong>sorting_enabled?</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(protected)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns whether sorting is possible and wanted in general (regardless of whether there are any sorts defined)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+387
+388
+389</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 387</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_sorting_enabled?'>sorting_enabled?</span>
+  <span class='lparen'>(</span><span class='ivar'>@sorting_in_filter</span> <span class='op'>||</span> <span class='ivar'>@sorting_links</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>Ransack</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="sorting_in_filter_enabled?-instance_method">
+  
+    #<strong>sorting_in_filter_enabled?</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(protected)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns whether sorting in filter is possible and wanted in general (regardless of whether there are any sorts defined)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+392
+393
+394</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 392</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_sorting_in_filter_enabled?'>sorting_in_filter_enabled?</span>
+  <span class='id identifier rubyid_sorting_enabled?'>sorting_enabled?</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@sorting_in_filter</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="sorting_in_filter_select_opts-instance_method">
+  
+    #<strong>sorting_in_filter_select_opts</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(protected)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the select options for sorting suitable for passing in a <code>f.select</code>. Used in sorting-in-filter feature. Useful for custom subclasses of List.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+407
+408
+409
+410
+411
+412
+413
+414
+415</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 407</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_sorting_in_filter_select_opts'>sorting_in_filter_select_opts</span>
+  <span class='ivar'>@sorts</span><span class='period'>.</span><span class='id identifier rubyid_flat_map'>flat_map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_sort'>sort</span><span class='op'>|</span>
+    <span class='qwords_beg'>%w[</span><span class='tstring_content'>asc</span><span class='words_sep'> </span><span class='tstring_content'>desc</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_order'>order</span><span class='op'>|</span>
+      <span class='id identifier rubyid_label'>label</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sort'>sort</span><span class='lbracket'>[</span><span class='symbol'>:label</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_order'>order</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>asc</span><span class='tstring_end'>&#39;</span></span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>↑</span><span class='tstring_end'>&#39;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>↓</span><span class='tstring_end'>&#39;</span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+      <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sort'>sort</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_order'>order</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+      <span class='lbracket'>[</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rbracket'>]</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="sorting_links_enabled?-instance_method">
+  
+    #<strong>sorting_links_enabled?</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(protected)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns whether generating sorting links is possible and wanted in general (regardless of whether there are any sorts defined)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+397
+398
+399</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 397</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_sorting_links_enabled?'>sorting_links_enabled?</span>
+  <span class='id identifier rubyid_sorting_enabled?'>sorting_enabled?</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@sorting_links</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="sorts-instance_method">
+  
+    #<strong>sorts</strong>(*names)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method Adds multiple sorts at once, sharing the same kwargs.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+223
+224
+225</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 223</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_sorts'>sorts</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_names'>names</span><span class='comma'>,</span> <span class='op'>**</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_names'>names</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='op'>|</span> <span class='id identifier rubyid_sort'>sort</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='op'>**</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Fri Sep  5 13:56:39 2025 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.34 (ruby-3.3.5).
+</div>
+
+    </div>
+  </body>
+</html>

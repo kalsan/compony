@@ -90,12 +90,14 @@ module Compony
         @columns.natural_push(name, block, label: label || field.label, class:, **)
       end
 
+      # DSL method
       # Adds multiple columns that have identical kwargs, e.g. `class` (see `column`). Typically only used for bulk-adding model fields.
       # @param col_names [String] Names of the fields in `@data` that are to be added as attributes.
       def columns(*col_names, **)
         col_names.each { |col_name| column(col_name, **) }
       end
 
+      # DSL method
       # Marks a column as skipped. Useful only when inheriting from a component that provides too many columns.
       # When nesting components and a column of a child `Show` component is to be skipped, use the constructor's `skip_columns` argument instead.
       # @param name [String] Name of the column to be skipped.
@@ -103,6 +105,7 @@ module Compony
         @skipped_columns << name.to_sym
       end
 
+      # DSL method
       # Goes through the fields of the given data and adds a field column for every field found.
       # @param data [ApplicationModel] Compony-enriched model that will be queried for fields.
       def all_field_columns(data)

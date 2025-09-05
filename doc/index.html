@@ -6,7 +6,7 @@
 <title>
   File: README
   
-    &mdash; Documentation by YARD 0.9.37
+    &mdash; Documentation by YARD 0.9.34
   
 </title>
 
@@ -195,7 +195,7 @@
 
 <p>Here is what our Show component looks like when we have a layout with the bare minimum and no styling at all:</p>
 
-<p><img src="doc/imgs/intro-example-show.png" alt="Screenshot"> of our component with an absolutely minimal layout</p>
+<p><img src="doc/imgs/intro-example-show.png"></p>
 
 <p>It is important to note that actions, buttons, navigation, notifications etc. are handled by the application layout. In this and the subsequent screenshots, we explicitely use minimalism, as it makes the generated HTML clearer.</p>
 
@@ -209,7 +209,7 @@
 
 <p>Note that this component is fully functional. All is handled by the class it inherits from:</p>
 
-<p><img src="doc/imgs/intro-example-destroy.png" alt="Screenshot"> of the destroy component</p>
+<p><img src="doc/imgs/intro-example-destroy.png"></p>
 
 <h3 id="label-The+New+component+and+the+Form+component">The New component and the Form component</h3>
 
@@ -243,7 +243,7 @@
 
 <p>This is enough to render a fully functional form that creates new users:</p>
 
-<p><img src="doc/imgs/intro-example-new.png" alt="New"> form</p>
+<p><img src="doc/imgs/intro-example-new.png"></p>
 
 <h3 id="label-The+Edit+component">The Edit component</h3>
 
@@ -255,7 +255,7 @@
 
 <p>It then looks like this:</p>
 
-<p><img src="doc/imgs/intro-example-edit.png" alt="Edit"> form</p>
+<p><img src="doc/imgs/intro-example-edit.png"></p>
 
 <h3 id="label-The+Index+component">The Index component</h3>
 
@@ -307,7 +307,7 @@
 
 <p>The result looks like this:</p>
 
-<p><img src="doc/imgs/intro-example-index.png" alt="Index"> component</p>
+<p><img src="doc/imgs/intro-example-index.png"></p>
 
 <p>Note how the admin’s delete button is disabled due to the feasibility framework. Pointing the mouse at it causes a tooltip saying: “Cannot destroy admins.”, as specified in the model’s prevention.</p>
 
@@ -506,7 +506,7 @@
 <span class='kw'>end</span>
 </code></pre>
 
-<p>This results in: - This appears first. - Welcome to my basic component. - This paragraph is inserted between the others. - Thank you and see you tonight.</p>
+<p>This results in:  - This appears first.  - Welcome to my basic component.  - This paragraph is inserted between the others.  - Thank you and see you tonight.</p>
 
 <p>As you see, overusing this feature can lead to messy code as it becomes unclear what happens in what order. For this reason, this feature should only be used to decouple the content of your abstract components for allowing surgical overrides in subclasses.</p>
 
@@ -1011,7 +1011,7 @@ The number 8 has the binary form 1000. Enter a number and press ENTER: [8]
 <p><code>respond</code> typically shows a flash and redirects to another component.</p>
 </li></ul>
 
-<p><img src="doc/resourceful_lifecycle.png" alt="Graph"> of the complete resourceful lifecycle</p>
+<p><img src="doc/resourceful_lifecycle.png"></p>
 
 <h3 id="label-Nesting+resourceful+components">Nesting resourceful components</h3>
 
@@ -1390,6 +1390,33 @@ my_button = Compony.button(:index, :users, enabled: -&gt; { |controller| control
 
 <p>You will rarely (or probably never) instantiate a button on your own, but use helpers like <code>Compony.button</code> or <code>compony_button</code>. For this reason, the documentation for instantiating buttons is located in the section documenting those helpers above.</p>
 
+<h3 id="label-Show">Show</h3>
+
+<p>This resourceful component corresponds to a typical Rails controller’s <code>show</code> action and presents <code>@data</code> which is typically a model instance.</p>
+
+<p>To use it, create a component of the style <code>Components::Users::Show</code> and inherit from <code>Compony::Components::Show</code>. By default, this will display all permitted fields along with their labels. Consult the component’s class to learn about the methods you can use in <code>setup</code> in order to customize the behavior.</p>
+
+<h3 id="label-Index">Index</h3>
+
+<p>This stanalone component is resourceful, holds a collection of records and corresponds to Rail’s <code>index</code> controller action. It is a wrapper for the <code>List</code> component (see below).</p>
+
+<h3 id="label-List">List</h3>
+
+<p>This resourceful component displays a table / list of records. It is meant to be nested within another component, typically <code>Index</code> of the same family or <code>Show</code> of another family. Compony’s implementation of this component features:</p>
+<ul><li>
+<p>Inferrence of rows from model fields as well as custom rows</p>
+</li><li>
+<p>Row actions for each displayed record</p>
+</li><li>
+<p>Pagination</p>
+</li><li>
+<p>Sorting: if the Ransack gem is installed and at least one sorting column has been specified, the component can automatically generate a select input for sorting as well as sorting links.</p>
+</li><li>
+<p>Filtering / Searching: if the Ransack gem is installed and at least one filter has been specified, the component can automatically generate a filter / search form that works with Ransack.</p>
+</li></ul>
+
+<p>This component serves as a base block for building powerful management interfaces. Consult the component’s class to learn about the various methods you can use in <code>setup</code> in order to customize the behavior. You will likely want to implement your own custom base component based on this component and overwrite the <code>content</code> blocks that you would like to customize.</p>
+
 <h3 id="label-Destroy">Destroy</h3>
 
 <p>This component is the Compony equivalent to a typical Rails controller’s <code>destroy</code> action.</p>
@@ -1752,9 +1779,9 @@ my_button = Compony.button(:index, :users, enabled: -&gt; { |controller| control
 </div></div>
 
       <div id="footer">
-  Generated on Fri Aug 29 14:58:45 2025 by
+  Generated on Fri Sep  5 13:56:37 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.3.5).
+  0.9.34 (ruby-3.3.5).
 </div>
 
     </div>
