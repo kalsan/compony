@@ -1,4 +1,4 @@
-# unreleased
+# 0.6.0
 
 - Implement `Compony::Components::Show`
 - Implement `Compony::Components::Index` and `Compony::Components::List`
