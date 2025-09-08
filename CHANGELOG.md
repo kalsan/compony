@@ -1,4 +1,4 @@
-# unreleased
+# 0.6.1
 
 - Implement `default_sorting` in `Compony::Components::List`
 
