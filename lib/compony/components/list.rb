@@ -16,6 +16,7 @@ module Compony
       # @param skip_columns [Array] Column names to be skipped.
       # @param skip_row_actions [Array] Row action names to be skipped.
       # @param skip_filters [Array] Filter names to be skipped.
+      # @param default_sorting [String] Default sorting (only relevant for ransack based sorting)
       def initialize(*,
                      skip_pagination: false,
                      results_per_page: 20,
@@ -26,6 +27,7 @@ module Compony
                      skip_columns: [],
                      skip_row_actions: [],
                      skip_filters: [],
+                     default_sorting: 'id asc',
                      **)
         @pagination = !skip_pagination
         @results_per_page = results_per_page
@@ -39,6 +41,7 @@ module Compony
         @filters = Compony::NaturalOrdering.new
         @sorts = Compony::NaturalOrdering.new
         @skipped_filters = skip_filters.map(&:to_sym)
+        @default_sorting = default_sorting
         @filter_label_class = 'list-filter-label'
         @filter_input_class = 'list-filter-input'
         @filter_select_class = 'list-filter-select'
@@ -81,6 +84,12 @@ module Compony
       # Disables sorting links.
       def skip_sorting_links!
         @sorting_links = false
+      end
+
+      # DSL method
+      # Overrides the default sorting
+      def default_sorting(new_default_sorting)
+        @default_sorting = new_default_sorting
       end
 
       # DSL method
@@ -230,6 +239,7 @@ module Compony
         # Filtering
         if filtering_enabled?
           @q = @data.ransack(controller.params[param_name(:q)], auth_object: controller.current_ability, search_key: param_name(:q))
+          @q.sorts = @default_sorting if @q.sorts.empty?
           filtered_data = @q.result.accessible_by(controller.current_ability)
         else
           filtered_data = @data

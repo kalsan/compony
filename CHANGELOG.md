@@ -1,3 +1,7 @@
+# unreleased
+
+- Implement `default_sorting` in `Compony::Components::List`
+
 # 0.6.0
 
 - Implement `Compony::Components::Show`
