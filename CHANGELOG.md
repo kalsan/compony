@@ -1,4 +1,4 @@
-# unreleased
+# 0.6.2
 
 - Change download link label of attachments from "Download" to the actual filename
 - Support multiple attachments by providing a simple UI for adding and removing attachments
