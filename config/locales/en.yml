@@ -10,7 +10,7 @@ en:
       has_dependent_models: 'there are dependent %{dependent_class}'
     model_fields:
       attachment:
-        download: 'Download'
+        remove: 'Remove'
     components:
       show:
         label:

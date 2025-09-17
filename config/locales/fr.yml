@@ -10,7 +10,7 @@ fr:
       has_dependent_models: 'il existe des %{dependent_class} dépendants'
     model_fields:
       attachment:
-        download: 'Télécharger'
+        remove: 'Supprimer'
     components:
       show:
         label:
