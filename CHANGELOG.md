@@ -1,4 +1,4 @@
-# unreleased
+# 0.6.3
 
 - Restrict multi-attachments to upload only when the form's object is a new record
 
