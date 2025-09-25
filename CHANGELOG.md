@@ -1,3 +1,7 @@
+# unreleased
+
+- Restrict multi-attachments to upload only when the form's object is a new record
+
 # 0.6.2
 
 - Change download link label of attachments from "Download" to the actual filename

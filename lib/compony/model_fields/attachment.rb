@@ -25,22 +25,27 @@ module Compony
         name ||= @name
         input_opts.deep_merge!(input_html: { accept: }) if accept
         if @multi
-          helpers = ActionController::Base.helpers
-          return helpers.capture do
-            helpers.concat form.label(name)
-            # List currently present attachments along with a remove button (done in JS)
-            helpers.div class: 'compony-attachments-item-wrapper' do
-              form.object.send(name).each do |attachment|
-                helpers.div class: 'compony-attachments-item' do
-                  helpers.concat helpers.hidden_field_tag("#{form.object.model_name.singular}[#{name}][]", attachment.signed_id)
-                  helpers.span attachment.filename, class: 'compony-attachments-filename'
-                  helpers.span ' ', class: 'compony-attachments-spacer'
-                  helpers.concat helpers.link_to(I18n.t('compony.model_fields.attachment.remove'), '#',
-                                                 onclick: "event.preventDefault(); this.closest('div').remove();")
+          if form.object.new_record?
+            # signed id is only calculated when the attachment is actually attached, cannot provide buttons for new records
+            return form.input(name, **input_opts.deep_merge(input_html: { multiple: :multiple }))
+          else
+            helpers = ActionController::Base.helpers
+            return helpers.capture do
+              helpers.concat form.label(name)
+              # List currently present attachments along with a remove button (done in JS)
+              helpers.div class: 'compony-attachments-item-wrapper' do
+                form.object.send(name).each do |attachment|
+                  helpers.div class: 'compony-attachments-item' do
+                    helpers.concat helpers.hidden_field_tag("#{form.object.model_name.singular}[#{name}][]", attachment.signed_id)
+                    helpers.span attachment.filename, class: 'compony-attachments-filename'
+                    helpers.span ' ', class: 'compony-attachments-spacer'
+                    helpers.concat helpers.link_to(I18n.t('compony.model_fields.attachment.remove'), '#',
+                                                   onclick: "event.preventDefault(); this.closest('div').remove();")
+                  end
                 end
               end
+              helpers.concat form.input(name, **input_opts.deep_merge(input_html: { multiple: :multiple }, label: false, class: 'compony-attachments-input'))
             end
-            helpers.concat form.input(name, **input_opts.deep_merge(input_html: { multiple: :multiple }, label: false, class: 'compony-attachments-input'))
           end
         end
         return form.input(name, **input_opts)
