@@ -1,4 +1,4 @@
-# unreleased
+# 0.6.4
 
 - Replace Feasibility's error message generation in case of dependent errors by a logic that fits fastgettext's modern pluralization
 
