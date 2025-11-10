@@ -1,3 +1,7 @@
+# unreleased
+
+- Replace Feasibility's error message generation in case of dependent errors by a logic that fits fastgettext's modern pluralization
+
 # 0.6.3
 
 - Restrict multi-attachments to upload only when the form's object is a new record
