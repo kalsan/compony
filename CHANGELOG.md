@@ -1,3 +1,7 @@
+# unreleased
+
+- Rename Component's internal `path` to `id_path` to distinguish it from Rails paths
+
 # 0.6.4
 
 - Replace Feasibility's error message generation in case of dependent errors by a logic that fits fastgettext's modern pluralization

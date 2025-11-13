@@ -83,23 +83,23 @@ module Compony
       "#{family_name}_#{comp_name}_#{@index}"
     end
 
-    # Returns the id path from the root_comp.
+    # Returns the id_path from the root_comp.
     # Do not overwrite.
-    def path
+    def id_path
       if root_comp?
         id
       else
-        "#{parent_comp.path}/#{id}"
+        "#{parent_comp.id_path}/#{id}"
       end
     end
 
-    # Returns a hash for the path. Used for params prefixing.
+    # Returns a hash for the id_path. Used for params prefixing.
     # Do not overwrite.
     def path_hash
-      Digest::SHA1.hexdigest(path)[..4]
+      Digest::SHA1.hexdigest(id_path)[..4]
     end
 
-    # Given an unprefixed name of a param, adds the path hash
+    # Given an unprefixed name of a param, adds the id_path hash
     # Do not overwrite.
     def param_name(unprefixed_param_name)
       "#{path_hash}_#{unprefixed_param_name}"
