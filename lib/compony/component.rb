@@ -95,14 +95,14 @@ module Compony
 
     # Returns a hash for the id_path. Used for params prefixing.
     # Do not overwrite.
-    def path_hash
+    def id_path_hash
       Digest::SHA1.hexdigest(id_path)[..4]
     end
 
     # Given an unprefixed name of a param, adds the id_path hash
     # Do not overwrite.
     def param_name(unprefixed_param_name)
-      "#{path_hash}_#{unprefixed_param_name}"
+      "#{id_path_hash}_#{unprefixed_param_name}"
     end
 
     # Instanciate a component with `self` as a parent

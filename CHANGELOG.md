@@ -1,6 +1,6 @@
 # unreleased
 
-- Rename Component's internal `path` to `id_path` to distinguish it from Rails paths
+- Rename Component's internal `path` to `id_path` to distinguish it from Rails paths, as well as `path_hash` to `id_path_hash`
 
 # 0.6.4
 
