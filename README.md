@@ -998,6 +998,12 @@ link_to 'See user page', Compony.path(:show, :users, id: 1) # -> 'users/show/1'
 
 Note that the generated paths in the example are just for illustration purposes. The paths point to whatever path you configure in the target component's default standalone config. Also, this example is not how you should generate links to components, as is explained in the next subsection.
 
+#### Customizing path generation
+
+By implementing `path do ... end` inside the `setup` method of a component, you can override the way paths to that component are generated. Customizing the path generation will affect all mentioned methods mentioned here involving paths, such as `Compony.path`, `compony_link`, `Compony.button`, `compony_button` etc.
+
+This is an advanced usage. Refer to the default implementation of `Component`'s `path_block` to see an exmple.
+
 ### Generating a link to a component
 
 In order to allow a user to visit another component, don't implement your links and buttons manually. Instead, use Compony's links and buttons, as those extract information from the target component, avoiding redundant code and making refactoring much easier.
