@@ -132,6 +132,11 @@ module Compony
     # Returns the component name
     delegate :comp_name, to: :class
 
+    # DSL method
+    # Overrides how the path to this component should be generated.
+    # The block will be given the following args: a model (optional), pos. args for the path helper, the kwarg `standalone_name` and kwargs for the path helper.
+    # The block is expected to return a Rails path. It is not given `controller` or `helpers`, instead use: `Rails.application.routes.url_helpers`.
+    # For an example, refer to the initializer of this class, where the default block is defined.
     def path(*, **, &block)
       if block_given?
         # Assignment via DSL
