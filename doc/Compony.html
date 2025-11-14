@@ -517,7 +517,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#path-class_method" title="path (class method)">.<strong>path</strong>(comp_name_or_cst, model_or_family_name_or_cst = nil, *args_for_path_helper, standalone_name: nil, **kwargs_for_path_helper)  &#x21d2; Object </a>
+      <a href="#path-class_method" title="path (class method)">.<strong>path</strong>(comp_name_or_cst_or_class, model_or_family_name_or_cst = nil, *args_for_path_helper, standalone_name: nil, **kwargs_for_path_helper)  &#x21d2; Object </a>
     
 
     
@@ -931,7 +931,6 @@
       <pre class="lines">
 
 
-176
 177
 178
 179
@@ -966,10 +965,11 @@
 208
 209
 210
-211</pre>
+211
+212</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 176</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 177</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_button'>button</span><span class='lparen'>(</span><span class='id identifier rubyid_comp_name_or_cst_or_class'>comp_name_or_cst_or_class</span><span class='comma'>,</span>
                 <span class='id identifier rubyid_model_or_family_name_or_cst'>model_or_family_name_or_cst</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span>
@@ -1159,12 +1159,12 @@
       <pre class="lines">
 
 
-232
 233
-234</pre>
+234
+235</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 232</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 233</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_button_defaults'>button_defaults</span>
   <span class='const'>RequestStore</span><span class='period'>.</span><span class='id identifier rubyid_store'>store</span><span class='lbracket'>[</span><span class='symbol'>:button_defaults</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -1236,17 +1236,17 @@
       <pre class="lines">
 
 
-122
 123
 124
 125
 126
 127
 128
-129</pre>
+129
+130</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 123</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_comp_class_for'>comp_class_for</span><span class='lparen'>(</span><span class='id identifier rubyid_comp_name_or_cst'>comp_name_or_cst</span><span class='comma'>,</span> <span class='id identifier rubyid_model_or_family_name_or_cst'>model_or_family_name_or_cst</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_family_cst_str'>family_cst_str</span> <span class='op'>=</span> <span class='id identifier rubyid_family_name_for'>family_name_for</span><span class='lparen'>(</span><span class='id identifier rubyid_model_or_family_name_or_cst'>model_or_family_name_or_cst</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_camelize'>camelize</span>
@@ -1294,14 +1294,14 @@
       <pre class="lines">
 
 
-133
 134
 135
 136
-137</pre>
+137
+138</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 133</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 134</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_comp_class_for!'>comp_class_for!</span><span class='lparen'>(</span><span class='id identifier rubyid_comp_name_or_cst'>comp_name_or_cst</span><span class='comma'>,</span> <span class='id identifier rubyid_model_or_family_name_or_cst'>model_or_family_name_or_cst</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_comp_class_for'>comp_class_for</span><span class='lparen'>(</span><span class='id identifier rubyid_comp_name_or_cst'>comp_name_or_cst</span><span class='comma'>,</span> <span class='id identifier rubyid_model_or_family_name_or_cst'>model_or_family_name_or_cst</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span>
@@ -1541,16 +1541,16 @@
       <pre class="lines">
 
 
-222
 223
 224
 225
 226
 227
-228</pre>
+228
+229</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 222</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 223</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_family_name_for'>family_name_for</span><span class='lparen'>(</span><span class='id identifier rubyid_model_or_family_name_or_cst'>model_or_family_name_or_cst</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_model_or_family_name_or_cst'>model_or_family_name_or_cst</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:model_name</span><span class='rparen'>)</span>
@@ -1610,7 +1610,6 @@
       <pre class="lines">
 
 
-263
 264
 265
 266
@@ -1618,10 +1617,11 @@
 268
 269
 270
-271</pre>
+271
+272</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 263</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 264</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_model_field_class_for'>model_field_class_for</span><span class='lparen'>(</span><span class='id identifier rubyid_constant'>constant</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_model_field_namespaces'>model_field_namespaces</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_model_field_namespace'>model_field_namespace</span><span class='op'>|</span>
@@ -1749,7 +1749,7 @@
       <div class="method_details ">
   <h3 class="signature " id="path-class_method">
   
-    .<strong>path</strong>(comp_name_or_cst, model_or_family_name_or_cst = nil, *args_for_path_helper, standalone_name: nil, **kwargs_for_path_helper)  &#x21d2; <tt>Object</tt> 
+    .<strong>path</strong>(comp_name_or_cst_or_class, model_or_family_name_or_cst = nil, *args_for_path_helper, standalone_name: nil, **kwargs_for_path_helper)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1769,7 +1769,7 @@
   
     <li>
       
-        <span class='name'>comp_name_or_cst</span>
+        <span class='name'>comp_name_or_cst_or_class</span>
       
       
         <span class='type'>(<tt>String</tt>, <tt>Symbol</tt>)</span>
@@ -1868,19 +1868,21 @@
 112
 113
 114
-115</pre>
+115
+116</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/compony.rb', line 107</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='lparen'>(</span><span class='id identifier rubyid_comp_name_or_cst'>comp_name_or_cst</span><span class='comma'>,</span> <span class='id identifier rubyid_model_or_family_name_or_cst'>model_or_family_name_or_cst</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args_for_path_helper'>args_for_path_helper</span><span class='comma'>,</span> <span class='label'>standalone_name:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs_for_path_helper'>kwargs_for_path_helper</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='lparen'>(</span><span class='id identifier rubyid_comp_name_or_cst_or_class'>comp_name_or_cst_or_class</span><span class='comma'>,</span> <span class='id identifier rubyid_model_or_family_name_or_cst'>model_or_family_name_or_cst</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args_for_path_helper'>args_for_path_helper</span><span class='comma'>,</span> <span class='label'>standalone_name:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs_for_path_helper'>kwargs_for_path_helper</span><span class='rparen'>)</span>
   <span class='comment'># Extract model if any, to get the ID
-</span>  <span class='id identifier rubyid_kwargs_for_path_helper'>kwargs_for_path_helper</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='label'>id:</span> <span class='id identifier rubyid_model_or_family_name_or_cst'>model_or_family_name_or_cst</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_model_or_family_name_or_cst'>model_or_family_name_or_cst</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:model_name</span><span class='rparen'>)</span>
-  <span class='kw'>return</span> <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_routes'>routes</span><span class='period'>.</span><span class='id identifier rubyid_url_helpers'>url_helpers</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span>
-    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path_helper_name'>path_helper_name</span><span class='lparen'>(</span><span class='id identifier rubyid_comp_name_or_cst'>comp_name_or_cst</span><span class='comma'>,</span> <span class='id identifier rubyid_model_or_family_name_or_cst'>model_or_family_name_or_cst</span><span class='comma'>,</span> <span class='id identifier rubyid_standalone_name'>standalone_name</span><span class='op'>&amp;.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>_path</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
-    <span class='op'>*</span><span class='id identifier rubyid_args_for_path_helper'>args_for_path_helper</span><span class='comma'>,</span>
-    <span class='op'>**</span><span class='id identifier rubyid_kwargs_for_path_helper'>kwargs_for_path_helper</span>
-  <span class='rparen'>)</span>
+</span>  <span class='id identifier rubyid_model'>model</span> <span class='op'>=</span> <span class='id identifier rubyid_model_or_family_name_or_cst'>model_or_family_name_or_cst</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:model_name</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_model_or_family_name_or_cst'>model_or_family_name_or_cst</span> <span class='op'>:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_comp_class'>comp_class</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id identifier rubyid_comp_name_or_cst_or_class'>comp_name_or_cst_or_class</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Class</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='lparen'>(</span><span class='id identifier rubyid_comp_name_or_cst_or_class'>comp_name_or_cst_or_class</span> <span class='op'>&lt;=</span> <span class='const'><span class='object_link'><a href="" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Component.html" title="Compony::Component (class)">Component</a></span></span><span class='rparen'>)</span>
+                 <span class='id identifier rubyid_comp_name_or_cst_or_class'>comp_name_or_cst_or_class</span>
+               <span class='kw'>else</span>
+                 <span class='id identifier rubyid_comp_class_for!'>comp_class_for!</span><span class='lparen'>(</span><span class='id identifier rubyid_comp_name_or_cst_or_class'>comp_name_or_cst_or_class</span><span class='comma'>,</span> <span class='id identifier rubyid_model_or_family_name_or_cst'>model_or_family_name_or_cst</span><span class='rparen'>)</span>
+               <span class='kw'>end</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_comp_class'>comp_class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='lparen'>(</span><span class='id identifier rubyid_model'>model</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args_for_path_helper'>args_for_path_helper</span><span class='comma'>,</span> <span class='label'>standalone_name:</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs_for_path_helper'>kwargs_for_path_helper</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1922,12 +1924,12 @@
       <pre class="lines">
 
 
-144
 145
-146</pre>
+146
+147</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 144</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 145</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_path_helper_name'>path_helper_name</span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span>
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_rails_action_name'>rails_action_name</span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>_comp</span><span class='tstring_end'>&quot;</span></span>
@@ -2024,17 +2026,17 @@
       <pre class="lines">
 
 
-154
 155
 156
 157
 158
 159
 160
-161</pre>
+161
+162</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 154</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 155</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_rails_action_name'>rails_action_name</span><span class='lparen'>(</span><span class='id identifier rubyid_comp_name_or_cst_or_class'>comp_name_or_cst_or_class</span><span class='comma'>,</span> <span class='id identifier rubyid_model_or_family_name_or_cst'>model_or_family_name_or_cst</span><span class='comma'>,</span> <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_comp_name_or_cst_or_class'>comp_name_or_cst_or_class</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Class</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='lparen'>(</span><span class='id identifier rubyid_comp_name_or_cst_or_class'>comp_name_or_cst_or_class</span> <span class='op'>&lt;=</span> <span class='const'><span class='object_link'><a href="" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Component.html" title="Compony::Component (class)">Component</a></span></span><span class='rparen'>)</span>
@@ -2075,12 +2077,12 @@
       <pre class="lines">
 
 
-214
 215
-216</pre>
+216
+217</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 214</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 215</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_root_comp'>root_comp</span>
   <span class='const'>RequestStore</span><span class='period'>.</span><span class='id identifier rubyid_store'>store</span><span class='lbracket'>[</span><span class='symbol'>:compony_root_comp</span><span class='rbracket'>]</span>
@@ -2152,7 +2154,6 @@
       <pre class="lines">
 
 
-240
 241
 242
 243
@@ -2171,10 +2172,11 @@
 256
 257
 258
-259</pre>
+259
+260</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 240</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 241</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_with_button_defaults'>with_button_defaults</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_keys_to_overwrite'>keys_to_overwrite</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='comment'># Lazy initialize butto_defaults store if it hasn&#39;t been yet
@@ -2206,7 +2208,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Nov 10 13:16:04 2025 by
+  Generated on Fri Nov 14 15:08:15 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.3.5).
 </div>

@@ -1075,6 +1075,12 @@ The number 8 has the binary form 1000. Enter a number and press ENTER: [8]
 
 <p>Note that the generated paths in the example are just for illustration purposes. The paths point to whatever path you configure in the target component’s default standalone config. Also, this example is not how you should generate links to components, as is explained in the next subsection.</p>
 
+<h4 id="label-Customizing+path+generation">Customizing path generation</h4>
+
+<p>By implementing <code>path do ... end</code> inside the <code>setup</code> method of a component, you can override the way paths to that component are generated. Customizing the path generation will affect all mentioned methods mentioned here involving paths, such as <code>Compony.path</code>, <code>compony_link</code>, <code>Compony.button</code>, <code>compony_button</code> etc.</p>
+
+<p>This is an advanced usage. Refer to the default implementation of <code>Component</code>‘s <code>path_block</code> to see an exmple.</p>
+
 <h3 id="label-Generating+a+link+to+a+component">Generating a link to a component</h3>
 
 <p>In order to allow a user to visit another component, don’t implement your links and buttons manually. Instead, use Compony’s links and buttons, as those extract information from the target component, avoiding redundant code and making refactoring much easier.</p>
@@ -1779,7 +1785,7 @@ my_button = Compony.button(:index, :users, enabled: -&gt; { |controller| control
 </div></div>
 
       <div id="footer">
-  Generated on Mon Nov 10 13:16:03 2025 by
+  Generated on Fri Nov 14 15:08:14 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.3.5).
 </div>
