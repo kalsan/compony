@@ -49,6 +49,14 @@ module Compony
       @content_blocks = NaturalOrdering.new
       @actions = NaturalOrdering.new
       @skipped_actions = Set.new
+      @path_block = proc do |model = nil, *args_for_path_helper, standalone_name: nil, **kwargs_for_path_helper|
+        kwargs_for_path_helper.merge!(id: model.id) if model
+        next Rails.application.routes.url_helpers.send(
+          "#{Compony.path_helper_name(comp_cst, family_cst, standalone_name&.to_sym)}_path",
+          *args_for_path_helper,
+          **kwargs_for_path_helper
+        )
+      end
 
       init_standalone
       init_labelling
@@ -123,6 +131,15 @@ module Compony
 
     # Returns the component name
     delegate :comp_name, to: :class
+
+    def path(*, **, &block)
+      if block_given?
+        # Assignment via DSL
+        @path_block = block
+      else
+        @path_block.call(*, **)
+      end
+    end
 
     # DSL method
     # Adds or overrides a before_render block.

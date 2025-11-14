@@ -95,7 +95,7 @@ module Compony
   ##########=====-------
 
   # Generates a Rails path to a component. Examples: `Compony.path(:index, :users)`, `Compony.path(:show, User.first)`
-  # @param comp_name_or_cst [String,Symbol] The component that should be loaded, for instance `ShowForAll`, `'ShowForAll'` or `:show_for_all`
+  # @param comp_name_or_cst_or_class [String,Symbol] The component that should be loaded, for instance `ShowForAll`, `'ShowForAll'` or `:show_for_all`
   #                         or can also pass a component class (such as Components::Users::Show)
   # @param model_or_family_name_or_cst [String,Symbol,ApplicationRecord] Either the family that contains the requested component,
   #                                    or an instance implementing `model_name` from which the family name is auto-generated. Examples:
@@ -104,14 +104,15 @@ module Compony
   # @param args_for_path_helper [Array] Positional arguments passed to the Rails helper
   # @param kwargs_for_path_helper [Hash] Named arguments passed to the Rails helper. If a model is given to `model_or_family_name_or_cst`,
   #                                      the param `id` defaults to the passed model's ID.
-  def self.path(comp_name_or_cst, model_or_family_name_or_cst = nil, *args_for_path_helper, standalone_name: nil, **kwargs_for_path_helper)
+  def self.path(comp_name_or_cst_or_class, model_or_family_name_or_cst = nil, *args_for_path_helper, standalone_name: nil, **kwargs_for_path_helper)
     # Extract model if any, to get the ID
-    kwargs_for_path_helper.merge!(id: model_or_family_name_or_cst.id) if model_or_family_name_or_cst.respond_to?(:model_name)
-    return Rails.application.routes.url_helpers.send(
-      "#{path_helper_name(comp_name_or_cst, model_or_family_name_or_cst, standalone_name&.to_sym)}_path",
-      *args_for_path_helper,
-      **kwargs_for_path_helper
-    )
+    model = model_or_family_name_or_cst.respond_to?(:model_name) ? model_or_family_name_or_cst : nil
+    comp_class = if comp_name_or_cst_or_class.is_a?(Class) && (comp_name_or_cst_or_class <= Compony::Component)
+                   comp_name_or_cst_or_class
+                 else
+                   comp_class_for!(comp_name_or_cst_or_class, model_or_family_name_or_cst)
+                 end
+    return comp_class.new.path(model, *args_for_path_helper, standalone_name:, **kwargs_for_path_helper)
   end
 
   # Given a component and a family/model, this returns the matching component class if any, or nil if the component does not exist.

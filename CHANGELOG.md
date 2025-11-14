@@ -2,6 +2,9 @@
 
 - Rename Component's internal `path` to `id_path` to distinguish it from Rails paths, as well as `path_hash` to `id_path_hash`
 - (internal change): switch `WithForm`'s default `submit_path` block to `Compony.path` logic
+- Implement new component DSL method `path`, closes #13
+    - The method allows components to define the path pointing towards them (the default behavior corresponds to that of `Compony.path` of previous versions)
+    - Adjust `Compony.path` to instanciate the target component and use the `path` block rather than come up with the path on its own
 
 ## Steps to take
 
