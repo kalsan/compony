@@ -5,7 +5,7 @@ module Compony
     # It can be called via :get or via `submit_verb` depending on whether its form should be shown or submitted.
     class WithForm < Component
       def initialize(...)
-        @submit_path_block = proc { Compony.path(comp_name, family_name) }
+        @submit_path_block = proc { Compony.path(comp_name, family_name, @data) }
         @form_cancancan_action = :missing
         super
       end
