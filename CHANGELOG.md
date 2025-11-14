@@ -2,6 +2,10 @@
 
 - Rename Component's internal `path` to `id_path` to distinguish it from Rails paths, as well as `path_hash` to `id_path_hash`
 
+## Steps to take
+
+- If using the methods formerly called `path` or `path_hash`, rename them to `id_path` respectively `id_path_hash`.
+
 # 0.6.4
 
 - Replace Feasibility's error message generation in case of dependent errors by a logic that fits fastgettext's modern pluralization
