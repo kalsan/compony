@@ -1,6 +1,7 @@
 # unreleased
 
 - Rename Component's internal `path` to `id_path` to distinguish it from Rails paths, as well as `path_hash` to `id_path_hash`
+- (internal change): switch `WithForm`'s default `submit_path` block to `Compony.path` logic
 
 ## Steps to take
 
