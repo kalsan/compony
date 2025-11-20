@@ -1,6 +1,7 @@
 # unreleased
 
 - Implement `Compony::VirtualModel` and document it in the Readme file
+- Break up documentation into separate files
 
 # 0.7.0
 
