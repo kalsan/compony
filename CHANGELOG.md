@@ -1,3 +1,7 @@
+# unreleased
+
+- Implement `Compony::VirtualModel` and document it in the Readme file
+
 # 0.7.0
 
 - Rename Component's internal `path` to `id_path` to distinguish it from Rails paths, as well as `path_hash` to `id_path_hash`

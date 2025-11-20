@@ -323,3 +323,7 @@ require 'compony/request_context'
 require 'compony/version'
 require 'compony/view_helpers'
 require 'compony/controller_mixin'
+
+if defined?(ActiveType::Object)
+  require 'compony/virtual_model'
+end
