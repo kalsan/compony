@@ -30,7 +30,7 @@ I am actively using this framework in various applications and both performance 
 
 A project with a similar aim, but a different approach, is [Phlex](https://github.com/phlex-ruby/phlex).
 
-# Guide
+# Guide / Documentation
 
 The following topics should help you get started. Please note that the links will not work in yard doc - read this on [Compony's GitHub repo](https://github.com/kalsan/compony).
 
