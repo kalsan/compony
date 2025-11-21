@@ -20,24 +20,14 @@ module Compony
       setup_blocks << block
     end
 
-    # Returns the name of the module constant (=family) of this component. Do not override.
-    def self.family_cst
-      module_parent.to_s.demodulize.to_sym
-    end
-
     # Returns the family name
     def self.family_name
-      family_cst.to_s.underscore
-    end
-
-    # Returns the name of the class constant of this component. Do not override.
-    def self.comp_cst
-      name.demodulize.to_sym
+      module_parent.to_s.demodulize.underscore
     end
 
     # Returns the component name
     def self.comp_name
-      comp_cst.to_s.underscore
+      name.demodulize.underscore
     end
 
     def initialize(parent_comp = nil, index: 0, **comp_opts)
@@ -52,7 +42,7 @@ module Compony
       @path_block = proc do |model = nil, *args_for_path_helper, standalone_name: nil, **kwargs_for_path_helper|
         kwargs_for_path_helper.merge!(id: model.id) if model
         next Rails.application.routes.url_helpers.send(
-          "#{Compony.path_helper_name(comp_cst, family_cst, standalone_name&.to_sym)}_path",
+          "#{path_helper_name(standalone_name)}_path",
           *args_for_path_helper,
           **kwargs_for_path_helper
         )
@@ -120,14 +110,8 @@ module Compony
       return sub
     end
 
-    # Returns the name of the module constant (=family) of this component. Do not override.
-    delegate :family_cst, to: :class
-
     # Returns the family name
     delegate :family_name, to: :class
-
-    # Returns the name of the class constant of this component. Do not override.
-    delegate :comp_cst, to: :class
 
     # Returns the component name
     delegate :comp_name, to: :class

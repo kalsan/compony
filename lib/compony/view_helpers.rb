@@ -19,6 +19,7 @@ module Compony
     # @param link_args [Array] Positional arguments that will be passed to the Rails `link_to` helper
     # @param label_opts [Hash] Options hash that will be passed to the label method (see {Compony::ComponentMixins::Default::Labelling#label})
     # @param link_kwargs [Hash] Named arguments that will be passed to the Rails `link_to` helper
+    # TODO: Move much of the logic to Intent
     def compony_link(comp_name_or_cst_or_class,
                      model_or_family_name_or_cst = nil,
                      *link_args,

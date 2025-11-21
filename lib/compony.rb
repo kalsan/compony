@@ -94,71 +94,34 @@ module Compony
   # Application-wide available pure helpers
   ##########=====-------
 
+  # Pure helper to create a Compony Intent. If given an intent, will return it unchanged. Otherwise, will give all params to the intent initializer.
+  def self.intent(intent_or_comp_args, ...)
+    if intent_or_comp_args.is_a?(Intent)
+      return intent_or_comp_args
+    else
+      return Intent.new(intent_or_comp_args, ...)
+    end
+  end
+
   # Generates a Rails path to a component. Examples: `Compony.path(:index, :users)`, `Compony.path(:show, User.first)`
-  # @param comp_name_or_cst_or_class [String,Symbol] The component that should be loaded, for instance `ShowForAll`, `'ShowForAll'` or `:show_for_all`
-  #                         or can also pass a component class (such as Components::Users::Show)
-  # @param model_or_family_name_or_cst [String,Symbol,ApplicationRecord] Either the family that contains the requested component,
-  #                                    or an instance implementing `model_name` from which the family name is auto-generated. Examples:
-  #                                    `Users`, `'Users'`, `:users`, `User.first`
-  # @param standalone_name [Symbol,nil] Name of the standalone config to point to (defaults to nil the default standalone config).
-  # @param args_for_path_helper [Array] Positional arguments passed to the Rails helper
-  # @param kwargs_for_path_helper [Hash] Named arguments passed to the Rails helper. If a model is given to `model_or_family_name_or_cst`,
-  #                                      the param `id` defaults to the passed model's ID.
-  def self.path(comp_name_or_cst_or_class, model_or_family_name_or_cst = nil, *args_for_path_helper, standalone_name: nil, **kwargs_for_path_helper)
-    # Extract model if any, to get the ID
-    model = model_or_family_name_or_cst.respond_to?(:model_name) ? model_or_family_name_or_cst : nil
-    comp_class = if comp_name_or_cst_or_class.is_a?(Class) && (comp_name_or_cst_or_class <= Compony::Component)
-                   comp_name_or_cst_or_class
-                 else
-                   comp_class_for!(comp_name_or_cst_or_class, model_or_family_name_or_cst)
-                 end
-    return comp_class.new.path(model, *args_for_path_helper, standalone_name:, **kwargs_for_path_helper)
+  # The first two arguments are given to create an {Intent} and all subsequend args and all kwargs are given to {Intent#path}
+  def self.path(comp_name_or_cst_or_class, model_or_family_name_or_cst = nil, ...)
+    intent(comp_name_or_cst_or_class, model_or_family_name_or_cst).path(...)
   end
 
   # Given a component and a family/model, this returns the matching component class if any, or nil if the component does not exist.
-  # @param comp_name_or_cst [String,Symbol] The component that should be loaded, for instance `ShowForAll`, `'ShowForAll'` or `:show_for_all`
-  # @param model_or_family_name_or_cst [String,Symbol,ApplicationRecord] Either the family that contains the requested component,
-  #                                    or an instance implementing `model_name` from which the family name is auto-generated. Examples:
-  #                                    `Users`, `'Users'`, `:users`, `User.first`
-  def self.comp_class_for(comp_name_or_cst, model_or_family_name_or_cst)
-    family_cst_str = family_name_for(model_or_family_name_or_cst).camelize
-    comp_cst_str = comp_name_or_cst.to_s.camelize
-    return nil unless ::Components.const_defined?(family_cst_str)
-    family_constant = ::Components.const_get(family_cst_str)
-    return nil unless family_constant.const_defined?(comp_cst_str)
-    return family_constant.const_get(comp_cst_str)
+  # @see Intent for allowed parameters.
+  def self.comp_class_for(...)
+    intent(...).comp_class
   end
 
   # Same as Compony#comp_class_for but fails if none found
+  # @see Intent for allowed parameters.
   # @see Compony#comp_class_for
-  def self.comp_class_for!(comp_name_or_cst, model_or_family_name_or_cst)
-    comp_class_for(comp_name_or_cst, model_or_family_name_or_cst) || fail(
+  def self.comp_class_for!(...)
+    comp_class_for(...) || fail(
       "No component found for [#{comp_name_or_cst.inspect}, #{model_or_family_name_or_cst.inspect}]"
     )
-  end
-
-  # Given a component and a family, this returns the name of the Rails URL helper returning the path to this component.<br>
-  # The parameters are the same as for {Compony#rails_action_name}.<br>
-  # Example usage: `send("#{path_helper_name(:index, :users)}_url)`
-  # @see Compony#path
-  # @see Compony#rails_action_name rails_action_name for the accepted params
-  def self.path_helper_name(...)
-    "#{rails_action_name(...)}_comp"
-  end
-
-  # Given a component and a family or a component class, this returns the name of the ComponyController action for this component.<br>
-  # Optionally can pass a name for extra standalone configs.
-  # @param comp_name_or_cst [String,Symbol] Name of the component the action points to.
-  # @param model_or_family_name_or_cst [String,Symbol] Name of the family the action points to.
-  # @param name [String,Symbol] If referring to an extra standalone entrypoint, specify its name using this param.
-  # @see Compony#path
-  def self.rails_action_name(comp_name_or_cst_or_class, model_or_family_name_or_cst, name = nil)
-    if comp_name_or_cst_or_class.is_a?(Class) && (comp_name_or_cst_or_class <= Compony::Component)
-      comp_class = comp_name_or_cst_or_class
-      comp_name_or_cst_or_class = comp_class.comp_name
-      model_or_family_name_or_cst = comp_class.family_name
-    end
-    [name.presence, comp_name_or_cst_or_class.to_s.underscore, family_name_for(model_or_family_name_or_cst)].compact.join('_')
   end
 
   # Given a component and a family/model, this instanciates and returns a button component.
@@ -174,6 +137,7 @@ module Compony
   # @param override_kwargs [Hash] Override button options, see options for {Compony::Components::Button}
   # @see Compony::ViewHelpers#compony_button View helper providing a wrapper for this method that immediately renders a button.
   # @see Compony::Components::Button Compony::Components::Button: the default underlying implementation
+  # TODO: Move much of the logic to Intent
   def self.button(comp_name_or_cst_or_class,
                   model_or_family_name_or_cst = nil,
                   label_opts: nil,
@@ -279,6 +243,7 @@ require 'request_store'
 require 'schemacop'
 require 'simple_form'
 
+require 'compony/intent'
 require 'compony/engine'
 require 'compony/model_fields/base'
 require 'compony/model_fields/anchormodel'

@@ -32,8 +32,8 @@ module Compony
               scope:                   @scope,
               scope_args:              @scope_args,
               verbs:                   @verbs,
-              rails_action_name:       Compony.rails_action_name(comp_name, family_name, @name),
-              path_helper_name:        Compony.path_helper_name(comp_name, family_name, @name),
+              rails_action_name:       rails_action_name(@name),
+              path_helper_name:        path_helper_name(@name),
               skip_authentication:     @skip_authentication,
               skip_forgery_protection: @skip_forgery_protection,
               layout:                  @layout

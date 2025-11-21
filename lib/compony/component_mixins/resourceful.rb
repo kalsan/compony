@@ -28,7 +28,7 @@ module Compony
       # DSL method
       # Sets or calculates the model class based on the component's family name
       def data_class(new_data_class = nil)
-        @data_class ||= new_data_class || family_cst.to_s.singularize.constantize
+        @data_class ||= new_data_class || family_name.singularize.camelize.constantize
       end
 
       # Instanciate a component with `self` as a parent and render it, having it inherit the resource

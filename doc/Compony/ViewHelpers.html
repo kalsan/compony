@@ -280,12 +280,12 @@
       <pre class="lines">
 
 
-54
 55
-56</pre>
+56
+57</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/view_helpers.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/view_helpers.rb', line 55</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_compony_button'>compony_button</span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="../Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_button'><span class='object_link'><a href="../Compony.html#button-class_method" title="Compony.button (method)">button</a></span></span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='id identifier rubyid_helpers'>helpers</span><span class='period'>.</span><span class='id identifier rubyid_controller'>controller</span><span class='rparen'>)</span>
@@ -307,7 +307,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Renders a link to a component given a comp and model or family. If authentication is configured and the current user has insufficient permissions to access the target object, the link is not displayed.</p>
+<p>Renders a link to a component given a comp and model or family. If authentication is configured and the current user has insufficient permissions to access the target object, the link is not displayed. TODO: Move much of the logic to Intent</p>
 
 
   </div>
@@ -409,7 +409,6 @@
       <pre class="lines">
 
 
-22
 23
 24
 25
@@ -436,10 +435,11 @@
 46
 47
 48
-49</pre>
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/view_helpers.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/view_helpers.rb', line 23</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_compony_link'>compony_link</span><span class='lparen'>(</span><span class='id identifier rubyid_comp_name_or_cst_or_class'>comp_name_or_cst_or_class</span><span class='comma'>,</span>
                  <span class='id identifier rubyid_model_or_family_name_or_cst'>model_or_family_name_or_cst</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span>
@@ -479,7 +479,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Nov 20 12:44:29 2025 by
+  Generated on Fri Nov 21 15:29:20 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.3.5).
 </div>

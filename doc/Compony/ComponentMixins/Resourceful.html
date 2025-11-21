@@ -927,7 +927,7 @@
       <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 30</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_data_class'>data_class</span><span class='lparen'>(</span><span class='id identifier rubyid_new_data_class'>new_data_class</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
-  <span class='ivar'>@data_class</span> <span class='op'>||=</span> <span class='id identifier rubyid_new_data_class'>new_data_class</span> <span class='op'>||</span> <span class='id identifier rubyid_family_cst'>family_cst</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_singularize'>singularize</span><span class='period'>.</span><span class='id identifier rubyid_constantize'>constantize</span>
+  <span class='ivar'>@data_class</span> <span class='op'>||=</span> <span class='id identifier rubyid_new_data_class'>new_data_class</span> <span class='op'>||</span> <span class='id identifier rubyid_family_name'>family_name</span><span class='period'>.</span><span class='id identifier rubyid_singularize'>singularize</span><span class='period'>.</span><span class='id identifier rubyid_camelize'>camelize</span><span class='period'>.</span><span class='id identifier rubyid_constantize'>constantize</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1183,7 +1183,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Nov 20 12:44:29 2025 by
+  Generated on Fri Nov 21 15:29:20 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.3.5).
 </div>

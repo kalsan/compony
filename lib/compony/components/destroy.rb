@@ -32,7 +32,7 @@ module Compony
 
         content :confirm_button, hidden: true do
           div do
-            concat compony_button(comp_cst,
+            concat compony_button(comp_name,
                                   @data,
                                   label:  I18n.t('compony.components.destroy.confirm_button'),
                                   method: :delete)
@@ -72,7 +72,7 @@ module Compony
           if data_class.owner_model_attr.present?
             Compony.path(:show, @data.send(data_class.owner_model_attr))
           else
-            Compony.path(:index, family_cst)
+            Compony.path(:index, family_name)
           end
         end
       end

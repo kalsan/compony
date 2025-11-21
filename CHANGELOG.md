@@ -1,3 +1,18 @@
+# unreleased
+
+- Implement `Compony::Intent` as discussed in Issue #14:
+    - Rewire many pure helpers to use intents instead, greatly cleaning up their interface
+    - Remove pure helpers `rails_action_name`, `path_helper_name`, `comp_cst` and `family_cst`
+    - TODO: `Compony.button`, `compony_link`, guide in the documentation
+
+## Steps to take
+
+- Make sure you no longer use the following methods that have been removed:
+    - `Compony.rails_action_name`
+    - `Compony.path_helper_name`
+    - `Component.comp_cst` (replace by `comp_name`)
+    - `Component.family_cst` (replace by `family_name`)
+
 # 0.7.1
 
 - Implement `Compony::VirtualModel` and document it in the Readme file

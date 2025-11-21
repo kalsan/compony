@@ -218,30 +218,6 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#comp_cst-class_method" title="comp_cst (class method)">.<strong>comp_cst</strong>  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the name of the class constant of this component.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#comp_name-class_method" title="comp_name (class method)">.<strong>comp_name</strong>  &#x21d2; Object </a>
     
 
@@ -258,30 +234,6 @@
   
     <span class="summary_desc"><div class='inline'>
 <p>Returns the component name.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#family_cst-class_method" title="family_cst (class method)">.<strong>family_cst</strong>  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the name of the module constant (=family) of this component.</p>
 </div></span>
   
 </li>
@@ -832,6 +784,16 @@
       <pre class="lines">
 
 
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
 43
 44
 45
@@ -848,20 +810,10 @@
 56
 57
 58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69</pre>
+59</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 33</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_parent_comp'>parent_comp</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>index:</span> <span class='int'>0</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_comp_opts'>comp_opts</span><span class='rparen'>)</span>
   <span class='ivar'>@parent_comp</span> <span class='op'>=</span> <span class='id identifier rubyid_parent_comp'>parent_comp</span>
@@ -875,7 +827,7 @@
   <span class='ivar'>@path_block</span> <span class='op'>=</span> <span class='id identifier rubyid_proc'>proc</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_model'>model</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args_for_path_helper'>args_for_path_helper</span><span class='comma'>,</span> <span class='label'>standalone_name:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs_for_path_helper'>kwargs_for_path_helper</span><span class='op'>|</span>
     <span class='id identifier rubyid_kwargs_for_path_helper'>kwargs_for_path_helper</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='label'>id:</span> <span class='id identifier rubyid_model'>model</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_model'>model</span>
     <span class='kw'>next</span> <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_routes'>routes</span><span class='period'>.</span><span class='id identifier rubyid_url_helpers'>url_helpers</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span>
-      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="../Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_path_helper_name'><span class='object_link'><a href="../Compony.html#path_helper_name-class_method" title="Compony.path_helper_name (method)">path_helper_name</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_comp_cst'>comp_cst</span><span class='comma'>,</span> <span class='id identifier rubyid_family_cst'>family_cst</span><span class='comma'>,</span> <span class='id identifier rubyid_standalone_name'>standalone_name</span><span class='op'>&amp;.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>_path</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path_helper_name'>path_helper_name</span><span class='lparen'>(</span><span class='id identifier rubyid_standalone_name'>standalone_name</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>_path</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
       <span class='op'>*</span><span class='id identifier rubyid_args_for_path_helper'>args_for_path_helper</span><span class='comma'>,</span>
       <span class='op'>**</span><span class='id identifier rubyid_kwargs_for_path_helper'>kwargs_for_path_helper</span>
     <span class='rparen'>)</span>
@@ -1033,48 +985,7 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="comp_cst-class_method">
-  
-    .<strong>comp_cst</strong>  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Returns the name of the class constant of this component. Do not override.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-34
-35
-36</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 34</span>
-
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_comp_cst'>comp_cst</span>
-  <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_demodulize'>demodulize</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="comp_name-class_method">
+  <h3 class="signature first" id="comp_name-class_method">
   
     .<strong>comp_name</strong>  &#x21d2; <tt>Object</tt> 
   
@@ -1099,56 +1010,15 @@
       <pre class="lines">
 
 
-39
-40
-41</pre>
+29
+30
+31</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 29</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_comp_name'>comp_name</span>
-  <span class='id identifier rubyid_comp_cst'>comp_cst</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_underscore'>underscore</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="family_cst-class_method">
-  
-    .<strong>family_cst</strong>  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Returns the name of the module constant (=family) of this component. Do not override.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-24
-25
-26</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 24</span>
-
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_family_cst'>family_cst</span>
-  <span class='id identifier rubyid_module_parent'>module_parent</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_demodulize'>demodulize</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+  <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_demodulize'>demodulize</span><span class='period'>.</span><span class='id identifier rubyid_underscore'>underscore</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1181,15 +1051,15 @@
       <pre class="lines">
 
 
-29
-30
-31</pre>
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_family_name'>family_name</span>
-  <span class='id identifier rubyid_family_cst'>family_cst</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_underscore'>underscore</span>
+  <span class='id identifier rubyid_module_parent'>module_parent</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_demodulize'>demodulize</span><span class='period'>.</span><span class='id identifier rubyid_underscore'>underscore</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1275,12 +1145,12 @@
       <pre class="lines">
 
 
-232
-233
-234</pre>
+216
+217
+218</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 232</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 216</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_action'>action</span><span class='lparen'>(</span><span class='id identifier rubyid_action_name'>action_name</span><span class='comma'>,</span> <span class='label'>before:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='ivar'>@actions</span><span class='period'>.</span><span class='id identifier rubyid_natural_push'>natural_push</span><span class='lparen'>(</span><span class='id identifier rubyid_action_name'>action_name</span><span class='comma'>,</span> <span class='id identifier rubyid_block'>block</span><span class='comma'>,</span> <span class='label'>before:</span><span class='rparen'>)</span>
@@ -1372,13 +1242,13 @@
       <pre class="lines">
 
 
-155
-156
-157
-158</pre>
+139
+140
+141
+142</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 155</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 139</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_before_render'>before_render</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='symbol'>:main</span><span class='comma'>,</span> <span class='label'>before:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>`before_render` expects a block in </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
@@ -1487,16 +1357,16 @@
       <pre class="lines">
 
 
-166
-167
-168
-169
-170
-171
-172</pre>
+150
+151
+152
+153
+154
+155
+156</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 166</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 150</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_content'>content</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='symbol'>:main</span><span class='comma'>,</span> <span class='label'>before:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='comment'># A block is required here, but if this is an override (e.g. to hide another content block), we can tolerate the missing block.
@@ -1536,12 +1406,12 @@
       <pre class="lines">
 
 
-90
-91
-92</pre>
+80
+81
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 90</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 80</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_id'>id</span>
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_family_name'>family_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_comp_name'>comp_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='ivar'>@index</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
@@ -1577,16 +1447,16 @@
       <pre class="lines">
 
 
-96
-97
-98
-99
-100
-101
-102</pre>
+86
+87
+88
+89
+90
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 86</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_id_path'>id_path</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_root_comp?'>root_comp?</span>
@@ -1626,12 +1496,12 @@
       <pre class="lines">
 
 
-106
-107
-108</pre>
+96
+97
+98</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 106</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 96</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_id_path_hash'>id_path_hash</span>
   <span class='const'>Digest</span><span class='op'>::</span><span class='const'>SHA1</span><span class='period'>.</span><span class='id identifier rubyid_hexdigest'>hexdigest</span><span class='lparen'>(</span><span class='id identifier rubyid_id_path'>id_path</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='op'>..</span><span class='int'>4</span><span class='rbracket'>]</span>
@@ -1665,12 +1535,12 @@
       <pre class="lines">
 
 
-71
-72
-73</pre>
+61
+62
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 71</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 61</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_inspect'>inspect</span>
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>#&lt;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_hash'>hash</span><span class='embexpr_end'>}</span><span class='tstring_content'>&gt;</span><span class='tstring_end'>&quot;</span></span>
@@ -1706,12 +1576,12 @@
       <pre class="lines">
 
 
-112
-113
-114</pre>
+102
+103
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 112</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 102</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_param_name'>param_name</span><span class='lparen'>(</span><span class='id identifier rubyid_unprefixed_param_name'>unprefixed_param_name</span><span class='rparen'>)</span>
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id_path_hash'>id_path_hash</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_unprefixed_param_name'>unprefixed_param_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
@@ -1747,17 +1617,17 @@
       <pre class="lines">
 
 
-140
-141
-142
-143
-144
-145
-146
-147</pre>
+124
+125
+126
+127
+128
+129
+130
+131</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 140</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 124</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_path'>path</span><span class='lparen'>(</span><span class='op'>*</span><span class='comma'>,</span> <span class='op'>**</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
@@ -1818,18 +1688,18 @@
       <pre class="lines">
 
 
-177
-178
-179
-180
-181
-182
-183
-184
-185</pre>
+161
+162
+163
+164
+165
+166
+167
+168
+169</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 177</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 161</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remove_content'>remove_content</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span> <span class='comment'># rubocop:disable Naming/PredicateMethod
 </span>  <span class='id identifier rubyid_existing_index'>existing_index</span> <span class='op'>=</span> <span class='ivar'>@content_blocks</span><span class='period'>.</span><span class='id identifier rubyid_find_index'>find_index</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_el'>el</span><span class='op'>|</span> <span class='id identifier rubyid_el'>el</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span> <span class='rbrace'>}</span>
@@ -1891,12 +1761,12 @@
       <pre class="lines">
 
 
-190
-191
-192</pre>
+174
+175
+176</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 190</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 174</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remove_content!'>remove_content!</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_remove_content'>remove_content</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Content block </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'> not found for removal in </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -1954,6 +1824,22 @@
       <pre class="lines">
 
 
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
 197
 198
 199
@@ -1968,26 +1854,10 @@
 208
 209
 210
-211
-212
-213
-214
-215
-216
-217
-218
-219
-220
-221
-222
-223
-224
-225
-226
-227</pre>
+211</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 197</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 181</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='id identifier rubyid_controller'>controller</span><span class='comma'>,</span> <span class='label'>standalone:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_locals'>locals</span><span class='rparen'>)</span>
   <span class='comment'># Call before_render hooks (if any) and backfire instance variables back to the component
@@ -2051,25 +1921,25 @@
       <pre class="lines">
 
 
-243
-244
-245
-246
-247
-248
-249
-250
-251
-252
-253
-254
-255
-256
-257
-258</pre>
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 243</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 227</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_render_actions'>render_actions</span><span class='lparen'>(</span><span class='id identifier rubyid_controller'>controller</span><span class='comma'>,</span> <span class='label'>wrapper_class:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>action_class:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_h'>h</span> <span class='op'>=</span> <span class='id identifier rubyid_controller'>controller</span><span class='period'>.</span><span class='id identifier rubyid_helpers'>helpers</span>
@@ -2131,12 +2001,12 @@
       <pre class="lines">
 
 
-261
-262
-263</pre>
+245
+246
+247</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 261</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 245</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_resourceful?'>resourceful?</span>
   <span class='kw'>return</span> <span class='kw'>false</span>
@@ -2172,13 +2042,13 @@
       <pre class="lines">
 
 
-77
-78
-79
-80</pre>
+67
+68
+69
+70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 77</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 67</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_root_comp'>root_comp</span>
   <span class='kw'>return</span> <span class='kw'>self</span> <span class='kw'>unless</span> <span class='id identifier rubyid_parent_comp'>parent_comp</span>
@@ -2228,12 +2098,12 @@
       <pre class="lines">
 
 
-84
-85
-86</pre>
+74
+75
+76</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 84</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 74</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_root_comp?'>root_comp?</span>
   <span class='id identifier rubyid_parent_comp'>parent_comp</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -2269,12 +2139,12 @@
       <pre class="lines">
 
 
-238
-239
-240</pre>
+222
+223
+224</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 238</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 222</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_skip_action'>skip_action</span><span class='lparen'>(</span><span class='id identifier rubyid_action_name'>action_name</span><span class='rparen'>)</span>
   <span class='ivar'>@skipped_actions</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_action_name'>action_name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
@@ -2310,14 +2180,14 @@
       <pre class="lines">
 
 
-117
-118
-119
-120
-121</pre>
+107
+108
+109
+110
+111</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 117</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component.rb', line 107</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sub_comp'>sub_comp</span><span class='lparen'>(</span><span class='id identifier rubyid_component_class'>component_class</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_comp_opts'>comp_opts</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_sub'>sub</span> <span class='op'>=</span> <span class='id identifier rubyid_component_class'>component_class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='label'>index:</span> <span class='ivar'>@sub_comps</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_comp_opts'>comp_opts</span><span class='rparen'>)</span>
@@ -2334,7 +2204,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Nov 20 12:44:29 2025 by
+  Generated on Fri Nov 21 15:29:20 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.3.5).
 </div>

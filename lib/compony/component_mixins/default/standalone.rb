@@ -123,6 +123,22 @@ module Compony
           @standalone_configs = {}
         end
 
+        # Returns the name of the ComponyController action for this component.<br>
+        # Optionally can pass a name for extra standalone configs.
+        # @param name [String,Symbol] If referring to an extra standalone entrypoint, specify its name using this param.
+        # @see Compony#path
+        def rails_action_name(name = nil)
+          [name.presence, comp_name, family_name].compact.join('_')
+        end
+
+        # Returns the name of the Rails URL helper returning the path to this component.<br>
+        # Optionally can pass a name for extra standalone configs.
+        # @param name [String,Symbol] If referring to an extra standalone entrypoint, specify its name using this param.
+        # @see Compony#path
+        def path_helper_name(...)
+          "#{rails_action_name(...)}_comp"
+        end
+
         private
 
         def init_standalone

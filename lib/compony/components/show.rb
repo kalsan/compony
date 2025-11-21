@@ -21,13 +21,13 @@ module Compony
           Compony.button(:show, @data.send(data_class.owner_model_attr), icon: :'arrow-left', color: :secondary, label: I18n.t('compony.back'))
         end
 
-        if Compony.comp_class_for(:edit, family_cst)
+        if Compony.comp_class_for(:edit, family_name)
           action :edit do
             Compony.button(:edit, @data, label_opts: { format: :short })
           end
         end
 
-        if Compony.comp_class_for(:destroy, family_cst)
+        if Compony.comp_class_for(:destroy, family_name)
           action :destroy do
             Compony.button(:destroy, @data, label_opts: { format: :short })
           end

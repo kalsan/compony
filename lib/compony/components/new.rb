@@ -69,7 +69,7 @@ module Compony
           elsif data_class.owner_model_attr.present?
             Compony.path(:show, @data.send(data_class.owner_model_attr))
           else
-            Compony.path(:index, family_cst)
+            Compony.path(:index, family_name)
           end
         end
 
