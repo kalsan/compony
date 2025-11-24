@@ -4,6 +4,7 @@
     - Rewire many pure helpers to use intents instead, greatly cleaning up their interface
     - Remove pure helpers `rails_action_name`, `path_helper_name`, `comp_cst` and `family_cst`
     - TODO: `Compony.button`, `compony_link`, guide in the documentation
+- Add `render_sub_comp` helper
 
 ## Steps to take
 

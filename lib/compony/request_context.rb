@@ -42,7 +42,12 @@ module Compony
       return super
     end
 
+    ################################################
+    # View helpers available only inside components:
+    ################################################
+
     # Renders a content block from the current component.
+    # Does nothing if no such content block exists.
     def content(name) # rubocop:disable Naming/PredicateMethod
       name = name.to_sym
       content_block = component.content_blocks.find { |el| el.name == name }
@@ -59,8 +64,16 @@ module Compony
       return true
     end
 
+    # Like {Compony::RequestContext#content}, but fails if no such content block exists.
+    # @see Compony::RequestContext#content
     def content!(name)
       content(name) || fail("Content block #{name.inspect} not found in #{component.inspect}.")
+    end
+
+    # View helper that instanciates a sub comp and renders it.
+    # Example usage: `concat render_sub_comp(Components::Something::Nested)`
+    def render_sub_comp(...)
+      sub_comp(...).render(controller)
     end
   end
 end
