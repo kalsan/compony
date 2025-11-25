@@ -16,20 +16,17 @@ module Compony
         label(:short) { |_| I18n.t('compony.components.show.label.short') }
         icon { :eye }
 
-        action :back_to_owner do
-          next if data_class.owner_model_attr.blank?
-          Compony.button(:show, @data.send(data_class.owner_model_attr), icon: :'arrow-left', color: :secondary, label: I18n.t('compony.back'))
-        end
-
-        if Compony.comp_class_for(:edit, family_name)
-          action :edit do
-            Compony.button(:edit, @data, label_opts: { format: :short })
+        exposed_intents do
+          if data_class.owner_model_attr
+            add :show, @data.send(data_class.owner_model_attr), icon: :xmark, color: :secondary, label: I18n.t('compony.cancel')
           end
-        end
 
-        if Compony.comp_class_for(:destroy, family_name)
-          action :destroy do
-            Compony.button(:destroy, @data, label_opts: { format: :short })
+          if Compony.comp_class_for(:edit, family_name)
+            add :edit, @data, label: { format: :short }
+          end
+
+          if Compony.comp_class_for(:destroy, family_name)
+            add :destroy, @data, label: { format: :short }
           end
         end
 

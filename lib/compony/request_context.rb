@@ -70,6 +70,13 @@ module Compony
       content(name) || fail("Content block #{name.inspect} not found in #{component.inspect}.")
     end
 
+    # View helper that renders an intent through the default button class.
+    # All non-mentioned parameters are given to the intent initializer.
+    # @param button [Hash] Parameters that will be given to the button component initializer.
+    def render_intent(*, button: {}, **)
+      Compony.intent(*, **).render(controller, component, **button)
+    end
+
     # View helper that instanciates a sub comp and renders it.
     # Example usage: `concat render_sub_comp(Components::Something::Nested)`
     def render_sub_comp(...)

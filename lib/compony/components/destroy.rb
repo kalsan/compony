@@ -44,9 +44,10 @@ module Compony
           content :confirm_button
         end
 
-        action :back_to_owner do
-          next if data_class.owner_model_attr.blank?
-          Compony.button(:show, @data.send(data_class.owner_model_attr), icon: :xmark, color: :secondary, label: I18n.t('compony.cancel'))
+        exposed_intents do
+          if data_class.owner_model_attr
+            add :show, @data.send(data_class.owner_model_attr), icon: :xmark, color: :secondary, label: I18n.t('compony.cancel')
+          end
         end
 
         store_data do

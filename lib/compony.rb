@@ -8,12 +8,21 @@ module Compony
   # Configuration writers
   ##########=====-------
 
-  # Setter for the global button component class. This allows you to implement a
-  # custom button component and have all Compony button helpers use your custom
-  # button component instead of {Compony::Components::Button}.
-  # @param button_component_class [String] Name of your custom button component class (inherit from {Compony::Components::Button} or {Compony::Component})
-  def self.button_component_class=(button_component_class)
-    @button_component_class = button_component_class
+  # Adds a button style that can be referred to when rendering an intent.
+  # @param name [Symbol] Name of the style. If it exists already, will override the style.
+  # @param button_component_class [Class] Class of the button component that will be instanciated to render the intent.
+  def self.register_button_style(name, button_component_class)
+    unless button_component_class.is_a?(Class) && button_comp_class < Compony::Component
+      fail("Expected a button component class, got #{button_component_class.inspect}")
+    end
+    @button_component_classes[name.to_sym] = button_component_class
+  end
+
+  # Setter for the default button style. Defaults to :css_button.
+  # @param default_button_style [Symbol] Name of the style that should be used as default.
+  # @see {Compony#default_button_style}
+  def self.default_button_style=(default_button_style)
+    @default_button_style = default_button_style
   end
 
   # Setter for the global field namespaces. This allows you to implement custom
@@ -58,12 +67,24 @@ module Compony
   # Configuration readers
   ##########=====-------
 
-  # Getter for the global button component class.
-  # @see Compony#button_component_class= Explanation of button_component_class (documented in the corresponding setter)
-  def self.button_component_class
-    @button_component_class ||= Components::Button
-    @button_component_class = const_get(@button_component_class) if @button_component_class.is_a?(String)
-    return @button_component_class
+  # Getter for the button component class for a given style.
+  # @param style [Symbol] Style for which the matching button component class should be returned. Defaults to {Compony.default_button_style}.
+  # @see {Compony#register_button_style}
+  # @see {Compony#default_button_style}
+  def self.button_component_class(style = default_button_style)
+    if @button_component_classes.nil?
+      @button_component_classes = {
+        css_button: Compony::Components::Buttons::CssButton,
+        link:       Compony::Components::Buttons::Link
+      }
+    end
+    @button_component_classes[style&.to_sym] || fail("Unknown button style #{style.inspect}. Use one of: #{@button_component_classes.keys.inspect}")
+  end
+
+  # Getter for the default button style, defaults to `:css_button`.
+  # @see {Compony#default_button_style=}
+  def self.default_button_style
+    return @default_button_style || :css_button
   end
 
   # Getter for the global field namespaces.
@@ -125,54 +146,9 @@ module Compony
   end
 
   # Given a component and a family/model, this instanciates and returns a button component.
-  # @param comp_name_or_cst_or_class [String,Symbol,Class] The component that should be loaded, for instance `ShowForAll`, `'ShowForAll'` or `:show_for_all`
-  # @param model_or_family_name_or_cst [String,Symbol,ApplicationRecord] Either the family that contains the requested component,
-  #                                    or an instance implementing `model_name` from which the family name is auto-generated. Examples:
-  #                                    `Users`, `'Users'`, `:users`, `User.first`
-  # @param label_opts [Hash] Options hash that will be passed to the label method (see {Compony::ComponentMixins::Default::Labelling#label})
-  # @param params [Hash] GET parameters to be inclued into the path this button points to. Special case: e.g. format: :pdf -> some.url/foo/bar.pdf
-  # @param feasibility_action [Symbol] Name of the feasibility action that should be checked for this button, defaults to the component name
-  # @param feasibility_target [Symbol] Name of the feasibility target (subject) that the feasibility should be checked on, defaults to the model if given
-  # @param standalone_name [Symbol,nil] Name of the standalone config to point to (defaults to nil the default standalone config).
-  # @param override_kwargs [Hash] Override button options, see options for {Compony::Components::Button}
-  # @see Compony::ViewHelpers#compony_button View helper providing a wrapper for this method that immediately renders a button.
-  # @see Compony::Components::Button Compony::Components::Button: the default underlying implementation
-  # TODO: Move much of the logic to Intent
-  def self.button(comp_name_or_cst_or_class,
-                  model_or_family_name_or_cst = nil,
-                  label_opts: nil,
-                  params: nil,
-                  feasibility_action: nil,
-                  feasibility_target: nil,
-                  method: nil,
-                  standalone_name: nil,
-                  **override_kwargs)
-    label_opts ||= button_defaults[:label_opts] || {}
-    params ||= button_defaults[:params] || {}
-    model = model_or_family_name_or_cst.respond_to?(:model_name) ? model_or_family_name_or_cst : nil
-    if comp_name_or_cst_or_class.is_a?(Class) && (comp_name_or_cst_or_class <= Compony::Component)
-      target_comp_instance = comp_name_or_cst_or_class.new(data: model)
-    else
-      target_comp_instance = Compony.comp_class_for!(comp_name_or_cst_or_class, model_or_family_name_or_cst).new(data: model)
-    end
-    feasibility_action ||= button_defaults[:feasibility_action] || comp_name_or_cst_or_class.to_s.underscore.to_sym
-    feasibility_target ||= button_defaults[:feasibility_target] || model
-    options = {
-      label:   target_comp_instance.label(model, **label_opts),
-      icon:    target_comp_instance.icon,
-      color:   target_comp_instance.color,
-      path:    Compony.path(target_comp_instance.comp_name, target_comp_instance.family_name, model, standalone_name:, **params),
-      method:,
-      visible: ->(controller) { target_comp_instance.standalone_access_permitted_for?(controller, standalone_name:, verb: method) }
-    }
-    if feasibility_target
-      options.merge!({
-                       enabled: feasibility_target.feasible?(feasibility_action),
-                       title:   feasibility_target.full_feasibility_messages(feasibility_action).presence
-                     })
-    end
-    options.merge!(override_kwargs.symbolize_keys)
-    return Compony.button_component_class.new(**options.symbolize_keys)
+  # @deprecated use {Compony#intent} instead.
+  def self.button(*, label_opts: {}, **)
+    Compony.button_component_class.new(**intent(*, **).button_comp_opts(label: label_opts))
   end
 
   # Returns the current root component, if any
@@ -190,37 +166,6 @@ module Compony
     else
       return model_or_family_name_or_cst.to_s.underscore
     end
-  end
-
-  # Getter for current button defaults
-  # @todo document params
-  def self.button_defaults
-    RequestStore.store[:button_defaults] || {}
-  end
-
-  # Overwrites the keys of the current button defaults by the ones provided during the execution of a given block and restores them afterwords.
-  # This method is useful when the same set of options is to be given to a multitude of buttons.
-  # @param keys_to_overwrite [Hash] Options that should be given to the buttons within the block, with their values
-  # @param block [Block] Within this block, all omitted button options point to `keys_to_overwrite`
-  def self.with_button_defaults(**keys_to_overwrite, &block)
-    # Lazy initialize butto_defaults store if it hasn't been yet
-    RequestStore.store[:button_defaults] ||= {}
-    keys_to_overwrite.transform_keys!(&:to_sym)
-    old_values = {}
-    newly_defined_keys = keys_to_overwrite.keys - RequestStore.store[:button_defaults].keys
-    keys_to_overwrite.each do |key, new_value|
-      # Assign new value
-      old_values[key] = RequestStore.store[:button_defaults][key]
-      RequestStore.store[:button_defaults][key] = new_value
-    end
-    return_value = block.call
-    # Restore previous value
-    keys_to_overwrite.each_key do |key|
-      RequestStore.store[:button_defaults][key] = old_values[key]
-    end
-    # Undefine keys that were not there previously
-    newly_defined_keys.each { |key| RequestStore.store[:button_defaults].delete(key) }
-    return return_value
   end
 
   # Goes through model_field_namespaces and returns the first hit for the given constant
@@ -271,8 +216,10 @@ require 'compony/component_mixins/default/standalone/verb_dsl'
 require 'compony/component_mixins/default/standalone/resourceful_verb_dsl'
 require 'compony/component_mixins/default/labelling'
 require 'compony/component_mixins/resourceful'
+require 'compony/exposed_intents_dsl'
 require 'compony/component'
-require 'compony/components/button'
+require 'compony/components/buttons/link'
+require 'compony/components/buttons/css_button'
 require 'compony/components/index'
 require 'compony/components/list'
 require 'compony/components/show'

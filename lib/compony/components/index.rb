@@ -18,9 +18,9 @@ module Compony
           @data = data_class.accessible_by(controller.current_ability)
         end
 
-        action :new do
+        exposed_intents do
           if Compony.comp_class_for(:new, data_class)
-            Compony.button(:new, data_class.model_name.plural)
+            add :new, data_class.model_name.plural
           end
         end
 

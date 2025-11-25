@@ -38,6 +38,7 @@ module Compony
       @before_render_blocks = NaturalOrdering.new
       @content_blocks = NaturalOrdering.new
       @actions = NaturalOrdering.new
+      @exposed_intent_blocks = []
       @skipped_actions = Set.new
       @path_block = proc do |model = nil, *args_for_path_helper, standalone_name: nil, **kwargs_for_path_helper|
         kwargs_for_path_helper.merge!(id: model.id) if model
@@ -211,33 +212,18 @@ module Compony
     end
 
     # DSL method
-    # Adds or replaces an action (for action buttons)
-    # If before: is specified, will insert the action before the named action. When replacing, an element keeps its position unless before: is specified.
-    def action(action_name, before: nil, &block)
-      @actions.natural_push(action_name, block, before:)
-    end
-
-    # DSL method
-    # Marks an action for skip
-    def skip_action(action_name)
-      @skipped_actions << action_name.to_sym
-    end
-
-    # Used to render all actions of this component, each button wrapped in a div with the specified class
-    def render_actions(controller, wrapper_class: '', action_class: '')
-      h = controller.helpers
-      h.content_tag(:div, class: wrapper_class) do
-        button_htmls = @actions.map do |action|
-          next if @skipped_actions.include?(action.name)
-          Compony.with_button_defaults(feasibility_action: action.name.to_sym) do
-            action_button = action.payload.call(controller)
-            next unless action_button
-            button_html = action_button.render(controller)
-            next if button_html.blank?
-            h.content_tag(:div, button_html, class: action_class)
-          end
-        end
-        next h.safe_join button_htmls
+    # If a block is given: Enters the DSL where exposed intents can be added or removed (use from {Component#setup} within the component).
+    # If no block is given: Builds the declared intents and returns them (use from a {RequestContest} outside the component).
+    def exposed_intents(&block)
+      if block_given?
+        # Enter DSL
+        @exposed_intent_blocks << block
+      else
+        # Build the declared intents
+        return @exposed_intents if @exposed_intents
+        @exposed_intents = NaturalOrdering.new
+        @exposed_intent_blocks.each { |block| ExposedIntentsDsl.new(@exposed_intents).evaluate(&block) } # alters @exposed_intents
+        return @exposed_intents.map!(&:payload)
       end
     end
 
