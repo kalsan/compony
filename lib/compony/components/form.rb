@@ -28,7 +28,7 @@ module Compony
           # Fake submit button rendered by a button component and submitting the form via JS:
           concat Compony.button_component_class.new(
             label:   @submit_label || I18n.t('compony.components.form.submit'),
-            icon:    'arrow-right', # TODO
+            icon:    'arrow-right',
             href:    '#',
             onclick: "this.closest('form').requestSubmit(); return false;"
           ).render(controller)
