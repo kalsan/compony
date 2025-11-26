@@ -8,7 +8,6 @@
     - Remove `Compony::Components::Button` and replace it by `Compony::Components::Buttons::Link` and `Compony::Components::Buttons::CssButton`
     - Remove `Compony.button`, `compony_button` and `compony_link`
     - Use intents in `sub_comp` and thus also in `resourceful_sub_comp`, allowing tho write something like `sub_comp :list, user.quotes`
-- TODO: rename `row_action`
 - TODO: documentation
 - TODO: look for further TODOs
 
