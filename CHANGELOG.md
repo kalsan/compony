@@ -24,10 +24,10 @@
 - Search for each following keywords in your application and replace it as follows:
     - Replace root actions (`action ... do` and `skip_action`)  by exposed intents (see documentation).
     - Replace `render_actions` or `compony_actions` by a custom loop of the kind `Compony.root_comp&.exposed_intents&.map { |i| i.render(controller) }`
-    - `Compony.button` was typically used in a component's root actions and should thus already have been replaced in the previous step.
-    - Replace `compony_button` by `render_intent`
-      - Replace `label_format` by something like: `render_intent(:show, @data, button: { label: { format: :short } })`
-    - Replace `compony_link` by `render_intent` and pass `button: { style: :link }` as an argument
+    - Replace buttons and change any `params:` to `path:`; as well as `label_format` or `label_opts: { format: ... }` by something like: `render_intent(:show, @data, button: { label: { format: :short } })`:
+      - `Compony.button` was typically used in a component's root actions and should thus already have been replaced in the previous step.
+      - Replace `compony_button` by `render_intent`
+      - Replace `compony_link` by `render_intent` and pass `button: { style: :link }` as an argument
 - Enhancement: Consider replacing patterns like `sub_comp(Components::Quotes::List, data: user.quotes).render(controller)` by `render_sub_comp(:list, user.quotes)`.
 
 # 0.7.1
