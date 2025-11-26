@@ -278,7 +278,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Like <span class='object_link'><a href="#content-instance_method" title="Compony::RequestContext#content (method)">#content</a></span>, but fails if no such content block exists.</p>
+</div></span>
   
 </li>
 
@@ -350,6 +352,54 @@
   
     <span class="summary_desc"><div class='inline'>
 <p>Provide access to local assigns as if it were a Rails context.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#render_intent-instance_method" title="#render_intent (instance method)">#<strong>render_intent</strong>(button: {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>View helper that renders an intent through the default button class.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#render_sub_comp-instance_method" title="#render_sub_comp (instance method)">#<strong>render_sub_comp</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>View helper that instanciates a sub comp and renders it.</p>
 </div></span>
   
 </li>
@@ -700,7 +750,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Renders a content block from the current component.</p>
+<p>Renders a content block from the current component. Does nothing if no such content block exists.</p>
 
 
   </div>
@@ -714,11 +764,6 @@
       <pre class="lines">
 
 
-46
-47
-48
-49
-50
 51
 52
 53
@@ -728,10 +773,15 @@
 57
 58
 59
-60</pre>
+60
+61
+62
+63
+64
+65</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/request_context.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/request_context.rb', line 51</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_content'>content</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span> <span class='comment'># rubocop:disable Naming/PredicateMethod
 </span>  <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
@@ -765,11 +815,20 @@
 </h3><div class="docstring">
   <div class="discussion">
     
+<p>Like <span class='object_link'><a href="#content-instance_method" title="Compony::RequestContext#content (method)">#content</a></span>, but fails if no such content block exists.</p>
+
 
   </div>
 </div>
 <div class="tags">
   
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#content-instance_method" title="Compony::RequestContext#content (method)">#content</a></span></li>
+    
+  </ul>
 
 </div><table class="source_code">
   <tr>
@@ -777,12 +836,12 @@
       <pre class="lines">
 
 
-62
-63
-64</pre>
+69
+70
+71</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/request_context.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/request_context.rb', line 69</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_content!'>content!</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_content'>content</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Content block </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'> not found in </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_component'>component</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -825,6 +884,110 @@
 
 <span class='kw'>def</span> <span class='id identifier rubyid_evaluate_with_backfire'>evaluate_with_backfire</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_evaluate'>evaluate</span><span class='lparen'>(</span><span class='label'>backfire_vars:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="render_intent-instance_method">
+  
+    #<strong>render_intent</strong>(button: {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>View helper that renders an intent through the default button class. All non-mentioned parameters are given to the intent initializer. When inside a request context (<code>content do...</code>), this precedes <span class='object_link'><a href="ViewHelpers.html#render_intent-instance_method" title="Compony::ViewHelpers#render_intent (method)">ViewHelpers#render_intent</a></span>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>button</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Parameters that will be given to the button component initializer.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+77
+78
+79</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/request_context.rb', line 77</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_render_intent'>render_intent</span><span class='lparen'>(</span><span class='op'>*</span><span class='comma'>,</span> <span class='label'>button:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>**</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="../Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_intent'><span class='object_link'><a href="../Compony.html#intent-class_method" title="Compony.intent (method)">intent</a></span></span><span class='lparen'>(</span><span class='op'>*</span><span class='comma'>,</span> <span class='op'>**</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='id identifier rubyid_controller'>controller</span><span class='comma'>,</span> <span class='id identifier rubyid_component'>component</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_button'>button</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="render_sub_comp-instance_method">
+  
+    #<strong>render_sub_comp</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>View helper that instanciates a sub comp and renders it. Example usage: <code>concat render_sub_comp(Components::Something::Nested)</code></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+83
+84
+85</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/request_context.rb', line 83</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_render_sub_comp'>render_sub_comp</span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_sub_comp'>sub_comp</span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='id identifier rubyid_controller'>controller</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -931,7 +1094,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Nov 21 15:29:21 2025 by
+  Generated on Wed Nov 26 12:03:27 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.3.5).
 </div>
