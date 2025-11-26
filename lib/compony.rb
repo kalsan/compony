@@ -3,6 +3,7 @@
 # the setters, create an initializer `config/initializers/compony.rb` and call
 # them from there.
 # @see Compony::ViewHelpers Compony::ViewHelpers for helpers that require a view context and render results immediately
+# @see Compony::RequestContext Compony::RequestContext for helpers that require a view context and render results immediately
 module Compony
   ##########=====-------
   # Configuration writers
@@ -133,7 +134,9 @@ module Compony
   # Given a component and a family/model, this returns the matching component class if any, or nil if the component does not exist.
   # @see Intent for allowed parameters.
   def self.comp_class_for(...)
-    intent(...).comp_class
+    return intent(...).comp_class
+  rescue NameError
+    return nil
   end
 
   # Same as Compony#comp_class_for but fails if none found
@@ -143,12 +146,6 @@ module Compony
     comp_class_for(...) || fail(
       "No component found for [#{comp_name_or_cst.inspect}, #{model_or_family_name_or_cst.inspect}]"
     )
-  end
-
-  # Given a component and a family/model, this instanciates and returns a button component.
-  # @deprecated use {Compony#intent} instead.
-  def self.button(*, label_opts: {}, **)
-    Compony.button_component_class.new(**intent(*, **).button_comp_opts(label: label_opts))
   end
 
   # Returns the current root component, if any

@@ -15,6 +15,7 @@ module Compony
     # @param standalone_name [Symbol] If given, will override the standalone name for all `path` calls for this intent instance.
     # @param name [Symbol] If given, will override the name of this intent. Defaults to component and family name joined by underscore.
     # @param label [String,Hash] If given, will be used for generating the label. If Hash, is given as options to {Intent#label}.
+    # @param path [String,Hash] If given, will be used for generating the path. If Hash, is given as options to {Intent#path}.
     # @param data [ApplicationRecord,Object] If given, the target component will be instanciated with this argument. Omit if your second pos arg is a model.
     # @param data_class [Class] If given, the target component will be instanciated with this argument.
     # @param feasibility_target [ApplicationRecord] If given, will override the feasibility target (prevention framework)
@@ -24,13 +25,13 @@ module Compony
                    standalone_name: nil,
                    name: nil,
                    label: nil,
+                   path: nil,
                    method: nil,
                    data: nil,
                    data_class: nil,
                    feasibility_target: nil,
-                   feasibility_action: nil)
-      # TODO: allow further arguments here (color, icon, ...), ideally make it extensible
-
+                   feasibility_action: nil,
+                   **custom_args)
       # Check for model / data
       @data = data
       @data ||= model_or_family_name_or_cst if model_or_family_name_or_cst.respond_to?(:model_name)
@@ -52,9 +53,12 @@ module Compony
       @standalone_name = standalone_name
       @label = label.is_a?(String) ? label : nil
       @label_opts = label.is_a?(Hash) ? label : {}
+      @path = path.is_a?(String) ? path : nil
+      @path_opts = path.is_a?(Hash) ? path : {}
       @method = method&.to_sym
       @feasibility_target = feasibility_target
       @feasibility_action = feasibility_action
+      @custom_args = custom_args
     end
 
     # Returns true for things like User.first, but false for things like :users or User
@@ -73,8 +77,9 @@ module Compony
     # Additional arguments are passed to the component's path block, which typically passes them to the Rails path helper.
     # @param model [ApplicationRecord] If given and non-nil, will override the model passed to the component's path block
     # @param standalone_name [Symbol] If given and non-nil, will override the `standalone_name` passed to the component's path block
-    def path(model = nil, *, standalone_name: nil, **)
-      comp.path(model || (model? ? @data : nil), **, standalone_name: standalone_name || @standalone_name, **)
+    def path(model = nil, *, standalone_name: nil, **path_opt_overrides)
+      path_opts = @path_opts.deep_merge(path_opt_overrides)
+      comp.path(model || (model? ? @data : nil), standalone_name: standalone_name || @standalone_name, **path_opts)
     end
 
     # Returns a name for this intent, consisting of comp and family name. Can be overriden in the constructor.
@@ -109,15 +114,13 @@ module Compony
 
     # Returns the options that are given to the initializer when creating a button from this intent.
     def button_comp_opts(label: {})
-      return {
-        label:  label(**label),
-        href:   feasible? ? path : nil,
-        method:,
-        class:  feasible? ? nil : 'disabled',
-        title:  feasible? ? nil : feasibility_target.full_feasibility_messages(feasibility_action).presence
-        # TODO: icon
-        # TODO: color
-      }
+      return @custom_args.deep_merge({
+                                       label:  label(**label),
+                                       href:   feasible? ? path : nil,
+                                       method:,
+                                       class:  feasible? ? nil : 'disabled',
+                                       title:  feasible? ? nil : feasibility_target.full_feasibility_messages(feasibility_action).presence
+                                     })
     end
 
     def render(controller, parent_comp = nil, style: nil, label: {}, **button_comp_opts_overrides)

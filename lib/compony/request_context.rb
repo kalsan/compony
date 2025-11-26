@@ -72,6 +72,7 @@ module Compony
 
     # View helper that renders an intent through the default button class.
     # All non-mentioned parameters are given to the intent initializer.
+    # When inside a request context (`content do...`), this precedes {ViewHelpers#render_intent}.
     # @param button [Hash] Parameters that will be given to the button component initializer.
     def render_intent(*, button: {}, **)
       Compony.intent(*, **).render(controller, component, **button)

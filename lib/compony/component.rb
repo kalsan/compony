@@ -105,8 +105,9 @@ module Compony
     end
 
     # Instanciate a component with `self` as a parent
-    def sub_comp(component_class, **comp_opts)
-      sub = component_class.new(self, index: @sub_comps.count, **comp_opts)
+    def sub_comp(*, **comp_opts)
+      intent = Compony.intent(*)
+      sub = intent.comp(self, index: @sub_comps.count, **comp_opts)
       @sub_comps << sub
       return sub
     end

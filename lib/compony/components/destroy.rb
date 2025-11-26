@@ -32,10 +32,10 @@ module Compony
 
         content :confirm_button, hidden: true do
           div do
-            concat compony_button(comp_name,
-                                  @data,
-                                  label:  I18n.t('compony.components.destroy.confirm_button'),
-                                  method: :delete)
+            concat render_intent(comp_name,
+                                 @data,
+                                 label:  I18n.t('compony.components.destroy.confirm_button'),
+                                 method: :delete)
           end
         end
 

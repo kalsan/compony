@@ -4,17 +4,12 @@ module Compony
   # Rule of thumb: this holds methods that require a view context and results are rendered immediately.
   # @see Compony Compony for standalone/pure helpers
   module ViewHelpers
-    # Renders a link to a component given a comp and model or family. If authentication is configured
+    # Renders a button/link to a component given a comp and model or family. If authentication is configured
     # and the current user has insufficient permissions to access the target object, the link is not displayed.
-    # @deprecated Use {RequestContext#render_intent} instead and pass `style: :link`.
-    def compony_link(...)
-      Compony.intent(...).render(helpers.controller, style: :link)
-    end
-
-    # Given a component and a family/model, this instanciates and renders a button component.
-    # @deprecated Use {RequestContext#render_intent} instead.
-    def compony_button(...)
-      Compony.intent(...).render(helpers.controller)
+    # When inside a request context (`content do...`), this is preceded by {RequestContext#render_intent}.
+    # @param button [Hash] Parameters that will be given to the button component initializer.
+    def render_intent(*, button: {}, **)
+      Compony.intent(*, **).render(self, **button)
     end
   end
 end

@@ -6,8 +6,9 @@
     - Remove pure helpers `rails_action_name`, `path_helper_name`, `comp_cst` and `family_cst`
     - Remove `button_defaults` and associated logic, as it was rarely used
     - Remove `Compony::Components::Button` and replace it by `Compony::Components::Buttons::Link` and `Compony::Components::Buttons::CssButton`
-    - Backport `Compony.button`, `compony_button`, `compony_link`, for backwards-compatibility
-- TODO: Replace Compony.button etc. (currently in backwards-compatible mode), also affects `row_action` in List
+    - Remove `Compony.button`, `compony_button` and `compony_link`
+    - Use intents in `sub_comp` and thus also in `resourceful_sub_comp`, allowing tho write something like `sub_comp :list, user.quotes`
+- TODO: rename `row_action`
 - TODO: documentation
 - TODO: look for further TODOs
 
@@ -23,12 +24,13 @@
     - `Component.family_cst` (replace by `family_name`)
 - If using custom buttons, inherit from `Compony::Components::Buttons::Link` and adjust code as needed. Register your button with `Compony.register_button_style` and consider setting `Compony.default_button_style=`.
 - Search for each following keywords in your application and replace it as follows:
-    - Replace root actions (`action ... do` and `skip_action`)  by exposed intents (see documentation)
+    - Replace root actions (`action ... do` and `skip_action`)  by exposed intents (see documentation).
     - Replace `render_actions` or `compony_actions` by a custom loop of the kind `Compony.root_comp&.exposed_intents&.map { |i| i.render(controller) }`
     - `Compony.button` was typically used in a component's root actions and should thus already have been replaced in the previous step.
     - Replace `compony_button` by `render_intent`
       - Replace `label_format` by something like: `render_intent(:show, @data, button: { label: { format: :short } })`
     - Replace `compony_link` by `render_intent` and pass `button: { style: :link }` as an argument
+- Enhancement: Consider replacing patterns like `sub_comp(Components::Quotes::List, data: user.quotes).render(controller)` by `render_sub_comp(:list, user.quotes)`.
 
 # 0.7.1
 

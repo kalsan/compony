@@ -168,7 +168,7 @@ module Compony
         unless block_given?
           block = proc do |record|
             next if Compony.comp_class_for(name, record).nil?
-            compony_button(name, record, **button_opts)
+            render_intent(name, record, **{ label: { format: :short } }.deep_merge(button_opts))
           end
         end
         @row_actions.natural_push(name, block, **)
@@ -275,9 +275,9 @@ module Compony
         end
 
         # Default row actions (use override or skip_row_action to prevent)
-        row_action(:show)
-        row_action(:edit)
-        row_action(:destroy)
+        row_action(:show) if Compony.comp_class_for(:show, data_class)
+        row_action(:edit) if Compony.comp_class_for(:edit, data_class)
+        row_action(:destroy) if Compony.comp_class_for(:destroy, data_class)
 
         before_render do
           process_data!(controller)
