@@ -11,12 +11,10 @@ module Compony
 
   # Adds a button style that can be referred to when rendering an intent.
   # @param name [Symbol] Name of the style. If it exists already, will override the style.
-  # @param button_component_class [Class] Class of the button component that will be instanciated to render the intent.
-  def self.register_button_style(name, button_component_class)
-    unless button_component_class.is_a?(Class) && button_comp_class < Compony::Component
-      fail("Expected a button component class, got #{button_component_class.inspect}")
-    end
-    @button_component_classes[name.to_sym] = button_component_class
+  # @param button_component_class [String] String with the class name of the button component that will be instanciated to render the intent.
+  def self.register_button_style(name, button_component_class_name)
+    @button_component_class_names ||= {}
+    @button_component_class_names[name.to_sym] = button_component_class_name
   end
 
   # Setter for the default button style. Defaults to :css_button.
@@ -73,13 +71,20 @@ module Compony
   # @see {Compony#register_button_style}
   # @see {Compony#default_button_style}
   def self.button_component_class(style = default_button_style)
+    # Lazy initialize
     if @button_component_classes.nil?
       @button_component_classes = {
         css_button: Compony::Components::Buttons::CssButton,
         link:       Compony::Components::Buttons::Link
-      }
+      }.merge(@button_component_class_names&.transform_values(&:constantize) || {})
+      @button_component_classes.each_value do |button_component_class|
+        unless button_component_class.is_a?(Class) && button_component_class < Compony::Component
+          fail("Expected a button component class, got #{button_component_class.inspect}")
+        end
+      end
     end
-    @button_component_classes[style&.to_sym] || fail("Unknown button style #{style.inspect}. Use one of: #{@button_component_classes.keys.inspect}")
+    # Retrieval
+    return @button_component_classes[style&.to_sym] || fail("Unknown button style #{style.inspect}. Use one of: #{@button_component_classes.keys.inspect}")
   end
 
   # Getter for the default button style, defaults to `:css_button`.
