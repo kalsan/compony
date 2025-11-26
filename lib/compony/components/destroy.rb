@@ -46,7 +46,7 @@ module Compony
 
         exposed_intents do
           if data_class.owner_model_attr
-            add :show, @data.send(data_class.owner_model_attr), icon: :xmark, color: :secondary, label: I18n.t('compony.cancel')
+            add :show, @data.send(data_class.owner_model_attr), icon: :xmark, color: :secondary, label: I18n.t('compony.cancel'), name: :back_to_owner
           end
         end
 

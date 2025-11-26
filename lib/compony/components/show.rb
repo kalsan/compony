@@ -18,15 +18,15 @@ module Compony
 
         exposed_intents do
           if data_class.owner_model_attr
-            add :show, @data.send(data_class.owner_model_attr), icon: :xmark, color: :secondary, label: I18n.t('compony.back')
+            add :show, @data.send(data_class.owner_model_attr), icon: :xmark, color: :secondary, label: I18n.t('compony.back'), name: :back_to_owner
           end
 
           if Compony.comp_class_for(:edit, family_name)
-            add :edit, @data, label: { format: :short }
+            add :edit, @data, label: { format: :short }, name: :edit
           end
 
           if Compony.comp_class_for(:destroy, family_name)
-            add :destroy, @data, label: { format: :short }
+            add :destroy, @data, label: { format: :short }, name: :destroy
           end
         end
 

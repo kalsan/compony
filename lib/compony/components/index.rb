@@ -20,7 +20,7 @@ module Compony
 
         exposed_intents do
           if Compony.comp_class_for(:new, data_class)
-            add :new, data_class.model_name.plural
+            add :new, data_class.model_name.plural, name: :new
           end
         end
 
