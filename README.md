@@ -76,9 +76,7 @@ Compony is Free Software under the LGPLv3 and you are most welcome to contribute
     - Verb DSL hooks still take precedence over global hooks, but if given, they MUST provide a block.
     - If global hooks are present, they will be executed in every verb.
 - At this point, I haven't gotten into Turbo Streams and Turbo Frames. It would be interesting to extend Compony such it also makes writing applications using these features much easier.
-- Feasibility:
-  - The feasibility framework does not yet enforce prevention, but only has effects on buttons. Actions should be structured more explicitly such that prevention becomes as tight as authorization.
-  - Feasibility for links is not yet implemented.
+- The feasibility framework does not yet enforce prevention, but only has effects on buttons.
 - Compony is not compatible with `tailwindcss-rails`. This is likely due to Tailwind automatically removing any CSS that is not used by the application and the usage detection not picking up Compony components, as their content is not provided in views.
 
 # Acknowledgements

@@ -109,7 +109,7 @@ Here is what our Show component looks like when we have a layout with the bare m
 
 ![Screenshot of our component with an absolutely minimal layout](/doc/imgs/intro-example-show.png)
 
-It is important to note that actions, buttons, navigation, notifications etc. are handled by the application layout. In this and the subsequent screenshots, we explicitely use minimalism, as it makes the generated HTML clearer.
+It is important to note that button styles, navigation, notifications etc. are handled by the application layout. In this and the subsequent screenshots, we explicitely use minimalism, as it makes the generated HTML clearer.
 
 ## The Destroy component
 
