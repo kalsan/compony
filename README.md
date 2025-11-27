@@ -8,15 +8,15 @@
 
 # About Compony
 
-Compony is a Gem that allows you to write your Rails application in component-style fashion. It combines a controller action and route along with its view into a single Ruby class. This allows writing much DRYer code, using inheritance even in views and much easier refactoring for your Rails applications, helping you to keep the code clean as the application evolves.
+Compony is a Gem that allows you to write your Rails application in **component-style** fashion. It combines a controller action and route along with its view into a single Ruby class. Along with the DSL approach and a powerful model mixin, Compony **makes your application's code more semantic**, allows writing **much DRYer code**, using inheritance even in views and **much easier refactoring** for your Rails applications, helping you to **keep the code clean as the application evolves**.
 
 Compony's key aspects:
 
 - A Compony component is a single class that exports route(s), controller action(s) and a view to Rails.
   - Refactor common logic into your own components and inherit from them to DRY up your code.
-- Compony's powerful model mixin allows you to define metadata in your models and react to them. Examples:
-  - Compony fields capture attributes that should be made visible in your UI. They allow you to implement formatting behavior and parameter sanitization for various types, e.g. URLs, phone numbers, colors etc. ready to be used in your lists, detail panels, or forms.
-  - Compony's feasibility framework allows you to prohibit actions based on conditions, along with an error message. This causes all buttons pointing to that action to be disabled with a meaningful error message.
+- Compony's model mixin allows you to define metadata in your models and react to them, resulting in more semantic code. Examples:
+    - Compony fields capture attributes that should be made visible in your UI. They allow you to implement formatting behavior and parameter sanitization for various types, e.g. URLs, phone numbers, colors etc. ready to be used in your lists, detail panels, or forms.
+    - Compony's feasibility framework allows you to prohibit actions based on conditions, along with an error message. This causes all buttons pointing to that action to be disabled with a meaningful error message.
 - Compony only structures your code, but provides no style whatsoever. It is like a bookshelf rather than a reader's library. You still implement your own layouts, CSS and Javascript to define the behavior of your front-end.
 - Using Compony, you **can** write your application as components, but it is still possible to have regular routes, controllers and views side-to-side to it. This way, you can migrate your applications to Compony little by little and enter and leave the Compony world as you please. It is also possible to render Compony components from regular views and vice versa.
 - Compony is built for Rails 7 and fully supports Stimulus and Turbo Drive. Turbo Frames and Streams are not yet targeted, so Compony is currently meant for websites where every click triggers a "full page load" (in quotes because they are not actually full page loads due to Turbo Drive).
