@@ -123,6 +123,11 @@ module Compony
                                      })
     end
 
+    # Renders this intent into a button defined by `style`.
+    # @param controller [ApplicationController] The controller from the request context, needed to render the button.
+    # @param parent_comp [Compony::Component] If called from within a component, pass the component to inform the button that it is nested within.
+    # @param style [Symbol] If present, overrides the class of the generated  button component, defaults to {Compony#default_button_style}.
+    # @param button_comp_opts_overrides [Hash] Any further kwargs are passed to the button component's initializer.
     def render(controller, parent_comp = nil, style: nil, label: {}, **button_comp_opts_overrides)
       # Check if permitted
       return nil unless comp.standalone_access_permitted_for?(controller, standalone_name: @standalone_name, verb: method)

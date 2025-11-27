@@ -42,9 +42,9 @@ The following topics should help you get started. Please note that the links wil
     - [Inheritance](./doc/guide/inheritance.md): DRY up your code by providing base components
     - [Nesting](./doc/guide/nesting.md): How to instanciate components inside other components
     - [Resourceful components](./doc/guide/resourceful.md): How to create components that deal with Rails-style resources
-    - [Compony helpers, links and buttons](./doc/guide/helpers.md): Important tools for concise Compony programming
-    - [Root actions](./doc/guide/root_actions.md): How to provide context-sensitive buttons to your application
-    - [Feasibility](./doc/guide/feasibility.md): Disabiling buttons based on context (contains `prevent`)
+    - [Intents](./doc/guide/intents.md): How to point to a component
+    - [Button styles](./doc/guide/button_styles.md): Providing custom components for rendering intents
+    - [Feasibility](./doc/guide/feasibility.md): Disabiling intents based on context (contains `prevent`)
     - [Ownership](./doc/guide/ownership.md): Informing Compony that a resource is conceptually part of another resource
     - [Model fields](./doc/guide/model_fields.md): Allowing Compony to auto-generate UI elements by telling it about the structure of your model
     - [Rails generators](./doc/guide/generators.md): Creating components quickly
@@ -52,7 +52,6 @@ The following topics should help you get started. Please note that the links wil
     - [Virtual models](./doc/guide/internal_datastructures.md): Unleashing non-persistent interactions through Compony's `ActiveType` integration
 - Pre-built components shipped with Compony
     - [Introduction](./doc/guide/pre_built_components.md)
-    - [Button](./doc/guide/pre_built_components/button.md): This component class gets instanciated whenever using `Compony.button` or `compony_button`.
     - [Show](./doc/guide/pre_built_components/show.md): Compony's equivalent to Rail's `show` controller action
     - [Index](./doc/guide/pre_built_components/index.md): Compony's equivalent to Rail's `index` controller action
     - [List](./doc/guide/pre_built_components/list.md): Compony's equivalent to Rail's `_list` partial

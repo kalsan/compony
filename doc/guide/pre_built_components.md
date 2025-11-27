@@ -8,7 +8,6 @@ The pre-built components can be found in the module `Compony::Components`. As yo
 
 In the following, the pre-built components currently shipped with Compony are presented:
 
-- [Button](./pre_built_components/button.md): This component class gets instanciated whenever using `Compony.button` or `compony_button`.
 - [Show](./pre_built_components/show.md): Compony's equivalent to Rail's `show` controller action
 - [Index](./pre_built_components/index.md): Compony's equivalent to Rail's `index` controller action
 - [List](./pre_built_components/list.md): Compony's equivalent to Rail's `_list` partial
