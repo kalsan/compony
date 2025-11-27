@@ -1,4 +1,4 @@
-[Back to the guide](/README.md#guide)
+[Back to the guide](/README.md#guide--documentation)
 
 # Standalone (routing to components)
 
@@ -141,4 +141,4 @@ By implementing `path do ... end` inside the `setup` method of a component, you 
 
 This is an advanced usage. Refer to the default implementation of `Component`'s `path_block` to see an exmple.
 
-[Guide index](/README.md#guide)
+[Guide index](/README.md#guide--documentation)

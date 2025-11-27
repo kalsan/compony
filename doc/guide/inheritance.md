@@ -1,4 +1,4 @@
-[Back to the guide](/README.md#guide)
+[Back to the guide](/README.md#guide--documentation)
 
 # Inheritance
 
@@ -61,4 +61,4 @@ Compony has the following convention:
 
 When respecting these conventions, compony's generators will automatically make generated classes inherit from the suitable base component if one is available. In the example above, `rails g component Users::Index` will automatically make the generated class inherit from `BaseComponent::Index`.
 
-[Guide index](/README.md#guide)
+[Guide index](/README.md#guide--documentation)

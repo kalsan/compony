@@ -1,4 +1,4 @@
-[Back to the guide](/README.md#guide)
+[Back to the guide](/README.md#guide--documentation)
 
 # Example
 
@@ -6,7 +6,7 @@ To get you a rough idea what working with Compony feels like, let's look at a sm
 
 The example is meant to be read top-down and information will mostly not be repeated. Comments will give you a rough idea of what's going on on each line. The features are more completely documented in subsequent chapters.
 
-Please note that from this example alone, you won't be able to comprehend the underlying concepts - refer to the rest of the [guide](/README.md#guide) for this.
+Please note that from this example alone, you won't be able to comprehend the underlying concepts - refer to the rest of the [guide](/README.md#guide--documentation) for this.
 
 Let's implement a simple user management page with Compony. User's have a name, an integer age, a comment, as well as a role (which we will conveniently model using `AnchorModel`: https://github.com/kalsan/anchormodel). We want to be able to list, show, create, edit and destroy users. Users having the role Admin shall not be destroyed.
 
@@ -225,4 +225,4 @@ The result looks like this:
 
 Note how the admin's delete button is disabled due to the feasibility framework. Pointing the mouse at it causes a tooltip saying: "Cannot destroy admins.", as specified in the model's prevention.
 
-[Guide index](/README.md#guide)
+[Guide index](/README.md#guide--documentation)

@@ -1,4 +1,4 @@
-[Back to the guide](/README.md#guide)
+[Back to the guide](/README.md#guide--documentation)
 
 # Internal datastructures
 
@@ -44,4 +44,4 @@ RequestContext further provides the following methods on its own:
 - `request_context` returns self. This is for disambiguation purposes.
 - Any call to an unknown method will first be evaluated as a potential hit in `locals`. Only if no matching local is found, Dslblend takes over.
 
-[Guide index](/README.md#guide)
+[Guide index](/README.md#guide--documentation)

@@ -1,4 +1,4 @@
-[Back to the guide](/README.md#guide)
+[Back to the guide](/README.md#guide--documentation)
 
 # Installation
 
@@ -44,4 +44,4 @@ To take advantage of the anchormodel integration, follow the installation instru
 
 To take advantage of [virtual models](./virtual_models.md) through the `active_type` integration, follow the instructions under [https://github.com/makandra/active_type](https://github.com/makandra/active_type)
 
-[Guide index](/README.md#guide)
+[Guide index](/README.md#guide--documentation)

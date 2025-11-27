@@ -1,4 +1,4 @@
-[Back to the guide](/README.md#guide)
+[Back to the guide](/README.md#guide--documentation)
 
 # What is a component?
 
@@ -260,4 +260,4 @@ Note how Compony's [path helper](/doc/guide/intents.md#componypath) is used to g
 
 Similarly to `content`, the `before_render` method also accepts a name, defaulting to `:main`, as well as a `before:` keyword. This allows you to selectively extend and/or override `before_render` blocks in subclasses.
 
-[Guide index](/README.md#guide)
+[Guide index](/README.md#guide--documentation)

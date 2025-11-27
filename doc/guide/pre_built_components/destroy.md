@@ -1,4 +1,4 @@
-- [Back to the guide](/README.md#guide)
+- [Back to the guide](/README.md#guide--documentation)
 - [List of pre-built components](/doc/guide/pre_built_components.md)
 
 # Pre-built components: Destroy

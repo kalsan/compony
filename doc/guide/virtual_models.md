@@ -1,4 +1,4 @@
-[Back to the guide](/README.md#guide)
+[Back to the guide](/README.md#guide--documentation)
 
 # Unleashing virtual models through Compony's `ActiveType` integration
 
@@ -28,4 +28,4 @@ Note: it is even possible to combine this pattern with Rails' `accepts_nested_at
 
 If you intend to use this technique in combination with `ActiveStorage`, you must also override the `store_data` block to just validate the model instead of saving it, as the hook creating the attachment is bound to fail (the virtual model does not exist in the database and thus cannot be referenced from `ActiveStorage::Attachment`). For the same reason, you cannot call `blob.download`, but must find the file's tempfile in the request parameters in order to process the file attached by the user.
 
-[Guide index](/README.md#guide)
+[Guide index](/README.md#guide--documentation)

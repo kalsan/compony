@@ -1,4 +1,4 @@
-[Back to the guide](/README.md#guide)
+[Back to the guide](/README.md#guide--documentation)
 
 # Ownership
 
@@ -20,4 +20,4 @@ To mark a model as owned by another, write the following code **in the model**:
 owned_by :user
 ```
 
-[Guide index](/README.md#guide)
+[Guide index](/README.md#guide--documentation)

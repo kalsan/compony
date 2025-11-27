@@ -1,4 +1,4 @@
-[Back to the guide](/README.md#guide)
+[Back to the guide](/README.md#guide--documentation)
 
 # Feasibility
 
@@ -37,4 +37,4 @@ Compony has a feature that auto-detects feasibility of some actions. In particul
 
 To disable auto detection, call `skip_autodetect_feasibilities` in your model.
 
-[Guide index](/README.md#guide)
+[Guide index](/README.md#guide--documentation)

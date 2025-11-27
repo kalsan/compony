@@ -1,4 +1,4 @@
-[Back to the guide](/README.md#guide)
+[Back to the guide](/README.md#guide--documentation)
 
 # Pre-built components shipped with Compony
 
@@ -17,4 +17,4 @@ In the following, the pre-built components currently shipped with Compony are pr
 - [New](./pre_built_components/new.md): Compony's equivalent to Rail's `new` and `create` controller action
 - [Edit](./pre_built_components/new.md): Compony's equivalent to Rail's `edit` and `update` controller action
 
-[Guide index](/README.md#guide)
+[Guide index](/README.md#guide--documentation)

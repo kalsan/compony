@@ -1,4 +1,4 @@
-[Back to the guide](/README.md#guide)
+[Back to the guide](/README.md#guide--documentation)
 
 # Rails Generators provided by Compony
 
@@ -12,4 +12,4 @@ To make your life easier and coding faster, Compony comes with two generators:
 
 Generators will automatically detect your `BaseComponents` (see [Inheritance: best practice](./doc/guide/inheritance.md#best-practice)).
 
-[Guide index](/README.md#guide)
+[Guide index](/README.md#guide--documentation)

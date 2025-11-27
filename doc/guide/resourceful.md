@@ -1,4 +1,4 @@
-[Back to the guide](/README.md#guide)
+[Back to the guide](/README.md#guide--documentation)
 
 # Resourceful components
 
@@ -100,4 +100,4 @@ The rule of thumb thus becomes:
 - When a resourceful component instantiates a non-resourceful sub-component, use `sub_comp`.
 - The situation where a non-resourceful component instantiates a resourceful component should not occur. Instead, make your parent component resourceful, even if it doesn't use the data itself. By housing a resourceful sub-comp, the parent component's nature inherently becomes resourceful and you should use the Resourceful mixin.
 
-[Guide index](/README.md#guide)
+[Guide index](/README.md#guide--documentation)

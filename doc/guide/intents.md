@@ -1,4 +1,4 @@
-[Back to the guide](/README.md#guide)
+[Back to the guide](/README.md#guide--documentation)
 
 # Intents
 
@@ -164,4 +164,4 @@ Example in `layouts/application.html.erb`
 <% end %>
 ```
 
-[Guide index](/README.md#guide)
+[Guide index](/README.md#guide--documentation)
