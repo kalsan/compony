@@ -36,3 +36,5 @@ end
 Compony has a feature that auto-detects feasibility of some actions. In particular, it checks for `dependent` relations in the `has_one`/`has_many` relations and disables delete buttons that point to objects that have dependent objects that cannot automatically be destroyed.
 
 To disable auto detection, call `skip_autodetect_feasibilities` in your model.
+
+[Guide index](/README.md#guide)

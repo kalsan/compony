@@ -163,3 +163,5 @@ Example in `layouts/application.html.erb`
   <div class="root-intent"><%= intent.render(controller) %>
 <% end %>
 ```
+
+[Guide index](/README.md#guide)

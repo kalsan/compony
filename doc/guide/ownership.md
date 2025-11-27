@@ -19,3 +19,5 @@ To mark a model as owned by another, write the following code **in the model**:
 # app/models/permission.rb
 owned_by :user
 ```
+
+[Guide index](/README.md#guide)

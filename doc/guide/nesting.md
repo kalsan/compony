@@ -130,3 +130,5 @@ The number 8 has the binary form 1000. Enter a number and press ENTER: [8]
 ```
 
 Note that this example is completely stateless, as all the info is encoded in the URL.
+
+[Guide index](/README.md#guide)

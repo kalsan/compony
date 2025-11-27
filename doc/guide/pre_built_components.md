@@ -16,3 +16,5 @@ In the following, the pre-built components currently shipped with Compony are pr
 - [Form](./pre_built_components/form.md): Compony's equivalent to Rail's `_form` partial
 - [New](./pre_built_components/new.md): Compony's equivalent to Rail's `new` and `create` controller action
 - [Edit](./pre_built_components/new.md): Compony's equivalent to Rail's `edit` and `update` controller action
+
+[Guide index](/README.md#guide)

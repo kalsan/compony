@@ -49,7 +49,7 @@ Note that rendering a component always requires the controller as an argument. I
 
 ## Setup
 
-Every component must call the static method `setup` which will contain most of the code of your components. This can be achieved either by a call directly from your class, or by inheriting from a component that calls `setup`. If both classes call the method, the inherited class' `setup` is run first and the inheriting's second, thus, the child class can override setup properties of the parent class.
+Every component must call the static method `setup` which will contain most of the code of your components. This can be achieved either by a call directly from your class, or by [inheriting](/doc/guide/inheritance.md) from a component that calls `setup`. If both classes call the method, the inherited class' `setup` is run first and the inheriting's second, thus, the child class can override setup properties of the parent class.
 
 Call setup as follows:
 
@@ -65,7 +65,7 @@ The code in setup is run at the end the component's initialization. In this bloc
 
 ### Labelling
 
-This defines a component's label, both as seen from within the component and from the outside. You can query the label in order to display it as a title in your component. Links and buttons to components will also display the same label, allowing you to easily rename a component, including any parts of your UI that point to it.
+This defines a component's label, both as seen from within the component and from the outside, e.g. from an [intent](/doc/guide/intents.md). You can query the label in order to display it as a title in your component. Links and buttons to components will also display the same label, allowing you to easily rename a component, including any parts of your UI that point to it.
 
 Labels come in different formats, short and long, with long being the default. Define them as follows if your component is about a specific object, for instance a show component for a specific user:
 
@@ -86,7 +86,7 @@ label(User.first) # This returns the long version: "Displaying user John Doe".
 label(User.first, format: :short) # This returns the short version "John Doe".
 ```
 
-It is important to note that since your label block takes an argument, you must provide the argument when reading the label (exception: if the component implements the method `data` returning an object, the argument can be omitted and the label block will be provided that object). Only up to one argument is supported.
+It is important to note that since your label block takes an argument, you must provide the argument when reading the label. Only up to one argument is supported. Typically, label blocks of all [resourceful components](/doc/guide/resourceful.md) take 1 argument while all others take 0.
 
 Here is an example on how labelling looks like for a component that is not about a specific object, such as an index component for users:
 
@@ -170,7 +170,7 @@ This results in:
   - This paragraph is inserted between the others.
   - Thank you and see you tonight.
 
-As you see, overusing this feature can lead to messy code as it becomes unclear what happens in what order. For this reason, this feature should only be used to decouple the content of your abstract components for allowing surgical overrides in subclasses.
+As you see, overusing this feature can lead to messy code as it becomes unclear what happens in what order. For this reason, this feature should only be used to decouple the content of your abstract components for allowing surgical overrides in [subclasses](/doc/guide/inheritance.md).
 
 It is a good convention to always have one content block named `:main`, as you might want to refer to it in subclasses.
 
@@ -245,7 +245,7 @@ setup do
     current_time = Time.zone.now
     if current_time.hour >= 11 && current_time.hour < 14
       flash.notice = "Sorry, it's not lunch time."
-      redirect_to all_menus_path
+      redirect_to Compony.path(:index, :menus)
     end
   end
 
@@ -256,4 +256,8 @@ setup do
 end
 ```
 
+Note how Compony's [path helper](/doc/guide/intents.md#componypath) is used to generate the path. This is the recommended approach to redirecting to a component.
+
 Similarly to `content`, the `before_render` method also accepts a name, defaulting to `:main`, as well as a `before:` keyword. This allows you to selectively extend and/or override `before_render` blocks in subclasses.
+
+[Guide index](/README.md#guide)

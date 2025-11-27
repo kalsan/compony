@@ -60,3 +60,5 @@ Compony.model_field_namespaces = ['MyCustomModelFields', 'Compony::ModelFields']
 ```
 
 You can then implement `MyCustomModelFields::Animal`, `MyCustomModelFields::String` etc. You can then use `field :fav_animal, :animal` in your model.
+
+[Guide index](/README.md#guide)

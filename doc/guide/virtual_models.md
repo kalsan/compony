@@ -27,3 +27,5 @@ Why this works: As your `Components::Reports::Request` inherits from Compony's `
 Note: it is even possible to combine this pattern with Rails' `accepts_nested_attributes_for` and `simple_form`'s `f.simple_fields_for` call, where the nested object is a real database-backed model. Even though the component's resource is purely virtual, Rails will create or update the nested model when Compony calls `save` on the parent resource. This allows for very fast implementation of business logic creating multiple objects from a single form post by wrapping the resources in a virtual model.
 
 If you intend to use this technique in combination with `ActiveStorage`, you must also override the `store_data` block to just validate the model instead of saving it, as the hook creating the attachment is bound to fail (the virtual model does not exist in the database and thus cannot be referenced from `ActiveStorage::Attachment`). For the same reason, you cannot call `blob.download`, but must find the file's tempfile in the request parameters in order to process the file attached by the user.
+
+[Guide index](/README.md#guide)

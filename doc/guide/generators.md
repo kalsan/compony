@@ -11,3 +11,5 @@ To make your life easier and coding faster, Compony comes with two generators:
 ### Support for custom base components
 
 Generators will automatically detect your `BaseComponents` (see [Inheritance: best practice](./doc/guide/inheritance.md#best-practice)).
+
+[Guide index](/README.md#guide)

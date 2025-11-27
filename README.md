@@ -42,8 +42,7 @@ The following topics should help you get started. Please note that the links wil
     - [Inheritance](./doc/guide/inheritance.md): DRY up your code by providing base components
     - [Nesting](./doc/guide/nesting.md): How to instanciate components inside other components
     - [Resourceful components](./doc/guide/resourceful.md): How to create components that deal with Rails-style resources
-    - [Intents](./doc/guide/intents.md): How to point to a component
-    - [Button styles](./doc/guide/button_styles.md): Providing custom components for rendering intents
+    - [Intents](./doc/guide/intents.md): How to point to a component and provide custom components for rendering intents
     - [Feasibility](./doc/guide/feasibility.md): Disabiling intents based on context (contains `prevent`)
     - [Ownership](./doc/guide/ownership.md): Informing Compony that a resource is conceptually part of another resource
     - [Model fields](./doc/guide/model_fields.md): Allowing Compony to auto-generate UI elements by telling it about the structure of your model

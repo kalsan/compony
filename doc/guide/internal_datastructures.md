@@ -43,3 +43,5 @@ RequestContext further provides the following methods on its own:
 - `component` returns the component the RequestContext was instantiated with.
 - `request_context` returns self. This is for disambiguation purposes.
 - Any call to an unknown method will first be evaluated as a potential hit in `locals`. Only if no matching local is found, Dslblend takes over.
+
+[Guide index](/README.md#guide)

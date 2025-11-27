@@ -60,3 +60,5 @@ Compony has the following convention:
 - name the class `BaseComponents::YourComponent` where `BaseComponents` is typically a module simple meant for namespacing
 
 When respecting these conventions, compony's generators will automatically make generated classes inherit from the suitable base component if one is available. In the example above, `rails g component Users::Index` will automatically make the generated class inherit from `BaseComponent::Index`.
+
+[Guide index](/README.md#guide)
