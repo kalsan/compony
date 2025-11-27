@@ -12,11 +12,11 @@ This component is the Compony equivalent to a typical Rails controller's `destro
   - if present: the data's Show component
   - otherwise: the data's Index component
 
-Authorization checks for `destroy` even in GET. The reason is that users that aren't able to destroy a resource shouldn't even arrive at the page asking them whether they want to do so, unable to click the only button due to lacking permissions. This also causes any `compony_link` and `compony_button` to Destroy components to be hidden if the user is unable to destroy the corresponding resource.
+Authorization checks for `destroy` even in GET. The reason is that users that aren't able to destroy a resource shouldn't even arrive at the page asking them whether they want to do so, unable to click the only button due to lacking permissions. This also causes any [intents](/doc/guide/intents.md) to Destroy components to be hidden if the user is unable to destroy the corresponding resource.
 
 This component largely follows the [resourceful lifecycle](/doc/guide/resourceful.md#complete-resourceful-lifecycle). As can be expected, the resource is loaded by `Resourceful`'s default load block and `store_data` is implemented to destroy the resource.
 
-If the resource is [owned](/doc/guide/ownership.md), the component provides a `:back_to_owner` root action in the form of a cancel button.
+If the resource is [owned](/doc/guide/ownership.md), the component provides a `:back_to_owner` [exposed intent](/doc/guide/intents.md#exposed-intents) in the form of a cancel button.
 
 The following DSL methods are implemented to allow for convenient overrides of default logic:
 

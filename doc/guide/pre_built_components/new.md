@@ -13,7 +13,7 @@ This component is the Compony equivalent to a typical Rails controller's `new` a
   - otherwise, if the resource is owned by another resource class: the owner's Show component
   - otherwise, the data's Index component
 
-Authorization checks for `create` even in GET. The reason is that it makes no sense to present an empty form to a user who cannot create a new record. This also causes any `compony_link` and `compony_button` to New components to be hidden to users lacking the permission.
+Authorization checks for `create` even in GET. The reason is that it makes no sense to present an empty form to a user who cannot create a new record. This also causes any [intents](/doc/guide/intents.md) to New components to be hidden to users lacking the permission.
 
 This component follows the [resourceful lifecycle](/doc/guide/resourceful.md#complete-resourceful-lifecycle). `load_data` is set to create a new record and `store_data` attempts to create it. Parameters are validated in `assign_attributes` using a Schemacop schema that is generated from the form. The schema corresponds to Rail's typical strong parameter structure for forms. For example, a user's New component would look for a parameter `user` holding a hash of attributes (e.g. `user[first_name]=Tom`).
 

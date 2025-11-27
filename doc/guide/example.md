@@ -72,11 +72,12 @@ class Components::Users::Show < Compony::Component
     label(:short) { |_u| 'Show' } # The short format is suitable for e.g. a button in a list of users.
     label(:long) { |u| "Show user #{u.label}" } # The long format is suitable e.g. in a link in a text about this user.
 
-    # Actions point to other components. They have a name that is used to identify them (e.g. in the `prevent` call above) and a block returning a button.
-    # Compony buttons take the name to an action and either a family name or instance, e.g. a Rails model instance.
-    # Whether or not an instance must be passed is defined by the component the button is pointing to (see the comment for `label` earlier in the example).
-    action(:index) { Compony.button(:index, :users) } # This points to `Components::Users::Index` without passing a model (because it's an index).
-    action(:edit) { Compony.button(:edit, @data) } # This points to `Components::Users::Edit` for the currently loaded model. This also checks feasibility.
+    # Intents point to other components. They have a name that is used to identify them and encapsulate both the target component and current context.
+    # Exposed intents can be rendered by the application layout.
+    exposed_intents do
+      add :index, :users # This points to `Components::Users::Index` without passing a model (because it's an index).
+      add :edit, @data # This points to `Components::Users::Edit` for the currently loaded model. This also checks feasibility.
+    end
 
     # When a standalone config is present, Compony creates one or multiple Rails routes. Components without standalone config must be nested within others.
     standalone path: 'users/show/:id' do # This specifies the path to this component.
@@ -196,7 +197,7 @@ class Components::Users::Index < Compony::Component
     content do
       h4 'Users:' # Provide a title
       # Provide a button that creates a new user. Note that we must write `:users` (plural) because the component's family is `Users`.
-      concat compony_button(:new, :users) # The `Users::New` component does not take a model, thus we just pass the symbol `:users`, not a model.
+      concat render_intent(:new, :users) # The `Users::New` component does not take a model, thus we just pass the symbol `:users`, not a model.
 
       div class: 'users' do # Opening tag <div class="users">
         @data.each do |user| # Iterate the collection
@@ -206,13 +207,10 @@ class Components::Users::Index < Compony::Component
                 concat "#{field.label}: #{field.value_for(user)} " # Display the field's label and apply it to value, as we did in the Show component.
               end
             end
-            # For each user, add three buttons show, edit, destroy. The method `with_button_defaults` applies its arguments to every `compony_button` call.
-            # The option `format: :short` causes the button to call the target component's `label(:short) {...}` label function.
-            Compony.with_button_defaults(label_opts: { format: :short }) do
-              concat compony_button(:show, user) # Now equivalent to: `compony_button(:show, user, label_opts: { format: :short })`
-              concat compony_button(:edit, user)
-              concat compony_button(:destroy, user)
-            end
+            # For each user, add three buttons show, edit, destroy.
+            concat render_intent(:show, user, button: { label: { format: :short }})
+            concat render_intent(:edit, user, button: { label: { format: :short }})
+            concat render_intent(:destroy, user, button: { label: { format: :short }})
           end
         end
       end

@@ -12,7 +12,7 @@ Nesting occurs when a component is being rendered. It is perfectly feasible to u
 
 Note that only the root component runs authentication and authorization. Thus, be careful which components you nest.
 
-To create a sub-component, use `sub_comp` in a component's content block. Any keyword arguments given will be passed to the sub-component. It is strictly recommended to exclusively use `sub_comp` (or its [resourceful](./resourceful.md) pendent) to nest components, as this method makes a component aware of its exact nesting.
+To create a sub-component, use `render_sub_comp` in a component's content block. Any keyword arguments given will be passed to the sub-component. It is strictly recommended to exclusively use `render_sub_comp`, `sub_comp` or its [resourceful](./resourceful.md#nesting-resourceful-components) pendent to nest components, as this method makes a component aware of its exact nesting.
 
 Here is a simple example of a component that displays numbers as binary:
 

@@ -66,7 +66,7 @@ class Components::Users::Destroy < Compony::Component
     label(:long) { |data| "Delete #{data.label}" }
     content do
       h1 "Are you sure to delete #{@data.label}?"
-      div compony_button(:destroy, @data, label: 'Yes, delete', method: :delete)
+      div render_intent(:destroy, @data, label: 'Yes, delete', method: :delete)
     end
   end
 end

@@ -114,7 +114,9 @@ All button styles support the following keyword arguments to their initializer:
 
 Note that since buttons are full components, they can be [nested](/doc/guide/nesting.md) into another component by providing `parent_comp`. If called from within a component's `content` block, the helper `render_intent` does this automatically.
 
-As implicitely mentioned above, Compony buttons are referenced to by a name called a style (`:css_button` actually points to `Compony::Components::Buttons::CssButton`). When rendering an intent, the style can be passed as an argument: `render_intent(:show, User.first, button: { style: :link })` and the intent will automatically instanciate the desired component class
+As implicitely mentioned above, Compony buttons are referenced to by a name called a style (`:css_button` actually points to `Compony::Components::Buttons::CssButton`). When rendering an intent, the style can be passed as an argument: `render_intent(:show, User.first, button: { style: :link })` and the intent will automatically instanciate the desired component class.
+
+Note: it is possible to use a button component to submit a form. In order to achieve this, you must implement a hidden submit button (for handling keyboard Enter and Return), as well as pass `onclick: "this.closest('form').requestSubmit(); return false;"` as an argument. See the pre-built Form component's implementation for an example.
 
 ### Adding your own styles
 

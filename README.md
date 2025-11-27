@@ -18,15 +18,15 @@ Compony's key aspects:
     - Compony fields capture attributes that should be made visible in your UI. They allow you to implement formatting behavior and parameter sanitization for various types, e.g. URLs, phone numbers, colors etc. ready to be used in your lists, detail panels, or forms.
     - Compony's feasibility framework allows you to prohibit actions based on conditions, along with an error message. This causes all buttons pointing to that action to be disabled with a meaningful error message.
 - Compony only structures your code, but provides no style whatsoever. It is like a bookshelf rather than a reader's library. You still implement your own layouts, CSS and Javascript to define the behavior of your front-end.
-- Using Compony, you **can** write your application as components, but it is still possible to have regular routes, controllers and views side-to-side to it. This way, you can migrate your applications to Compony little by little and enter and leave the Compony world as you please. It is also possible to render Compony components from regular views and vice versa.
-- Compony is built for Rails 7 and fully supports Stimulus and Turbo Drive. Turbo Frames and Streams are not yet targeted, so Compony is currently meant for websites where every click triggers a "full page load" (in quotes because they are not actually full page loads due to Turbo Drive).
+- Compony seamlessly integrates with Rails and does not interfere with existing code. Using Compony, you **can** write your application as components, but it is still possible to have regular routes, controllers and views side-to-side to it. This way, you can migrate your applications to Compony little by little and enter and leave the Compony world as you please. It is also possible to render Compony components from regular views and vice versa.
+- Compony is built for Rails 7, 7.1 and 8, and fully supports Stimulus and Turbo Drive. Turbo Frames and Streams are not yet targeted, but can be used alongside, just like with any Rails application.
 - Compony uses [CanCanCan](https://github.com/CanCanCommunity/cancancan) for authorization but does not provide an authentication mechanism. You can easily build your own by creating login/logout components that manage cookies, and configure Compony to enforce authentication using the `Compony.authentication_before_action` setter. I have also successfully tested Compony to work with [Devise](https://github.com/heartcombo/devise).
 
 ## State of the project
 
 I am actively using this framework in various applications and both performance and reliability are good. However, the project is experimental and lacking peer reviews and especially automatic testing, such as unit and integration tests. Also, expect there to be ([documented](/CHANGELOG.md)) breaking changes in the future, as the API will likely be further refined, resulting in renamings and deprecation of various methods.
 
-## Related projects
+## Other projects exploring similar concepts
 
 A project with a similar aim, but a different approach, is [Phlex](https://github.com/phlex-ruby/phlex).
 
