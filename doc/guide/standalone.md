@@ -139,6 +139,6 @@ end
 
 By implementing `path do ... end` inside the `setup` method of a component, you can override the way paths to that component are generated. Customizing the path generation will affect all mentioned methods mentioned here involving paths, such as `Compony.path`, `render_intent` etc.
 
-This is an advanced usage. Refer to the default implementation of `Component`'s `path_block` to see an exmple.
+This is an advanced usage. Refer to the default implementation of `Component`'s `path_block` to see an example.
 
 [Guide index](/README.md#guide--documentation)

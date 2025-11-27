@@ -11,7 +11,7 @@ In Compony, if a model class is owned by another, it means that:
 
 - The owned model has a non-optional `belongs_to` relation ship to its owner.
 - The owned model class has no Index component.
-- Pre-built components (more on them later) offer [exposed intents](/doc/guide/intents.md#exposed-intents) to the owner model and redirect to its Show component instead of to the current object's Index component.
+- [Pre-built components](/doc/guide/pre_built_components.md) offer [exposed intents](/doc/guide/intents.md#exposed-intents) to the owner model and redirect to its Show component instead of to the current object's Index component.
 
 To mark a model as owned by another, write the following code **in the model**:
 

@@ -124,7 +124,7 @@ my_component.icon # [:'fa-solid', :circle]
 
 ### Providing content
 
-Basic components do not come with default content. Instead, you must call the method `content` inside the setup block and provide a block containing your view. It will be evaluated inside a `RequestContext` (more on that later).
+Basic components do not come with default content. Instead, you must call the method `content` inside the setup block and provide a block containing your view. It will be evaluated inside a [request context](/doc/guide/internal_datastructures.md#requestcontext).
 
 In this block, provide the HTML to be generated using Dyny: [https://github.com/kalsan/dyny](https://github.com/kalsan/dyny)
 
