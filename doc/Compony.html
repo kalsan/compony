@@ -543,7 +543,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#register_button_style-class_method" title="register_button_style (class method)">.<strong>register_button_style</strong>(name, button_component_class)  &#x21d2; Object </a>
+      <a href="#register_button_style-class_method" title="register_button_style (class method)">.<strong>register_button_style</strong>(name, button_component_class_name)  &#x21d2; Object </a>
     
 
     
@@ -630,12 +630,12 @@
       <pre class="lines">
 
 
-99
-100
-101</pre>
+104
+105
+106</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 99</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 104</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_authentication_before_action'>authentication_before_action</span>
   <span class='ivar'>@authentication_before_action</span>
@@ -691,12 +691,12 @@
       <pre class="lines">
 
 
-49
-50
-51</pre>
+47
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 47</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_authentication_before_action='>authentication_before_action=</span><span class='lparen'>(</span><span class='id identifier rubyid_authentication_before_action'>authentication_before_action</span><span class='rparen'>)</span>
   <span class='ivar'>@authentication_before_action</span> <span class='op'>=</span> <span class='id identifier rubyid_authentication_before_action'>authentication_before_action</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
@@ -763,6 +763,8 @@
       <pre class="lines">
 
 
+73
+74
 75
 76
 77
@@ -771,19 +773,31 @@
 80
 81
 82
-83</pre>
+83
+84
+85
+86
+87
+88</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 75</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 73</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_button_component_class'>button_component_class</span><span class='lparen'>(</span><span class='id identifier rubyid_style'>style</span> <span class='op'>=</span> <span class='id identifier rubyid_default_button_style'>default_button_style</span><span class='rparen'>)</span>
-  <span class='kw'>if</span> <span class='ivar'>@button_component_classes</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='comment'># Lazy initialize
+</span>  <span class='kw'>if</span> <span class='ivar'>@button_component_classes</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
     <span class='ivar'>@button_component_classes</span> <span class='op'>=</span> <span class='lbrace'>{</span>
       <span class='label'>css_button:</span> <span class='const'><span class='object_link'><a href="" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Buttons.html" title="Compony::Components::Buttons (module)">Buttons</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Buttons/CssButton.html" title="Compony::Components::Buttons::CssButton (class)">CssButton</a></span></span><span class='comma'>,</span>
       <span class='label'>link:</span>       <span class='const'><span class='object_link'><a href="" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Buttons.html" title="Compony::Components::Buttons (module)">Buttons</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Buttons/Link.html" title="Compony::Components::Buttons::Link (class)">Link</a></span></span>
-    <span class='rbrace'>}</span>
+    <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='ivar'>@button_component_class_names</span><span class='op'>&amp;.</span><span class='id identifier rubyid_transform_values'>transform_values</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:constantize</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+    <span class='ivar'>@button_component_classes</span><span class='period'>.</span><span class='id identifier rubyid_each_value'>each_value</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_button_component_class'>button_component_class</span><span class='op'>|</span>
+      <span class='kw'>unless</span> <span class='id identifier rubyid_button_component_class'>button_component_class</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Class</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_button_component_class'>button_component_class</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Component.html" title="Compony::Component (class)">Component</a></span></span>
+        <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Expected a button component class, got </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_button_component_class'>button_component_class</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
   <span class='kw'>end</span>
-  <span class='ivar'>@button_component_classes</span><span class='lbracket'>[</span><span class='id identifier rubyid_style'>style</span><span class='op'>&amp;.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Unknown button style </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_style'>style</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'>. Use one of: </span><span class='embexpr_beg'>#{</span><span class='ivar'>@button_component_classes</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='comment'># Retrieval
+</span>  <span class='kw'>return</span> <span class='ivar'>@button_component_classes</span><span class='lbracket'>[</span><span class='id identifier rubyid_style'>style</span><span class='op'>&amp;.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Unknown button style </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_style'>style</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'>. Use one of: </span><span class='embexpr_beg'>#{</span><span class='ivar'>@button_component_classes</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -823,14 +837,14 @@
       <pre class="lines">
 
 
-136
-137
-138
-139
-140</pre>
+141
+142
+143
+144
+145</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 136</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 141</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_comp_class_for'>comp_class_for</span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='id identifier rubyid_intent'>intent</span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_comp_class'>comp_class</span>
@@ -877,14 +891,14 @@
       <pre class="lines">
 
 
-145
-146
-147
-148
-149</pre>
+150
+151
+152
+153
+154</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 145</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 150</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_comp_class_for!'>comp_class_for!</span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_comp_class_for'>comp_class_for</span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span>
@@ -922,13 +936,13 @@
       <pre class="lines">
 
 
+60
+61
 62
-63
-64
-65</pre>
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 60</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_content_after_root_comp'>content_after_root_comp</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>`Compony.content_after` requires a block.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
@@ -972,12 +986,12 @@
       <pre class="lines">
 
 
-111
-112
-113</pre>
+116
+117
+118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 111</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 116</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_content_after_root_comp_block'>content_after_root_comp_block</span>
   <span class='ivar'>@content_after_root_comp_block</span>
@@ -1013,13 +1027,13 @@
       <pre class="lines">
 
 
+53
+54
 55
-56
-57
-58</pre>
+56</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 55</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 53</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_content_before_root_comp'>content_before_root_comp</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>`Compony.content_before` requires a block.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
@@ -1063,12 +1077,12 @@
       <pre class="lines">
 
 
-105
-106
-107</pre>
+110
+111
+112</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 105</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 110</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_content_before_root_comp_block'>content_before_root_comp_block</span>
   <span class='ivar'>@content_before_root_comp_block</span>
@@ -1111,12 +1125,12 @@
       <pre class="lines">
 
 
-87
-88
-89</pre>
+92
+93
+94</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 87</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 92</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_default_button_style'>default_button_style</span>
   <span class='kw'>return</span> <span class='ivar'>@default_button_style</span> <span class='op'>||</span> <span class='symbol'>:css_button</span>
@@ -1179,12 +1193,12 @@
       <pre class="lines">
 
 
-25
-26
-27</pre>
+23
+24
+25</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 23</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_default_button_style='>default_button_style=</span><span class='lparen'>(</span><span class='id identifier rubyid_default_button_style'>default_button_style</span><span class='rparen'>)</span>
   <span class='ivar'>@default_button_style</span> <span class='op'>=</span> <span class='id identifier rubyid_default_button_style'>default_button_style</span>
@@ -1240,16 +1254,16 @@
       <pre class="lines">
 
 
-160
-161
-162
-163
-164
 165
-166</pre>
+166
+167
+168
+169
+170
+171</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 160</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 165</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_family_name_for'>family_name_for</span><span class='lparen'>(</span><span class='id identifier rubyid_model_or_family_name_or_cst'>model_or_family_name_or_cst</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_model_or_family_name_or_cst'>model_or_family_name_or_cst</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:model_name</span><span class='rparen'>)</span>
@@ -1289,16 +1303,16 @@
       <pre class="lines">
 
 
-120
-121
-122
-123
-124
 125
-126</pre>
+126
+127
+128
+129
+130
+131</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 120</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 125</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_intent'>intent</span><span class='lparen'>(</span><span class='id identifier rubyid_intent_or_comp_args'>intent_or_comp_args</span><span class='comma'>,</span> <span class='op'>...</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_intent_or_comp_args'>intent_or_comp_args</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Compony/Intent.html" title="Compony::Intent (class)">Intent</a></span></span><span class='rparen'>)</span>
@@ -1358,18 +1372,18 @@
       <pre class="lines">
 
 
-170
-171
-172
-173
-174
 175
 176
 177
-178</pre>
+178
+179
+180
+181
+182
+183</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 170</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 175</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_model_field_class_for'>model_field_class_for</span><span class='lparen'>(</span><span class='id identifier rubyid_constant'>constant</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_model_field_namespaces'>model_field_namespaces</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_model_field_namespace'>model_field_namespace</span><span class='op'>|</span>
@@ -1418,12 +1432,12 @@
       <pre class="lines">
 
 
-93
-94
-95</pre>
+98
+99
+100</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 98</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_model_field_namespaces'>model_field_namespaces</span>
   <span class='kw'>return</span> <span class='ivar'>@model_field_namespaces</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Compony::ModelFields</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
@@ -1479,12 +1493,12 @@
       <pre class="lines">
 
 
-36
-37
-38</pre>
+34
+35
+36</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 34</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_model_field_namespaces='>model_field_namespaces=</span><span class='lparen'>(</span><span class='id identifier rubyid_model_field_namespaces'>model_field_namespaces</span><span class='rparen'>)</span>
   <span class='ivar'>@model_field_namespaces</span> <span class='op'>=</span> <span class='id identifier rubyid_model_field_namespaces'>model_field_namespaces</span>
@@ -1520,12 +1534,12 @@
       <pre class="lines">
 
 
-130
-131
-132</pre>
+135
+136
+137</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 130</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 135</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='lparen'>(</span><span class='id identifier rubyid_comp_name_or_cst_or_class'>comp_name_or_cst_or_class</span><span class='comma'>,</span> <span class='id identifier rubyid_model_or_family_name_or_cst'>model_or_family_name_or_cst</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>...</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_intent'>intent</span><span class='lparen'>(</span><span class='id identifier rubyid_comp_name_or_cst_or_class'>comp_name_or_cst_or_class</span><span class='comma'>,</span> <span class='id identifier rubyid_model_or_family_name_or_cst'>model_or_family_name_or_cst</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span>
@@ -1538,7 +1552,7 @@
       <div class="method_details ">
   <h3 class="signature " id="register_button_style-class_method">
   
-    .<strong>register_button_style</strong>(name, button_component_class)  &#x21d2; <tt>Object</tt> 
+    .<strong>register_button_style</strong>(name, button_component_class_name)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1577,13 +1591,13 @@
         <span class='name'>button_component_class</span>
       
       
-        <span class='type'>(<tt>Class</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>Class of the button component that will be instanciated to render the intent.</p>
+<p>String with the class name of the button component that will be instanciated to render the intent.</p>
 </div>
       
     </li>
@@ -1600,18 +1614,14 @@
 15
 16
 17
-18
-19
-20</pre>
+18</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/compony.rb', line 15</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_register_button_style'>register_button_style</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_button_component_class'>button_component_class</span><span class='rparen'>)</span>
-  <span class='kw'>unless</span> <span class='id identifier rubyid_button_component_class'>button_component_class</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Class</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_button_comp_class'>button_comp_class</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Component.html" title="Compony::Component (class)">Component</a></span></span>
-    <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Expected a button component class, got </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_button_component_class'>button_component_class</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-  <span class='kw'>end</span>
-  <span class='ivar'>@button_component_classes</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_button_component_class'>button_component_class</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_register_button_style'>register_button_style</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_button_component_class_name'>button_component_class_name</span><span class='rparen'>)</span>
+  <span class='ivar'>@button_component_class_names</span> <span class='op'>||=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='ivar'>@button_component_class_names</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_button_component_class_name'>button_component_class_name</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1644,12 +1654,12 @@
       <pre class="lines">
 
 
-152
-153
-154</pre>
+157
+158
+159</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 152</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 157</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_root_comp'>root_comp</span>
   <span class='const'>RequestStore</span><span class='period'>.</span><span class='id identifier rubyid_store'>store</span><span class='lbracket'>[</span><span class='symbol'>:compony_root_comp</span><span class='rbracket'>]</span>
@@ -1664,7 +1674,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Nov 26 12:03:26 2025 by
+  Generated on Thu Nov 27 16:02:22 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.3.5).
 </div>

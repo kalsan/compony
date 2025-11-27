@@ -1,4 +1,4 @@
-# unreleased
+# 0.8.0
 
 Be advised that this version brings major interface changes that will break existing applications. When upgrading, carefully follow sthe steps unter "Steps to take" and test your application thoroughly.
 

@@ -71,7 +71,7 @@
 
 <h1 id="label-About+Compony">About Compony</h1>
 
-<p>Compony is a Gem that allows you to write your Rails application in component-style fashion. It combines a controller action and route along with its view into a single Ruby class. This allows writing much DRYer code, using inheritance even in views and much easier refactoring for your Rails applications, helping you to keep the code clean as the application evolves.</p>
+<p>Compony is a Gem that allows you to write your Rails application in <strong>component-style</strong> fashion. It combines a controller action and route along with its view into a single Ruby class. Along with the DSL approach and a powerful model mixin, Compony <strong>makes your application’s code more semantic</strong>, allows writing <strong>much DRYer code</strong>, using inheritance even in views and <strong>much easier refactoring</strong> for your Rails applications, helping you to <strong>keep the code clean as the application evolves</strong>.</p>
 
 <p>Compony’s key aspects:</p>
 <ul><li>
@@ -79,17 +79,18 @@
 </li><li>
 <p>Refactor common logic into your own components and inherit from them to DRY up your code.</p>
 </li><li>
-<p>Compony’s powerful model mixin allows you to define metadata in your models and react to them. Examples:</p>
-</li><li>
+<p>Compony’s model mixin allows you to define metadata in your models and react to them, resulting in more semantic code. Examples:</p>
+<ul><li>
 <p>Compony fields capture attributes that should be made visible in your UI. They allow you to implement formatting behavior and parameter sanitization for various types, e.g. URLs, phone numbers, colors etc. ready to be used in your lists, detail panels, or forms.</p>
 </li><li>
 <p>Compony’s feasibility framework allows you to prohibit actions based on conditions, along with an error message. This causes all buttons pointing to that action to be disabled with a meaningful error message.</p>
+</li></ul>
 </li><li>
 <p>Compony only structures your code, but provides no style whatsoever. It is like a bookshelf rather than a reader’s library. You still implement your own layouts, CSS and Javascript to define the behavior of your front-end.</p>
 </li><li>
-<p>Using Compony, you <strong>can</strong> write your application as components, but it is still possible to have regular routes, controllers and views side-to-side to it. This way, you can migrate your applications to Compony little by little and enter and leave the Compony world as you please. It is also possible to render Compony components from regular views and vice versa.</p>
+<p>Compony seamlessly integrates with Rails and does not interfere with existing code. Using Compony, you <strong>can</strong> write your application as components, but it is still possible to have regular routes, controllers and views side-to-side to it. This way, you can migrate your applications to Compony little by little and enter and leave the Compony world as you please. It is also possible to render Compony components from regular views and vice versa.</p>
 </li><li>
-<p>Compony is built for Rails 7 and fully supports Stimulus and Turbo Drive. Turbo Frames and Streams are not yet targeted, so Compony is currently meant for websites where every click triggers a “full page load” (in quotes because they are not actually full page loads due to Turbo Drive).</p>
+<p>Compony is built for Rails 7, 7.1 and 8, and fully supports Stimulus and Turbo Drive. Turbo Frames and Streams are not yet targeted, but can be used alongside, just like with any Rails application.</p>
 </li><li>
 <p>Compony uses <a href="https://github.com/CanCanCommunity/cancancan">CanCanCan</a> for authorization but does not provide an authentication mechanism. You can easily build your own by creating login/logout components that manage cookies, and configure Compony to enforce authentication using the <code>Compony.authentication_before_action</code> setter. I have also successfully tested Compony to work with <a href="https://github.com/heartcombo/devise">Devise</a>.</p>
 </li></ul>
@@ -98,7 +99,7 @@
 
 <p>I am actively using this framework in various applications and both performance and reliability are good. However, the project is experimental and lacking peer reviews and especially automatic testing, such as unit and integration tests. Also, expect there to be (<a href="/CHANGELOG_md.html">documented</a>) breaking changes in the future, as the API will likely be further refined, resulting in renamings and deprecation of various methods.</p>
 
-<h2 id="label-Related+projects">Related projects</h2>
+<h2 id="label-Other+projects+exploring+similar+concepts">Other projects exploring similar concepts</h2>
 
 <p>A project with a similar aim, but a different approach, is <a href="https://github.com/phlex-ruby/phlex">Phlex</a>.</p>
 
@@ -122,11 +123,9 @@
 </li><li>
 <p><a href="./doc/guide/resourceful_md.html">Resourceful components</a>: How to create components that deal with Rails-style resources</p>
 </li><li>
-<p><a href="./doc/guide/helpers_md.html">Compony helpers, links and buttons</a>: Important tools for concise Compony programming</p>
+<p><a href="./doc/guide/intents_md.html">Intents</a>: How to point to a component and provide custom components for rendering intents</p>
 </li><li>
-<p><a href="./doc/guide/root_actions_md.html">Root actions</a>: How to provide context-sensitive buttons to your application</p>
-</li><li>
-<p><a href="./doc/guide/feasibility_md.html">Feasibility</a>: Disabiling buttons based on context (contains <code>prevent</code>)</p>
+<p><a href="./doc/guide/feasibility_md.html">Feasibility</a>: Disabiling intents based on context (contains <code>prevent</code>)</p>
 </li><li>
 <p><a href="./doc/guide/ownership_md.html">Ownership</a>: Informing Compony that a resource is conceptually part of another resource</p>
 </li><li>
@@ -142,8 +141,6 @@
 <p>Pre-built components shipped with Compony</p>
 <ul><li>
 <p><a href="./doc/guide/pre_built_components_md.html">Introduction</a></p>
-</li><li>
-<p><a href="./doc/guide/pre_built_components/button_md.html">Button</a>: This component class gets instanciated whenever using <code>Compony.button</code> or <code>compony_button</code>.</p>
 </li><li>
 <p><a href="./doc/guide/pre_built_components/show_md.html">Show</a>: Compony’s equivalent to Rail’s <code>show</code> controller action</p>
 </li><li>
@@ -189,11 +186,7 @@
 </li><li>
 <p>At this point, I haven’t gotten into Turbo Streams and Turbo Frames. It would be interesting to extend Compony such it also makes writing applications using these features much easier.</p>
 </li><li>
-<p>Feasibility:</p>
-</li><li>
-<p>The feasibility framework does not yet enforce prevention, but only has effects on buttons. Actions should be structured more explicitly such that prevention becomes as tight as authorization.</p>
-</li><li>
-<p>Feasibility for links is not yet implemented.</p>
+<p>The feasibility framework does not yet enforce prevention, but only has effects on buttons.</p>
 </li><li>
 <p>Compony is not compatible with <code>tailwindcss-rails</code>. This is likely due to Tailwind automatically removing any CSS that is not used by the application and the usage detection not picking up Compony components, as their content is not provided in views.</p>
 </li></ul>
@@ -206,7 +199,7 @@
 </div></div>
 
       <div id="footer">
-  Generated on Wed Nov 26 12:03:26 2025 by
+  Generated on Thu Nov 27 16:02:21 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.3.5).
 </div>
