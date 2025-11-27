@@ -1,5 +1,7 @@
 # unreleased
 
+Be advised that this version brings major interface changes that will break existing applications. When upgrading, carefully follow sthe steps unter "Steps to take" and test your application thoroughly.
+
 - Add `render_sub_comp` helper
 - Major API change: implement `Compony::Intent` as discussed in Issue #14:
     - Rewire many pure helpers to use intents instead, greatly cleaning up their interface
