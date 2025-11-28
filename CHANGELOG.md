@@ -1,4 +1,4 @@
-# unreleased
+# 0.8.1
 
 - Fix a problem in List resulting in `data_class` being read too early
 

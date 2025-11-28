@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    compony (0.8.0)
+    compony (0.8.1.edge)
       anchormodel (~> 0.2.1)
       cancancan (~> 3.6.1)
       dslblend (>= 0.0.3)
