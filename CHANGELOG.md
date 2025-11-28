@@ -1,4 +1,4 @@
-# unreleased
+# 0.9.0
 
 - Enhance Intent API:
     - Make `style` a property of the Intent rather than a button option.

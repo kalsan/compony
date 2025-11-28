@@ -341,14 +341,14 @@
       <pre class="lines">
 
 
-60
-61
-62
 63
-64</pre>
+64
+65
+66
+67</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/show.rb', line 60</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/show.rb', line 63</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='op'>*</span><span class='comma'>,</span> <span class='label'>skip_columns:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='op'>**</span><span class='rparen'>)</span>
   <span class='ivar'>@columns</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../NaturalOrdering.html" title="Compony::NaturalOrdering (class)">NaturalOrdering</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
@@ -413,12 +413,12 @@
       <pre class="lines">
 
 
-108
-109
-110</pre>
+111
+112
+113</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/show.rb', line 108</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/show.rb', line 111</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_all_field_columns'>all_field_columns</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_fields'>fields</span><span class='period'>.</span><span class='id identifier rubyid_each_key'>each_key</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_field_name'>field_name</span><span class='op'>|</span> <span class='id identifier rubyid_column'>column</span><span class='lparen'>(</span><span class='id identifier rubyid_field_name'>field_name</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
@@ -562,9 +562,6 @@
       <pre class="lines">
 
 
-73
-74
-75
 76
 77
 78
@@ -577,10 +574,13 @@
 85
 86
 87
-88</pre>
+88
+89
+90
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/show.rb', line 73</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/show.rb', line 76</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_column'>column</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='label'>label:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>class:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>link_opts:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='label'>link_to_component:</span> <span class='symbol'>:show</span><span class='comma'>,</span> <span class='op'>**</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
@@ -649,12 +649,12 @@
       <pre class="lines">
 
 
-93
-94
-95</pre>
+96
+97
+98</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/show.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/show.rb', line 96</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_columns'>columns</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_col_names'>col_names</span><span class='comma'>,</span> <span class='op'>**</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_col_names'>col_names</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_col_name'>col_name</span><span class='op'>|</span> <span class='id identifier rubyid_column'>column</span><span class='lparen'>(</span><span class='id identifier rubyid_col_name'>col_name</span><span class='comma'>,</span> <span class='op'>**</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
@@ -710,12 +710,12 @@
       <pre class="lines">
 
 
-101
-102
-103</pre>
+104
+105
+106</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/show.rb', line 101</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/show.rb', line 104</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_skip_column'>skip_column</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='ivar'>@skipped_columns</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
@@ -730,7 +730,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Nov 28 10:31:05 2025 by
+  Generated on Fri Nov 28 12:38:45 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.3.5).
 </div>
