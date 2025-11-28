@@ -64,7 +64,7 @@ Use the `button` argument to customize the generated button. Example:
 ```ruby
 setup do
   content do
-    div render_intent(:show, User.first, button: { style: :link, label: { format: :short } })`
+    div render_intent(:show, User.first, style: :link, label: { format: :short })`
   end
 end
 ```
@@ -114,7 +114,7 @@ All button styles support the following keyword arguments to their initializer:
 
 Note that since buttons are full components, they can be [nested](/doc/guide/nesting.md) into another component by providing `parent_comp`. If called from within a component's `content` block, the helper `render_intent` does this automatically.
 
-As implicitely mentioned above, Compony buttons are referenced to by a name called a style (`:css_button` actually points to `Compony::Components::Buttons::CssButton`). When rendering an intent, the style can be passed as an argument: `render_intent(:show, User.first, button: { style: :link })` and the intent will automatically instanciate the desired component class.
+As implicitely mentioned above, Compony buttons are referenced to by a name called a style (`:css_button` actually points to `Compony::Components::Buttons::CssButton`). When rendering an intent, the style can be passed as an argument: `render_intent(:show, User.first, style: :link)` and the intent will automatically instanciate the desired component class.
 
 Note: it is possible to use a button component to submit a form. In order to achieve this, you must implement a hidden submit button (for handling keyboard Enter and Return), as well as pass `onclick: "this.closest('form').requestSubmit(); return false;"` as an argument. See the pre-built Form component's implementation for an example.
 
@@ -124,7 +124,7 @@ In your application, you will likely want to implement your own button styles. C
 
 Once your button class is ready, register it in `config/initializers/compony.rb` with: `Compony.register_button_style :my_button, '::Components::Commons::MyButton'`. You can also change the default button style there using: `Compony.default_button_style = :my_button`.
 
-If you have multiple kinds of buttons (e.g. dropdown items, pill-style buttons, compact forms etc.), you should create a separate style and button component class for every kind. This will make it easy to refer to them by supplying something like `button: { style: :dropdown_item }` in `render_intent`.
+If you have multiple kinds of buttons (e.g. dropdown items, pill-style buttons, compact forms etc.), you should create a separate style and button component class for every kind. This will make it easy to refer to them by supplying something like `style: :dropdown_item` in `render_intent`.
 
 ## Exposed intents
 

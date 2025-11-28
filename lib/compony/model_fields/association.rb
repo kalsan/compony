@@ -12,7 +12,7 @@ module Compony
           return transform_and_join(data.send(@name), controller:) do |el|
             next nil if el.nil?
             if Compony.comp_class_for(link_to_component, el)
-              next controller.helpers.render_intent(link_to_component, el, **{ button: { style: :link } }.deep_merge(link_opts))
+              next controller.helpers.render_intent(link_to_component, el, **{ style: :link }.deep_merge(link_opts))
             else
               next el.label
             end

@@ -2,6 +2,7 @@ module Compony
   # @api description
   # An Intent is a a gateway to a component, along with relevant context, such as the comp and family, perhaps a resource, standalone name, feasibility etc.
   # The class provides tooling used by various Compony helpers used to point to other components in some way.
+  # Note: The arguments `label` and `style` are not part of the `button:` hash, because they are processed by the Intent before affecting the button.
   class Intent
     attr_reader :comp_class
     attr_reader :data
@@ -15,6 +16,8 @@ module Compony
     # @param standalone_name [Symbol] If given, will override the standalone name for all `path` calls for this intent instance.
     # @param name [Symbol] If given, will override the name of this intent. Defaults to component and family name joined by underscore.
     # @param label [String,Hash] If given, will be used for generating the label. If Hash, is given as options to {Intent#label}.
+    # @param style [Symbol] If given, sets the button style to use and uses the default one otherwise.
+    # @param button [Hash] Parameters that will be given as-is to the button component initializer.
     # @param path [String,Hash] If given, will be used for generating the path. If Hash, is given as options to {Intent#path}.
     # @param data [ApplicationRecord,Object] If given, the target component will be instanciated with this argument. Omit if your second pos arg is a model.
     # @param data_class [Class] If given, the target component will be instanciated with this argument.
@@ -25,13 +28,14 @@ module Compony
                    standalone_name: nil,
                    name: nil,
                    label: nil,
+                   style: nil,
+                   button: {},
                    path: nil,
                    method: nil,
                    data: nil,
                    data_class: nil,
                    feasibility_target: nil,
-                   feasibility_action: nil,
-                   **custom_args)
+                   feasibility_action: nil)
       # Check for model / data
       @data = data
       @data ||= model_or_family_name_or_cst if model_or_family_name_or_cst.respond_to?(:model_name)
@@ -53,12 +57,13 @@ module Compony
       @standalone_name = standalone_name
       @label = label.is_a?(String) ? label : nil
       @label_opts = label.is_a?(Hash) ? label : {}
+      @style = style&.to_sym
+      @button_opts = button
       @path = path.is_a?(String) ? path : nil
       @path_opts = path.is_a?(Hash) ? path : {}
       @method = method&.to_sym
       @feasibility_target = feasibility_target
       @feasibility_action = feasibility_action
-      @custom_args = custom_args
     end
 
     # Returns true for things like User.first, but false for things like :users or User
@@ -113,27 +118,27 @@ module Compony
     end
 
     # Returns the options that are given to the initializer when creating a button from this intent.
-    def button_comp_opts(label: {})
-      return @custom_args.deep_merge({
-                                       label:  label(**label),
-                                       href:   feasible? ? path : nil,
-                                       method:,
-                                       class:  feasible? ? nil : 'disabled',
-                                       title:  feasible? ? nil : feasibility_target.full_feasibility_messages(feasibility_action).presence
-                                     })
+    def button_comp_opts
+      return {
+        label:,
+        href:   feasible? ? path : nil,
+        method:,
+        class:  feasible? ? nil : 'disabled',
+        title:  feasible? ? nil : feasibility_target.full_feasibility_messages(feasibility_action).presence
+      }.deep_merge(@button_opts)
     end
 
     # Renders this intent into a button defined by `style`.
     # @param controller [ApplicationController] The controller from the request context, needed to render the button.
     # @param parent_comp [Compony::Component] If called from within a component, pass the component to inform the button that it is nested within.
     # @param style [Symbol] If present, overrides the class of the generated  button component, defaults to {Compony#default_button_style}.
-    # @param button_comp_opts_overrides [Hash] Any further kwargs are passed to the button component's initializer.
-    def render(controller, parent_comp = nil, style: nil, label: {}, **button_comp_opts_overrides)
-      # Check if permitted
+    # @param button_arg_overrides [Hash] Any further kwargs are passed to the button component's initializer.
+    def render(controller, parent_comp = nil, style: nil, **button_arg_overrides)
+      # Abort if not authorized
       return nil unless comp.standalone_access_permitted_for?(controller, standalone_name: @standalone_name, verb: method)
       # Prepare opts
-      button_comp_class ||= Compony.button_component_class(*[style].compact)
-      button_opts = button_comp_opts(label:).merge(button_comp_opts_overrides)
+      button_comp_class ||= Compony.button_component_class(*[style || @style].compact)
+      button_opts = button_comp_opts.merge(button_arg_overrides)
       # Perform render
       if parent_comp
         return parent_comp.sub_comp(button_comp_class, **button_opts).render(controller)

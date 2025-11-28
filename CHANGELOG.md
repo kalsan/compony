@@ -1,3 +1,15 @@
+# unreleased
+
+- Enhance Intent API:
+    - Make `style` a property of the Intent rather than a button option.
+    - No longer allow arbitrary options for building intents. Instead, options for buttons must be wrapped in `button: { class: '...' }`.
+
+## Steps to take
+
+- Replace code like `button: { style: :link }` by simply `style: :link`
+- Make sure that code like `button: { label: ... }` becomes simply: `label: ...`
+- Make sure that all kwargs in intents meant for buttons are wrapped in `button: { ... }`.
+
 # 0.8.1
 
 - Fix a problem in List resulting in `data_class` being read too early

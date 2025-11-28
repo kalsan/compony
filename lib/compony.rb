@@ -132,8 +132,8 @@ module Compony
 
   # Generates a Rails path to a component. Examples: `Compony.path(:index, :users)`, `Compony.path(:show, User.first)`
   # The first two arguments are given to create an {Intent} and all subsequend args and all kwargs are given to {Intent#path}
-  def self.path(comp_name_or_cst_or_class, model_or_family_name_or_cst = nil, ...)
-    intent(comp_name_or_cst_or_class, model_or_family_name_or_cst).path(...)
+  def self.path(comp_name_or_cst_or_class, model_or_family_name_or_cst = nil, *, **)
+    intent(comp_name_or_cst_or_class, model_or_family_name_or_cst).path(*, **)
   end
 
   # Given a component and a family/model, this returns the matching component class if any, or nil if the component does not exist.
