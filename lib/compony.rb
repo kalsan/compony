@@ -147,9 +147,9 @@ module Compony
   # Same as Compony#comp_class_for but fails if none found
   # @see Intent for allowed parameters.
   # @see Compony#comp_class_for
-  def self.comp_class_for!(...)
-    comp_class_for(...) || fail(
-      "No component found for [#{comp_name_or_cst.inspect}, #{model_or_family_name_or_cst.inspect}]"
+  def self.comp_class_for!(*args, **kwargs)
+    comp_class_for(*args, **kwargs) || fail(
+      "No component found for #{args.inspect}, #{kwargs.inspect}"
     )
   end
 

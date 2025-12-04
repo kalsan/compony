@@ -1,3 +1,6 @@
+# unreleased
+
+- Fix a bug in error message for `comp_class_for!`
 # 0.9.0
 
 - Enhance Intent API:
