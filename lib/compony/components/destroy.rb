@@ -23,8 +23,6 @@ module Compony
 
         label(:long) { |data| I18n.t('compony.components.destroy.label.long', data_label: data.label) }
         label(:short) { |_| I18n.t('compony.components.destroy.label.short') }
-        icon { :trash }
-        color { :danger }
 
         content :confirm_question, hidden: true do
           div I18n.t('compony.components.destroy.confirm_question', data_label: @data.label)
@@ -47,9 +45,8 @@ module Compony
         exposed_intents do
           if data_class.owner_model_attr
             add :show, @data.send(data_class.owner_model_attr),
-                button: { icon: :xmark, color: :secondary },
-                label:  I18n.t('compony.cancel'),
-                name:   :back_to_owner
+                label: I18n.t('compony.cancel'),
+                name:  :back_to_owner
           end
         end
 

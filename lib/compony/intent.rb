@@ -138,7 +138,7 @@ module Compony
       return nil unless comp.standalone_access_permitted_for?(controller, standalone_name: @standalone_name, verb: method)
       # Prepare opts
       button_comp_class ||= Compony.button_component_class(*[style || @style].compact)
-      button_opts = button_comp_opts.merge(button_arg_overrides)
+      button_opts = button_comp_opts.merge(comp.button_defaults).merge(button_arg_overrides) # overrides go right to left
       # Perform render
       if parent_comp
         return parent_comp.sub_comp(button_comp_class, **button_opts).render(controller)

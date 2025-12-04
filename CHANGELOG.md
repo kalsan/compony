@@ -1,6 +1,13 @@
 # unreleased
 
 - Fix a bug in error message for `comp_class_for!`
+- Replace `color` and `icon` by `button`. This new component DSL call provides defaults for `button` options when intents render, similar to `label`.
+
+## Steps to take
+
+- In your components, replace code like `icon :eye` by: `button(:icon){ :eye }` or `button(:icon){|_| :eye }` (the latter in the resourceful case)
+- In your components, replace code like `color :danger` by: `button(:color){ :danger }` or `button(:color){|_| :danger }` (the latter in the resourceful case)
+
 # 0.9.0
 
 - Enhance Intent API:

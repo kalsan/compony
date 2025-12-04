@@ -30,7 +30,6 @@ module Compony
 
         label(:long) { I18n.t('compony.components.new.label.long', data_class: data_class.model_name.human) }
         label(:short) { I18n.t('compony.components.new.label.short') }
-        icon { :plus }
 
         form_cancancan_action :new
 

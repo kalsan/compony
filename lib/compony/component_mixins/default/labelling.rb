@@ -53,23 +53,35 @@ module Compony
           end
         end
 
-        # DSL method and accessor for an icon.
-        # While this is not used in Compony directly, this is useful if your front-end uses an icon library such as fontawesome.
-        def icon(&block)
-          if block_given?
-            @icon_block = block
-          else
-            @icon_block.call
-          end
+        # DSL method
+        # Defines defaults for intents when rendering buttons. Just like in {label}, the block may be given a resource.
+        # @param [Symbol] keyword The name of the keyword that should be given to the button by the intent if not overwritten
+        # @param [Proc] block The block that, when called in the context of the component while rendering, returns the value for the arg given to the button.
+        # @see {Compony::Component#button_defaults}
+        def button(keyword, &block)
+          fail("Please pass a block to `button` in #{inspect}.") unless block_given?
+          @button_blocks ||= {}
+          @button_blocks[keyword.to_sym] = block
         end
 
-        # DSL method and accessor
-        # While this is not used in Compony directly, this is useful if you use a custom button component class that supports colors.
-        def color(&block)
-          if block_given?
-            @color_block = block
-          else
-            @color_block.call
+        # Executes and retrieves the button blocks
+        # If this component is resourceful, give the block the resource. Expect the arity to match.
+        # @param resource Pass the resource if and only if the component is resourceful.
+        def button_defaults(resource = nil)
+          return @button_blocks.to_h do |keyword, block|
+            value = case block.arity
+                    when 0
+                      block.call
+                    when 1
+                      resource ||= data
+                      if resource.blank?
+                        fail("Button block #{keyword.inspect} of #{inspect} takes a resource, but none was provided and a call to `data` did not return any.")
+                      end
+                      block.call(resource)
+                    else
+                      fail "#{inspect} has a button block #{keyword.inspect} that takes 2 or more arguments, which is unsupported."
+                    end
+            next [keyword, value]
           end
         end
 
@@ -81,8 +93,7 @@ module Compony
             long:  -> { "#{I18n.t(family_name.humanize)}: #{I18n.t(comp_name.humanize)}" },
             short: -> { I18n.t(comp_name.humanize) }
           }
-          @icon_block = -> { :'arrow-right' }
-          @color_block = -> { :primary }
+          @button_blocks = {}
         end
       end
     end
