@@ -23,7 +23,7 @@ module Compony
     # @param data_class [Class] If given, the target component will be instanciated with this argument.
     # @param feasibility_target [ApplicationRecord] If given, will override the feasibility target (prevention framework)
     # @param feasibility_action [ApplicationRecord] If given, will override the feasibility action (prevention framework)
-    def initialize(comp_name_or_cst_or_class,
+    def initialize(comp_name_or_cst_or_class = nil,
                    model_or_family_name_or_cst = nil,
                    standalone_name: nil,
                    name: nil,
@@ -42,7 +42,11 @@ module Compony
       @data_class = data_class
 
       # Figure out comp_class
-      if comp_name_or_cst_or_class.is_a?(Class) && (comp_name_or_cst_or_class <= Compony::Component)
+      if comp_name_or_cst_or_class.nil?
+        if name.blank? || !label.is_a?(String)
+          fail('An intent created without positional arguments must be given the kwargs `name:`, `label` (String).')
+        end
+      elsif comp_name_or_cst_or_class.is_a?(Class) && (comp_name_or_cst_or_class <= Compony::Component)
         # A class was given as the first argument
         @comp_class = comp_name_or_cst_or_class
       else
@@ -75,6 +79,7 @@ module Compony
     # Instanciates the component and returns the instance. If `data` and/or `data_class` were specified when instantiating this intent, they are passed.
     # All given arguments will be given to the component's initializer, also overriding `data` and `data_class` if present.
     def comp(*, **)
+      return nil if @comp_class.nil?
       return @comp ||= @comp_class.new(*, data: @data, data_class: @data_class, **)
     end
 
@@ -83,6 +88,7 @@ module Compony
     # @param model [ApplicationRecord] If given and non-nil, will override the model passed to the component's path block
     # @param standalone_name [Symbol] If given and non-nil, will override the `standalone_name` passed to the component's path block
     def path(model = nil, *, standalone_name: nil, **path_opt_overrides)
+      return nil if @comp_class.nil?
       path_opts = @path_opts.deep_merge(path_opt_overrides)
       comp.path(model || (model? ? @data : nil), standalone_name: standalone_name || @standalone_name, **path_opts)
     end
@@ -135,10 +141,10 @@ module Compony
     # @param button_arg_overrides [Hash] Any further kwargs are passed to the button component's initializer.
     def render(controller, parent_comp = nil, style: nil, **button_arg_overrides)
       # Abort if not authorized
-      return nil unless comp.standalone_access_permitted_for?(controller, standalone_name: @standalone_name, verb: method)
+      return nil if comp && !comp.standalone_access_permitted_for?(controller, standalone_name: @standalone_name, verb: method)
       # Prepare opts
       button_comp_class ||= Compony.button_component_class(*[style || @style].compact)
-      button_opts = button_comp_opts.merge(comp.button_defaults).merge(button_arg_overrides) # overrides go right to left
+      button_opts = button_comp_opts.merge(comp&.button_defaults || {}).merge(button_arg_overrides) # overrides go right to left
       # Perform render
       if parent_comp
         return parent_comp.sub_comp(button_comp_class, **button_opts).render(controller)
