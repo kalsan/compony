@@ -25,7 +25,7 @@ module Compony
                      skip_sorting_in_filter: false,
                      skip_sorting_links: false,
                      skip_columns: [],
-                     skip_row_actions: [],
+                     skip_row_intents: [],
                      skip_filters: [],
                      default_sorting: 'id asc',
                      **)
@@ -40,9 +40,10 @@ module Compony
         @skip_sorting_in_filter = !!skip_sorting || !!skip_sorting_in_filter
         @skip_sorting_links = !!skip_sorting || !!skip_sorting_links
         @columns = Compony::NaturalOrdering.new
-        @row_actions = Compony::NaturalOrdering.new
+        @row_intent_blocks = []
         @skipped_columns = skip_columns.map(&:to_sym)
-        @skipped_row_actions = skip_row_actions.map(&:to_sym)
+        @skipped_row_intents = skip_row_intents.is_a?(Enumerable) ? skip_row_intents.map(&:to_sym) : []
+        @skip_row_intents = skip_row_intents.is_a?(TrueClass)
         @filters = Compony::NaturalOrdering.new
         @sorts = Compony::NaturalOrdering.new
         @skipped_filters = skip_filters.map(&:to_sym)
@@ -162,28 +163,18 @@ module Compony
       end
 
       # DSL method
-      # Adds a row action. The very last col provides actions such as :show, :edit or :destroy. Use this method to add your own.
-      # In case the action exists as a component in the family of `data_class`, it is enough to pass the action's name, and the rest is auto-generated.
-      # In order to create a custom row action, pass a block that will be given the current record and instance-execed once per row, for every record.
-      # @param name [Symbol, String] The name of the action (e.g. :edit).
-      # @param button_opts [Hash] Only relevant in case of an auto-generated row action, this allows to configure the generated button.
-      # @param block [Block] To create a custom row action; block will be given the current record and instance-execed once per row, for every record.
-      def row_action(name, button_opts: {}, **, &block)
-        name = name.to_sym
-        unless block_given?
-          block = proc do |record|
-            next if Compony.comp_class_for(name, record).nil?
-            render_intent(name, record, **{ label: { format: :short } }.deep_merge(button_opts))
-          end
+      # If a block is given: Enters the DSL where row intents can be added or removed (use from {Component#setup} within the component).
+      # If no block is given: Builds the declared intents for the given record and returns them (use in `content` or `before_render`, pass kwarg `:data`).
+      def row_intents(**intent_opts, &block)
+        if block_given?
+          # Enter DSL
+          @row_intent_blocks << block
+        else
+          # Build the declared intents
+          intents_ordering = NaturalOrdering.new
+          @row_intent_blocks.each { |block| ManageIntentsDsl.new(intents_ordering, **intent_opts).evaluate(&block) } # this populates intents_ordering
+          return intents_ordering.map!(&:payload)
         end
-        @row_actions.natural_push(name, block, **)
-      end
-
-      # DSL method
-      # Marks a single row action as skipped. It will not be displayed, even if it is defined.
-      # @param name [Symbol,String] Name of the row action to be skipped.
-      def skip_row_action(name)
-        @skipped_row_actions << name.to_sym
       end
 
       # DSL method
@@ -279,10 +270,12 @@ module Compony
           @data = data_class.accessible_by(controller.current_ability)
         end
 
-        # Default row actions (use override or skip_row_action to prevent)
-        row_action(:show)
-        row_action(:edit)
-        row_action(:destroy)
+        # Default row intents
+        row_intents do
+          add :show, name: :show
+          add :edit, name: :edit
+          add :destroy, name: :destroy
+        end
 
         before_render do
           process_data!(controller)
@@ -341,7 +334,7 @@ module Compony
                 @columns.each do |column|
                   th column[:label], class: 'list-data-label'
                 end
-                if @row_actions.any? { |row_action| @skipped_row_actions.exclude?(row_action[:name]) }
+                unless @skip_row_intents
                   th I18n.t('compony.components.index.actions'), class: 'list-actions-label'
                 end
               end
@@ -354,14 +347,11 @@ module Compony
                       instance_exec(record, &column[:payload])
                     end
                   end
-                  rendered_row_actions = @row_actions.map do |row_action|
-                    next if @skipped_row_actions.include?(row_action[:name])
-                    next instance_exec(record, &row_action[:payload])
-                  end.compact
-                  if rendered_row_actions.any?
+                  unless @skip_row_intents
                     td do
-                      rendered_row_actions.each do |row_action_html|
-                        concat row_action_html if row_action_html
+                      row_intents(data: record, label: { format: :short }, button: { data: { 'turbo-frame': :_top } }).each do |row_intent|
+                        next if @skipped_row_intents.include?(row_intent.name)
+                        concat row_intent.render(controller)
                       end
                     end
                   end

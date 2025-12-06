@@ -22,13 +22,8 @@ module Compony
                 name:  :back_to_owner
           end
 
-          if Compony.comp_class_for(:edit, family_name)
-            add :edit, @data, label: { format: :short }, name: :edit
-          end
-
-          if Compony.comp_class_for(:destroy, family_name)
-            add :destroy, @data, label: { format: :short }, name: :destroy
-          end
+          add :edit, @data, label: { format: :short }, name: :edit
+          add :destroy, @data, label: { format: :short }, name: :destroy
         end
 
         content :label do

@@ -8,13 +8,16 @@
 - Update `Compony::Components::List`:
     - Fix a problem where disabling only filtering caused a crash
     - Distinguish between boolean setters and `skip_` prefixes
+    - Replace `row_action` by `row_intent`
 - Rename `ExposedIntentsDsl` to `ManageIntentsDsl`, allow passing options and ignore `add` call if the target component is not defined
 
 ## Steps to take
 
 - In your components, replace code like `icon :eye` by: `button(:icon){ :eye }` or `button(:icon){|_| :eye }` (the latter in the resourceful case)
 - In your components, replace code like `color :danger` by: `button(:color){ :danger }` or `button(:color){|_| :danger }` (the latter in the resourceful case)
-- Check all your `List` components, as the interface has changed
+- Check all your `List` components, as the interface has changed:
+    - `skip_` DSL calls have been replaced by boolean writers.
+    - `row_action` has been replaced by `row_intents` which renders intents using `add` and `remove`.
 
 # 0.9.0
 

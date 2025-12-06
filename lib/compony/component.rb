@@ -223,7 +223,7 @@ module Compony
         # Build the declared intents
         return @exposed_intents if @exposed_intents
         @exposed_intents = NaturalOrdering.new
-        @exposed_intent_blocks.each { |block| ExposedIntentsDsl.new(@exposed_intents).evaluate(&block) } # alters @exposed_intents
+        @exposed_intent_blocks.each { |block| ManageIntentsDsl.new(@exposed_intents).evaluate(&block) } # alters @exposed_intents
         return @exposed_intents.map!(&:payload)
       end
     end

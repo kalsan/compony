@@ -19,7 +19,7 @@ module Compony
         end
 
         exposed_intents do
-          if !data_class.owner_model_attr && Compony.comp_class_for(:new, data_class)
+          unless data_class.owner_model_attr
             add :new, data_class.model_name.plural, name: :new
           end
         end
