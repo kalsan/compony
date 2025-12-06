@@ -49,9 +49,9 @@ class Components::Nestings::BinaryComparator < Compony::Component
   setup do
     # standalone and other configs are omitted in this example.
     content do
-      concat sub_cop(Components::Nestings::Binary, number: 1).render(controller)
-      concat sub_cop(Components::Nestings::Binary, number: 2).render(controller)
-      concat sub_cop(Components::Nestings::Binary, number: 3).render(controller)
+      concat render_sub_comp(Components::Nestings::Binary, number: 1)
+      concat render_sub_comp(Components::Nestings::Binary, number: 2)
+      concat render_sub_comp(Components::Nestings::Binary, number: 3)
     end
   end
 end
@@ -99,7 +99,7 @@ class Components::Nestings::BinaryComparator < Compony::Component
     # standalone and other configs are omitted in this example.
     content do
       3.times do
-        concat sub_cop(Components::Nestings::Binary).render(controller)
+        concat render_sub_comp(Components::Nestings::Binary)
       end
     end
   end
@@ -130,5 +130,27 @@ The number 8 has the binary form 1000. Enter a number and press ENTER: [8]
 ```
 
 Note that this example is completely stateless, as all the info is encoded in the URL.
+
+## Rendering `List` as sub comp in `Show`
+
+A pattern often used is the following:
+
+```ruby
+class Components::Users::Show < Compony::Components::Show
+  setup do
+    content :quotes do
+      h1 "Quotes of #{@data.label}"
+      concat render_sub_comp(:list, @data.quotes.accessible_by(current_ability), turbo_frame: :"user_#{@data.id}_quotes")
+    end
+  end
+end
+```
+
+Again, there is a lot going on here:
+
+- Since the component inherits from the [pre-built Show component](/doc/guide/pre_built_components/show.md), it automatically displays all fields of user in its `main` content block.
+- We add a second content block `:quotes` with a title displaying "Quotes of John Deer" and tell compony to render the appropriate list as a sub comp, giving it all quotes of John Deer that are accessible by the user currently logged in (this is a cancancan feature).
+- `render_sub_comp` is thus given an `ActiveRecord` collection of `Quote` models and it builts an [Intent](/doc/guide/intents.md) to figure out that `Components::Quotes::List` is the component that will be instanciated, given the appropriate quotes, and rendered here.
+- We also give `:"user_#{@data.id}_quotes"` to the parameter `turbo_frame`, which causes `render_sub_comp` to place the sub comp inside a frame that is named something like `:user_1_quotes`. Since compony's [pre-built List component](/doc/guide/pre_built_components/list.md) contains search and filter forms, the turbo frame makes sure that anything entered there does not interfere with other parameters.
 
 [Guide index](/README.md#guide--documentation)
