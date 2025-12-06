@@ -71,7 +71,7 @@ module Compony
         return if autodetect_feasibilities_completed
         # Add a prevention that reflects the `has_many` `dependent' properties. Avoids that users can press buttons that will result in a failed destroy.
         reflect_on_all_associations.select { |assoc| %i[restrict_with_exception restrict_with_error].include? assoc.options[:dependent] }.each do |assoc|
-          prevent(:destroy, I18n.t('compony.feasibility.has_dependent_models', dependent_class: I18n.t(assoc.klass.humanize_class_name.pluralize))) do
+          prevent(:destroy, I18n.t('compony.feasibility.has_dependent_models', dependent_class: assoc.klass.model_name.human(count: 2))) do
             if assoc.is_a? ActiveRecord::Reflection::HasOneReflection
               !public_send(assoc.name).nil?
             else
