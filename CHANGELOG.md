@@ -8,6 +8,7 @@
 - Update `Compony::Components::List`:
     - Fix a problem where disabling only filtering caused a crash
     - Distinguish between boolean setters and `skip_` prefixes
+- Rename `ExposedIntentsDsl` to `ManageIntentsDsl`, allow passing options and ignore `add` call if the target component is not defined
 
 ## Steps to take
 
