@@ -78,9 +78,16 @@ module Compony
     end
 
     # View helper that instanciates a sub comp and renders it.
-    # Example usage: `concat render_sub_comp(Components::Something::Nested)`
-    def render_sub_comp(...)
-      sub_comp(...).render(controller)
+    # Example usage: `concat render_sub_comp(:list, @data.belongings)`
+    # If the parameter `turbo_frame` is given, the sub comp is rendered inside a hotwire turbo frame. This is useful when having forms in multiple nested comps.
+    def render_sub_comp(*, turbo_frame: nil, **)
+      if turbo_frame
+        turbo_frame_tag(turbo_frame.to_sym) do
+          concat sub_comp(*, **).render(controller)
+        end
+      else
+        sub_comp(*, **).render(controller)
+      end
     end
   end
 end

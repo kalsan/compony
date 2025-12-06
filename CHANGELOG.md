@@ -3,6 +3,7 @@
 - Fix a bug in error message for `comp_class_for!`
 - Replace `color` and `icon` by `button`. This new component DSL call provides defaults for `button` options when intents render, similar to `label`.
 - Allow blank intents (intents that have no component), useful for creating custom buttons within exposed intents.
+- Accept argument `turbo_frame` in `render_sub_comp`
 
 ## Steps to take
 
