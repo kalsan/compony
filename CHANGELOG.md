@@ -5,11 +5,15 @@
 - Allow blank intents (intents that have no component), useful for creating custom buttons within exposed intents.
 - Accept argument `turbo_frame` in `render_sub_comp`
 - Fix a problem with translations when fastgettext is not installed
+- Update `Compony::Components::List`:
+    - Fix a problem where disabling only filtering caused a crash
+    - Distinguish between boolean setters and `skip_` prefixes
 
 ## Steps to take
 
 - In your components, replace code like `icon :eye` by: `button(:icon){ :eye }` or `button(:icon){|_| :eye }` (the latter in the resourceful case)
 - In your components, replace code like `color :danger` by: `button(:color){ :danger }` or `button(:color){|_| :danger }` (the latter in the resourceful case)
+- Check all your `List` components, as the interface has changed
 
 # 0.9.0
 

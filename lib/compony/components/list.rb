@@ -29,11 +29,16 @@ module Compony
                      skip_filters: [],
                      default_sorting: 'id asc',
                      **)
-        @pagination = !skip_pagination
+        @pagination = true
+        @skip_pagination = !!skip_pagination
         @results_per_page = results_per_page
-        @filtering = !skip_filtering
-        @sorting_in_filter = !skip_sorting && !skip_sorting_in_filter
-        @sorting_links = !skip_sorting && !skip_sorting_links
+        @filtering = true
+        @skip_filtering = !!skip_filtering
+        @sorting = true
+        @sorting_in_filter = true
+        @sorting_links = true
+        @skip_sorting_in_filter = !!skip_sorting || !!skip_sorting_in_filter
+        @skip_sorting_links = !!skip_sorting || !!skip_sorting_links
         @columns = Compony::NaturalOrdering.new
         @row_actions = Compony::NaturalOrdering.new
         @skipped_columns = skip_columns.map(&:to_sym)
@@ -50,9 +55,9 @@ module Compony
       end
 
       # DSL method
-      # Disables pagination (caution: all records will be loaded).
-      def skip_pagination!
-        @pagination = false
+      # Enables or disables pagination (caution: all records will be loaded).
+      def pagination(new_pagination)
+        @pagination = !!new_pagination
       end
 
       # DSL method
@@ -62,28 +67,28 @@ module Compony
       end
 
       # DSL method
-      # Disables filtering entirely (sorting is independent of this setting).
-      def skip_filtering!
-        @filtering = false
+      # Enables or disables filtering entirely (sorting is independent of this setting).
+      def filtering(new_filtering)
+        @filtering = !!new_filtering
       end
 
       # DSL method
-      # Disables sorting entirely (both links and sorting input in filter).
-      def skip_sorting!
-        @sorting_in_filter = false
-        @sorting_links = false
+      # Enables or disables sorting entirely (both links and sorting input in filter).
+      def sorting(new_sorting)
+        @sorting_in_filter = !!new_sorting
+        @sorting_links = !!new_sorting
       end
 
       # DSL method
-      # Disables sorting in filter.
-      def skip_sorting_in_filter!
-        @sorting_in_filter = false
+      # Enables or disables sorting in filter.
+      def sorting_in_filter(new_sorting_in_filter)
+        @sorting_in_filter = !!new_sorting_in_filter
       end
 
       # DSL method
-      # Disables sorting links.
-      def skip_sorting_links!
-        @sorting_links = false
+      # Enables or disables sorting links.
+      def sorting_links(new_sorting_links)
+        @sorting_links = !!new_sorting_links
       end
 
       # DSL method
@@ -237,7 +242,7 @@ module Compony
       def process_data!(controller)
         fail('Data was already processed!') if @processed_data
         # Filtering
-        if filtering_enabled?
+        if filtering_enabled? || sorting_enabled?
           @q = @data.ransack(controller.params[param_name(:q)], auth_object: controller.current_ability, search_key: param_name(:q))
           @q.sorts = @default_sorting if @q.sorts.empty?
           filtered_data = @q.result.accessible_by(controller.current_ability)
@@ -390,27 +395,27 @@ module Compony
 
       # Returns whether filtering is possible and wanted in general (regardless of whether there are any filters defined)
       def filtering_enabled?
-        @filtering && defined?(Ransack)
+        @filtering && defined?(Ransack) && !@skip_filtering
       end
 
       # Returns whether sorting is possible and wanted in general (regardless of whether there are any sorts defined)
       def sorting_enabled?
-        (@sorting_in_filter || @sorting_links) && defined?(Ransack)
+        ((@sorting_in_filter && !@skip_sorting_in_filter) || (@sorting_links && !@skip_sorting_links)) && defined?(Ransack)
       end
 
       # Returns whether sorting in filter is possible and wanted in general (regardless of whether there are any sorts defined)
       def sorting_in_filter_enabled?
-        sorting_enabled? && @sorting_in_filter
+        sorting_enabled? && @sorting_in_filter && !@skip_sorting_in_filter
       end
 
       # Returns whether generating sorting links is possible and wanted in general (regardless of whether there are any sorts defined)
       def sorting_links_enabled?
-        sorting_enabled? && @sorting_links
+        sorting_enabled? && @sorting_links && !@skip_sorting_links
       end
 
       # Returns whether pagination is enabled (regardless of whether there is more than one page)
       def pagination_enabled?
-        @pagination
+        @pagination && !@skip_pagination
       end
 
       # Returns the select options for sorting suitable for passing in a `f.select`. Used in sorting-in-filter feature. Useful for custom subclasses of List.
