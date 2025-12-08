@@ -88,6 +88,7 @@ module Compony
     # @param model [ApplicationRecord] If given and non-nil, will override the model passed to the component's path block
     # @param standalone_name [Symbol] If given and non-nil, will override the `standalone_name` passed to the component's path block
     def path(model = nil, *, standalone_name: nil, **path_opt_overrides)
+      return @path if @path.present?
       return nil if @comp_class.nil?
       path_opts = @path_opts.deep_merge(path_opt_overrides)
       comp.path(model || (model? ? @data : nil), standalone_name: standalone_name || @standalone_name, **path_opts)

@@ -1,3 +1,7 @@
+# unreleased
+
+- Implement intent to always return the path it was initialized with in case the argument was given
+
 # 0.10.0
 
 - Fix a bug in error message for `comp_class_for!`
