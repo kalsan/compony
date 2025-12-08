@@ -1,6 +1,7 @@
 # unreleased
 
 - Produce debug output when skipping an intent due to a NameError
+- When intents are given both a model (through data) and a family name (through the second argument), prefer the family name to find out the component class
 
 # 0.10.1
 

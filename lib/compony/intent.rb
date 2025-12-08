@@ -51,7 +51,13 @@ module Compony
         @comp_class = comp_name_or_cst_or_class
       else
         # Build the constant from the first two arguments
-        family_underscore_str = @data.respond_to?(:model_name) ? @data.model_name.plural : model_or_family_name_or_cst.to_s.underscore
+        family_underscore_str = if !(model_or_family_name_or_cst.is_a?(String) || model_or_family_name_or_cst.is_a?(Symbol)) && @data.respond_to?(:model_name)
+                                  # Determine the component family from the data
+                                  @data.model_name.plural
+                                else
+                                  # Determine the component family from the given argument
+                                  model_or_family_name_or_cst.to_s.underscore
+                                end
         constant_str = "::Components::#{family_underscore_str.camelize}::#{comp_name_or_cst_or_class.to_s.camelize}"
         @comp_class = constant_str.constantize
       end
