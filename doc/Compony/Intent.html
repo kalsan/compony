@@ -941,7 +941,6 @@
       <pre class="lines">
 
 
-127
 128
 129
 130
@@ -949,10 +948,11 @@
 132
 133
 134
-135</pre>
+135
+136</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/intent.rb', line 127</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/intent.rb', line 128</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_button_comp_opts'>button_comp_opts</span>
   <span class='kw'>return</span> <span class='lbrace'>{</span>
@@ -1035,12 +1035,12 @@
       <pre class="lines">
 
 
-116
 117
-118</pre>
+118
+119</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/intent.rb', line 116</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/intent.rb', line 117</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_feasibility_action'>feasibility_action</span>
   <span class='ivar'>@feasibility_action</span><span class='period'>.</span><span class='id identifier rubyid_presence'>presence</span> <span class='op'>||</span> <span class='id identifier rubyid_comp_class'>comp_class</span><span class='period'>.</span><span class='id identifier rubyid_comp_name'>comp_name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
@@ -1074,12 +1074,12 @@
       <pre class="lines">
 
 
-112
 113
-114</pre>
+114
+115</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/intent.rb', line 112</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/intent.rb', line 113</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_feasibility_target'>feasibility_target</span>
   <span class='ivar'>@feasibility_target</span><span class='period'>.</span><span class='id identifier rubyid_presence'>presence</span> <span class='op'>||</span> <span class='id identifier rubyid_model?'>model?</span> <span class='op'>?</span> <span class='ivar'>@data</span> <span class='op'>:</span> <span class='kw'>nil</span>
@@ -1128,13 +1128,13 @@
       <pre class="lines">
 
 
-121
 122
 123
-124</pre>
+124
+125</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/intent.rb', line 121</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/intent.rb', line 122</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_feasible?'>feasible?</span>
   <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='id identifier rubyid_feasibility_target'>feasibility_target</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span> <span class='op'>||</span> <span class='id identifier rubyid_feasibility_action'>feasibility_action</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
@@ -1171,13 +1171,13 @@
       <pre class="lines">
 
 
-103
 104
 105
-106</pre>
+106
+107</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/intent.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/intent.rb', line 104</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='id identifier rubyid_model'>model</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>*</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_label_opt_overrides'>label_opt_overrides</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_label_opts'>label_opts</span> <span class='op'>=</span> <span class='ivar'>@label_opts</span><span class='period'>.</span><span class='id identifier rubyid_deep_merge'>deep_merge</span><span class='lparen'>(</span><span class='id identifier rubyid_label_opt_overrides'>label_opt_overrides</span><span class='rparen'>)</span>
@@ -1212,12 +1212,12 @@
       <pre class="lines">
 
 
-108
 109
-110</pre>
+110
+111</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/intent.rb', line 108</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/intent.rb', line 109</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_method'>method</span>
   <span class='ivar'>@method</span> <span class='op'>||</span> <span class='symbol'>:get</span>
@@ -1309,12 +1309,12 @@
       <pre class="lines">
 
 
-98
 99
-100</pre>
+100
+101</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/intent.rb', line 98</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/intent.rb', line 99</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_name'>name</span>
   <span class='ivar'>@name</span><span class='period'>.</span><span class='id identifier rubyid_presence'>presence</span> <span class='op'>||</span> <span class='symbol'>:&quot;#{</span><span class='id identifier rubyid_comp_class'>comp_class</span><span class='period'>.</span><span class='id identifier rubyid_comp_name'>comp_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_comp_class'>comp_class</span><span class='period'>.</span><span class='id identifier rubyid_family_name'>family_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
@@ -1394,12 +1394,14 @@
 91
 92
 93
-94</pre>
+94
+95</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/compony/intent.rb', line 90</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_path'>path</span><span class='lparen'>(</span><span class='id identifier rubyid_model'>model</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>*</span><span class='comma'>,</span> <span class='label'>standalone_name:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_path_opt_overrides'>path_opt_overrides</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='ivar'>@path</span> <span class='kw'>if</span> <span class='ivar'>@path</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='ivar'>@comp_class</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
   <span class='id identifier rubyid_path_opts'>path_opts</span> <span class='op'>=</span> <span class='ivar'>@path_opts</span><span class='period'>.</span><span class='id identifier rubyid_deep_merge'>deep_merge</span><span class='lparen'>(</span><span class='id identifier rubyid_path_opt_overrides'>path_opt_overrides</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_comp'>comp</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='lparen'>(</span><span class='id identifier rubyid_model'>model</span> <span class='op'>||</span> <span class='lparen'>(</span><span class='id identifier rubyid_model?'>model?</span> <span class='op'>?</span> <span class='ivar'>@data</span> <span class='op'>:</span> <span class='kw'>nil</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>standalone_name:</span> <span class='id identifier rubyid_standalone_name'>standalone_name</span> <span class='op'>||</span> <span class='ivar'>@standalone_name</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_path_opts'>path_opts</span><span class='rparen'>)</span>
@@ -1507,7 +1509,6 @@
       <pre class="lines">
 
 
-142
 143
 144
 145
@@ -1519,10 +1520,11 @@
 151
 152
 153
-154</pre>
+154
+155</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/intent.rb', line 142</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/intent.rb', line 143</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='id identifier rubyid_controller'>controller</span><span class='comma'>,</span> <span class='id identifier rubyid_parent_comp'>parent_comp</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>style:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_button_arg_overrides'>button_arg_overrides</span><span class='rparen'>)</span>
   <span class='comment'># Abort if not authorized
@@ -1547,7 +1549,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Dec  8 15:19:25 2025 by
+  Generated on Mon Dec  8 17:21:04 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.3.5).
 </div>

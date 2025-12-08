@@ -1,4 +1,4 @@
-# unreleased
+# 0.10.1
 
 - Implement intent to always return the path it was initialized with in case the argument was given
 
