@@ -1343,7 +1343,7 @@
     <span class='comment'># Build the declared intents
 </span>    <span class='kw'>return</span> <span class='ivar'>@exposed_intents</span> <span class='kw'>if</span> <span class='ivar'>@exposed_intents</span>
     <span class='ivar'>@exposed_intents</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="NaturalOrdering.html" title="Compony::NaturalOrdering (class)">NaturalOrdering</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
-    <span class='ivar'>@exposed_intent_blocks</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_block'>block</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="ExposedIntentsDsl.html" title="Compony::ExposedIntentsDsl (class)">ExposedIntentsDsl</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="ExposedIntentsDsl.html#initialize-instance_method" title="Compony::ExposedIntentsDsl#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='ivar'>@exposed_intents</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_evaluate'>evaluate</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span> <span class='rbrace'>}</span> <span class='comment'># alters @exposed_intents
+    <span class='ivar'>@exposed_intent_blocks</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_block'>block</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="ManageIntentsDsl.html" title="Compony::ManageIntentsDsl (class)">ManageIntentsDsl</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="ManageIntentsDsl.html#initialize-instance_method" title="Compony::ManageIntentsDsl#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='ivar'>@exposed_intents</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_evaluate'>evaluate</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span> <span class='rbrace'>}</span> <span class='comment'># alters @exposed_intents
 </span>    <span class='kw'>return</span> <span class='ivar'>@exposed_intents</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:payload</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
@@ -2070,7 +2070,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Nov 28 12:38:49 2025 by
+  Generated on Mon Dec  8 15:19:20 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.3.5).
 </div>

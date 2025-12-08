@@ -334,6 +334,30 @@
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#filtering-instance_method" title="#filtering (instance method)">#<strong>filtering</strong>(new_filtering)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Enables or disables filtering entirely (sorting is independent of this setting).</p>
+</div></span>
+  
+</li>
+
+      
         <li class="protected ">
   <span class="summary_signature">
     
@@ -385,7 +409,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(skip_pagination: false, results_per_page: 20, skip_filtering: false, skip_sorting: false, skip_sorting_in_filter: false, skip_sorting_links: false, skip_columns: [], skip_row_actions: [], skip_filters: [], default_sorting: &#39;id asc&#39;)  &#x21d2; List </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(skip_pagination: false, results_per_page: 20, skip_filtering: false, skip_sorting: false, skip_sorting_in_filter: false, skip_sorting_links: false, skip_columns: [], skip_row_intents: [], skip_filters: [], default_sorting: &#39;id asc&#39;)  &#x21d2; List </a>
     
 
     
@@ -403,6 +427,30 @@
   
     <span class="summary_desc"><div class='inline'>
 <p>The following parameters are meant for the case where this component is nested and therefore instanciated by a parent comp.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#pagination-instance_method" title="#pagination (instance method)">#<strong>pagination</strong>(new_pagination)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Enables or disables pagination (caution: all records will be loaded).</p>
 </div></span>
   
 </li>
@@ -483,7 +531,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#row_action-instance_method" title="#row_action (instance method)">#<strong>row_action</strong>(name, button_opts: {}, &amp;block)  &#x21d2; Object </a>
+      <a href="#row_intents-instance_method" title="#row_intents (instance method)">#<strong>row_intents</strong>(**intent_opts, &amp;block)  &#x21d2; Object </a>
     
 
     
@@ -498,7 +546,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>DSL method Adds a row action.</p>
+<p>DSL method If a block is given: Enters the DSL where row intents can be added or removed (use from Component#setup within the component).</p>
 </div></span>
   
 </li>
@@ -531,150 +579,6 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#skip_filtering!-instance_method" title="#skip_filtering! (instance method)">#<strong>skip_filtering!</strong>  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>DSL method Disables filtering entirely (sorting is independent of this setting).</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#skip_pagination!-instance_method" title="#skip_pagination! (instance method)">#<strong>skip_pagination!</strong>  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>DSL method Disables pagination (caution: all records will be loaded).</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#skip_row_action-instance_method" title="#skip_row_action (instance method)">#<strong>skip_row_action</strong>(name)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>DSL method Marks a single row action as skipped.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#skip_sorting!-instance_method" title="#skip_sorting! (instance method)">#<strong>skip_sorting!</strong>  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>DSL method Disables sorting entirely (both links and sorting input in filter).</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#skip_sorting_in_filter!-instance_method" title="#skip_sorting_in_filter! (instance method)">#<strong>skip_sorting_in_filter!</strong>  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>DSL method Disables sorting in filter.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#skip_sorting_links!-instance_method" title="#skip_sorting_links! (instance method)">#<strong>skip_sorting_links!</strong>  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>DSL method Disables sorting links.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#sort-instance_method" title="#sort (instance method)">#<strong>sort</strong>(name, label: nil)  &#x21d2; Object </a>
     
 
@@ -691,6 +595,30 @@
   
     <span class="summary_desc"><div class='inline'>
 <p>DSL method Adds a sorting criterion that will be processed by ransack.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sorting-instance_method" title="#sorting (instance method)">#<strong>sorting</strong>(new_sorting)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Enables or disables sorting entirely (both links and sorting input in filter).</p>
 </div></span>
   
 </li>
@@ -715,6 +643,30 @@
   
     <span class="summary_desc"><div class='inline'>
 <p>Returns whether sorting is possible and wanted in general (regardless of whether there are any sorts defined).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sorting_in_filter-instance_method" title="#sorting_in_filter (instance method)">#<strong>sorting_in_filter</strong>(new_sorting_in_filter)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Enables or disables sorting in filter.</p>
 </div></span>
   
 </li>
@@ -763,6 +715,30 @@
   
     <span class="summary_desc"><div class='inline'>
 <p>Returns the select options for sorting suitable for passing in a <code>f.select</code>.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sorting_links-instance_method" title="#sorting_links (instance method)">#<strong>sorting_links</strong>(new_sorting_links)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Enables or disables sorting links.</p>
 </div></span>
   
 </li>
@@ -848,7 +824,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(skip_pagination: false, results_per_page: 20, skip_filtering: false, skip_sorting: false, skip_sorting_in_filter: false, skip_sorting_links: false, skip_columns: [], skip_row_actions: [], skip_filters: [], default_sorting: &#39;id asc&#39;)  &#x21d2; <tt><span class='object_link'><a href="" title="Compony::Components::List (class)">List</a></span></tt> 
+    #<strong>initialize</strong>(skip_pagination: false, results_per_page: 20, skip_filtering: false, skip_sorting: false, skip_sorting_in_filter: false, skip_sorting_links: false, skip_columns: [], skip_row_intents: [], skip_filters: [], default_sorting: &#39;id asc&#39;)  &#x21d2; <tt><span class='object_link'><a href="" title="Compony::Components::List (class)">List</a></span></tt> 
   
 
   
@@ -1000,8 +976,6 @@
         <span class='type'>(<tt>Array</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>[]</tt>)</em>
-      
       
         &mdash;
         <div class='inline'>
@@ -1085,7 +1059,13 @@
 47
 48
 49
-50</pre>
+50
+51
+52
+53
+54
+55
+56</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 20</span>
@@ -1098,19 +1078,25 @@
                <span class='label'>skip_sorting_in_filter:</span> <span class='kw'>false</span><span class='comma'>,</span>
                <span class='label'>skip_sorting_links:</span> <span class='kw'>false</span><span class='comma'>,</span>
                <span class='label'>skip_columns:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span>
-               <span class='label'>skip_row_actions:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span>
+               <span class='label'>skip_row_intents:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span>
                <span class='label'>skip_filters:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span>
                <span class='label'>default_sorting:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>id asc</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
                <span class='op'>**</span><span class='rparen'>)</span>
-  <span class='ivar'>@pagination</span> <span class='op'>=</span> <span class='op'>!</span><span class='id identifier rubyid_skip_pagination'>skip_pagination</span>
+  <span class='ivar'>@pagination</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='ivar'>@skip_pagination</span> <span class='op'>=</span> <span class='op'>!</span><span class='op'>!</span><span class='id identifier rubyid_skip_pagination'>skip_pagination</span>
   <span class='ivar'>@results_per_page</span> <span class='op'>=</span> <span class='id identifier rubyid_results_per_page'>results_per_page</span>
-  <span class='ivar'>@filtering</span> <span class='op'>=</span> <span class='op'>!</span><span class='id identifier rubyid_skip_filtering'>skip_filtering</span>
-  <span class='ivar'>@sorting_in_filter</span> <span class='op'>=</span> <span class='op'>!</span><span class='id identifier rubyid_skip_sorting'>skip_sorting</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_skip_sorting_in_filter'>skip_sorting_in_filter</span>
-  <span class='ivar'>@sorting_links</span> <span class='op'>=</span> <span class='op'>!</span><span class='id identifier rubyid_skip_sorting'>skip_sorting</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_skip_sorting_links'>skip_sorting_links</span>
+  <span class='ivar'>@filtering</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='ivar'>@skip_filtering</span> <span class='op'>=</span> <span class='op'>!</span><span class='op'>!</span><span class='id identifier rubyid_skip_filtering'>skip_filtering</span>
+  <span class='ivar'>@sorting</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='ivar'>@sorting_in_filter</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='ivar'>@sorting_links</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='ivar'>@skip_sorting_in_filter</span> <span class='op'>=</span> <span class='op'>!</span><span class='op'>!</span><span class='id identifier rubyid_skip_sorting'>skip_sorting</span> <span class='op'>||</span> <span class='op'>!</span><span class='op'>!</span><span class='id identifier rubyid_skip_sorting_in_filter'>skip_sorting_in_filter</span>
+  <span class='ivar'>@skip_sorting_links</span> <span class='op'>=</span> <span class='op'>!</span><span class='op'>!</span><span class='id identifier rubyid_skip_sorting'>skip_sorting</span> <span class='op'>||</span> <span class='op'>!</span><span class='op'>!</span><span class='id identifier rubyid_skip_sorting_links'>skip_sorting_links</span>
   <span class='ivar'>@columns</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../NaturalOrdering.html" title="Compony::NaturalOrdering (class)">NaturalOrdering</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
-  <span class='ivar'>@row_actions</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../NaturalOrdering.html" title="Compony::NaturalOrdering (class)">NaturalOrdering</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+  <span class='ivar'>@row_intent_blocks</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='ivar'>@skipped_columns</span> <span class='op'>=</span> <span class='id identifier rubyid_skip_columns'>skip_columns</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_sym</span><span class='rparen'>)</span>
-  <span class='ivar'>@skipped_row_actions</span> <span class='op'>=</span> <span class='id identifier rubyid_skip_row_actions'>skip_row_actions</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_sym</span><span class='rparen'>)</span>
+  <span class='ivar'>@skipped_row_intents</span> <span class='op'>=</span> <span class='id identifier rubyid_skip_row_intents'>skip_row_intents</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Enumerable</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_skip_row_intents'>skip_row_intents</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_sym</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='ivar'>@skip_row_intents</span> <span class='op'>=</span> <span class='id identifier rubyid_skip_row_intents'>skip_row_intents</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>TrueClass</span><span class='rparen'>)</span>
   <span class='ivar'>@filters</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../NaturalOrdering.html" title="Compony::NaturalOrdering (class)">NaturalOrdering</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
   <span class='ivar'>@sorts</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../NaturalOrdering.html" title="Compony::NaturalOrdering (class)">NaturalOrdering</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
   <span class='ivar'>@skipped_filters</span> <span class='op'>=</span> <span class='id identifier rubyid_skip_filters'>skip_filters</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_sym</span><span class='rparen'>)</span>
@@ -1249,22 +1235,22 @@
       <pre class="lines">
 
 
-132
-133
-134
-135
-136
-137
 138
 139
 140
 141
 142
 143
-144</pre>
+144
+145
+146
+147
+148
+149
+150</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 132</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 138</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_column'>column</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='label'>label:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>class:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>link_opts:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>**</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
@@ -1310,12 +1296,12 @@
       <pre class="lines">
 
 
-148
-149
-150</pre>
+154
+155
+156</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 148</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 154</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_columns'>columns</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_col_names'>col_names</span><span class='comma'>,</span> <span class='op'>**</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_col_names'>col_names</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_col_name'>col_name</span><span class='op'>|</span> <span class='id identifier rubyid_column'>column</span><span class='lparen'>(</span><span class='id identifier rubyid_col_name'>col_name</span><span class='comma'>,</span> <span class='op'>**</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
@@ -1351,12 +1337,12 @@
       <pre class="lines">
 
 
-91
-92
-93</pre>
+97
+98
+99</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 91</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 97</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_default_sorting'>default_sorting</span><span class='lparen'>(</span><span class='id identifier rubyid_new_default_sorting'>new_default_sorting</span><span class='rparen'>)</span>
   <span class='ivar'>@default_sorting</span> <span class='op'>=</span> <span class='id identifier rubyid_new_default_sorting'>new_default_sorting</span>
@@ -1446,6 +1432,10 @@
       <pre class="lines">
 
 
+187
+188
+189
+190
 191
 192
 193
@@ -1463,14 +1453,10 @@
 205
 206
 207
-208
-209
-210
-211
-212</pre>
+208</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 191</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 187</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_filter'>filter</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='label'>label:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
@@ -1545,12 +1531,12 @@
       <pre class="lines">
 
 
-105
-106
-107</pre>
+111
+112
+113</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 105</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 111</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_filter_input_class'>filter_input_class</span><span class='lparen'>(</span><span class='id identifier rubyid_class_str'>class_str</span><span class='rparen'>)</span>
   <span class='ivar'>@filter_input_class</span> <span class='op'>=</span> <span class='id identifier rubyid_class_str'>class_str</span>
@@ -1606,12 +1592,12 @@
       <pre class="lines">
 
 
-119
-120
-121</pre>
+125
+126
+127</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 119</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 125</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_filter_item_wrapper_class'>filter_item_wrapper_class</span><span class='lparen'>(</span><span class='id identifier rubyid_class_str'>class_str</span><span class='rparen'>)</span>
   <span class='ivar'>@filter_item_wrapper_class</span> <span class='op'>=</span> <span class='id identifier rubyid_class_str'>class_str</span>
@@ -1667,12 +1653,12 @@
       <pre class="lines">
 
 
-98
-99
-100</pre>
+104
+105
+106</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 98</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 104</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_filter_label_class'>filter_label_class</span><span class='lparen'>(</span><span class='id identifier rubyid_class_str'>class_str</span><span class='rparen'>)</span>
   <span class='ivar'>@filter_label_class</span> <span class='op'>=</span> <span class='id identifier rubyid_class_str'>class_str</span>
@@ -1728,15 +1714,56 @@
       <pre class="lines">
 
 
-112
-113
-114</pre>
+118
+119
+120</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 112</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 118</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_filter_select_class'>filter_select_class</span><span class='lparen'>(</span><span class='id identifier rubyid_class_str'>class_str</span><span class='rparen'>)</span>
   <span class='ivar'>@filter_select_class</span> <span class='op'>=</span> <span class='id identifier rubyid_class_str'>class_str</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="filtering-instance_method">
+  
+    #<strong>filtering</strong>(new_filtering)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method Enables or disables filtering entirely (sorting is independent of this setting).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+72
+73
+74</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 72</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_filtering'>filtering</span><span class='lparen'>(</span><span class='id identifier rubyid_new_filtering'>new_filtering</span><span class='rparen'>)</span>
+  <span class='ivar'>@filtering</span> <span class='op'>=</span> <span class='op'>!</span><span class='op'>!</span><span class='id identifier rubyid_new_filtering'>new_filtering</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1782,15 +1809,15 @@
       <pre class="lines">
 
 
-392
-393
-394</pre>
+387
+388
+389</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 392</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 387</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_filtering_enabled?'>filtering_enabled?</span>
-  <span class='ivar'>@filtering</span> <span class='op'>&amp;&amp;</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>Ransack</span><span class='rparen'>)</span>
+  <span class='ivar'>@filtering</span> <span class='op'>&amp;&amp;</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>Ransack</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ivar'>@skip_filtering</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1823,15 +1850,56 @@
       <pre class="lines">
 
 
-216
-217
-218</pre>
+212
+213
+214</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 216</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 212</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_filters'>filters</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_filter_names'>filter_names</span><span class='comma'>,</span> <span class='op'>**</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_filter_names'>filter_names</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_filter_name'>filter_name</span><span class='op'>|</span> <span class='id identifier rubyid_filter'>filter</span><span class='lparen'>(</span><span class='id identifier rubyid_filter_name'>filter_name</span><span class='comma'>,</span> <span class='op'>**</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="pagination-instance_method">
+  
+    #<strong>pagination</strong>(new_pagination)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method Enables or disables pagination (caution: all records will be loaded).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+60
+61
+62</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 60</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_pagination'>pagination</span><span class='lparen'>(</span><span class='id identifier rubyid_new_pagination'>new_pagination</span><span class='rparen'>)</span>
+  <span class='ivar'>@pagination</span> <span class='op'>=</span> <span class='op'>!</span><span class='op'>!</span><span class='id identifier rubyid_new_pagination'>new_pagination</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1877,15 +1945,15 @@
       <pre class="lines">
 
 
-412
-413
-414</pre>
+407
+408
+409</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 412</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 407</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_pagination_enabled?'>pagination_enabled?</span>
-  <span class='ivar'>@pagination</span>
+  <span class='ivar'>@pagination</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ivar'>@skip_pagination</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1918,6 +1986,10 @@
       <pre class="lines">
 
 
+233
+234
+235
+236
 237
 238
 239
@@ -1944,19 +2016,15 @@
 260
 261
 262
-263
-264
-265
-266
-267</pre>
+263</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 237</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 233</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_process_data!'>process_data!</span><span class='lparen'>(</span><span class='id identifier rubyid_controller'>controller</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Data was already processed!</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@processed_data</span>
   <span class='comment'># Filtering
-</span>  <span class='kw'>if</span> <span class='id identifier rubyid_filtering_enabled?'>filtering_enabled?</span>
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_filtering_enabled?'>filtering_enabled?</span> <span class='op'>||</span> <span class='id identifier rubyid_sorting_enabled?'>sorting_enabled?</span>
     <span class='ivar'>@q</span> <span class='op'>=</span> <span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_ransack'>ransack</span><span class='lparen'>(</span><span class='id identifier rubyid_controller'>controller</span><span class='period'>.</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='id identifier rubyid_param_name'>param_name</span><span class='lparen'>(</span><span class='symbol'>:q</span><span class='rparen'>)</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>auth_object:</span> <span class='id identifier rubyid_controller'>controller</span><span class='period'>.</span><span class='id identifier rubyid_current_ability'>current_ability</span><span class='comma'>,</span> <span class='label'>search_key:</span> <span class='id identifier rubyid_param_name'>param_name</span><span class='lparen'>(</span><span class='symbol'>:q</span><span class='rparen'>)</span><span class='rparen'>)</span>
     <span class='ivar'>@q</span><span class='period'>.</span><span class='id identifier rubyid_sorts'>sorts</span> <span class='op'>=</span> <span class='ivar'>@default_sorting</span> <span class='kw'>if</span> <span class='ivar'>@q</span><span class='period'>.</span><span class='id identifier rubyid_sorts'>sorts</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
     <span class='id identifier rubyid_filtered_data'>filtered_data</span> <span class='op'>=</span> <span class='ivar'>@q</span><span class='period'>.</span><span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_accessible_by'>accessible_by</span><span class='lparen'>(</span><span class='id identifier rubyid_controller'>controller</span><span class='period'>.</span><span class='id identifier rubyid_current_ability'>current_ability</span><span class='rparen'>)</span>
@@ -2015,12 +2083,12 @@
       <pre class="lines">
 
 
-60
-61
-62</pre>
+66
+67
+68</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 60</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 66</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_results_per_page'>results_per_page</span><span class='lparen'>(</span><span class='id identifier rubyid_new_results_per_page'>new_results_per_page</span><span class='rparen'>)</span>
   <span class='ivar'>@results_per_page</span> <span class='op'>=</span> <span class='id identifier rubyid_new_results_per_page'>new_results_per_page</span>
@@ -2031,9 +2099,9 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="row_action-instance_method">
+  <h3 class="signature " id="row_intents-instance_method">
   
-    #<strong>row_action</strong>(name, button_opts: {}, &amp;block)  &#x21d2; <tt>Object</tt> 
+    #<strong>row_intents</strong>(**intent_opts, &amp;block)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -2042,67 +2110,13 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>DSL method Adds a row action. The very last col provides actions such as :show, :edit or :destroy. Use this method to add your own. In case the action exists as a component in the family of <code>data_class</code>, it is enough to pass the action’s name, and the rest is auto-generated. In order to create a custom row action, pass a block that will be given the current record and instance-execed once per row, for every record.</p>
+<p>DSL method If a block is given: Enters the DSL where row intents can be added or removed (use from Component#setup within the component). If no block is given: Builds the declared intents for the given record and returns them (use in <code>content</code> or <code>before_render</code>, pass kwarg <code>:data</code>).</p>
 
 
   </div>
 </div>
 <div class="tags">
-  <p class="tag_title">Parameters:</p>
-<ul class="param">
   
-    <li>
-      
-        <span class='name'>name</span>
-      
-      
-        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>The name of the action (e.g. :edit).</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>button_opts</span>
-      
-      
-        <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>{}</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>Only relevant in case of an auto-generated row action, this allows to configure the generated button.</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>block</span>
-      
-      
-        <span class='type'>(<tt>Block</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>To create a custom row action; block will be given the current record and instance-execed once per row, for every record.</p>
-</div>
-      
-    </li>
-  
-</ul>
-
 
 </div><table class="source_code">
   <tr>
@@ -2110,8 +2124,6 @@
       <pre class="lines">
 
 
-166
-167
 168
 169
 170
@@ -2119,20 +2131,24 @@
 172
 173
 174
-175</pre>
+175
+176
+177
+178</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 166</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 168</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_row_action'>row_action</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='label'>button_opts:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>**</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
-  <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
-    <span class='id identifier rubyid_block'>block</span> <span class='op'>=</span> <span class='id identifier rubyid_proc'>proc</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_record'>record</span><span class='op'>|</span>
-      <span class='kw'>next</span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../../Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_comp_class_for'><span class='object_link'><a href="../../Compony.html#comp_class_for-class_method" title="Compony.comp_class_for (method)">comp_class_for</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_record'>record</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-      <span class='id identifier rubyid_render_intent'>render_intent</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_record'>record</span><span class='comma'>,</span> <span class='op'>**</span><span class='lbrace'>{</span> <span class='label'>label:</span> <span class='lbrace'>{</span> <span class='label'>format:</span> <span class='symbol'>:short</span> <span class='rbrace'>}</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_deep_merge'>deep_merge</span><span class='lparen'>(</span><span class='id identifier rubyid_button_opts'>button_opts</span><span class='rparen'>)</span><span class='rparen'>)</span>
-    <span class='kw'>end</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_row_intents'>row_intents</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_intent_opts'>intent_opts</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+    <span class='comment'># Enter DSL
+</span>    <span class='ivar'>@row_intent_blocks</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_block'>block</span>
+  <span class='kw'>else</span>
+    <span class='comment'># Build the declared intents
+</span>    <span class='id identifier rubyid_intents_ordering'>intents_ordering</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../NaturalOrdering.html" title="Compony::NaturalOrdering (class)">NaturalOrdering</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+    <span class='ivar'>@row_intent_blocks</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_block'>block</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../ManageIntentsDsl.html" title="Compony::ManageIntentsDsl (class)">ManageIntentsDsl</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../ManageIntentsDsl.html#initialize-instance_method" title="Compony::ManageIntentsDsl#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_intents_ordering'>intents_ordering</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_intent_opts'>intent_opts</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_evaluate'>evaluate</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span> <span class='rbrace'>}</span> <span class='comment'># this populates intents_ordering
+</span>    <span class='kw'>return</span> <span class='id identifier rubyid_intents_ordering'>intents_ordering</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:payload</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
-  <span class='ivar'>@row_actions</span><span class='period'>.</span><span class='id identifier rubyid_natural_push'>natural_push</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_block'>block</span><span class='comma'>,</span> <span class='op'>**</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2185,283 +2201,15 @@
       <pre class="lines">
 
 
-155
-156
-157</pre>
+161
+162
+163</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 155</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 161</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_skip_column'>skip_column</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='ivar'>@skipped_columns</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="skip_filtering!-instance_method">
-  
-    #<strong>skip_filtering!</strong>  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>DSL method Disables filtering entirely (sorting is independent of this setting).</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-66
-67
-68</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 66</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_skip_filtering!'>skip_filtering!</span>
-  <span class='ivar'>@filtering</span> <span class='op'>=</span> <span class='kw'>false</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="skip_pagination!-instance_method">
-  
-    #<strong>skip_pagination!</strong>  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>DSL method Disables pagination (caution: all records will be loaded).</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-54
-55
-56</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 54</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_skip_pagination!'>skip_pagination!</span>
-  <span class='ivar'>@pagination</span> <span class='op'>=</span> <span class='kw'>false</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="skip_row_action-instance_method">
-  
-    #<strong>skip_row_action</strong>(name)  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>DSL method Marks a single row action as skipped. It will not be displayed, even if it is defined.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  <p class="tag_title">Parameters:</p>
-<ul class="param">
-  
-    <li>
-      
-        <span class='name'>name</span>
-      
-      
-        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>Name of the row action to be skipped.</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-180
-181
-182</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 180</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_skip_row_action'>skip_row_action</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
-  <span class='ivar'>@skipped_row_actions</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="skip_sorting!-instance_method">
-  
-    #<strong>skip_sorting!</strong>  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>DSL method Disables sorting entirely (both links and sorting input in filter).</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-72
-73
-74
-75</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 72</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_skip_sorting!'>skip_sorting!</span>
-  <span class='ivar'>@sorting_in_filter</span> <span class='op'>=</span> <span class='kw'>false</span>
-  <span class='ivar'>@sorting_links</span> <span class='op'>=</span> <span class='kw'>false</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="skip_sorting_in_filter!-instance_method">
-  
-    #<strong>skip_sorting_in_filter!</strong>  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>DSL method Disables sorting in filter.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-79
-80
-81</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 79</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_skip_sorting_in_filter!'>skip_sorting_in_filter!</span>
-  <span class='ivar'>@sorting_in_filter</span> <span class='op'>=</span> <span class='kw'>false</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="skip_sorting_links!-instance_method">
-  
-    #<strong>skip_sorting_links!</strong>  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>DSL method Disables sorting links.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-85
-86
-87</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 85</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_skip_sorting_links!'>skip_sorting_links!</span>
-  <span class='ivar'>@sorting_links</span> <span class='op'>=</span> <span class='kw'>false</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2532,17 +2280,60 @@
       <pre class="lines">
 
 
-225
-226
-227
-228</pre>
+221
+222
+223
+224</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 225</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 221</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sort'>sort</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='label'>label:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_label'>label</span> <span class='op'>||=</span> <span class='id identifier rubyid_data_class'>data_class</span><span class='period'>.</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span>
   <span class='ivar'>@sorts</span><span class='period'>.</span><span class='id identifier rubyid_natural_push'>natural_push</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>label:</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="sorting-instance_method">
+  
+    #<strong>sorting</strong>(new_sorting)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method Enables or disables sorting entirely (both links and sorting input in filter).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+78
+79
+80
+81</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 78</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_sorting'>sorting</span><span class='lparen'>(</span><span class='id identifier rubyid_new_sorting'>new_sorting</span><span class='rparen'>)</span>
+  <span class='ivar'>@sorting_in_filter</span> <span class='op'>=</span> <span class='op'>!</span><span class='op'>!</span><span class='id identifier rubyid_new_sorting'>new_sorting</span>
+  <span class='ivar'>@sorting_links</span> <span class='op'>=</span> <span class='op'>!</span><span class='op'>!</span><span class='id identifier rubyid_new_sorting'>new_sorting</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2588,15 +2379,56 @@
       <pre class="lines">
 
 
-397
-398
-399</pre>
+392
+393
+394</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 397</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 392</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sorting_enabled?'>sorting_enabled?</span>
-  <span class='lparen'>(</span><span class='ivar'>@sorting_in_filter</span> <span class='op'>||</span> <span class='ivar'>@sorting_links</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>Ransack</span><span class='rparen'>)</span>
+  <span class='lparen'>(</span><span class='lparen'>(</span><span class='ivar'>@sorting_in_filter</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ivar'>@skip_sorting_in_filter</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='lparen'>(</span><span class='ivar'>@sorting_links</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ivar'>@skip_sorting_links</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>Ransack</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="sorting_in_filter-instance_method">
+  
+    #<strong>sorting_in_filter</strong>(new_sorting_in_filter)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method Enables or disables sorting in filter.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+85
+86
+87</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 85</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_sorting_in_filter'>sorting_in_filter</span><span class='lparen'>(</span><span class='id identifier rubyid_new_sorting_in_filter'>new_sorting_in_filter</span><span class='rparen'>)</span>
+  <span class='ivar'>@sorting_in_filter</span> <span class='op'>=</span> <span class='op'>!</span><span class='op'>!</span><span class='id identifier rubyid_new_sorting_in_filter'>new_sorting_in_filter</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2642,15 +2474,15 @@
       <pre class="lines">
 
 
-402
-403
-404</pre>
+397
+398
+399</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 402</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 397</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sorting_in_filter_enabled?'>sorting_in_filter_enabled?</span>
-  <span class='id identifier rubyid_sorting_enabled?'>sorting_enabled?</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@sorting_in_filter</span>
+  <span class='id identifier rubyid_sorting_enabled?'>sorting_enabled?</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@sorting_in_filter</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ivar'>@skip_sorting_in_filter</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2683,18 +2515,18 @@
       <pre class="lines">
 
 
+412
+413
+414
+415
+416
 417
 418
 419
-420
-421
-422
-423
-424
-425</pre>
+420</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 417</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 412</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sorting_in_filter_select_opts'>sorting_in_filter_select_opts</span>
   <span class='ivar'>@sorts</span><span class='period'>.</span><span class='id identifier rubyid_flat_map'>flat_map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_sort'>sort</span><span class='op'>|</span>
@@ -2704,6 +2536,47 @@
       <span class='lbracket'>[</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rbracket'>]</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="sorting_links-instance_method">
+  
+    #<strong>sorting_links</strong>(new_sorting_links)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL method Enables or disables sorting links.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+91
+92
+93</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 91</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_sorting_links'>sorting_links</span><span class='lparen'>(</span><span class='id identifier rubyid_new_sorting_links'>new_sorting_links</span><span class='rparen'>)</span>
+  <span class='ivar'>@sorting_links</span> <span class='op'>=</span> <span class='op'>!</span><span class='op'>!</span><span class='id identifier rubyid_new_sorting_links'>new_sorting_links</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2749,15 +2622,15 @@
       <pre class="lines">
 
 
-407
-408
-409</pre>
+402
+403
+404</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 407</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 402</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sorting_links_enabled?'>sorting_links_enabled?</span>
-  <span class='id identifier rubyid_sorting_enabled?'>sorting_enabled?</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@sorting_links</span>
+  <span class='id identifier rubyid_sorting_enabled?'>sorting_enabled?</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@sorting_links</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ivar'>@skip_sorting_links</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2790,12 +2663,12 @@
       <pre class="lines">
 
 
-232
-233
-234</pre>
+228
+229
+230</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 232</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/list.rb', line 228</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sorts'>sorts</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_names'>names</span><span class='comma'>,</span> <span class='op'>**</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_names'>names</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='op'>|</span> <span class='id identifier rubyid_sort'>sort</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='op'>**</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
@@ -2810,7 +2683,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Nov 28 12:38:50 2025 by
+  Generated on Mon Dec  8 15:19:20 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.3.5).
 </div>

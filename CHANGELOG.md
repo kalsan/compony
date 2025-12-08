@@ -1,4 +1,4 @@
-# unreleased
+# 0.10.0
 
 - Fix a bug in error message for `comp_class_for!`
 - Replace `color` and `icon` by `button`. This new component DSL call provides defaults for `button` options when intents render, similar to `label`.
