@@ -25,7 +25,7 @@ module Compony
         end
 
         content do
-          concat resourceful_sub_comp(component.class.module_parent.const_get(:List)).render(controller)
+          concat render_sub_comp(:list, @data)
         end
       end
     end

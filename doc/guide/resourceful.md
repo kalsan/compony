@@ -88,16 +88,6 @@ This graph documents a typical resourceful lifecycle according to which Compony'
 
 ## Nesting resourceful components
 
-As mentioned earlier, hooks such as those provided by Resourceful typically run only when a component is accessed standalone. This means that in a nested setting, only the component running those hooks is the root component.
-
-When nesting resourceful components, it is therefore best to load all necessary data in the root component. Make sure to include any relations used by sub-components in order to avoid "n+1" queries in the database.
-
-`resourceful_sub_comp` is the resourceful sibling of `sub_comp` and both are used the same way. Under the hood, the resourceful call passes two extra parameters to the sub component: `data` and `data_class`.
-
-The rule of thumb thus becomes:
-
-- When a resourceful component instantiates a resourceful sub-component, use `resourceful_sub_comp` in the parent component.
-- When a resourceful component instantiates a non-resourceful sub-component, use `sub_comp`.
-- The situation where a non-resourceful component instantiates a resourceful component should not occur. Instead, make your parent component resourceful, even if it doesn't use the data itself. By housing a resourceful sub-comp, the parent component's nature inherently becomes resourceful and you should use the Resourceful mixin.
+The [Intent](/doc/guide/intents.md) API makes it very easy to pass a resource to nested components. For more details, refer to [this example](/doc/guide/nesting.md#rendering-list-as-sub-comp-in-show).
 
 [Guide index](/README.md#guide--documentation)

@@ -31,13 +31,6 @@ module Compony
         @data_class ||= new_data_class || family_name.singularize.camelize.constantize
       end
 
-      # Instanciate a component with `self` as a parent and render it, having it inherit the resource
-      def resourceful_sub_comp(component_class, **comp_opts)
-        comp_opts[:data] ||= data # Inject additional param before forwarding all of them to super
-        comp_opts[:data_class] ||= data_class # Inject additional param before forwarding all of them to super
-        sub_comp(component_class, **comp_opts)
-      end
-
       def resourceful?
         return true
       end

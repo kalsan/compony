@@ -6,7 +6,7 @@
 <title>
   Module: Compony::ComponentMixins::Resourceful
   
-    &mdash; Documentation by YARD 0.9.34
+    &mdash; Documentation by YARD 0.9.38
   
 </title>
 
@@ -452,30 +452,6 @@
 </li>
 
       
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#resourceful_sub_comp-instance_method" title="#resourceful_sub_comp (instance method)">#<strong>resourceful_sub_comp</strong>(component_class, **comp_opts)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Instanciate a component with <code>self</code> as a parent and render it, having it inherit the resource.</p>
-</div></span>
-  
-</li>
-
-      
         <li class="protected ">
   <span class="summary_signature">
     
@@ -789,12 +765,12 @@
       <pre class="lines">
 
 
-77
-78
-79</pre>
+70
+71
+72</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 77</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 70</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_after_assign_attributes'>after_assign_attributes</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='ivar'>@global_after_assign_attributes_block</span> <span class='op'>=</span> <span class='id identifier rubyid_block'>block</span>
@@ -830,12 +806,12 @@
       <pre class="lines">
 
 
-60
-61
-62</pre>
+53
+54
+55</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 60</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 53</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_after_load_data'>after_load_data</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='ivar'>@global_after_load_data_block</span> <span class='op'>=</span> <span class='id identifier rubyid_block'>block</span>
@@ -878,12 +854,12 @@
       <pre class="lines">
 
 
-70
-71
-72</pre>
+63
+64
+65</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 70</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 63</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_assign_attributes'>assign_attributes</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='ivar'>@global_assign_attributes_block</span> <span class='op'>=</span> <span class='id identifier rubyid_block'>block</span>
@@ -1018,12 +994,12 @@
       <pre class="lines">
 
 
-53
-54
-55</pre>
+46
+47
+48</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 46</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_data'>load_data</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='ivar'>@global_load_data_block</span> <span class='op'>=</span> <span class='id identifier rubyid_block'>block</span>
@@ -1070,60 +1046,15 @@
       <pre class="lines">
 
 
-41
-42
-43</pre>
+34
+35
+36</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 34</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_resourceful?'>resourceful?</span>
   <span class='kw'>return</span> <span class='kw'>true</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="resourceful_sub_comp-instance_method">
-  
-    #<strong>resourceful_sub_comp</strong>(component_class, **comp_opts)  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Instanciate a component with <code>self</code> as a parent and render it, having it inherit the resource</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-35
-36
-37
-38
-39</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 35</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_resourceful_sub_comp'>resourceful_sub_comp</span><span class='lparen'>(</span><span class='id identifier rubyid_component_class'>component_class</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_comp_opts'>comp_opts</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_comp_opts'>comp_opts</span><span class='lbracket'>[</span><span class='symbol'>:data</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='id identifier rubyid_data'>data</span> <span class='comment'># Inject additional param before forwarding all of them to super
-</span>  <span class='id identifier rubyid_comp_opts'>comp_opts</span><span class='lbracket'>[</span><span class='symbol'>:data_class</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='id identifier rubyid_data_class'>data_class</span> <span class='comment'># Inject additional param before forwarding all of them to super
-</span>  <span class='id identifier rubyid_sub_comp'>sub_comp</span><span class='lparen'>(</span><span class='id identifier rubyid_component_class'>component_class</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_comp_opts'>comp_opts</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1163,12 +1094,12 @@
       <pre class="lines">
 
 
-87
-88
-89</pre>
+80
+81
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 87</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 80</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_store_data'>store_data</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='ivar'>@global_store_data_block</span> <span class='op'>=</span> <span class='id identifier rubyid_block'>block</span>
@@ -1183,9 +1114,9 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Dec  8 18:10:40 2025 by
+  Generated on Fri Dec 12 14:06:45 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.34 (ruby-3.3.5).
+  0.9.38 (ruby-3.3.5).
 </div>
 
     </div>

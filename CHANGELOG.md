@@ -1,3 +1,11 @@
+# unreleased
+
+- Remove `nested_sub_comp` as the intent API has made it obsolete.
+
+## Steps to take
+
+- Search for `nested_sub_comp` and replace those calls by `render_sub_comp` while passing `@data` as the second intent argument.
+
 # 0.10.2
 
 - Produce debug output when skipping an intent due to a NameError
