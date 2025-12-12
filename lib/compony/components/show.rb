@@ -5,8 +5,10 @@ module Compony
     class Show < Compony::Component
       include Compony::ComponentMixins::Resourceful
 
+      INT_OR_UUID_REGEX = /(?:\d+|[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})/
+
       setup do
-        standalone path: "/#{family_name}/:id", constraints: { id: /\d*/ } do
+        standalone path: "/#{family_name}/:id", constraints: { id: INT_OR_UUID_REGEX } do
           verb :get do
             authorize { can?(:show, @data) }
           end
