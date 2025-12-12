@@ -2,6 +2,7 @@
 
 - Remove `nested_sub_comp` as the intent API has made it obsolete.
 - Allow handling UUID style IDs in pre-built Show component
+- Fix a bug in intents preventing overriding the feasibility target
 
 ## Steps to take
 

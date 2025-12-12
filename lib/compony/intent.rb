@@ -117,7 +117,7 @@ module Compony
     end
 
     def feasibility_target
-      @feasibility_target.presence || model? ? @data : nil
+      @feasibility_target.presence || (model? ? @data : nil)
     end
 
     def feasibility_action
