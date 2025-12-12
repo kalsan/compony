@@ -6,7 +6,7 @@
 <title>
   Class: Compony::Intent
   
-    &mdash; Documentation by YARD 0.9.38
+    &mdash; Documentation by YARD 0.9.34
   
 </title>
 
@@ -1094,7 +1094,7 @@
       <pre class="code"><span class="info file"># File 'lib/compony/intent.rb', line 119</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_feasibility_target'>feasibility_target</span>
-  <span class='ivar'>@feasibility_target</span><span class='period'>.</span><span class='id identifier rubyid_presence'>presence</span> <span class='op'>||</span> <span class='id identifier rubyid_model?'>model?</span> <span class='op'>?</span> <span class='ivar'>@data</span> <span class='op'>:</span> <span class='kw'>nil</span>
+  <span class='ivar'>@feasibility_target</span><span class='period'>.</span><span class='id identifier rubyid_presence'>presence</span> <span class='op'>||</span> <span class='lparen'>(</span><span class='id identifier rubyid_model?'>model?</span> <span class='op'>?</span> <span class='ivar'>@data</span> <span class='op'>:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1561,9 +1561,9 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Dec 12 14:06:45 2025 by
+  Generated on Fri Dec 12 16:04:22 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.38 (ruby-3.3.5).
+  0.9.34 (ruby-3.3.5).
 </div>
 
     </div>
