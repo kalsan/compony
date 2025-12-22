@@ -1,12 +1,16 @@
+# unreleased
+
+- Fix wrong naming in changelog
+
 # 0.11.0
 
-- Remove `nested_sub_comp` as the intent API has made it obsolete.
+- Remove `resourceful_sub_comp` as the intent API has made it obsolete.
 - Allow handling UUID style IDs in pre-built Show component
 - Fix a bug in intents preventing overriding the feasibility target
 
 ## Steps to take
 
-- Search for `nested_sub_comp` and replace those calls by `render_sub_comp` while passing `@data` as the second intent argument.
+- Search for `resourceful_sub_comp` and replace those calls by `render_sub_comp` while passing `@data` as the second intent argument.
 
 # 0.10.2
 
