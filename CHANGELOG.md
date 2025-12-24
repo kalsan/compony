@@ -2,7 +2,7 @@
 
 - Fix wrong naming in changelog
 - In pre-built `:new` component, switch authorization to the previously created data class and check for `new` in GET. This allows to:
-    - Build intents with prepared data, e.g. `Compony.intent(:new, Post.new(user_id: @data.id))`
+    - Build intents with prepared data, e.g. `Compony.intent(:new, Post.new(user_id: @data.id), path: { post: { user_id: @data.id } })`
     - Make the `cancancan` ability watch for this, e.g. `can :manage, Post, user_id: user.id`
 
 # 0.11.0
