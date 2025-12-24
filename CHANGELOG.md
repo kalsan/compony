@@ -1,4 +1,4 @@
-# unreleased
+# 0.11.1
 
 - Fix wrong naming in changelog
 - In pre-built `:new` component, switch authorization to the previously created data class and check for `new` in GET. This allows to:
