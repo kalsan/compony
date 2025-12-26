@@ -20,7 +20,7 @@ module Compony
 
         exposed_intents do
           unless data_class.owner_model_attr
-            add :new, data_class.model_name.plural, name: :new
+            add :new, data_class, name: :new
           end
         end
 

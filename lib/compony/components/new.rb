@@ -10,7 +10,7 @@ module Compony
         load_data { @data = data_class.new }
         standalone path: "#{family_name}/new" do
           verb :get do
-            authorize { can?(:new, @data) }
+            authorize { can?(:new, data_class) }
             assign_attributes # This enables the global assign_attributes block defined below for this path and verb.
           end
           verb submit_verb do

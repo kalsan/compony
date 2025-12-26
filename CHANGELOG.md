@@ -1,3 +1,9 @@
+# unreleased
+
+- Harmonize authentication interface for the `:new` component
+    - When called via GET, and pointing to it from `:index`, check for permission on the data class
+    - When called via POST, check for permission on the model instance
+
 # 0.11.1
 
 - Fix wrong naming in changelog
