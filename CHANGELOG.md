@@ -1,4 +1,4 @@
-# unreleased
+# 0.11.2
 
 - Harmonize authentication interface for the `:new` component
     - When called via GET, and pointing to it from `:index`, check for permission on the data class
