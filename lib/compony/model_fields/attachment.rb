@@ -57,6 +57,9 @@ module Compony
       # This can be auto-inferred without accessing the database.
       def resolve_attachment!
         attachment_info = model_class.reflect_on_attachment(name)
+        unless attachment_info
+          fail("The field #{name} of model #{model_class} has no attachment reflection. Make sure to call `has_..._attached` before calling `field :#{name}`.")
+        end
         @multi = attachment_info.is_a?(ActiveStorage::Reflection::HasManyAttachedReflection)
       end
     end

@@ -1,3 +1,7 @@
+# unreleased
+
+- Enhance error message when attachment reflection is missing
+
 # 0.11.2
 
 - Harmonize authentication interface for the `:new` component
