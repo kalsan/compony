@@ -26,11 +26,9 @@ module Compony
         # Override this to provide a custom submit button
         content :submit_button, hidden: true do
           # Fake submit button rendered by a button component and submitting the form via JS:
-          concat Compony.button_component_class.new(
-            label:   @submit_label || I18n.t('compony.components.form.submit'),
-            href:    '#',
-            onclick: "this.closest('form').requestSubmit(); return false;"
-          ).render(controller)
+          concat render_intent(name: :submit, label: @submit_label || I18n.t('compony.components.form.submit'), button: {
+                                 onclick: "this.closest('form').requestSubmit(); return false;"
+                               })
           # Real (but hidden) submit button to allow Return to submit:
           button type: :submit, hidden: true
         end
