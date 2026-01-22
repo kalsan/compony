@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    compony (0.11.3)
-      anchormodel (~> 0.2.1)
+    compony (0.11.4.edge)
+      anchormodel (~> 0.3.0)
       cancancan (~> 3.6.1)
       dslblend (>= 0.0.3)
       dyny (>= 0.0.3)
@@ -84,8 +84,8 @@ GEM
       minitest (>= 5.1)
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
-    anchormodel (0.2.2)
-      rails (~> 7.0)
+    anchormodel (0.3.0)
+      rails (>= 7.0)
     ast (2.4.3)
     base64 (0.3.0)
     bigdecimal (3.2.2)

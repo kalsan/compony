@@ -1,6 +1,7 @@
 # unreleased
 
 - Internal refactoring of submit button
+- Switch to anchormodel 0.3.0
 
 # 0.11.3
 
