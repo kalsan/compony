@@ -1,4 +1,4 @@
-# unreleased
+# 0.11.5
 
 - Replace deprecated `:unprocessable_entity` by `:unprocessable_content`
 - In pre-built `:list` component, expose more details suitable for showing pagination information
