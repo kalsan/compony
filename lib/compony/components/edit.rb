@@ -86,7 +86,7 @@ module Compony
 
         on_update_failed do
           Rails.logger.warn(@data&.errors&.full_messages)
-          render_standalone(controller, status: :unprocessable_entity)
+          render_standalone(controller, status: :unprocessable_content)
         end
       end
 

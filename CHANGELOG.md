@@ -1,3 +1,7 @@
+# unreleased
+
+- Replace deprecated `:unprocessable_entity` by `:unprocessable_content`
+
 # 0.11.4
 
 - Internal refactoring of submit button
