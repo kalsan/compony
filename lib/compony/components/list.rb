@@ -236,22 +236,25 @@ module Compony
         if filtering_enabled? || sorting_enabled?
           @q = @data.ransack(controller.params[param_name(:q)], auth_object: controller.current_ability, search_key: param_name(:q))
           @q.sorts = @default_sorting if @q.sorts.empty?
-          filtered_data = @q.result.accessible_by(controller.current_ability)
+          @filtered_data = @q.result.accessible_by(controller.current_ability)
         else
-          filtered_data = @data
+          @filtered_data = @data
         end
         # Pagination
         if pagination_enabled?
           @page = controller.params[param_name('page')].presence&.to_i || 1
           @pagination_offset = (@page - 1) * @results_per_page
-          @total_pages = (filtered_data.count.to_f / @results_per_page).ceil
-          if @pagination_offset < 0 || @pagination_offset >= filtered_data.count # out of bounds check
+          @total_pages = (@filtered_data.count.to_f / @results_per_page).ceil
+          if @pagination_offset < 0 || @pagination_offset >= @filtered_data.count # out of bounds check
             @page = 1
             @pagination_offset = 0
           end
-          @processed_data = filtered_data.offset(@pagination_offset).limit(@results_per_page)
+          @processed_data = @filtered_data.offset(@pagination_offset).limit(@results_per_page)
         else
-          @processed_data = filtered_data
+          @processed_data = @filtered_data
+          @page = 1
+          @total_pages = 1
+          @pagination_offset = 0
         end
         # Apply skips to configs
         # Exclude columns that are skipped or the user is not allowed to display
