@@ -60,7 +60,7 @@ module Compony
     end
 
     def inspect
-      "#<#{self.class.name} data: #{@data.inspect}, paths: #{standalone_configs.values.pluck(:path).inspect}, id_path: #{id_path.inspect}>"
+      "#<#{self.class.name} id_path: #{id_path.inspect}, standalone_paths: #{standalone_configs.values.pluck(:path).inspect}, data: #{@data.inspect}>"
     end
 
     # Returns the current root comp.
