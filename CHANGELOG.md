@@ -1,3 +1,7 @@
+# unreleased
+
+- Enhance output of component's `inspect`
+
 # 0.11.5
 
 - Replace deprecated `:unprocessable_entity` by `:unprocessable_content`
