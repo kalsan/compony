@@ -89,5 +89,11 @@ module Compony
         sub_comp(*, **).render(controller)
       end
     end
+
+    # View helper that returns the current request's standalone name as configured when calling `standalone` in the component's `setup`.
+    # Attention: returns nil if the standalone name is nil OR component is rendered non-standalone.
+    def standalone_name
+      component.standalone_configs.find { |_, config| config[:rails_action_name] == action_name }&.first
+    end
   end
 end

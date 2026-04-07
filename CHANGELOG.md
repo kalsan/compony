@@ -1,6 +1,7 @@
 # unreleased
 
 - Enhance output of component's `inspect`
+- Add request context view helper `standalone_name`
 
 # 0.11.5
 
