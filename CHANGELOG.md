@@ -1,4 +1,4 @@
-# unreleased
+# 0.11.7
 
 - Relax anchormodel dependency, since anchormodel 0.4 is compatible
 
