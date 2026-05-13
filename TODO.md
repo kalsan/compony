@@ -1,1 +1,2 @@
 - When cancelling in an owned form, prefer Show instead of owner.Index
+- Come up with something like `data_class(BaseClass){ attribute(:foo) }` -> ActiveType
