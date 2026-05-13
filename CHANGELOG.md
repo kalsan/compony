@@ -1,3 +1,7 @@
+# unreleased
+
+- Relax anchormodel dependency, since anchormodel 0.4 is compatible
+
 # 0.11.6
 
 - Enhance output of component's `inspect`
