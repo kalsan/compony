@@ -1,4 +1,4 @@
-# unreleased
+# 0.11.8
 
 - Fix `Compony::VirtualModel#attributes` to include virtual attributes (declared via `attribute :foo, :type`). The `include ActiveModel::Attributes` was shadowing `ActiveType::VirtualAttributes#attributes`, so virtual attribute values were stored in `@virtual_attributes` but invisible to `#attributes`, breaking callers that use `model.attributes.slice(...)` or `model.attributes.select { ... }`.
 
