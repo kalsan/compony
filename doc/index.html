@@ -82,7 +82,7 @@
 </li>
 <li>Compony only structures your code, but provides no style whatsoever. It is like a bookshelf rather than a reader's library. You still implement your own layouts, CSS and Javascript to define the behavior of your front-end.</li>
 <li>Compony seamlessly integrates with Rails and does not interfere with existing code. Using Compony, you <strong>can</strong> write your application as components, but it is still possible to have regular routes, controllers and views side-to-side to it. This way, you can migrate your applications to Compony little by little and enter and leave the Compony world as you please. It is also possible to render Compony components from regular views and vice versa.</li>
-<li>Compony is built for Rails 7, 7.1 and 8, and fully supports Stimulus and Turbo Drive. It is also compatible Turbo Frames and Streams, but there are not many helpers specifically targetting theme at this point..</li>
+<li>Compony requires Rails &gt;= 7.2.1 and Ruby &gt;= 3.3.5 (see <a href="./doc/integrations.md">doc/integrations.md</a> for all dependencies), and fully supports Stimulus and Turbo Drive. It is also compatible Turbo Frames and Streams, but there are not many helpers specifically targetting theme at this point..</li>
 <li>Compony uses <a href="https://github.com/CanCanCommunity/cancancan">CanCanCan</a> for authorization but does not provide an authentication mechanism. You can easily build your own by creating login/logout components that manage cookies, and configure Compony to enforce authentication using the <code>Compony.authentication_before_action</code> setter. I have also successfully tested Compony to work with <a href="https://github.com/heartcombo/devise">Devise</a>.</li>
 </ul>
 <h2 id="State_of_the_project">State of the project</h2>
@@ -164,7 +164,7 @@
 <p>Further, it should be acknowledged that Compony would not be what it is if it weren't for the awesome Gems it can rely on, for instance Rails, CanCanCan, SimpleForm, or Schemacop.</p></div></div>
 
       <div id="footer">
-  Generated on Mon May 18 13:22:39 2026 by
+  Generated on Mon May 18 13:25:06 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.43 (ruby-3.3.5).
 </div>
