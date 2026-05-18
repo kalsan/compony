@@ -2,8 +2,8 @@
 
 - Documentation: add agent-oriented docs — `CLAUDE.md` primer, `doc/llms.txt` index,
   `doc/guide/dsl_reference.md`, `doc/guide/glossary.md`, `doc/guide/gotchas.md`,
-  `doc/guide/example_advanced.md`. Fix two stale links in the README guide index
-  (Virtual models, Edit).
+  `doc/guide/example_advanced.md`, `doc/guide/patterns.md`. Fix two stale links in the
+  README guide index (Virtual models, Edit).
 
 # 0.11.8
 
