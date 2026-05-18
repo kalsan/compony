@@ -35,14 +35,22 @@ module Compony
           protected
 
           # DSL
-          # This block is expected to return true if and only if current_ability has the right to access the component over the given verb.
+          # Mandatory. The block must return truthy iff `current_ability` may access the component over this verb;
+          # a falsy result raises `CanCan::AccessDenied`.
+          # @yield Runs in the component's request context; returns truthy to grant access.
+          # @return [void]
+          # @api public
           def authorize(&block)
             @authorize_block = block
           end
 
           # DSL
-          # This is the last step in the life cycle. It may redirect or render. If omitted, the default is standalone_render.
-          # @param format [String, Symbol] Format this block should respond to, defaults to `nil` which means "all other formats".
+          # Last step in the lifecycle. May redirect or render. If omitted, the default is `render_standalone`.
+          # NOTE: overriding `respond` replaces the default, which is where `authorize` is evaluated - re-check authorization yourself.
+          # @param format [String,Symbol,nil] Format this block responds to; `nil` means "all other formats".
+          # @yield Runs in the component's request context; renders or redirects.
+          # @return [void]
+          # @api public
           def respond(format = nil, &block)
             @respond_blocks[format&.to_sym] = block
           end

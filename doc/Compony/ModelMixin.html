@@ -6,13 +6,13 @@
 <title>
   Module: Compony::ModelMixin
   
-    &mdash; Documentation by YARD 0.9.34
+    &mdash; Documentation by YARD 0.9.43
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Compony::ModelMixin";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -88,7 +90,8 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/compony/model_mixin.rb</dd>
+    <dd>lib/compony/model_mixin.rb
+</dd>
   </dl>
   
 </div>
@@ -134,9 +137,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Retrieves feasibility for the given instance and returns an array of reasons preventing the feasibility.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Retrieves feasibility for the given instance and returns an array of reasons preventing the feasibility.</p></div></span>
   
 </li>
 
@@ -158,9 +159,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Retrieves feasibility for the given instance, returning a boolean indicating whether the action is feasibly.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Retrieves feasibility for the given instance, returning a boolean indicating whether the action is feasibly.</p></div></span>
   
 </li>
 
@@ -182,9 +181,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Calls value_for on the desired field.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Calls value_for on the desired field.</p></div></span>
   
 </li>
 
@@ -206,14 +203,13 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Retrieves feasibility for the given instance and returns a string holding all reasons preventing the feasibility.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Retrieves feasibility for the given instance and returns a string holding all reasons preventing the feasibility.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 
@@ -234,9 +230,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Retrieves feasibility for the given instance and returns an array of reasons preventing the feasibility. Returns an empty array if feasible. Conceptually, this is comparable to a model’s <code>errors</code>.</p>
-
+    <p>Retrieves feasibility for the given instance and returns an array of reasons preventing the feasibility. Returns an empty array if feasible.
+Conceptually, this is comparable to a model's <code>errors</code>.</p>
 
   </div>
 </div>
@@ -254,9 +249,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the action that the feasibility should be checked for, e.g. :destroy</p>
-</div>
+        <div class='inline'><p>the action that the feasibility should be checked for, e.g. :destroy</p></div>
       
     </li>
   
@@ -299,9 +292,10 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Retrieves feasibility for the given instance, returning a boolean indicating whether the action is feasibly. Calling this with an invalid action name will always return true. This also generates appropriate error messages for any reason causing it to return false. Feasilbility is cached, thus the second access will be faster.</p>
-
+    <p>Retrieves feasibility for the given instance, returning a boolean indicating whether the action is feasibly.
+Calling this with an invalid action name will always return true.
+This also generates appropriate error messages for any reason causing it to return false.
+Feasilbility is cached, thus the second access will be faster.</p>
 
   </div>
 </div>
@@ -319,9 +313,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the action that the feasibility should be checked for, e.g. :destroy</p>
-</div>
+        <div class='inline'><p>the action that the feasibility should be checked for, e.g. :destroy</p></div>
       
     </li>
   
@@ -337,9 +329,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>whether feasibility should be forcably recomputed even if a cached result is present</p>
-</div>
+        <div class='inline'><p>whether feasibility should be forcably recomputed even if a cached result is present</p></div>
       
     </li>
   
@@ -419,9 +409,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Calls value_for on the desired field. Do not confuse with the static method field.</p>
-
+    <p>Calls value_for on the desired field. Do not confuse with the static method field.</p>
 
   </div>
 </div>
@@ -460,9 +448,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Retrieves feasibility for the given instance and returns a string holding all reasons preventing the feasibility. Returns an empty string if feasible. Messages are joined using commata. The first character is capitalized and a period is added to the end. Conceptually, this is comparable to a model’s <code>full_messages</code>.</p>
-
+    <p>Retrieves feasibility for the given instance and returns a string holding all reasons preventing the feasibility. Returns an empty string if feasible.
+Messages are joined using commata. The first character is capitalized and a period is added to the end.
+Conceptually, this is comparable to a model's <code>full_messages</code>.</p>
 
   </div>
 </div>
@@ -480,9 +468,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the action that the feasibility should be checked for, e.g. :destroy</p>
-</div>
+        <div class='inline'><p>the action that the feasibility should be checked for, e.g. :destroy</p></div>
       
     </li>
   
@@ -519,9 +505,9 @@
 </div>
 
       <div id="footer">
-  Generated on Fri May 15 10:29:42 2026 by
+  Generated on Mon May 18 12:37:22 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.34 (ruby-3.3.5).
+  0.9.43 (ruby-3.3.5).
 </div>
 
     </div>

@@ -52,7 +52,13 @@ module Compony
         end
       end
 
-      # DSL method, use to set the form content
+      # @!group DSL
+
+      # DSL method, use to set the form content (mandatory).
+      # The block holds the form inputs and is instance-exec'd in the form's request context where `field`, `pw_field` and `f` are available.
+      # @yield Builds the form body using Dyny + the form field helpers.
+      # @return [Proc,nil] When called without a block, returns the stored block.
+      # @api public
       def form_fields(&block)
         return @form_fields unless block_given?
         @form_fields = block
@@ -97,9 +103,13 @@ module Compony
         @controller = nil
       end
 
-      # Called inside the form_fields block. This makes the method `field` available in the block.
-      # See also notes for `with_simpleform`.
-      # If multilang is true, a suffixed field is generated for every available locale (useful with gem "mobility"). Render the array as you wish.
+      # DSL method (inside `form_fields`). Renders a simple_form input inferred from the model field `name`.
+      # Respects per-field CanCanCan authorization; skipped fields render nothing.
+      # @param name [Symbol,String] The model field (use the association name, not the `_id`, for associations).
+      # @param multilang [Boolean] If true, generates one suffixed input per available locale and returns the array (useful with the "mobility" gem).
+      # @param input_opts [Hash] Passed to simple_form. Notable keys: `as:` (input type), `hidden: true`, `autofocus:`.
+      # @return [String,Array<String>] The input HTML (array when `multilang`).
+      # @api public
       def field(name, multilang: false, **input_opts)
         fail("The `field` method may only be called inside `form_fields` for #{inspect}.") unless @simpleform
 
@@ -134,9 +144,12 @@ module Compony
         end
       end
 
-      # Called inside the form_fields block. This makes the method pw_field available in the block.
-      # This method should be called for the fields :password and :password_confirmation
-      # Note that :hidden is not supported here, as this would make no sense in conjunction with :password or :password_confirmation.
+      # DSL method (inside `form_fields`). Renders a password input; should be used for `:password` and `:password_confirmation`.
+      # Checks the `:set_password` CanCanCan ability; `:hidden` is intentionally unsupported here.
+      # @param name [Symbol,String] The password field name.
+      # @param input_opts [Hash] Passed to simple_form.
+      # @return [String,nil] The input HTML, or nil if not permitted.
+      # @api public
       def pw_field(name, **input_opts)
         fail("The `pw_field` method may only be called inside `form_fields` for #{inspect}.") unless @simpleform
         name = name.to_sym
@@ -156,8 +169,10 @@ module Compony
         return @simpleform.input name, **input_opts
       end
 
-      # Called inside the form_fields block. This makes the method `f` available in the block.
-      # See also notes for `with_simpleform`.
+      # DSL method (inside `form_fields`). Returns the underlying simple_form builder, e.g. for `f.rich_text_area`
+      # or `f.simple_fields_for` (nested attributes).
+      # @return [SimpleForm::FormBuilder] The simple_form builder for the current form.
+      # @api public
       def f
         fail("The `f` method may only be called inside `form_fields` for #{inspect}.") unless @simpleform
         return @simpleform
@@ -168,27 +183,41 @@ module Compony
         Compony::ModelFields::Anchormodel.collect(...)
       end
 
-      # DSL method, disables all inputs
+      # DSL method, disables all inputs.
+      # @return [void]
+      # @api public
       def disable!
         @form_disabled = true
       end
 
-      # DSL method, allows to customize parameters given to simple_form_for
+      # DSL method, customizes the parameters given to `simple_form_for`.
+      # @param new_form_params [Hash] Extra kwargs forwarded to `simple_form_for`.
+      # @return [void]
+      # @api public
       def form_params(**new_form_params)
         @form_params = new_form_params
       end
 
+      # @!endgroup
+
       protected
 
-      # DSL method, adds a new line to the schema whitelisting a single param inside the schema's wrapper
-      # The block should be something like `str? :foo` and will run in a Schemacop3 context.
+      # @!group DSL
+
+      # DSL method, adds a Schemacop3 line whitelisting param(s) inside the schema's wrapper.
+      # @yield Runs in a Schemacop3 context, e.g. `str? :foo`.
+      # @return [void]
+      # @api public
       def schema_line(&block)
         @schema_lines_for_data << proc { |_data, _controller| block }
       end
 
-      # DSL method, adds a new field to the schema whitelisting a single field of data_class
-      # This auto-generates the correct schema line for the field.
-      # If multilang is true, a suffixed field is generated for every available locale (useful with gem "mobility")
+      # DSL method, whitelists a single field of `data_class` in the param schema, auto-generating the correct schema line.
+      # Respects per-field CanCanCan authorization.
+      # @param field_name [Symbol,String] The model field (association name, not `_id`, for associations).
+      # @param multilang [Boolean] If true, whitelists one suffixed field per available locale (useful with the "mobility" gem).
+      # @return [void]
+      # @api public
       def schema_field(field_name, multilang: false)
         if multilang
           I18n.available_locales.each { |locale| schema_field("#{field_name}_#{locale}") }
@@ -209,8 +238,10 @@ module Compony
         end
       end
 
-      # DSL method, adds a new password field to the schema whitelisting
-      # This checks for the permission :set_password and auto-generates the correct schema line for the field.
+      # DSL method, whitelists a password param in the schema (checks the `:set_password` permission).
+      # @param field_name [Symbol,String] The password field name.
+      # @return [void]
+      # @api public
       def schema_pw_field(field_name)
         # This runs upon component setup.
         @schema_lines_for_data << proc do |data, controller|
@@ -226,12 +257,19 @@ module Compony
         end
       end
 
-      # DSL method, mass-assigns schema fields
+      # DSL method, whitelists several fields at once (see {#schema_field}).
+      # @param field_names [Array<Symbol,String>] The model fields to whitelist.
+      # @return [void]
+      # @api public
       def schema_fields(*field_names)
         field_names.each { |field_name| schema_field(field_name) }
       end
 
-      # DSL method, use to replace the form's schema and wrapper key for a completely manual schema
+      # DSL method, replaces the form's schema and wrapper key with a completely manual Schemacop3 schema.
+      # @param wrapper_key [Symbol,String] The top-level params wrapper key (e.g. the model's singular name).
+      # @yield Runs in a Schemacop3 context defining the wrapped params.
+      # @return [void]
+      # @api public
       def schema(wrapper_key, &block)
         if block_given?
           @schema_wrapper_key = wrapper_key
@@ -241,10 +279,14 @@ module Compony
         end
       end
 
-      # DSL method, skips adding autofocus to the first field
+      # DSL method, skips adding autofocus to the first field.
+      # @return [void]
+      # @api public
       def skip_autofocus
         @skip_autofocus = true
       end
+
+      # @!endgroup
     end
   end
 end

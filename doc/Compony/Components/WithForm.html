@@ -6,13 +6,13 @@
 <title>
   Class: Compony::Components::WithForm
   
-    &mdash; Documentation by YARD 0.9.34
+    &mdash; Documentation by YARD 0.9.43
   
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Compony::Components::WithForm";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -96,16 +98,16 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/compony/components/with_form.rb</dd>
+    <dd>lib/compony/components/with_form.rb
+</dd>
   </dl>
   
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>This component is destined to take a sub-component that is a form component. It can be called via :get or via <code>submit_verb</code> depending on whether its form should be shown or submitted.</p>
-
+    <p>This component is destined to take a sub-component that is a form component.
+It can be called via :get or via <code>submit_verb</code> depending on whether its form should be shown or submitted.</p>
 
   </div>
 </div>
@@ -130,7 +132,7 @@
 
   
     <h2>
-      Instance Method Summary
+      DSL
       <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
@@ -139,7 +141,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#form_cancancan_action-instance_method" title="#form_cancancan_action (instance method)">#<strong>form_cancancan_action</strong>(new_form_cancancan_action = :missing)  &#x21d2; Object </a>
+      <a href="#form_cancancan_action-instance_method" title="#form_cancancan_action (instance method)">#<strong>form_cancancan_action</strong>(new_form_cancancan_action = :missing)  &#x21d2; Symbol<sup>?</sup> </a>
     
 
     
@@ -153,12 +155,86 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>DSL method Sets and gets the form’s cancancan action (for cancancan’s accessible_attributes).</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>DSL method Sets and gets the form's CanCanCan action, used for per-field <code>permitted_attributes</code>.</p></div></span>
   
 </li>
 
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#form_comp_class-instance_method" title="#form_comp_class (instance method)">#<strong>form_comp_class</strong>(new_form_comp_class = nil)  &#x21d2; Class<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>DSL method Overrides the Form component class instantiated by <span class='object_link'><a href="#form_comp-instance_method" title="Compony::Components::WithForm#form_comp (method)">#form_comp</a></span> (defaults to the same-family <code>Form</code>).</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#submit_path-instance_method" title="#submit_path (instance method)">#<strong>submit_path</strong> {|controller| ... } &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>DSL method Overrides the submit path, which otherwise defaults to this component's own path.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#submit_verb-instance_method" title="#submit_verb (instance method)">#<strong>submit_verb</strong>(new_submit_verb = nil)  &#x21d2; Symbol </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>DSL method Sets or returns the HTTP verb the twinned form submits with (<code>:post</code> for New, <code>:patch</code> for Edit).</p></div></span>
+  
+</li>
+
+      
+    </ul>
+    
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
       
         <li class="public ">
   <span class="summary_signature">
@@ -177,33 +253,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns an instance of the form component responsible for rendering the form.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#form_comp_class-instance_method" title="#form_comp_class (instance method)">#<strong>form_comp_class</strong>(new_form_comp_class = nil)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>DSL method Overrides the form comp class that is instanciated to render the form.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns an instance of the form component responsible for rendering the form.</p></div></span>
   
 </li>
 
@@ -227,65 +277,17 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>A new instance of WithForm.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#submit_path-instance_method" title="#submit_path (instance method)">#<strong>submit_path</strong>(&amp;new_submit_path_block)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>DSL method Overrides the submit path which would otherwise default to this component This takes a block that will be called and given a controller.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#submit_verb-instance_method" title="#submit_verb (instance method)">#<strong>submit_verb</strong>(new_submit_verb = nil)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>DSL method Sets or returns the previously set submit verb.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>A new instance of WithForm.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 
+  
   
   
   
@@ -310,9 +312,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns a new instance of WithForm.</p>
-
+    <p>Returns a new instance of WithForm.</p>
 
   </div>
 </div>
@@ -354,7 +354,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="form_cancancan_action-instance_method">
   
-    #<strong>form_cancancan_action</strong>(new_form_cancancan_action = :missing)  &#x21d2; <tt>Object</tt> 
+    #<strong>form_cancancan_action</strong>(new_form_cancancan_action = :missing)  &#x21d2; <tt>Symbol</tt><sup>?</sup> 
   
 
   
@@ -362,14 +362,49 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DSL method Sets and gets the form’s cancancan action (for cancancan’s accessible_attributes)</p>
-
+    <p>DSL method
+Sets and gets the form's CanCanCan action, used for per-field <code>permitted_attributes</code>. Pass <code>nil</code> to disable per-field auth.</p>
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>new_form_cancancan_action</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>nil</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>:missing</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>The CanCanCan action (e.g. <code>:edit</code>); omit to read the current value.</p></div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The configured CanCanCan action.</p></div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -377,15 +412,15 @@
       <pre class="lines">
 
 
-45
-46
-47
-48
-49
-50</pre>
+56
+57
+58
+59
+60
+61</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/with_form.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/with_form.rb', line 56</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_form_cancancan_action'>form_cancancan_action</span><span class='lparen'>(</span><span class='id identifier rubyid_new_form_cancancan_action'>new_form_cancancan_action</span> <span class='op'>=</span> <span class='symbol'>:missing</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_new_form_cancancan_action'>new_form_cancancan_action</span> <span class='op'>!=</span> <span class='symbol'>:missing</span>
@@ -409,9 +444,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns an instance of the form component responsible for rendering the form. Feel free to override this in subclasses.</p>
-
+    <p>Returns an instance of the form component responsible for rendering the form.
+Feel free to override this in subclasses.</p>
 
   </div>
 </div>
@@ -454,7 +488,7 @@
       <div class="method_details ">
   <h3 class="signature " id="form_comp_class-instance_method">
   
-    #<strong>form_comp_class</strong>(new_form_comp_class = nil)  &#x21d2; <tt>Object</tt> 
+    #<strong>form_comp_class</strong>(new_form_comp_class = nil)  &#x21d2; <tt>Class</tt><sup>?</sup> 
   
 
   
@@ -462,14 +496,49 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DSL method Overrides the form comp class that is instanciated to render the form</p>
-
+    <p>DSL method
+Overrides the Form component class instantiated by <span class='object_link'><a href="#form_comp-instance_method" title="Compony::Components::WithForm#form_comp (method)">#form_comp</a></span> (defaults to the same-family <code>Form</code>).</p>
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>new_form_comp_class</span>
+      
+      
+        <span class='type'>(<tt>Class</tt>, <tt>nil</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>The Form component class to use.</p></div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Class</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The configured form component class.</p></div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -477,12 +546,12 @@
       <pre class="lines">
 
 
-39
-40
-41</pre>
+47
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/with_form.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/with_form.rb', line 47</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_form_comp_class'>form_comp_class</span><span class='lparen'>(</span><span class='id identifier rubyid_new_form_comp_class'>new_form_comp_class</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='ivar'>@form_comp_class</span> <span class='op'>||=</span> <span class='id identifier rubyid_new_form_comp_class'>new_form_comp_class</span>
@@ -495,7 +564,7 @@
       <div class="method_details ">
   <h3 class="signature " id="submit_path-instance_method">
   
-    #<strong>submit_path</strong>(&amp;new_submit_path_block)  &#x21d2; <tt>Object</tt> 
+    #<strong>submit_path</strong> {|controller| ... } &#x21d2; <tt>void</tt> 
   
 
   
@@ -503,14 +572,29 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DSL method Overrides the submit path which would otherwise default to this component This takes a block that will be called and given a controller</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method
+Overrides the submit path, which otherwise defaults to this component's own path.</p>
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>controller</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Called with the controller; expected to return the Rails path the form submits to.</p></div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -518,12 +602,12 @@
       <pre class="lines">
 
 
-55
-56
-57</pre>
+68
+69
+70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/with_form.rb', line 55</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/with_form.rb', line 68</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_submit_path'>submit_path</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_new_submit_path_block'>new_submit_path_block</span><span class='rparen'>)</span>
   <span class='ivar'>@submit_path_block</span> <span class='op'>=</span> <span class='id identifier rubyid_new_submit_path_block'>new_submit_path_block</span>
@@ -536,7 +620,7 @@
       <div class="method_details ">
   <h3 class="signature " id="submit_verb-instance_method">
   
-    #<strong>submit_verb</strong>(new_submit_verb = nil)  &#x21d2; <tt>Object</tt> 
+    #<strong>submit_verb</strong>(new_submit_verb = nil)  &#x21d2; <tt>Symbol</tt> 
   
 
   
@@ -544,14 +628,49 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DSL method Sets or returns the previously set submit verb</p>
-
+    <p>DSL method
+Sets or returns the HTTP verb the twinned form submits with (<code>:post</code> for New, <code>:patch</code> for Edit).</p>
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>new_submit_verb</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>nil</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>If given, sets the submit verb; must be a known HTTP verb.</p></div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The (possibly just set) submit verb.</p></div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -559,18 +678,18 @@
       <pre class="lines">
 
 
-27
-28
-29
-30
-31
 32
 33
 34
-35</pre>
+35
+36
+37
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/with_form.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/with_form.rb', line 32</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_submit_verb'>submit_verb</span><span class='lparen'>(</span><span class='id identifier rubyid_new_submit_verb'>new_submit_verb</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_new_submit_verb'>new_submit_verb</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
@@ -591,9 +710,9 @@
 </div>
 
       <div id="footer">
-  Generated on Fri May 15 10:29:44 2026 by
+  Generated on Mon May 18 12:37:23 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.34 (ruby-3.3.5).
+  0.9.43 (ruby-3.3.5).
 </div>
 
     </div>

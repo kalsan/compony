@@ -6,13 +6,13 @@
 <title>
   Module: Compony
   
-    &mdash; Documentation by YARD 0.9.34
+    &mdash; Documentation by YARD 0.9.43
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" />
+  <link rel="stylesheet" href="css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" />
+  <link rel="stylesheet" href="css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Compony";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -78,8 +80,9 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/compony.rb<span class="defines">,<br />
-  lib/compony/engine.rb,<br /> lib/compony/intent.rb,<br /> lib/compony/version.rb,<br /> lib/compony/component.rb,<br /> lib/compony/model_mixin.rb,<br /> lib/compony/view_helpers.rb,<br /> lib/compony/virtual_model.rb,<br /> lib/compony/components/new.rb,<br /> lib/compony/components/edit.rb,<br /> lib/compony/components/form.rb,<br /> lib/compony/components/list.rb,<br /> lib/compony/components/show.rb,<br /> lib/compony/request_context.rb,<br /> lib/compony/components/index.rb,<br /> lib/compony/controller_mixin.rb,<br /> lib/compony/model_fields/url.rb,<br /> lib/compony/natural_ordering.rb,<br /> lib/compony/model_fields/base.rb,<br /> lib/compony/model_fields/date.rb,<br /> lib/compony/model_fields/text.rb,<br /> lib/compony/model_fields/time.rb,<br /> lib/compony/components/destroy.rb,<br /> lib/compony/manage_intents_dsl.rb,<br /> lib/compony/model_fields/color.rb,<br /> lib/compony/model_fields/email.rb,<br /> lib/compony/model_fields/float.rb,<br /> lib/compony/model_fields/phone.rb,<br /> lib/compony/model_fields/string.rb,<br /> lib/compony/components/with_form.rb,<br /> lib/compony/model_fields/boolean.rb,<br /> lib/compony/model_fields/decimal.rb,<br /> lib/compony/model_fields/integer.rb,<br /> lib/compony/model_fields/currency.rb,<br /> lib/compony/model_fields/datetime.rb,<br /> lib/compony/method_accessible_hash.rb,<br /> lib/compony/model_fields/rich_text.rb,<br /> lib/compony/components/buttons/link.rb,<br /> lib/compony/model_fields/attachment.rb,<br /> lib/compony/model_fields/percentage.rb,<br /> lib/compony/model_fields/anchormodel.rb,<br /> lib/compony/model_fields/association.rb,<br /> lib/compony/component_mixins/resourceful.rb,<br /> lib/compony/components/buttons/css_button.rb,<br /> lib/compony/component_mixins/default/labelling.rb,<br /> lib/compony/component_mixins/default/standalone.rb,<br /> lib/compony/component_mixins/default/standalone/verb_dsl.rb,<br /> lib/compony/component_mixins/default/standalone/standalone_dsl.rb,<br /> lib/compony/component_mixins/default/standalone/resourceful_verb_dsl.rb</span>
+    <dd>lib/compony.rb<span class="defines">,<br>
+  lib/compony/engine.rb,<br> lib/compony/intent.rb,<br> lib/compony/version.rb,<br> lib/compony/component.rb,<br> lib/compony/model_mixin.rb,<br> lib/compony/view_helpers.rb,<br> lib/compony/virtual_model.rb,<br> lib/compony/components/new.rb,<br> lib/compony/components/edit.rb,<br> lib/compony/components/form.rb,<br> lib/compony/components/list.rb,<br> lib/compony/components/show.rb,<br> lib/compony/request_context.rb,<br> lib/compony/components/index.rb,<br> lib/compony/controller_mixin.rb,<br> lib/compony/model_fields/url.rb,<br> lib/compony/natural_ordering.rb,<br> lib/compony/model_fields/base.rb,<br> lib/compony/model_fields/date.rb,<br> lib/compony/model_fields/text.rb,<br> lib/compony/model_fields/time.rb,<br> lib/compony/components/destroy.rb,<br> lib/compony/manage_intents_dsl.rb,<br> lib/compony/model_fields/color.rb,<br> lib/compony/model_fields/email.rb,<br> lib/compony/model_fields/float.rb,<br> lib/compony/model_fields/phone.rb,<br> lib/compony/model_fields/string.rb,<br> lib/compony/components/with_form.rb,<br> lib/compony/model_fields/boolean.rb,<br> lib/compony/model_fields/decimal.rb,<br> lib/compony/model_fields/integer.rb,<br> lib/compony/model_fields/currency.rb,<br> lib/compony/model_fields/datetime.rb,<br> lib/compony/method_accessible_hash.rb,<br> lib/compony/model_fields/rich_text.rb,<br> lib/compony/components/buttons/link.rb,<br> lib/compony/model_fields/attachment.rb,<br> lib/compony/model_fields/percentage.rb,<br> lib/compony/model_fields/anchormodel.rb,<br> lib/compony/model_fields/association.rb,<br> lib/compony/component_mixins/resourceful.rb,<br> lib/compony/components/buttons/css_button.rb,<br> lib/compony/component_mixins/default/labelling.rb,<br> lib/compony/component_mixins/default/standalone.rb,<br> lib/compony/component_mixins/default/standalone/verb_dsl.rb,<br> lib/compony/component_mixins/default/standalone/standalone_dsl.rb,<br> lib/compony/component_mixins/default/standalone/resourceful_verb_dsl.rb</span>
+
 </dd>
   </dl>
   
@@ -87,9 +90,9 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>Root module, containing confguration and pure helpers. For the setters, create an initializer <code>config/initializers/compony.rb</code> and call them from there.</p>
-
+    <p>Root module, containing confguration and pure helpers. For
+the setters, create an initializer <code>config/initializers/compony.rb</code> and call
+them from there.</p>
 
   </div>
 </div>
@@ -149,9 +152,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Getter for the name of the Rails <code>before_action</code> that enforces authentication.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Getter for the name of the Rails <code>before_action</code> that enforces authentication.</p></div></span>
   
 </li>
 
@@ -173,9 +174,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Setter for the name of the Rails <code>before_action</code> that should be called to ensure that users are authenticated before accessing the component.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Setter for the name of the Rails <code>before_action</code> that should be called to ensure that users are authenticated before accessing the component.</p></div></span>
   
 </li>
 
@@ -197,9 +196,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Getter for the button component class for a given style.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Getter for the button component class for a given style.</p></div></span>
   
 </li>
 
@@ -221,9 +218,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Given a component and a family/model, this returns the matching component class if any, or nil if the component does not exist.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Given a component and a family/model, this returns the matching component class if any, or nil if the component does not exist.</p></div></span>
   
 </li>
 
@@ -245,9 +240,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Same as Compony#comp_class_for but fails if none found.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Same as Compony#comp_class_for but fails if none found.</p></div></span>
   
 </li>
 
@@ -269,9 +262,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Setter for a content block that runs after the root component gets rendered (standalone only).</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Setter for a content block that runs after the root component gets rendered (standalone only).</p></div></span>
   
 </li>
 
@@ -293,9 +284,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Getter for content_after_root_comp_block.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Getter for content_after_root_comp_block.</p></div></span>
   
 </li>
 
@@ -317,9 +306,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Setter for a content block that runs before the root component gets rendered (standalone only).</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Setter for a content block that runs before the root component gets rendered (standalone only).</p></div></span>
   
 </li>
 
@@ -341,9 +328,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Getter for content_before_root_comp_block.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Getter for content_before_root_comp_block.</p></div></span>
   
 </li>
 
@@ -365,9 +350,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Getter for the default button style, defaults to <code>:css_button</code>.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Getter for the default button style, defaults to <code>:css_button</code>.</p></div></span>
   
 </li>
 
@@ -389,9 +372,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Setter for the default button style.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Setter for the default button style.</p></div></span>
   
 </li>
 
@@ -413,9 +394,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Given a family name or a model-like class, this returns the suitable family name as String.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Given a family name or a model-like class, this returns the suitable family name as String.</p></div></span>
   
 </li>
 
@@ -437,9 +416,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Pure helper to create a Compony Intent.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Pure helper to create a Compony Intent.</p></div></span>
   
 </li>
 
@@ -461,9 +438,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Goes through model_field_namespaces and returns the first hit for the given constant.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Goes through model_field_namespaces and returns the first hit for the given constant.</p></div></span>
   
 </li>
 
@@ -485,9 +460,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Getter for the global field namespaces.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Getter for the global field namespaces.</p></div></span>
   
 </li>
 
@@ -509,9 +482,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Setter for the global field namespaces.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Setter for the global field namespaces.</p></div></span>
   
 </li>
 
@@ -533,9 +504,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Generates a Rails path to a component.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Generates a Rails path to a component.</p></div></span>
   
 </li>
 
@@ -557,9 +526,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Adds a button style that can be referred to when rendering an intent.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Adds a button style that can be referred to when rendering an intent.</p></div></span>
   
 </li>
 
@@ -581,14 +548,13 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the current root component, if any.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the current root component, if any.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 
@@ -608,9 +574,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Getter for the name of the Rails <code>before_action</code> that enforces authentication.</p>
-
+    <p>Getter for the name of the Rails <code>before_action</code> that enforces authentication.</p>
 
   </div>
 </div>
@@ -656,9 +620,14 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Setter for the name of the Rails <code>before_action</code> that should be called to ensure that users are authenticated before accessing the component. For instance, implement a method <code>def enforce_authentication</code> in your <code>ApplicationController</code>. In the method, make sure the user has a session and redirect to the login page if they don’t. <br> The action must be accessible by <span class='object_link'><a href="ComponyController.html" title="ComponyController (class)">ComponyController</a></span> and the easiest way to achieve this is to implement the action in your <code>ApplicationController</code>. If this is never called, authentication is disabled.</p>
-
+    <p>Setter for the name of the Rails <code>before_action</code> that should be called to
+ensure that users are authenticated before accessing the component. For
+instance, implement a method <code>def enforce_authentication</code> in your
+<code>ApplicationController</code>. In the method, make sure the user has a session and
+redirect to the login page if they don't. <br> The action must be accessible
+by <span class='object_link'><a href="ComponyController.html" title="ComponyController (class)">ComponyController</a></span> and the easiest way to achieve this is to implement
+the action in your <code>ApplicationController</code>. If this is never called,
+authentication is disabled.</p>
 
   </div>
 </div>
@@ -676,9 +645,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Name of the method you want to call for authentication</p>
-</div>
+        <div class='inline'><p>Name of the method you want to call for authentication</p></div>
       
     </li>
   
@@ -717,9 +684,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Getter for the button component class for a given style.</p>
-
+    <p>Getter for the button component class for a given style.</p>
 
   </div>
 </div>
@@ -739,9 +704,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Style for which the matching button component class should be returned. Defaults to <span class='object_link'><a href="#default_button_style-class_method" title="Compony.default_button_style (method)">default_button_style</a></span>.</p>
-</div>
+        <div class='inline'><p>Style for which the matching button component class should be returned. Defaults to <span class='object_link'><a href="#default_button_style-class_method" title="Compony.default_button_style (method)">default_button_style</a></span>.</p></div>
       
     </li>
   
@@ -815,9 +778,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Given a component and a family/model, this returns the matching component class if any, or nil if the component does not exist.</p>
-
+    <p>Given a component and a family/model, this returns the matching component class if any, or nil if the component does not exist.</p>
 
   </div>
 </div>
@@ -867,9 +828,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Same as Compony#comp_class_for but fails if none found</p>
-
+    <p>Same as Compony#comp_class_for but fails if none found</p>
 
   </div>
 </div>
@@ -921,9 +880,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Setter for a content block that runs after the root component gets rendered (standalone only). Usage is the same as <code>content</code>. The block runs after <code>render</code>, i.e. after the last <code>content</code> block.</p>
-
+    <p>Setter for a content block that runs after the root component gets rendered (standalone only). Usage is the same as <code>content</code>.
+The block runs after <code>render</code>, i.e. after the last <code>content</code> block.</p>
 
   </div>
 </div>
@@ -964,9 +922,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Getter for content_after_root_comp_block</p>
-
+    <p>Getter for content_after_root_comp_block</p>
 
   </div>
 </div>
@@ -1012,9 +968,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Setter for a content block that runs before the root component gets rendered (standalone only). Usage is the same as <code>content</code>. The block runs between <code>before_render</code> and <code>render</code>, i.e. before the first <code>content</code> block.</p>
-
+    <p>Setter for a content block that runs before the root component gets rendered (standalone only). Usage is the same as <code>content</code>.
+The block runs between <code>before_render</code> and <code>render</code>, i.e. before the first <code>content</code> block.</p>
 
   </div>
 </div>
@@ -1055,9 +1010,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Getter for content_before_root_comp_block</p>
-
+    <p>Getter for content_before_root_comp_block</p>
 
   </div>
 </div>
@@ -1103,9 +1056,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Getter for the default button style, defaults to <code>:css_button</code>.</p>
-
+    <p>Getter for the default button style, defaults to <code>:css_button</code>.</p>
 
   </div>
 </div>
@@ -1151,9 +1102,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Setter for the default button style. Defaults to :css_button.</p>
-
+    <p>Setter for the default button style. Defaults to :css_button.</p>
 
   </div>
 </div>
@@ -1171,9 +1120,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Name of the style that should be used as default.</p>
-</div>
+        <div class='inline'><p>Name of the style that should be used as default.</p></div>
       
     </li>
   
@@ -1219,9 +1166,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Given a family name or a model-like class, this returns the suitable family name as String.</p>
-
+    <p>Given a family name or a model-like class, this returns the suitable family name as String.</p>
 
   </div>
 </div>
@@ -1239,9 +1184,9 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Either the family that contains the requested component, or an instance implementing <code>model_name</code> from which the family name is auto-generated. Examples: <code>Users</code>, <code>&#39;Users&#39;</code>, <code>:users</code>, <code>User.first</code></p>
-</div>
+        <div class='inline'><p>Either the family that contains the requested component,
+or an instance implementing <code>model_name</code> from which the family name is auto-generated. Examples:
+<code>Users</code>, <code>'Users'</code>, <code>:users</code>, <code>User.first</code></p></div>
       
     </li>
   
@@ -1288,9 +1233,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Pure helper to create a Compony Intent. If given an intent, will return it unchanged. Otherwise, will give all params to the intent initializer.</p>
-
+    <p>Pure helper to create a Compony Intent. If given an intent, will return it unchanged. Otherwise, will give all params to the intent initializer.</p>
 
   </div>
 </div>
@@ -1337,9 +1280,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Goes through model_field_namespaces and returns the first hit for the given constant</p>
-
+    <p>Goes through model_field_namespaces and returns the first hit for the given constant</p>
 
   </div>
 </div>
@@ -1357,9 +1298,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The constant that is searched, e.g. RichText -&gt; would return e.g. Compony::ModelFields::RichText</p>
-</div>
+        <div class='inline'><p>The constant that is searched, e.g. RichText -&gt; would return e.g. Compony::ModelFields::RichText</p></div>
       
     </li>
   
@@ -1410,9 +1349,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Getter for the global field namespaces.</p>
-
+    <p>Getter for the global field namespaces.</p>
 
   </div>
 </div>
@@ -1458,9 +1395,12 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Setter for the global field namespaces. This allows you to implement custom Fields, be it new ones or overrides for existing Compony model fields. Must give an array of strings of namespaces that contain field classes named after the field type. The array is queried in order, if the first namespace does not contain the class we’re looking for, the next is considered and so on. The classes defined in the namespace must inherit from Compony::ModelFields::Base</p>
-
+    <p>Setter for the global field namespaces. This allows you to implement custom
+Fields, be it new ones or overrides for existing Compony model fields.
+Must give an array of strings of namespaces that contain field classes named after
+the field type. The array is queried in order, if the first namespace does not
+contain the class we're looking for, the next is considered and so on.
+The classes defined in the namespace must inherit from Compony::ModelFields::Base</p>
 
   </div>
 </div>
@@ -1478,9 +1418,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Array of strings, the names of the namespaces in the order they should be searched</p>
-</div>
+        <div class='inline'><p>Array of strings, the names of the namespaces in the order they should be searched</p></div>
       
     </li>
   
@@ -1519,9 +1457,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Generates a Rails path to a component. Examples: <code>Compony.path(:index, :users)</code>, <code>Compony.path(:show, User.first)</code> The first two arguments are given to create an <span class='object_link'><a href="Compony/Intent.html" title="Compony::Intent (class)">Intent</a></span> and all subsequend args and all kwargs are given to <span class='object_link'><a href="Compony/Intent.html#path-instance_method" title="Compony::Intent#path (method)">Compony::Intent#path</a></span></p>
-
+    <p>Generates a Rails path to a component. Examples: <code>Compony.path(:index, :users)</code>, <code>Compony.path(:show, User.first)</code>
+The first two arguments are given to create an <span class='object_link'><a href="Compony/Intent.html" title="Compony::Intent (class)">Intent</a></span> and all subsequend args and all kwargs are given to <span class='object_link'><a href="Compony/Intent.html#path-instance_method" title="Compony::Intent#path (method)">Compony::Intent#path</a></span></p>
 
   </div>
 </div>
@@ -1560,9 +1497,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Adds a button style that can be referred to when rendering an intent.</p>
-
+    <p>Adds a button style that can be referred to when rendering an intent.</p>
 
   </div>
 </div>
@@ -1580,9 +1515,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>Name of the style. If it exists already, will override the style.</p>
-</div>
+        <div class='inline'><p>Name of the style. If it exists already, will override the style.</p></div>
       
     </li>
   
@@ -1596,9 +1529,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>String with the class name of the button component that will be instanciated to render the intent.</p>
-</div>
+        <div class='inline'><p>String with the class name of the button component that will be instanciated to render the intent.</p></div>
       
     </li>
   
@@ -1639,9 +1570,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the current root component, if any</p>
-
+    <p>Returns the current root component, if any</p>
 
   </div>
 </div>
@@ -1674,9 +1603,9 @@
 </div>
 
       <div id="footer">
-  Generated on Fri May 15 10:29:42 2026 by
+  Generated on Mon May 18 12:37:22 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.34 (ruby-3.3.5).
+  0.9.43 (ruby-3.3.5).
 </div>
 
     </div>

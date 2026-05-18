@@ -6,13 +6,13 @@
 <title>
   Class: Compony::VirtualModel
   
-    &mdash; Documentation by YARD 0.9.34
+    &mdash; Documentation by YARD 0.9.43
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Compony::VirtualModel";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -101,7 +103,8 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/compony/virtual_model.rb</dd>
+    <dd>lib/compony/virtual_model.rb
+</dd>
   </dl>
   
 </div>
@@ -147,17 +150,17 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p><code>include ActiveModel::Attributes</code> above shadows <code>ActiveType::VirtualAttributes#attributes</code>, which would otherwise merge virtual columns into the returned hash.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p><code>include ActiveModel::Attributes</code> above shadows <code>ActiveType::VirtualAttributes#attributes</code>, which would otherwise merge virtual columns into the returned hash.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 
+  
   
   
   
@@ -189,9 +192,11 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p><code>include ActiveModel::Attributes</code> above shadows <code>ActiveType::VirtualAttributes#attributes</code>, which would otherwise merge virtual columns into the returned hash. Without this restoration, attributes declared via <code>attribute :foo, :type</code> (routed to <code>at_attribute</code> by ActiveType) are written into <code>@virtual_attributes</code> but invisible to <code>#attributes</code>, breaking callers that do <code>model.attributes.slice(...)</code> etc. Mirrors <code>ActiveType::VirtualAttributes#attributes</code>.</p>
-
+    <p><code>include ActiveModel::Attributes</code> above shadows <code>ActiveType::VirtualAttributes#attributes</code>,
+which would otherwise merge virtual columns into the returned hash. Without this restoration,
+attributes declared via <code>attribute :foo, :type</code> (routed to <code>at_attribute</code> by ActiveType)
+are written into <code>@virtual_attributes</code> but invisible to <code>#attributes</code>, breaking callers
+that do <code>model.attributes.slice(...)</code> etc. Mirrors <code>ActiveType::VirtualAttributes#attributes</code>.</p>
 
   </div>
 </div>
@@ -228,9 +233,9 @@
 </div>
 
       <div id="footer">
-  Generated on Fri May 15 10:29:43 2026 by
+  Generated on Mon May 18 12:37:23 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.34 (ruby-3.3.5).
+  0.9.43 (ruby-3.3.5).
 </div>
 
     </div>

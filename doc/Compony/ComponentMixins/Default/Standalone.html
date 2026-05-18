@@ -6,13 +6,13 @@
 <title>
   Module: Compony::ComponentMixins::Default::Standalone
   
-    &mdash; Documentation by YARD 0.9.34
+    &mdash; Documentation by YARD 0.9.43
   
 </title>
 
-  <link rel="stylesheet" href="../../../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../../../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../../../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../../../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Compony::ComponentMixins::Default::Standalone";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../../../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -83,8 +85,9 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/compony/component_mixins/default/standalone.rb<span class="defines">,<br />
-  lib/compony/component_mixins/default/standalone/verb_dsl.rb,<br /> lib/compony/component_mixins/default/standalone/standalone_dsl.rb,<br /> lib/compony/component_mixins/default/standalone/resourceful_verb_dsl.rb</span>
+    <dd>lib/compony/component_mixins/default/standalone.rb<span class="defines">,<br>
+  lib/compony/component_mixins/default/standalone/verb_dsl.rb,<br> lib/compony/component_mixins/default/standalone/standalone_dsl.rb,<br> lib/compony/component_mixins/default/standalone/resourceful_verb_dsl.rb</span>
+
 </dd>
   </dl>
   
@@ -92,9 +95,7 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>This contains all default component logic concerning standalone functionality. The module is included in every component.</p>
-
+    <p>This contains all default component logic concerning standalone functionality. The module is included in every component.</p>
 
   </div>
 </div>
@@ -143,9 +144,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Undoes previous standalone calls.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Undoes previous standalone calls.</p></div></span>
   
 </li>
 
@@ -167,9 +166,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Called by compony_controller when a request is issued.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Called by compony_controller when a request is issued.</p></div></span>
   
 </li>
 
@@ -191,9 +188,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the name of the Rails URL helper returning the path to this component.<br> Optionally can pass a name for extra standalone configs.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the name of the Rails URL helper returning the path to this component.<br> Optionally can pass a name for extra standalone configs.</p></div></span>
   
 </li>
 
@@ -215,9 +210,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Returns the name of the ComponyController action for this component.<br> Optionally can pass a name for extra standalone configs.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the name of the ComponyController action for this component.<br> Optionally can pass a name for extra standalone configs.</p></div></span>
   
 </li>
 
@@ -239,9 +232,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Renders the component using the controller passed to it upon instanciation (calls the controller’s render) Do not overwrite.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Renders the component using the controller passed to it upon instanciation (calls the controller's render) Do not overwrite.</p></div></span>
   
 </li>
 
@@ -263,9 +254,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>DSL method This can be called multiple times to make a component listen to multiple paths.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>DSL method This can be called multiple times to make a component listen to multiple paths.</p></div></span>
   
 </li>
 
@@ -287,14 +276,13 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Call this on a standalone component to find out whether default GET access is permitted for the current user.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Call this on a standalone component to find out whether default GET access is permitted for the current user.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 
@@ -315,9 +303,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Undoes previous standalone calls</p>
-
+    <p>Undoes previous standalone calls</p>
 
   </div>
 </div>
@@ -356,9 +342,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Called by compony_controller when a request is issued. This is the entrypoint where a request enters the Component world.</p>
-
+    <p>Called by compony_controller when a request is issued.
+This is the entrypoint where a request enters the Component world.</p>
 
   </div>
 </div>
@@ -376,9 +361,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The config generated by Compony::ComponentMixins::Default::Standalone::VerbDsl#to_conf</p>
-</div>
+        <div class='inline'><p>The config generated by Compony::ComponentMixins::Default::Standalone::VerbDsl#to_conf</p></div>
       
     </li>
   
@@ -392,9 +375,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The controller instance that calls this method.</p>
-</div>
+        <div class='inline'><p>The controller instance that calls this method.</p></div>
       
     </li>
   
@@ -534,9 +515,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the name of the Rails URL helper returning the path to this component.<br> Optionally can pass a name for extra standalone configs.</p>
-
+    <p>Returns the name of the Rails URL helper returning the path to this component.<br>
+Optionally can pass a name for extra standalone configs.</p>
 
   </div>
 </div>
@@ -554,9 +534,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>If referring to an extra standalone entrypoint, specify its name using this param.</p>
-</div>
+        <div class='inline'><p>If referring to an extra standalone entrypoint, specify its name using this param.</p></div>
       
     </li>
   
@@ -602,9 +580,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns the name of the ComponyController action for this component.<br> Optionally can pass a name for extra standalone configs.</p>
-
+    <p>Returns the name of the ComponyController action for this component.<br>
+Optionally can pass a name for extra standalone configs.</p>
 
   </div>
 </div>
@@ -624,9 +601,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>If referring to an extra standalone entrypoint, specify its name using this param.</p>
-</div>
+        <div class='inline'><p>If referring to an extra standalone entrypoint, specify its name using this param.</p></div>
       
     </li>
   
@@ -672,9 +647,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Renders the component using the controller passed to it upon instanciation (calls the controller’s render) Do not overwrite</p>
-
+    <p>Renders the component using the controller passed to it upon instanciation (calls the controller's render)
+Do not overwrite</p>
 
   </div>
 </div>
@@ -735,9 +709,10 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DSL method This can be called multiple times to make a component listen to multiple paths. Each standalone config (path) has a name, the default being <code>nil</code>. To have a component listen to multiple paths, call standalone again and provide a name, e.g.: standalone(:autocomplete, path: ‘foo/bar/autocomplete’) The kwarg parameter <code>path</code> is handled analog to the Rails route path</p>
-
+    <p>DSL method
+This can be called multiple times to make a component listen to multiple paths. Each standalone config (path) has a name, the default being <code>nil</code>.
+To have a component listen to multiple paths, call standalone again and provide a name, e.g.: standalone(:autocomplete, path: 'foo/bar/autocomplete')
+The kwarg parameter <code>path</code> is handled analog to the Rails route path</p>
 
   </div>
 </div>
@@ -757,9 +732,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The name of the standalone config, defaults to nil. Only provide if you add additional configs.</p>
-</div>
+        <div class='inline'><p>The name of the standalone config, defaults to nil. Only provide if you add additional configs.</p></div>
       
     </li>
   
@@ -810,9 +783,14 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Call this on a standalone component to find out whether default GET access is permitted for the current user. This is useful to hide/disable buttons leading to components a user may not press. For resourceful components, before calling this, you must have loaded date beforehand, for instance in one of the following ways: - when called standalone (via request to the component), the load data step must be completed - when called to check for permission only, e.g. to display a button to it, initialize the component by passing the :data keyword to <code>new</code> By default, this checks the authorization to access the main standalone entrypoint (with name <code>nil</code>) and HTTP verb GET.</p>
-
+    <p>Call this on a standalone component to find out whether default GET access is permitted for the current user.
+This is useful to hide/disable buttons leading to components a user may not press.
+For resourceful components, before calling this, you must have loaded date beforehand, for instance in one of the following ways:</p>
+<ul>
+<li>when called standalone (via request to the component), the load data step must be completed</li>
+<li>when called to check for permission only, e.g. to display a button to it, initialize the component by passing the :data keyword to <code>new</code>
+By default, this checks the authorization to access the main standalone entrypoint (with name <code>nil</code>) and HTTP verb GET.</li>
+</ul>
 
   </div>
 </div>
@@ -868,9 +846,9 @@
 </div>
 
       <div id="footer">
-  Generated on Fri May 15 10:29:43 2026 by
+  Generated on Mon May 18 12:37:22 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.34 (ruby-3.3.5).
+  0.9.43 (ruby-3.3.5).
 </div>
 
     </div>

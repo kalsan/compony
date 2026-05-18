@@ -6,13 +6,13 @@
 <title>
   Class: Compony::ComponentMixins::Default::Standalone::StandaloneDsl
   
-    &mdash; Documentation by YARD 0.9.34
+    &mdash; Documentation by YARD 0.9.43
   
 </title>
 
-  <link rel="stylesheet" href="../../../../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../../../../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Compony::ComponentMixins::Default::Standalone::StandaloneDsl";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../../../../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -96,16 +98,16 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/compony/component_mixins/default/standalone/standalone_dsl.rb</dd>
+    <dd>lib/compony/component_mixins/default/standalone/standalone_dsl.rb
+</dd>
   </dl>
   
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>Wrapper and DSL helper for component’s standalone config Pass <code>provide_defaults</code> true if this is the first standalone DSL of a component. Pass false if it is a subsequent one (e.g. if subclassed comp)</p>
-
+    <p>Wrapper and DSL helper for component's standalone config
+Pass <code>provide_defaults</code> true if this is the first standalone DSL of a component. Pass false if it is a subsequent one (e.g. if subclassed comp)</p>
 
   </div>
 </div>
@@ -146,9 +148,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>A new instance of StandaloneDsl.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>A new instance of StandaloneDsl.</p></div></span>
   
 </li>
 
@@ -156,7 +156,7 @@
         <li class="protected ">
   <span class="summary_signature">
     
-      <a href="#layout-instance_method" title="#layout (instance method)">#<strong>layout</strong>(layout)  &#x21d2; Object </a>
+      <a href="#layout-instance_method" title="#layout (instance method)">#<strong>layout</strong>(layout)  &#x21d2; void </a>
     
 
     
@@ -170,9 +170,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>DSL Speficies the Rails layout (under <code>app/views/layouts</code>) that should be used to render this component.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>DSL method.</p></div></span>
   
 </li>
 
@@ -180,7 +178,7 @@
         <li class="protected ">
   <span class="summary_signature">
     
-      <a href="#skip_authentication!-instance_method" title="#skip_authentication! (instance method)">#<strong>skip_authentication!</strong>  &#x21d2; Object </a>
+      <a href="#skip_authentication!-instance_method" title="#skip_authentication! (instance method)">#<strong>skip_authentication!</strong>  &#x21d2; void </a>
     
 
     
@@ -194,9 +192,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>DSL Defines that for this component, no authentication should be performed.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>DSL method.</p></div></span>
   
 </li>
 
@@ -204,7 +200,7 @@
         <li class="protected ">
   <span class="summary_signature">
     
-      <a href="#skip_forgery_protection!-instance_method" title="#skip_forgery_protection! (instance method)">#<strong>skip_forgery_protection!</strong>  &#x21d2; Object </a>
+      <a href="#skip_forgery_protection!-instance_method" title="#skip_forgery_protection! (instance method)">#<strong>skip_forgery_protection!</strong>  &#x21d2; void </a>
     
 
     
@@ -218,9 +214,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>DSL Defines that for this component, no forgery protection (CSRF) should be performed.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>DSL method.</p></div></span>
   
 </li>
 
@@ -242,9 +236,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>For internal usage only, processes the block and returns a config hash.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>For internal usage only, processes the block and returns a config hash.</p></div></span>
   
 </li>
 
@@ -252,7 +244,7 @@
         <li class="protected ">
   <span class="summary_signature">
     
-      <a href="#verb-instance_method" title="#verb (instance method)">#<strong>verb</strong>(verb, **nargs)  &#x21d2; Object </a>
+      <a href="#verb-instance_method" title="#verb (instance method)">#<strong>verb</strong>(verb, **nargs)  &#x21d2; void </a>
     
 
     
@@ -266,14 +258,13 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>DSL call for defining a config for a verb.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>DSL method.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 
@@ -291,9 +282,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns a new instance of StandaloneDsl.</p>
-
+    <p>Returns a new instance of StandaloneDsl.</p>
 
   </div>
 </div>
@@ -353,7 +342,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="layout-instance_method">
   
-    #<strong>layout</strong>(layout)  &#x21d2; <tt>Object</tt>  <span class="extras">(protected)</span>
+    #<strong>layout</strong>(layout)  &#x21d2; <tt>void</tt>  <span class="extras">(protected)</span>
   
 
   
@@ -361,9 +350,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DSL Speficies the Rails layout (under <code>app/views/layouts</code>) that should be used to render this component. Defaults to Rails’ default (<code>layouts/application</code>) if the method is never called.</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method. Sets the Rails layout (under <code>app/views/layouts</code>) used to render this component.
+Defaults to Rails' default (<code>layouts/application</code>) if never called.</p>
 
   </div>
 </div>
@@ -376,14 +364,12 @@
         <span class='name'>layout</span>
       
       
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt>String</tt>, <tt>Symbol</tt>)</span>
       
       
       
         &mdash;
-        <div class='inline'>
-<p>name of the layout as you would give it to a Rails controller’s <code>render</code> method</p>
-</div>
+        <div class='inline'><p>Layout name, as passed to a Rails controller's <code>render</code>.</p></div>
       
     </li>
   
@@ -396,12 +382,12 @@
       <pre class="lines">
 
 
-80
-81
-82</pre>
+86
+87
+88</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 80</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 86</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_layout'>layout</span><span class='lparen'>(</span><span class='id identifier rubyid_layout'>layout</span><span class='rparen'>)</span>
   <span class='ivar'>@layout</span> <span class='op'>=</span> <span class='id identifier rubyid_layout'>layout</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
@@ -414,7 +400,7 @@
       <div class="method_details ">
   <h3 class="signature " id="skip_authentication!-instance_method">
   
-    #<strong>skip_authentication!</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(protected)</span>
+    #<strong>skip_authentication!</strong>  &#x21d2; <tt>void</tt>  <span class="extras">(protected)</span>
   
 
   
@@ -422,9 +408,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DSL Defines that for this component, no authentication should be performed.</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method. Disables app authentication for this standalone (an <code>authorize</code> block is still mandatory).</p>
 
   </div>
 </div>
@@ -437,12 +421,12 @@
       <pre class="lines">
 
 
-66
-67
-68</pre>
+70
+71
+72</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 66</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 70</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_skip_authentication!'>skip_authentication!</span>
   <span class='ivar'>@skip_authentication</span> <span class='op'>=</span> <span class='kw'>true</span>
@@ -455,7 +439,7 @@
       <div class="method_details ">
   <h3 class="signature " id="skip_forgery_protection!-instance_method">
   
-    #<strong>skip_forgery_protection!</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(protected)</span>
+    #<strong>skip_forgery_protection!</strong>  &#x21d2; <tt>void</tt>  <span class="extras">(protected)</span>
   
 
   
@@ -463,9 +447,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DSL Defines that for this component, no forgery protection (CSRF) should be performed.</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method. Disables forgery protection (CSRF) for this standalone's controller action.</p>
 
   </div>
 </div>
@@ -478,12 +460,12 @@
       <pre class="lines">
 
 
-72
-73
-74</pre>
+77
+78
+79</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 72</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 77</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_skip_forgery_protection!'>skip_forgery_protection!</span>
   <span class='ivar'>@skip_forgery_protection</span> <span class='op'>=</span> <span class='kw'>true</span>
@@ -504,9 +486,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>For internal usage only, processes the block and returns a config hash.</p>
-
+    <p>For internal usage only, processes the block and returns a config hash.</p>
 
   </div>
 </div>
@@ -565,7 +545,7 @@
       <div class="method_details ">
   <h3 class="signature " id="verb-instance_method">
   
-    #<strong>verb</strong>(verb, **nargs)  &#x21d2; <tt>Object</tt>  <span class="extras">(protected)</span>
+    #<strong>verb</strong>(verb, **nargs)  &#x21d2; <tt>void</tt>  <span class="extras">(protected)</span>
   
 
   
@@ -573,9 +553,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DSL call for defining a config for a verb. The block runs within the verb DSL, positional and named arguments are passed to the verb DSL.</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method. Defines the config for one HTTP verb. The block runs within the verb DSL; positional and named
+arguments are forwarded to it. Call at most once per verb per standalone.</p>
 
   </div>
 </div>
@@ -593,9 +572,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The HTTP verb the config is for (e.g. :get, :post etc.)</p>
-</div>
+        <div class='inline'><p>The HTTP verb (one of <code>:get :head :post :put :delete :connect :options :trace :patch</code>).</p></div>
       
     </li>
   
@@ -615,9 +592,6 @@
       <pre class="lines">
 
 
-48
-49
-50
 51
 52
 53
@@ -629,10 +603,13 @@
 59
 60
 61
-62</pre>
+62
+63
+64
+65</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 51</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_verb'>verb</span><span class='lparen'>(</span><span class='id identifier rubyid_verb'>verb</span><span class='comma'>,</span> <span class='op'>*</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_nargs'>nargs</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_verb'>verb</span> <span class='op'>=</span> <span class='id identifier rubyid_verb'>verb</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
@@ -659,9 +636,9 @@
 </div>
 
       <div id="footer">
-  Generated on Fri May 15 10:29:44 2026 by
+  Generated on Mon May 18 12:37:23 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.34 (ruby-3.3.5).
+  0.9.43 (ruby-3.3.5).
 </div>
 
     </div>

@@ -6,13 +6,13 @@
 <title>
   Module: Compony::ComponentMixins::Resourceful
   
-    &mdash; Documentation by YARD 0.9.34
+    &mdash; Documentation by YARD 0.9.43
   
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Compony::ComponentMixins::Resourceful";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -88,16 +90,17 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/compony/component_mixins/resourceful.rb</dd>
+    <dd>lib/compony/component_mixins/resourceful.rb
+</dd>
   </dl>
   
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>Include this when your component’s family name corresponds to the pluralized Rails model name the component’s family is responsible for. When including this, the component gets an attribute @data which contains a record or a collection of records. Resourceful components are always aware of a data_class, corresponding to the expected @data.class and used e.g. to render lists or for <code>.new</code>.</p>
-
+    <p>Include this when your component's family name corresponds to the pluralized Rails model name the component's family is responsible for.
+When including this, the component gets an attribute @data which contains a record or a collection of records.
+Resourceful components are always aware of a data_class, corresponding to the expected @data.class and used e.g. to render lists or for <code>.new</code>.</p>
 
   </div>
 </div>
@@ -241,9 +244,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Must prefix the following instance variables with global_ in order to avoid overwriting VerbDsl inst vars due to Dslblend.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Must prefix the following instance variables with global_ in order to avoid overwriting VerbDsl inst vars due to Dslblend.</p></div></span>
   
 </li>
 
@@ -282,7 +283,7 @@
 
   
     <h2>
-      Instance Method Summary
+      DSL
       <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
@@ -291,7 +292,7 @@
         <li class="protected ">
   <span class="summary_signature">
     
-      <a href="#after_assign_attributes-instance_method" title="#after_assign_attributes (instance method)">#<strong>after_assign_attributes</strong>(&amp;block)  &#x21d2; Object </a>
+      <a href="#after_assign_attributes-instance_method" title="#after_assign_attributes (instance method)">#<strong>after_assign_attributes</strong> { ... } &#x21d2; void </a>
     
 
     
@@ -305,9 +306,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>DSL method Runs after <code>assign_attributes</code> and before <code>store_data</code> for all standalone paths and verbs.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>DSL method Runs after <code>assign_attributes</code> and before <code>store_data</code> for all standalone paths and verbs.</p></div></span>
   
 </li>
 
@@ -315,7 +314,7 @@
         <li class="protected ">
   <span class="summary_signature">
     
-      <a href="#after_load_data-instance_method" title="#after_load_data (instance method)">#<strong>after_load_data</strong>(&amp;block)  &#x21d2; Object </a>
+      <a href="#after_load_data-instance_method" title="#after_load_data (instance method)">#<strong>after_load_data</strong> { ... } &#x21d2; void </a>
     
 
     
@@ -329,9 +328,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>DSL method Runs after loading data and before authorization for all standalone paths and verbs.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>DSL method Runs after <code>load_data</code> and before authorization for all standalone paths and verbs.</p></div></span>
   
 </li>
 
@@ -339,7 +336,7 @@
         <li class="protected ">
   <span class="summary_signature">
     
-      <a href="#assign_attributes-instance_method" title="#assign_attributes (instance method)">#<strong>assign_attributes</strong>(&amp;block)  &#x21d2; Object </a>
+      <a href="#assign_attributes-instance_method" title="#assign_attributes (instance method)">#<strong>assign_attributes</strong> { ... } &#x21d2; void </a>
     
 
     
@@ -353,9 +350,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>DSL method Sets a default default assign_attributes block for all standalone paths and verbs.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>DSL method Sets the default <code>assign_attributes</code> block for all standalone paths and verbs (overridable per verb in the VerbDsl).</p></div></span>
   
 </li>
 
@@ -363,7 +358,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#data_class-instance_method" title="#data_class (instance method)">#<strong>data_class</strong>(new_data_class = nil)  &#x21d2; Object </a>
+      <a href="#data_class-instance_method" title="#data_class (instance method)">#<strong>data_class</strong>(new_data_class = nil)  &#x21d2; Class </a>
     
 
     
@@ -377,31 +372,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>DSL method Sets or calculates the model class based on the component’s family name.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(data: nil, data_class: nil, **nargs)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>DSL method Sets or calculates the model class.</p></div></span>
   
 </li>
 
@@ -409,7 +380,7 @@
         <li class="protected ">
   <span class="summary_signature">
     
-      <a href="#load_data-instance_method" title="#load_data (instance method)">#<strong>load_data</strong>(&amp;block)  &#x21d2; Object </a>
+      <a href="#load_data-instance_method" title="#load_data (instance method)">#<strong>load_data</strong> { ... } &#x21d2; void </a>
     
 
     
@@ -423,9 +394,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>DSL method Sets a default load_data block for all standalone paths and verbs.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>DSL method Sets the default <code>load_data</code> block for all standalone paths and verbs (overridable per verb in the VerbDsl).</p></div></span>
   
 </li>
 
@@ -455,7 +424,7 @@
         <li class="protected ">
   <span class="summary_signature">
     
-      <a href="#store_data-instance_method" title="#store_data (instance method)">#<strong>store_data</strong>(&amp;block)  &#x21d2; Object </a>
+      <a href="#store_data-instance_method" title="#store_data (instance method)">#<strong>store_data</strong> { ... } &#x21d2; void </a>
     
 
     
@@ -469,14 +438,45 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>DSL method Sets a default store_data block for all standalone paths and verbs.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>DSL method Sets the default <code>store_data</code> block for all standalone paths and verbs (overridable per verb in the VerbDsl).</p></div></span>
   
 </li>
 
       
     </ul>
+    
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(data: nil, data_class: nil, **nargs)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+    
   
 
 
@@ -661,9 +661,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Must prefix the following instance variables with global_ in order to avoid overwriting VerbDsl inst vars due to Dslblend.</p>
-
+    <p>Must prefix the following instance variables with global_ in order to avoid overwriting VerbDsl inst vars due to Dslblend.</p>
 
   </div>
 </div>
@@ -742,7 +740,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="after_assign_attributes-instance_method">
   
-    #<strong>after_assign_attributes</strong>(&amp;block)  &#x21d2; <tt>Object</tt>  <span class="extras">(protected)</span>
+    #<strong>after_assign_attributes</strong> { ... } &#x21d2; <tt>void</tt>  <span class="extras">(protected)</span>
   
 
   
@@ -750,14 +748,30 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DSL method Runs after <code>assign_attributes</code> and before <code>store_data</code> for all standalone paths and verbs. Example use case: prefilling some fields for a form</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method
+Runs after <code>assign_attributes</code> and before <code>store_data</code> for all standalone paths and verbs.
+Example: prefill or derive fields before validation.</p>
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        
+        <div class='inline'><p>Runs in the component's request context; may mutate <code>@data</code>.</p></div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -765,12 +779,12 @@
       <pre class="lines">
 
 
-70
-71
-72</pre>
+83
+84
+85</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 70</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 83</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_after_assign_attributes'>after_assign_attributes</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='ivar'>@global_after_assign_attributes_block</span> <span class='op'>=</span> <span class='id identifier rubyid_block'>block</span>
@@ -783,7 +797,7 @@
       <div class="method_details ">
   <h3 class="signature " id="after_load_data-instance_method">
   
-    #<strong>after_load_data</strong>(&amp;block)  &#x21d2; <tt>Object</tt>  <span class="extras">(protected)</span>
+    #<strong>after_load_data</strong> { ... } &#x21d2; <tt>void</tt>  <span class="extras">(protected)</span>
   
 
   
@@ -791,14 +805,30 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DSL method Runs after loading data and before authorization for all standalone paths and verbs. Example use case: if <code>load_data</code> produced an AR collection proxy, can still refine result here before <code>to_sql</code> is called.</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method
+Runs after <code>load_data</code> and before authorization for all standalone paths and verbs.
+Example: refine an AR collection produced by <code>load_data</code> before it is read.</p>
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        
+        <div class='inline'><p>Runs in the component's request context; may refine <code>@data</code>.</p></div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -806,12 +836,12 @@
       <pre class="lines">
 
 
-53
-54
-55</pre>
+62
+63
+64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 62</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_after_load_data'>after_load_data</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='ivar'>@global_after_load_data_block</span> <span class='op'>=</span> <span class='id identifier rubyid_block'>block</span>
@@ -824,7 +854,7 @@
       <div class="method_details ">
   <h3 class="signature " id="assign_attributes-instance_method">
   
-    #<strong>assign_attributes</strong>(&amp;block)  &#x21d2; <tt>Object</tt>  <span class="extras">(protected)</span>
+    #<strong>assign_attributes</strong> { ... } &#x21d2; <tt>void</tt>  <span class="extras">(protected)</span>
   
 
   
@@ -832,14 +862,30 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DSL method Sets a default default assign_attributes block for all standalone paths and verbs. Can be overwritten for a specific path and verb in the <span class='object_link'><a href="Default/Standalone/VerbDsl.html" title="Compony::ComponentMixins::Default::Standalone::VerbDsl (class)">Default::Standalone::VerbDsl</a></span>. The block is expected to assign suitable <code>params</code> to attributes of <code>@data</code>.</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method
+Sets the default <code>assign_attributes</code> block for all standalone paths and verbs (overridable per verb in the VerbDsl).
+The block is expected to assign validated <code>params</code> to attributes of <code>@data</code>.</p>
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        
+        <div class='inline'><p>Runs in the component's request context; assigns params onto <code>@data</code>.</p></div>
+      
+    </li>
+  
+</ul>
 
   <p class="tag_title">See Also:</p>
   <ul class="see">
@@ -854,12 +900,12 @@
       <pre class="lines">
 
 
-63
-64
-65</pre>
+73
+74
+75</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 63</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 73</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_assign_attributes'>assign_attributes</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='ivar'>@global_assign_attributes_block</span> <span class='op'>=</span> <span class='id identifier rubyid_block'>block</span>
@@ -872,7 +918,7 @@
       <div class="method_details ">
   <h3 class="signature " id="data_class-instance_method">
   
-    #<strong>data_class</strong>(new_data_class = nil)  &#x21d2; <tt>Object</tt> 
+    #<strong>data_class</strong>(new_data_class = nil)  &#x21d2; <tt>Class</tt> 
   
 
   
@@ -880,14 +926,49 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DSL method Sets or calculates the model class based on the component’s family name</p>
-
+    <p>DSL method
+Sets or calculates the model class. Defaults to the component's family name, singularized and constantized.</p>
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>new_data_class</span>
+      
+      
+        <span class='type'>(<tt>Class</tt>, <tt>nil</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>If given, the model class to use (e.g. a <span class='object_link'><a href="../VirtualModel.html" title="Compony::VirtualModel (class)">VirtualModel</a></span> subclass).</p></div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Class</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The resolved data class.</p></div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -895,12 +976,12 @@
       <pre class="lines">
 
 
-30
-31
-32</pre>
+35
+36
+37</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 30</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 35</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_data_class'>data_class</span><span class='lparen'>(</span><span class='id identifier rubyid_new_data_class'>new_data_class</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='ivar'>@data_class</span> <span class='op'>||=</span> <span class='id identifier rubyid_new_data_class'>new_data_class</span> <span class='op'>||</span> <span class='id identifier rubyid_family_name'>family_name</span><span class='period'>.</span><span class='id identifier rubyid_singularize'>singularize</span><span class='period'>.</span><span class='id identifier rubyid_camelize'>camelize</span><span class='period'>.</span><span class='id identifier rubyid_constantize'>constantize</span>
@@ -964,7 +1045,7 @@
       <div class="method_details ">
   <h3 class="signature " id="load_data-instance_method">
   
-    #<strong>load_data</strong>(&amp;block)  &#x21d2; <tt>Object</tt>  <span class="extras">(protected)</span>
+    #<strong>load_data</strong> { ... } &#x21d2; <tt>void</tt>  <span class="extras">(protected)</span>
   
 
   
@@ -972,14 +1053,30 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DSL method Sets a default load_data block for all standalone paths and verbs. Can be overwritten for a specific path and verb in the <span class='object_link'><a href="Default/Standalone/VerbDsl.html" title="Compony::ComponentMixins::Default::Standalone::VerbDsl (class)">Default::Standalone::VerbDsl</a></span>. The block is expected to assign <code>@data</code>.</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method
+Sets the default <code>load_data</code> block for all standalone paths and verbs (overridable per verb in the VerbDsl).
+Runs before authorization. The block is expected to assign <code>@data</code>.</p>
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        
+        <div class='inline'><p>Runs in the component's request context; must assign <code>@data</code>.</p></div>
+      
+    </li>
+  
+</ul>
 
   <p class="tag_title">See Also:</p>
   <ul class="see">
@@ -994,12 +1091,12 @@
       <pre class="lines">
 
 
-46
-47
-48</pre>
+52
+53
+54</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 52</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_load_data'>load_data</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='ivar'>@global_load_data_block</span> <span class='op'>=</span> <span class='id identifier rubyid_block'>block</span>
@@ -1046,12 +1143,12 @@
       <pre class="lines">
 
 
-34
-35
-36</pre>
+39
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 39</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_resourceful?'>resourceful?</span>
   <span class='kw'>return</span> <span class='kw'>true</span>
@@ -1064,7 +1161,7 @@
       <div class="method_details ">
   <h3 class="signature " id="store_data-instance_method">
   
-    #<strong>store_data</strong>(&amp;block)  &#x21d2; <tt>Object</tt>  <span class="extras">(protected)</span>
+    #<strong>store_data</strong> { ... } &#x21d2; <tt>void</tt>  <span class="extras">(protected)</span>
   
 
   
@@ -1072,14 +1169,30 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DSL method Sets a default store_data block for all standalone paths and verbs. Can be overwritten for a specific path and verb in the <span class='object_link'><a href="Default/Standalone/VerbDsl.html" title="Compony::ComponentMixins::Default::Standalone::VerbDsl (class)">Default::Standalone::VerbDsl</a></span>. The block is expected save <code>@data</code> to the database.</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method
+Sets the default <code>store_data</code> block for all standalone paths and verbs (overridable per verb in the VerbDsl).
+The block is expected to persist <code>@data</code> (override e.g. for virtual models or custom persistence).</p>
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        
+        <div class='inline'><p>Runs in the component's request context; persists <code>@data</code>.</p></div>
+      
+    </li>
+  
+</ul>
 
   <p class="tag_title">See Also:</p>
   <ul class="see">
@@ -1094,12 +1207,12 @@
       <pre class="lines">
 
 
-80
-81
-82</pre>
+94
+95
+96</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 80</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/resourceful.rb', line 94</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_store_data'>store_data</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='ivar'>@global_store_data_block</span> <span class='op'>=</span> <span class='id identifier rubyid_block'>block</span>
@@ -1114,9 +1227,9 @@
 </div>
 
       <div id="footer">
-  Generated on Fri May 15 10:29:43 2026 by
+  Generated on Mon May 18 12:37:22 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.34 (ruby-3.3.5).
+  0.9.43 (ruby-3.3.5).
 </div>
 
     </div>

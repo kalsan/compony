@@ -22,8 +22,13 @@ module Compony
         )
       end
 
+      # @!group DSL
+
       # DSL method
-      # Sets or returns the previously set submit verb
+      # Sets or returns the HTTP verb the twinned form submits with (`:post` for New, `:patch` for Edit).
+      # @param new_submit_verb [Symbol,nil] If given, sets the submit verb; must be a known HTTP verb.
+      # @return [Symbol] The (possibly just set) submit verb.
+      # @api public
       def submit_verb(new_submit_verb = nil)
         if new_submit_verb.present?
           new_submit_verb = new_submit_verb.to_sym
@@ -35,13 +40,19 @@ module Compony
       end
 
       # DSL method
-      # Overrides the form comp class that is instanciated to render the form
+      # Overrides the Form component class instantiated by {#form_comp} (defaults to the same-family `Form`).
+      # @param new_form_comp_class [Class,nil] The Form component class to use.
+      # @return [Class,nil] The configured form component class.
+      # @api public
       def form_comp_class(new_form_comp_class = nil)
         @form_comp_class ||= new_form_comp_class
       end
 
       # DSL method
-      # Sets and gets the form's cancancan action (for cancancan's accessible_attributes)
+      # Sets and gets the form's CanCanCan action, used for per-field `permitted_attributes`. Pass `nil` to disable per-field auth.
+      # @param new_form_cancancan_action [Symbol,nil] The CanCanCan action (e.g. `:edit`); omit to read the current value.
+      # @return [Symbol,nil] The configured CanCanCan action.
+      # @api public
       def form_cancancan_action(new_form_cancancan_action = :missing)
         if new_form_cancancan_action != :missing
           @form_cancancan_action = new_form_cancancan_action
@@ -50,11 +61,15 @@ module Compony
       end
 
       # DSL method
-      # Overrides the submit path which would otherwise default to this component
-      # This takes a block that will be called and given a controller
+      # Overrides the submit path, which otherwise defaults to this component's own path.
+      # @yield [controller] Called with the controller; expected to return the Rails path the form submits to.
+      # @return [void]
+      # @api public
       def submit_path(&new_submit_path_block)
         @submit_path_block = new_submit_path_block
       end
+
+      # @!endgroup
     end
   end
 end

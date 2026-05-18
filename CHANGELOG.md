@@ -1,11 +1,16 @@
 # unreleased
 
-- Documentation: add agent-oriented docs — `CLAUDE.md` primer, `doc/llms.txt` index,
-  `doc/guide/dsl_reference.md`, `doc/guide/glossary.md`, `doc/guide/gotchas.md`,
-  `doc/guide/example_advanced.md`, `doc/guide/patterns.md`. Thicken the thin pre-built
-  component docs (Index, Show, List, WithForm). Fix stale docs: README guide index links
-  (Virtual models, Edit), `pre_built_components.md` (wrongly claimed no Show/Index
-  component; Edit link), and an `Edit` hook name in `edit.md` (`on_update_failed`).
+- Enhance documentation for better LLM support (and humans as well of course):
+  - Documentation: add agent-oriented docs — `CLAUDE.md` primer, `doc/llms.txt` index,
+    `doc/guide/dsl_reference.md`, `doc/guide/glossary.md`, `doc/guide/gotchas.md`,
+    `doc/guide/example_advanced.md`, `doc/guide/patterns.md`. Thicken the thin pre-built
+    component docs (Index, Show, List, WithForm). Fix stale docs: README guide index links
+    (Virtual models, Edit), `pre_built_components.md` (wrongly claimed no Show/Index
+    component; Edit link), and an `Edit` hook name in `edit.md` (`on_update_failed`).
+  - Inline YARD: documented previously-bare DSL hooks (New/Edit/Destroy `on_*`) and added
+    `@param`/`@return`/`@yield`/`@api` plus `@!group DSL` to the WithForm, Form,
+    Resourceful, verb and standalone DSL methods. Comments only — no behavior change.
+    (Run `yard doc` to regenerate the HTML under `doc/`.)
 
 # 0.11.8
 

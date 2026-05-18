@@ -42,8 +42,11 @@ module Compony
 
           protected
 
-          # DSL call for defining a config for a verb. The block runs within the verb DSL, positional and named arguments are passed to the verb DSL.
-          # @param verb [Symbol] The HTTP verb the config is for (e.g. :get, :post etc.)
+          # DSL method. Defines the config for one HTTP verb. The block runs within the verb DSL; positional and named
+          # arguments are forwarded to it. Call at most once per verb per standalone.
+          # @param verb [Symbol] The HTTP verb (one of `:get :head :post :put :delete :connect :options :trace :patch`).
+          # @return [void]
+          # @api public
           # @see Compony::ComponentMixins::Default::Standalone::VerbDsl
           def verb(verb, *, **nargs, &)
             verb = verb.to_sym
@@ -61,22 +64,25 @@ module Compony
             end
           end
 
-          # DSL
-          # Defines that for this component, no authentication should be performed.
+          # DSL method. Disables app authentication for this standalone (an `authorize` block is still mandatory).
+          # @return [void]
+          # @api public
           def skip_authentication!
             @skip_authentication = true
           end
 
-          # DSL
-          # Defines that for this component, no forgery protection (CSRF) should be performed.
+          # DSL method. Disables forgery protection (CSRF) for this standalone's controller action.
+          # @return [void]
+          # @api public
           def skip_forgery_protection!
             @skip_forgery_protection = true
           end
 
-          # DSL
-          # Speficies the Rails layout (under `app/views/layouts`) that should be used to render this component.
-          # Defaults to Rails' default (`layouts/application`) if the method is never called.
-          # @param layout [String] name of the layout as you would give it to a Rails controller's `render` method
+          # DSL method. Sets the Rails layout (under `app/views/layouts`) used to render this component.
+          # Defaults to Rails' default (`layouts/application`) if never called.
+          # @param layout [String,Symbol] Layout name, as passed to a Rails controller's `render`.
+          # @return [void]
+          # @api public
           def layout(layout)
             @layout = layout.to_s
           end

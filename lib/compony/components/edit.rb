@@ -90,26 +90,50 @@ module Compony
         end
       end
 
+      # @!group DSL
+
       # DSL method
-      # Sets a block that is evaluated with backfire in the successful case after storing, but before responding.
+      # Sets an optional hook evaluated (with backfire) after a successful update but before responding.
+      # Suitable for post-update side effects (like an `after_update` that only fires when this component updated the record).
+      # Do not redirect or render here - use {#on_updated_respond} / {#on_updated_redirect_path} for that.
+      # @yield Runs in the component's request context after `@data` was saved successfully.
+      # @return [void]
+      # @api public
       def on_updated(&block)
         @on_updated_block = block
       end
 
       # DSL method
+      # Overrides the response issued after a successful update. The default shows a flash and redirects to
+      # {#on_updated_redirect_path}. If you override this, {#on_updated_redirect_path} is no longer called.
+      # @yield Runs in the component's request context; expected to render or redirect.
+      # @return [void]
+      # @api public
       def on_updated_respond(&block)
         @on_updated_respond_block = block
       end
 
       # DSL method
+      # Overrides the redirect target used by the default {#on_updated_respond} (keeping the default flash).
+      # Defaults to the data's Show, the owner's Show, or the data's Index.
+      # @yield Runs in the component's request context; expected to return a Rails path (e.g. via `Compony.path`).
+      # @return [void]
+      # @api public
       def on_updated_redirect_path(&block)
         @on_updated_redirect_path_block = block
       end
 
       # DSL method
+      # Overrides the response issued when the update failed (`@update_succeeded` is not true).
+      # The default logs the errors with level `warn` and re-renders the component with HTTP 422 so the form shows errors.
+      # @yield Runs in the component's request context; expected to render or redirect.
+      # @return [void]
+      # @api public
       def on_update_failed(&block)
         @on_update_failed_block = block
       end
+
+      # @!endgroup
     end
   end
 end

@@ -6,13 +6,13 @@
 <title>
   Class: Compony::Components::Form
   
-    &mdash; Documentation by YARD 0.9.34
+    &mdash; Documentation by YARD 0.9.43
   
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Compony::Components::Form";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -96,16 +98,15 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/compony/components/form.rb</dd>
+    <dd>lib/compony/components/form.rb
+</dd>
   </dl>
   
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>This component is used for the _form partial in the Rails paradigm.</p>
-
+    <p>This component is used for the _form partial in the Rails paradigm.</p>
 
   </div>
 </div>
@@ -126,7 +127,7 @@
 
   
     <h2>
-      Instance Method Summary
+      DSL
       <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
@@ -149,9 +150,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Quick access for wrapping collections in Rails compatible format.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Quick access for wrapping collections in Rails compatible format.</p></div></span>
   
 </li>
 
@@ -159,7 +158,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#disable!-instance_method" title="#disable! (instance method)">#<strong>disable!</strong>  &#x21d2; Object </a>
+      <a href="#disable!-instance_method" title="#disable! (instance method)">#<strong>disable!</strong>  &#x21d2; void </a>
     
 
     
@@ -173,9 +172,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>DSL method, disables all inputs.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>DSL method, disables all inputs.</p></div></span>
   
 </li>
 
@@ -183,7 +180,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#f-instance_method" title="#f (instance method)">#<strong>f</strong>  &#x21d2; Object </a>
+      <a href="#f-instance_method" title="#f (instance method)">#<strong>f</strong>  &#x21d2; SimpleForm::FormBuilder </a>
     
 
     
@@ -197,9 +194,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Called inside the form_fields block.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>DSL method (inside <code>form_fields</code>).</p></div></span>
   
 </li>
 
@@ -207,7 +202,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#field-instance_method" title="#field (instance method)">#<strong>field</strong>(name, multilang: false, **input_opts)  &#x21d2; Object </a>
+      <a href="#field-instance_method" title="#field (instance method)">#<strong>field</strong>(name, multilang: false, **input_opts)  &#x21d2; String<sup>+</sup> </a>
     
 
     
@@ -221,9 +216,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Called inside the form_fields block.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>DSL method (inside <code>form_fields</code>).</p></div></span>
   
 </li>
 
@@ -231,7 +224,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#form_fields-instance_method" title="#form_fields (instance method)">#<strong>form_fields</strong>(&amp;block)  &#x21d2; Object </a>
+      <a href="#form_fields-instance_method" title="#form_fields (instance method)">#<strong>form_fields</strong> { ... } &#x21d2; Proc<sup>?</sup> </a>
     
 
     
@@ -245,9 +238,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>DSL method, use to set the form content.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>DSL method, use to set the form content (mandatory).</p></div></span>
   
 </li>
 
@@ -255,7 +246,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#form_params-instance_method" title="#form_params (instance method)">#<strong>form_params</strong>(**new_form_params)  &#x21d2; Object </a>
+      <a href="#form_params-instance_method" title="#form_params (instance method)">#<strong>form_params</strong>(**new_form_params)  &#x21d2; void </a>
     
 
     
@@ -269,9 +260,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>DSL method, allows to customize parameters given to simple_form_for.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>DSL method, customizes the parameters given to <code>simple_form_for</code>.</p></div></span>
   
 </li>
 
@@ -279,33 +268,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(*args, cancancan_action: :missing, disabled: false, **kwargs)  &#x21d2; Form </a>
-    
-
-    
-  </span>
-  
-  
-    <span class="note title constructor">constructor</span>
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>A new instance of Form.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#pw_field-instance_method" title="#pw_field (instance method)">#<strong>pw_field</strong>(name, **input_opts)  &#x21d2; Object </a>
+      <a href="#pw_field-instance_method" title="#pw_field (instance method)">#<strong>pw_field</strong>(name, **input_opts)  &#x21d2; String<sup>?</sup> </a>
     
 
     
@@ -319,9 +282,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Called inside the form_fields block.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>DSL method (inside <code>form_fields</code>).</p></div></span>
   
 </li>
 
@@ -329,7 +290,7 @@
         <li class="protected ">
   <span class="summary_signature">
     
-      <a href="#schema-instance_method" title="#schema (instance method)">#<strong>schema</strong>(wrapper_key, &amp;block)  &#x21d2; Object </a>
+      <a href="#schema-instance_method" title="#schema (instance method)">#<strong>schema</strong>(wrapper_key) { ... } &#x21d2; void </a>
     
 
     
@@ -343,9 +304,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>DSL method, use to replace the form’s schema and wrapper key for a completely manual schema.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>DSL method, replaces the form's schema and wrapper key with a completely manual Schemacop3 schema.</p></div></span>
   
 </li>
 
@@ -367,9 +326,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Attr reader for @schema_block with auto-calculated default.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Attr reader for @schema_block with auto-calculated default.</p></div></span>
   
 </li>
 
@@ -377,7 +334,7 @@
         <li class="protected ">
   <span class="summary_signature">
     
-      <a href="#schema_field-instance_method" title="#schema_field (instance method)">#<strong>schema_field</strong>(field_name, multilang: false)  &#x21d2; Object </a>
+      <a href="#schema_field-instance_method" title="#schema_field (instance method)">#<strong>schema_field</strong>(field_name, multilang: false)  &#x21d2; void </a>
     
 
     
@@ -391,9 +348,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>DSL method, adds a new field to the schema whitelisting a single field of data_class This auto-generates the correct schema line for the field.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>DSL method, whitelists a single field of <code>data_class</code> in the param schema, auto-generating the correct schema line.</p></div></span>
   
 </li>
 
@@ -401,7 +356,7 @@
         <li class="protected ">
   <span class="summary_signature">
     
-      <a href="#schema_fields-instance_method" title="#schema_fields (instance method)">#<strong>schema_fields</strong>(*field_names)  &#x21d2; Object </a>
+      <a href="#schema_fields-instance_method" title="#schema_fields (instance method)">#<strong>schema_fields</strong>(*field_names)  &#x21d2; void </a>
     
 
     
@@ -415,9 +370,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>DSL method, mass-assigns schema fields.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>DSL method, whitelists several fields at once (see <span class='object_link'><a href="#schema_field-instance_method" title="Compony::Components::Form#schema_field (method)">#schema_field</a></span>).</p></div></span>
   
 </li>
 
@@ -425,7 +378,7 @@
         <li class="protected ">
   <span class="summary_signature">
     
-      <a href="#schema_line-instance_method" title="#schema_line (instance method)">#<strong>schema_line</strong>(&amp;block)  &#x21d2; Object </a>
+      <a href="#schema_line-instance_method" title="#schema_line (instance method)">#<strong>schema_line</strong> { ... } &#x21d2; void </a>
     
 
     
@@ -439,9 +392,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>DSL method, adds a new line to the schema whitelisting a single param inside the schema’s wrapper The block should be something like <code>str? :foo</code> and will run in a Schemacop3 context.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>DSL method, adds a Schemacop3 line whitelisting param(s) inside the schema's wrapper.</p></div></span>
   
 </li>
 
@@ -449,7 +400,7 @@
         <li class="protected ">
   <span class="summary_signature">
     
-      <a href="#schema_pw_field-instance_method" title="#schema_pw_field (instance method)">#<strong>schema_pw_field</strong>(field_name)  &#x21d2; Object </a>
+      <a href="#schema_pw_field-instance_method" title="#schema_pw_field (instance method)">#<strong>schema_pw_field</strong>(field_name)  &#x21d2; void </a>
     
 
     
@@ -463,9 +414,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>DSL method, adds a new password field to the schema whitelisting This checks for the permission :set_password and auto-generates the correct schema line for the field.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>DSL method, whitelists a password param in the schema (checks the <code>:set_password</code> permission).</p></div></span>
   
 </li>
 
@@ -487,9 +436,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Attr reader for @schema_wrapper_key with auto-calculated default.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Attr reader for @schema_wrapper_key with auto-calculated default.</p></div></span>
   
 </li>
 
@@ -497,7 +444,7 @@
         <li class="protected ">
   <span class="summary_signature">
     
-      <a href="#skip_autofocus-instance_method" title="#skip_autofocus (instance method)">#<strong>skip_autofocus</strong>  &#x21d2; Object </a>
+      <a href="#skip_autofocus-instance_method" title="#skip_autofocus (instance method)">#<strong>skip_autofocus</strong>  &#x21d2; void </a>
     
 
     
@@ -511,9 +458,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>DSL method, skips adding autofocus to the first field.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>DSL method, skips adding autofocus to the first field.</p></div></span>
   
 </li>
 
@@ -535,17 +480,51 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>This method is used by render to store the simpleform instance inside the component such that we can call methods from inside <code>form_fields</code>.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>This method is used by render to store the simpleform instance inside the component such that we can call methods from inside <code>form_fields</code>.</p></div></span>
   
 </li>
 
       
     </ul>
+    
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(*args, cancancan_action: :missing, disabled: false, **kwargs)  &#x21d2; Form </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of Form.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+    
   
 
 
+  
   
   
   
@@ -570,9 +549,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns a new instance of Form.</p>
-
+    <p>Returns a new instance of Form.</p>
 
   </div>
 </div>
@@ -624,9 +601,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Quick access for wrapping collections in Rails compatible format</p>
-
+    <p>Quick access for wrapping collections in Rails compatible format</p>
 
   </div>
 </div>
@@ -639,12 +614,12 @@
       <pre class="lines">
 
 
-167
-168
-169</pre>
+182
+183
+184</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 167</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 182</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_collect'>collect</span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="../../Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ModelFields.html" title="Compony::ModelFields (module)">ModelFields</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ModelFields/Anchormodel.html" title="Compony::ModelFields::Anchormodel (class)">Anchormodel</a></span></span><span class='period'>.</span><span class='id identifier rubyid_collect'><span class='object_link'><a href="../ModelFields/Anchormodel.html#collect-class_method" title="Compony::ModelFields::Anchormodel.collect (method)">collect</a></span></span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span>
@@ -657,7 +632,7 @@
       <div class="method_details ">
   <h3 class="signature " id="disable!-instance_method">
   
-    #<strong>disable!</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>disable!</strong>  &#x21d2; <tt>void</tt> 
   
 
   
@@ -665,9 +640,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DSL method, disables all inputs</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method, disables all inputs.</p>
 
   </div>
 </div>
@@ -680,12 +653,12 @@
       <pre class="lines">
 
 
-172
-173
-174</pre>
+189
+190
+191</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 172</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 189</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_disable!'>disable!</span>
   <span class='ivar'>@form_disabled</span> <span class='op'>=</span> <span class='kw'>true</span>
@@ -698,7 +671,7 @@
       <div class="method_details ">
   <h3 class="signature " id="f-instance_method">
   
-    #<strong>f</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>f</strong>  &#x21d2; <tt>SimpleForm::FormBuilder</tt> 
   
 
   
@@ -706,14 +679,29 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Called inside the form_fields block. This makes the method <code>f</code> available in the block. See also notes for <code>with_simpleform</code>.</p>
-
+    <p>DSL method (inside <code>form_fields</code>). Returns the underlying simple_form builder, e.g. for <code>f.rich_text_area</code>
+or <code>f.simple_fields_for</code> (nested attributes).</p>
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>SimpleForm::FormBuilder</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The simple_form builder for the current form.</p></div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -721,13 +709,13 @@
       <pre class="lines">
 
 
-161
-162
-163
-164</pre>
+176
+177
+178
+179</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 161</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 176</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_f'>f</span>
   <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The `f` method may only be called inside `form_fields` for </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='ivar'>@simpleform</span>
@@ -741,7 +729,7 @@
       <div class="method_details ">
   <h3 class="signature " id="field-instance_method">
   
-    #<strong>field</strong>(name, multilang: false, **input_opts)  &#x21d2; <tt>Object</tt> 
+    #<strong>field</strong>(name, multilang: false, **input_opts)  &#x21d2; <tt>String</tt><sup>+</sup> 
   
 
   
@@ -749,14 +737,77 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Called inside the form_fields block. This makes the method <code>field</code> available in the block. See also notes for <code>with_simpleform</code>. If multilang is true, a suffixed field is generated for every available locale (useful with gem “mobility”). Render the array as you wish.</p>
-
+    <p>DSL method (inside <code>form_fields</code>). Renders a simple_form input inferred from the model field <code>name</code>.
+Respects per-field CanCanCan authorization; skipped fields render nothing.</p>
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The model field (use the association name, not the <code>_id</code>, for associations).</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>multilang</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>If true, generates one suffixed input per available locale and returns the array (useful with the &quot;mobility&quot; gem).</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>input_opts</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Passed to simple_form. Notable keys: <code>as:</code> (input type), <code>hidden: true</code>, <code>autofocus:</code>.</p></div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>Array&lt;String&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The input HTML (array when <code>multilang</code>).</p></div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -764,16 +815,6 @@
       <pre class="lines">
 
 
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
 113
 114
 115
@@ -796,10 +837,20 @@
 132
 133
 134
-135</pre>
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 113</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='label'>multilang:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_input_opts'>input_opts</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The `field` method may only be called inside `form_fields` for </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='ivar'>@simpleform</span>
@@ -842,7 +893,7 @@
       <div class="method_details ">
   <h3 class="signature " id="form_fields-instance_method">
   
-    #<strong>form_fields</strong>(&amp;block)  &#x21d2; <tt>Object</tt> 
+    #<strong>form_fields</strong> { ... } &#x21d2; <tt>Proc</tt><sup>?</sup> 
   
 
   
@@ -850,14 +901,45 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DSL method, use to set the form content</p>
-
+    <p>DSL method, use to set the form content (mandatory).
+The block holds the form inputs and is instance-exec'd in the form's request context where <code>field</code>, <code>pw_field</code> and <code>f</code> are available.</p>
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        
+        <div class='inline'><p>Builds the form body using Dyny + the form field helpers.</p></div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Proc</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>When called without a block, returns the stored block.</p></div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -865,13 +947,13 @@
       <pre class="lines">
 
 
-56
-57
-58
-59</pre>
+62
+63
+64
+65</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 62</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_form_fields'>form_fields</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='ivar'>@form_fields</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
@@ -885,7 +967,7 @@
       <div class="method_details ">
   <h3 class="signature " id="form_params-instance_method">
   
-    #<strong>form_params</strong>(**new_form_params)  &#x21d2; <tt>Object</tt> 
+    #<strong>form_params</strong>(**new_form_params)  &#x21d2; <tt>void</tt> 
   
 
   
@@ -893,14 +975,30 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DSL method, allows to customize parameters given to simple_form_for</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method, customizes the parameters given to <code>simple_form_for</code>.</p>
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>new_form_params</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Extra kwargs forwarded to <code>simple_form_for</code>.</p></div>
+      
+    </li>
+  
+</ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -908,12 +1006,12 @@
       <pre class="lines">
 
 
-177
-178
-179</pre>
+197
+198
+199</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 177</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 197</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_form_params'>form_params</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_new_form_params'>new_form_params</span><span class='rparen'>)</span>
   <span class='ivar'>@form_params</span> <span class='op'>=</span> <span class='id identifier rubyid_new_form_params'>new_form_params</span>
@@ -926,7 +1024,7 @@
       <div class="method_details ">
   <h3 class="signature " id="pw_field-instance_method">
   
-    #<strong>pw_field</strong>(name, **input_opts)  &#x21d2; <tt>Object</tt> 
+    #<strong>pw_field</strong>(name, **input_opts)  &#x21d2; <tt>String</tt><sup>?</sup> 
   
 
   
@@ -934,14 +1032,61 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Called inside the form_fields block. This makes the method pw_field available in the block. This method should be called for the fields :password and :password_confirmation Note that :hidden is not supported here, as this would make no sense in conjunction with :password or :password_confirmation.</p>
-
+    <p>DSL method (inside <code>form_fields</code>). Renders a password input; should be used for <code>:password</code> and <code>:password_confirmation</code>.
+Checks the <code>:set_password</code> CanCanCan ability; <code>:hidden</code> is intentionally unsupported here.</p>
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The password field name.</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>input_opts</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>Passed to simple_form.</p></div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The input HTML, or nil if not permitted.</p></div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -949,27 +1094,27 @@
       <pre class="lines">
 
 
-140
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152
 153
 154
 155
 156
-157</pre>
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 140</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 153</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_pw_field'>pw_field</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_input_opts'>input_opts</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The `pw_field` method may only be called inside `form_fields` for </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='ivar'>@simpleform</span>
@@ -997,7 +1142,7 @@
       <div class="method_details ">
   <h3 class="signature " id="schema-instance_method">
   
-    #<strong>schema</strong>(wrapper_key, &amp;block)  &#x21d2; <tt>Object</tt>  <span class="extras">(protected)</span>
+    #<strong>schema</strong>(wrapper_key) { ... } &#x21d2; <tt>void</tt>  <span class="extras">(protected)</span>
   
 
   
@@ -1005,14 +1150,46 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DSL method, use to replace the form’s schema and wrapper key for a completely manual schema</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method, replaces the form's schema and wrapper key with a completely manual Schemacop3 schema.</p>
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>wrapper_key</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The top-level params wrapper key (e.g. the model's singular name).</p></div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        
+        <div class='inline'><p>Runs in a Schemacop3 context defining the wrapped params.</p></div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1020,17 +1197,17 @@
       <pre class="lines">
 
 
-235
-236
-237
-238
-239
-240
-241
-242</pre>
+273
+274
+275
+276
+277
+278
+279
+280</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 235</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 273</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_schema'>schema</span><span class='lparen'>(</span><span class='id identifier rubyid_wrapper_key'>wrapper_key</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
@@ -1056,9 +1233,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Attr reader for @schema_block with auto-calculated default</p>
-
+    <p>Attr reader for @schema_block with auto-calculated default</p>
 
   </div>
 </div>
@@ -1071,12 +1246,6 @@
       <pre class="lines">
 
 
-72
-73
-74
-75
-76
-77
 78
 79
 80
@@ -1084,10 +1253,16 @@
 82
 83
 84
-85</pre>
+85
+86
+87
+88
+89
+90
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 72</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 78</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_schema_block_for'>schema_block_for</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_controller'>controller</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='ivar'>@schema_block</span>
@@ -1111,7 +1286,7 @@
       <div class="method_details ">
   <h3 class="signature " id="schema_field-instance_method">
   
-    #<strong>schema_field</strong>(field_name, multilang: false)  &#x21d2; <tt>Object</tt>  <span class="extras">(protected)</span>
+    #<strong>schema_field</strong>(field_name, multilang: false)  &#x21d2; <tt>void</tt>  <span class="extras">(protected)</span>
   
 
   
@@ -1119,14 +1294,47 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DSL method, adds a new field to the schema whitelisting a single field of data_class This auto-generates the correct schema line for the field. If multilang is true, a suffixed field is generated for every available locale (useful with gem “mobility”)</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method, whitelists a single field of <code>data_class</code> in the param schema, auto-generating the correct schema line.
+Respects per-field CanCanCan authorization.</p>
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>field_name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The model field (association name, not <code>_id</code>, for associations).</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>multilang</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>If true, whitelists one suffixed field per available locale (useful with the &quot;mobility&quot; gem).</p></div>
+      
+    </li>
+  
+</ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -1134,28 +1342,28 @@
       <pre class="lines">
 
 
-192
-193
-194
-195
-196
-197
-198
-199
-200
-201
-202
-203
-204
-205
-206
-207
-208
-209
-210</pre>
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 192</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 221</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_schema_field'>schema_field</span><span class='lparen'>(</span><span class='id identifier rubyid_field_name'>field_name</span><span class='comma'>,</span> <span class='label'>multilang:</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_multilang'>multilang</span>
@@ -1184,7 +1392,7 @@
       <div class="method_details ">
   <h3 class="signature " id="schema_fields-instance_method">
   
-    #<strong>schema_fields</strong>(*field_names)  &#x21d2; <tt>Object</tt>  <span class="extras">(protected)</span>
+    #<strong>schema_fields</strong>(*field_names)  &#x21d2; <tt>void</tt>  <span class="extras">(protected)</span>
   
 
   
@@ -1192,14 +1400,30 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DSL method, mass-assigns schema fields</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method, whitelists several fields at once (see <span class='object_link'><a href="#schema_field-instance_method" title="Compony::Components::Form#schema_field (method)">#schema_field</a></span>).</p>
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>field_names</span>
+      
+      
+        <span class='type'>(<tt>Array&lt;Symbol,String&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The model fields to whitelist.</p></div>
+      
+    </li>
+  
+</ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -1207,12 +1431,12 @@
       <pre class="lines">
 
 
-230
-231
-232</pre>
+264
+265
+266</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 230</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 264</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_schema_fields'>schema_fields</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_field_names'>field_names</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_field_names'>field_names</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_field_name'>field_name</span><span class='op'>|</span> <span class='id identifier rubyid_schema_field'>schema_field</span><span class='lparen'>(</span><span class='id identifier rubyid_field_name'>field_name</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
@@ -1225,7 +1449,7 @@
       <div class="method_details ">
   <h3 class="signature " id="schema_line-instance_method">
   
-    #<strong>schema_line</strong>(&amp;block)  &#x21d2; <tt>Object</tt>  <span class="extras">(protected)</span>
+    #<strong>schema_line</strong> { ... } &#x21d2; <tt>void</tt>  <span class="extras">(protected)</span>
   
 
   
@@ -1233,14 +1457,28 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DSL method, adds a new line to the schema whitelisting a single param inside the schema’s wrapper The block should be something like <code>str? :foo</code> and will run in a Schemacop3 context.</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method, adds a Schemacop3 line whitelisting param(s) inside the schema's wrapper.</p>
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        
+        <div class='inline'><p>Runs in a Schemacop3 context, e.g. <code>str? :foo</code>.</p></div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1248,12 +1486,12 @@
       <pre class="lines">
 
 
-185
-186
-187</pre>
+211
+212
+213</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 185</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 211</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_schema_line'>schema_line</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='ivar'>@schema_lines_for_data</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_proc'>proc</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid__data'>_data</span><span class='comma'>,</span> <span class='id identifier rubyid__controller'>_controller</span><span class='op'>|</span> <span class='id identifier rubyid_block'>block</span> <span class='rbrace'>}</span>
@@ -1266,7 +1504,7 @@
       <div class="method_details ">
   <h3 class="signature " id="schema_pw_field-instance_method">
   
-    #<strong>schema_pw_field</strong>(field_name)  &#x21d2; <tt>Object</tt>  <span class="extras">(protected)</span>
+    #<strong>schema_pw_field</strong>(field_name)  &#x21d2; <tt>void</tt>  <span class="extras">(protected)</span>
   
 
   
@@ -1274,14 +1512,30 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DSL method, adds a new password field to the schema whitelisting This checks for the permission :set_password and auto-generates the correct schema line for the field.</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method, whitelists a password param in the schema (checks the <code>:set_password</code> permission).</p>
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>field_name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The password field name.</p></div>
+      
+    </li>
+  
+</ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -1289,23 +1543,23 @@
       <pre class="lines">
 
 
-214
-215
-216
-217
-218
-219
-220
-221
-222
-223
-224
-225
-226
-227</pre>
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 214</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 245</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_schema_pw_field'>schema_pw_field</span><span class='lparen'>(</span><span class='id identifier rubyid_field_name'>field_name</span><span class='rparen'>)</span>
   <span class='comment'># This runs upon component setup.
@@ -1337,9 +1591,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Attr reader for @schema_wrapper_key with auto-calculated default</p>
-
+    <p>Attr reader for @schema_wrapper_key with auto-calculated default</p>
 
   </div>
 </div>
@@ -1352,17 +1604,17 @@
       <pre class="lines">
 
 
-62
-63
-64
-65
-66
-67
 68
-69</pre>
+69
+70
+71
+72
+73
+74
+75</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 68</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_schema_wrapper_key_for'>schema_wrapper_key_for</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='ivar'>@schema_wrapper_key</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
@@ -1380,7 +1632,7 @@
       <div class="method_details ">
   <h3 class="signature " id="skip_autofocus-instance_method">
   
-    #<strong>skip_autofocus</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(protected)</span>
+    #<strong>skip_autofocus</strong>  &#x21d2; <tt>void</tt>  <span class="extras">(protected)</span>
   
 
   
@@ -1388,9 +1640,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DSL method, skips adding autofocus to the first field</p>
-
+    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method, skips adding autofocus to the first field.</p>
 
   </div>
 </div>
@@ -1403,12 +1653,12 @@
       <pre class="lines">
 
 
-245
-246
-247</pre>
+285
+286
+287</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 245</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 285</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_skip_autofocus'>skip_autofocus</span>
   <span class='ivar'>@skip_autofocus</span> <span class='op'>=</span> <span class='kw'>true</span>
@@ -1432,14 +1682,12 @@
     
   <div class="note todo">
     <strong>TODO:</strong>
-    <div class='inline'>
-<p>Refactor? Could this be greatly simplified by having <code>form_field to |f|</code> ?</p>
-</div>
+    <div class='inline'><p>Refactor? Could this be greatly simplified by having <code>form_field to |f|</code> ?</p></div>
   </div>
 
-
-<p>This method is used by render to store the simpleform instance inside the component such that we can call methods from inside <code>form_fields</code>. This is a workaround required because the form does not exist when the RequestContext is being built, and we want the method <code>field</code> to be available inside the <code>form_fields</code> block.</p>
-
+<p>This method is used by render to store the simpleform instance inside the component such that we can call
+methods from inside <code>form_fields</code>. This is a workaround required because the form does not exist when the
+RequestContext is being built, and we want the method <code>field</code> to be available inside the <code>form_fields</code> block.</p>
 
   </div>
 </div>
@@ -1452,17 +1700,17 @@
       <pre class="lines">
 
 
-91
-92
-93
-94
-95
-96
 97
-98</pre>
+98
+99
+100
+101
+102
+103
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 91</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 97</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_with_simpleform'>with_simpleform</span><span class='lparen'>(</span><span class='id identifier rubyid_simpleform'>simpleform</span><span class='comma'>,</span> <span class='id identifier rubyid_controller'>controller</span><span class='rparen'>)</span>
   <span class='ivar'>@simpleform</span> <span class='op'>=</span> <span class='id identifier rubyid_simpleform'>simpleform</span>
@@ -1482,9 +1730,9 @@
 </div>
 
       <div id="footer">
-  Generated on Fri May 15 10:29:43 2026 by
+  Generated on Mon May 18 12:37:23 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.34 (ruby-3.3.5).
+  0.9.43 (ruby-3.3.5).
 </div>
 
     </div>

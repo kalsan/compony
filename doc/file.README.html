@@ -6,13 +6,13 @@
 <title>
   File: README
   
-    &mdash; Documentation by YARD 0.9.34
+    &mdash; Documentation by YARD 0.9.43
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" />
+  <link rel="stylesheet" href="css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" />
+  <link rel="stylesheet" href="css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "README";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="file_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -57,151 +59,111 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><div id='filecontents'>
-<p>&lt;img src=“logo.svg” height=250 alt=“Compony logo”/&gt;</p>
-
-<h1 id="label-Where+to+read+what">Where to read what</h1>
-<ul><li>
-<p>Get to know what Compony is and which concepts it uses in the <a href="https://github.com/kalsan/compony">README on GitHub</a>.</p>
-</li><li>
-<p>When using pre-built Components, it is useful to refer to <a href="https://github.com/kalsan/compony/tree/main/lib/compony/components">their setup code</a>.</p>
-</li><li>
-<p>There is also a <a href="https://www.rubydoc.info/github/kalsan/compony.git">RubyDoc page for Compony</a> available.</p>
-</li></ul>
-
-<h1 id="label-About+Compony">About Compony</h1>
-
-<p>Compony is a Gem that allows you to write your Rails application in <strong>component-style</strong> fashion. It combines a controller action and route along with its view into a single Ruby class. Along with the DSL approach and a powerful model mixin, Compony <strong>makes your application’s code more semantic</strong>, allows writing <strong>much DRYer code</strong>, using inheritance even in views and <strong>much easier refactoring</strong> for your Rails applications, helping you to <strong>keep the code clean as the application evolves</strong>.</p>
-
-<p>Compony’s key aspects:</p>
-<ul><li>
-<p>A Compony component is a single class that exports route(s), controller action(s) and a view to Rails.</p>
-</li><li>
-<p>Refactor common logic into your own components and inherit from them to DRY up your code.</p>
-</li><li>
-<p>Compony’s model mixin allows you to define metadata in your models and react to them, resulting in more semantic code. Examples:</p>
-<ul><li>
-<p>Compony fields capture attributes that should be made visible in your UI. They allow you to implement formatting behavior and parameter sanitization for various types, e.g. URLs, phone numbers, colors etc. ready to be used in your lists, detail panels, or forms.</p>
-</li><li>
-<p>Compony’s feasibility framework allows you to prohibit actions based on conditions, along with an error message. This causes all buttons pointing to that action to be disabled with a meaningful error message.</p>
-</li></ul>
-</li><li>
-<p>Compony only structures your code, but provides no style whatsoever. It is like a bookshelf rather than a reader’s library. You still implement your own layouts, CSS and Javascript to define the behavior of your front-end.</p>
-</li><li>
-<p>Compony seamlessly integrates with Rails and does not interfere with existing code. Using Compony, you <strong>can</strong> write your application as components, but it is still possible to have regular routes, controllers and views side-to-side to it. This way, you can migrate your applications to Compony little by little and enter and leave the Compony world as you please. It is also possible to render Compony components from regular views and vice versa.</p>
-</li><li>
-<p>Compony is built for Rails 7, 7.1 and 8, and fully supports Stimulus and Turbo Drive. It is also compatible Turbo Frames and Streams, but there are not many helpers specifically targetting theme at this point..</p>
-</li><li>
-<p>Compony uses <a href="https://github.com/CanCanCommunity/cancancan">CanCanCan</a> for authorization but does not provide an authentication mechanism. You can easily build your own by creating login/logout components that manage cookies, and configure Compony to enforce authentication using the <code>Compony.authentication_before_action</code> setter. I have also successfully tested Compony to work with <a href="https://github.com/heartcombo/devise">Devise</a>.</p>
-</li></ul>
-
-<h2 id="label-State+of+the+project">State of the project</h2>
-
-<p>I am actively using this framework in various applications and both performance and reliability are good. However, the project is experimental and lacking peer reviews and especially automatic testing, such as unit and integration tests. Also, expect there to be (<a href="/CHANGELOG_md.html">documented</a>) breaking changes in the future, as the API will likely be further refined, resulting in renamings and deprecation of various methods.</p>
-
-<h2 id="label-Other+projects+exploring+similar+concepts">Other projects exploring similar concepts</h2>
-
+      <div id="content"><div id='filecontents'><img src="logo.svg" height=250 alt="Compony logo"/>
+<h1 id="Where_to_read_what">Where to read what</h1>
+<ul>
+<li>Get to know what Compony is and which concepts it uses in the <a href="https://github.com/kalsan/compony">README on GitHub</a>.</li>
+<li>When using pre-built Components, it is useful to refer to <a href="https://github.com/kalsan/compony/tree/main/lib/compony/components">their setup code</a>.</li>
+<li>There is also a <a href="https://www.rubydoc.info/github/kalsan/compony.git">RubyDoc page for Compony</a> available.</li>
+</ul>
+<h1 id="About_Compony">About Compony</h1>
+<p>Compony is a Gem that allows you to write your Rails application in <strong>component-style</strong> fashion. It combines a controller action and route along with its view into a single Ruby class. Along with the DSL approach and a powerful model mixin, Compony <strong>makes your application's code more semantic</strong>, allows writing <strong>much DRYer code</strong>, using inheritance even in views and <strong>much easier refactoring</strong> for your Rails applications, helping you to <strong>keep the code clean as the application evolves</strong>.</p>
+<p>Compony's key aspects:</p>
+<ul>
+<li>A Compony component is a single class that exports route(s), controller action(s) and a view to Rails.
+<ul>
+<li>Refactor common logic into your own components and inherit from them to DRY up your code.</li>
+</ul>
+</li>
+<li>Compony's model mixin allows you to define metadata in your models and react to them, resulting in more semantic code. Examples:
+<pre class="code ruby"><code class="ruby">- Compony fields capture attributes that should be made visible in your UI. They allow you to implement formatting behavior and parameter sanitization for various types, e.g. URLs, phone numbers, colors etc. ready to be used in your lists, detail panels, or forms.
+- Compony&#39;s feasibility framework allows you to prohibit actions based on conditions, along with an error message. This causes all buttons pointing to that action to be disabled with a meaningful error message.
+</code></pre>
+</li>
+<li>Compony only structures your code, but provides no style whatsoever. It is like a bookshelf rather than a reader's library. You still implement your own layouts, CSS and Javascript to define the behavior of your front-end.</li>
+<li>Compony seamlessly integrates with Rails and does not interfere with existing code. Using Compony, you <strong>can</strong> write your application as components, but it is still possible to have regular routes, controllers and views side-to-side to it. This way, you can migrate your applications to Compony little by little and enter and leave the Compony world as you please. It is also possible to render Compony components from regular views and vice versa.</li>
+<li>Compony is built for Rails 7, 7.1 and 8, and fully supports Stimulus and Turbo Drive. It is also compatible Turbo Frames and Streams, but there are not many helpers specifically targetting theme at this point..</li>
+<li>Compony uses <a href="https://github.com/CanCanCommunity/cancancan">CanCanCan</a> for authorization but does not provide an authentication mechanism. You can easily build your own by creating login/logout components that manage cookies, and configure Compony to enforce authentication using the <code>Compony.authentication_before_action</code> setter. I have also successfully tested Compony to work with <a href="https://github.com/heartcombo/devise">Devise</a>.</li>
+</ul>
+<h2 id="State_of_the_project">State of the project</h2>
+<p>I am actively using this framework in various applications and both performance and reliability are good. However, the project is experimental and lacking peer reviews and especially automatic testing, such as unit and integration tests. Also, expect there to be (<a href="/CHANGELOG.md">documented</a>) breaking changes in the future, as the API will likely be further refined, resulting in renamings and deprecation of various methods.</p>
+<h2 id="Other_projects_exploring_similar_concepts">Other projects exploring similar concepts</h2>
 <p>A project with a similar aim, but a different approach, is <a href="https://github.com/phlex-ruby/phlex">Phlex</a>.</p>
-
-<h1 id="label-Guide+-2F+Documentation">Guide / Documentation</h1>
-
-<p>The following topics should help you get started. Please note that the links will not work in yard doc - read this on <a href="https://github.com/kalsan/compony">Compony’s GitHub repo</a>.</p>
-<ul><li>
-<p><a href="./doc/guide/example_md.html">Self-contained example</a> for those who like to dive straight into code</p>
-</li><li>
-<p><a href="./doc/guide/installation_md.html">Installation</a> (start here)</p>
-</li><li>
-<p>Concepts and usage:</p>
-<ul><li>
-<p><a href="./doc/guide/basic_component_md.html">A basic component</a>: Basic concepts relevant for all components</p>
-</li><li>
-<p><a href="./doc/guide/standalone_md.html">Standalone</a>: Routing to components</p>
-</li><li>
-<p><a href="./doc/guide/inheritance_md.html">Inheritance</a>: DRY up your code by providing base components</p>
-</li><li>
-<p><a href="./doc/guide/nesting_md.html">Nesting</a>: How to instanciate components inside other components</p>
-</li><li>
-<p><a href="./doc/guide/resourceful_md.html">Resourceful components</a>: How to create components that deal with Rails-style resources</p>
-</li><li>
-<p><a href="./doc/guide/intents_md.html">Intents</a>: How to point to a component and provide custom components for rendering intents</p>
-</li><li>
-<p><a href="./doc/guide/feasibility_md.html">Feasibility</a>: Disabiling intents based on context (contains <code>prevent</code>)</p>
-</li><li>
-<p><a href="./doc/guide/ownership_md.html">Ownership</a>: Informing Compony that a resource is conceptually part of another resource</p>
-</li><li>
-<p><a href="./doc/guide/model_fields_md.html">Model fields</a>: Allowing Compony to auto-generate UI elements by telling it about the structure of your model</p>
-</li><li>
-<p><a href="./doc/guide/generators_md.html">Rails generators</a>: Creating components quickly</p>
-</li><li>
-<p><a href="./doc/guide/internal_datastructures_md.html">Internal datastructures</a>: Noteworthy datastructures provided by Compony</p>
-</li><li>
-<p><a href="./doc/guide/internal_datastructures_md.html">Virtual models</a>: Unleashing non-persistent interactions through Compony’s <code>ActiveType</code> integration</p>
-</li></ul>
-</li><li>
-<p>Pre-built components shipped with Compony</p>
-<ul><li>
-<p><a href="./doc/guide/pre_built_components_md.html">Introduction</a></p>
-</li><li>
-<p><a href="./doc/guide/pre_built_components/show_md.html">Show</a>: Compony’s equivalent to Rail’s <code>show</code> controller action</p>
-</li><li>
-<p><a href="./doc/guide/pre_built_components/index_md.html">Index</a>: Compony’s equivalent to Rail’s <code>index</code> controller action</p>
-</li><li>
-<p><a href="./doc/guide/pre_built_components/list_md.html">List</a>: Compony’s equivalent to Rail’s <code>_list</code> partial</p>
-</li><li>
-<p><a href="./doc/guide/pre_built_components/destroy_md.html">Destroy</a>: Compony’s equivalent to Rail’s <code>destroy</code> controller action</p>
-</li><li>
-<p><a href="./doc/guide/pre_built_components/with_form_md.html">WithForm</a>: A base class for components containing and submitting forms</p>
-</li><li>
-<p><a href="./doc/guide/pre_built_components/form_md.html">Form</a>: Compony’s equivalent to Rail’s <code>_form</code> partial</p>
-</li><li>
-<p><a href="./doc/guide/pre_built_components/new_md.html">New</a>: Compony’s equivalent to Rail’s <code>new</code> and <code>create</code> controller action</p>
-</li><li>
-<p><a href="./doc/guide/pre_built_components/new_md.html">Edit</a>: Compony’s equivalent to Rail’s <code>edit</code> and <code>update</code> controller action</p>
-</li></ul>
-</li></ul>
-
-<h1 id="label-Contributing">Contributing</h1>
-
+<h1 id="Guide___Documentation">Guide / Documentation</h1>
+<p>The following topics should help you get started. Please note that the links will not work in yard doc - read this on <a href="https://github.com/kalsan/compony">Compony's GitHub repo</a>.</p>
+<ul>
+<li><a href="./doc/guide/example.md">Self-contained example</a> for those who like to dive straight into code</li>
+<li><a href="./doc/guide/example_advanced.md">Advanced example</a>: custom form, feasibility, CSV export, virtual-model launch form</li>
+<li><a href="./doc/guide/installation.md">Installation</a> (start here)</li>
+<li>Quick reference (also handy for AI coding assistants):
+<pre class="code ruby"><code class="ruby">- [DSL reference](./doc/guide/dsl_reference.md): every DSL method with signature and context
+- [Glossary](./doc/guide/glossary.md): one-line definitions of Compony vocabulary
+- [Gotchas](./doc/guide/gotchas.md): known anti-patterns with symptom, cause, fix
+- [Real-world patterns](./doc/guide/patterns.md): idioms distilled from production apps
+- [Agent primer](./CLAUDE.md) and [doc/llms.txt](./doc/llms.txt): orientation for LLM-based tools
+</code></pre>
+</li>
+<li>Concepts and usage:
+<pre class="code ruby"><code class="ruby">- [A basic component](./doc/guide/basic_component.md): Basic concepts relevant for all components
+- [Standalone](./doc/guide/standalone.md): Routing to components
+- [Inheritance](./doc/guide/inheritance.md): DRY up your code by providing base components
+- [Nesting](./doc/guide/nesting.md): How to instanciate components inside other components
+- [Resourceful components](./doc/guide/resourceful.md): How to create components that deal with Rails-style resources
+- [Intents](./doc/guide/intents.md): How to point to a component and provide custom components for rendering intents
+- [Feasibility](./doc/guide/feasibility.md): Disabiling intents based on context (contains `prevent`)
+- [Ownership](./doc/guide/ownership.md): Informing Compony that a resource is conceptually part of another resource
+- [Model fields](./doc/guide/model_fields.md): Allowing Compony to auto-generate UI elements by telling it about the structure of your model
+- [Rails generators](./doc/guide/generators.md): Creating components quickly
+- [Internal datastructures](./doc/guide/internal_datastructures.md): Noteworthy datastructures provided by Compony
+- [Virtual models](./doc/guide/virtual_models.md): Unleashing non-persistent interactions through Compony&#39;s `ActiveType` integration
+</code></pre>
+</li>
+<li>Pre-built components shipped with Compony
+<ul>
+<li><a href="./doc/guide/pre_built_components.md">Introduction</a></li>
+<li><a href="./doc/guide/pre_built_components/show.md">Show</a>: Compony's equivalent to Rail's <code>show</code> controller action</li>
+<li><a href="./doc/guide/pre_built_components/index.md">Index</a>: Compony's equivalent to Rail's <code>index</code> controller action</li>
+<li><a href="./doc/guide/pre_built_components/list.md">List</a>: Compony's equivalent to Rail's <code>_list</code> partial</li>
+<li><a href="./doc/guide/pre_built_components/destroy.md">Destroy</a>: Compony's equivalent to Rail's <code>destroy</code> controller action</li>
+<li><a href="./doc/guide/pre_built_components/with_form.md">WithForm</a>: A base class for components containing and submitting forms</li>
+<li><a href="./doc/guide/pre_built_components/form.md">Form</a>: Compony's equivalent to Rail's <code>_form</code> partial</li>
+<li><a href="./doc/guide/pre_built_components/new.md">New</a>: Compony's equivalent to Rail's <code>new</code> and <code>create</code> controller action</li>
+<li><a href="./doc/guide/pre_built_components/edit.md">Edit</a>: Compony's equivalent to Rail's <code>edit</code> and <code>update</code> controller action</li>
+</ul>
+</li>
+</ul>
+<h1 id="Contributing">Contributing</h1>
 <p>Compony is Free Software under the LGPLv3 and you are most welcome to contribute to it.</p>
-<ul><li>
-<p>If you spotted a security vulnerability, <strong>do not open an issue</strong> but instead use the contact form at <a href="https://kalsan.ch/#contact">kalsan.ch/#contact</a> instead (English is just fine, even if the website is in German).</p>
-</li><li>
-<p>If you’d like to contribute feedback or discuss something, please open an issue.</p>
-</li><li>
-<p>If you have an idea that is worth implementing, please fork the repo, implement your changes in your own fork, and open a pull request.</p>
-</li></ul>
-
-<h1 id="label-Caveats">Caveats</h1>
-<ul><li>
-<p>The API is not yet as consistent as I’d like it. Examples:</p>
-</li><li>
-<p>Instead of <code>skip_...</code> methods, <code>remove_...</code> should be implemented. This allows yet another level of classes to re-add properties. Skipping should be kept for options given via the constructor.</p>
-</li><li>
-<p>Change resourceful hooks as follows:</p>
-<ul><li>
-<p>Verb DSL hooks still take precedence over global hooks, but if given, they MUST provide a block.</p>
-</li><li>
-<p>If global hooks are present, they will be executed in every verb.</p>
-</li></ul>
-</li><li>
-<p>At this point, I haven’t gotten into Turbo Streams and Turbo Frames. It would be interesting to extend Compony such it also makes writing applications using these features much easier.</p>
-</li><li>
-<p>The feasibility framework does not yet enforce prevention, but only has effects on buttons.</p>
-</li><li>
-<p>Compony is not compatible with <code>tailwindcss-rails</code>. This is likely due to Tailwind automatically removing any CSS that is not used by the application and the usage detection not picking up Compony components, as their content is not provided in views.</p>
-</li></ul>
-
-<h1 id="label-Acknowledgements">Acknowledgements</h1>
-
+<ul>
+<li>If you spotted a security vulnerability, <strong>do not open an issue</strong> but instead use the contact form at <a href="https://kalsan.ch/#contact"><a href="https://kalsan.ch/#contact">https://kalsan.ch/#contact</a></a> instead (English is just fine, even if the website is in German).</li>
+<li>If you'd like to contribute feedback or discuss something, please open an issue.</li>
+<li>If you have an idea that is worth implementing, please fork the repo, implement your changes in your own fork, and open a pull request.</li>
+</ul>
+<h1 id="Caveats">Caveats</h1>
+<ul>
+<li>The API is not yet as consistent as I'd like it. Examples:
+<ul>
+<li>Instead of <code>skip_...</code> methods, <code>remove_...</code> should be implemented. This allows yet another level of classes to re-add properties. Skipping should be kept for options given via the constructor.</li>
+<li>Change resourceful hooks as follows:
+<ul>
+<li>Verb DSL hooks still take precedence over global hooks, but if given, they MUST provide a block.</li>
+<li>If global hooks are present, they will be executed in every verb.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>At this point, I haven't gotten into Turbo Streams and Turbo Frames. It would be interesting to extend Compony such it also makes writing applications using these features much easier.</li>
+<li>The feasibility framework does not yet enforce prevention, but only has effects on buttons.</li>
+<li>Compony is not compatible with <code>tailwindcss-rails</code>. This is likely due to Tailwind automatically removing any CSS that is not used by the application and the usage detection not picking up Compony components, as their content is not provided in views.</li>
+</ul>
+<h1 id="Acknowledgements">Acknowledgements</h1>
 <p>A big thank you to Alex and Koni who have patiently listened to my weird ideas and helped me developing them further, resulting in a few of the key concepts of Compony, such as <code>param_name</code>, or the way forms are structured.</p>
-
-<p>Further, it should be acknowledged that Compony would not be what it is if it weren’t for the awesome Gems it can rely on, for instance Rails, CanCanCan, SimpleForm, or Schemacop.</p>
-</div></div>
+<p>Further, it should be acknowledged that Compony would not be what it is if it weren't for the awesome Gems it can rely on, for instance Rails, CanCanCan, SimpleForm, or Schemacop.</p></div></div>
 
       <div id="footer">
-  Generated on Fri May 15 10:29:42 2026 by
+  Generated on Mon May 18 12:37:22 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.34 (ruby-3.3.5).
+  0.9.43 (ruby-3.3.5).
 </div>
 
     </div>

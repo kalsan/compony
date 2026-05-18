@@ -78,21 +78,41 @@ module Compony
         end
       end
 
+      # @!group DSL
+
       # DSL method
-      # Sets a block that is evaluated with backfire in the successful case after storing, but before responding.
+      # Sets an optional hook evaluated (with backfire) after a successful destroy but before responding.
+      # Suitable for post-destroy side effects (like an `after_destroy` that only fires when this component destroyed the record).
+      # Do not redirect or render here - use {#on_destroyed_respond} / {#on_destroyed_redirect_path} for that.
+      # @yield Runs in the component's request context after `@data` was destroyed.
+      # @return [void]
+      # @api public
       def on_destroyed(&block)
         @on_destroyed_block = block
       end
 
       # DSL method
+      # Overrides the response issued after a successful destroy. The default shows a flash and redirects to
+      # {#on_destroyed_redirect_path} with HTTP 303 (forces a GET, required for Turbo). If you override this,
+      # {#on_destroyed_redirect_path} is no longer called.
+      # @yield Runs in the component's request context; expected to render or redirect.
+      # @return [void]
+      # @api public
       def on_destroyed_respond(&block)
         @on_destroyed_respond_block = block
       end
 
       # DSL method
+      # Overrides the redirect target used by the default {#on_destroyed_respond} (keeping the default flash).
+      # Defaults to the owner's Show (if owned) or the data's Index.
+      # @yield Runs in the component's request context; expected to return a Rails path (e.g. via `Compony.path`).
+      # @return [void]
+      # @api public
       def on_destroyed_redirect_path(&block)
         @on_destroyed_redirect_path_block = block
       end
+
+      # @!endgroup
     end
   end
 end

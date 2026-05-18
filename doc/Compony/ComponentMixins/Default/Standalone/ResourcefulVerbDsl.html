@@ -6,13 +6,13 @@
 <title>
   Class: Compony::ComponentMixins::Default::Standalone::ResourcefulVerbDsl
   
-    &mdash; Documentation by YARD 0.9.34
+    &mdash; Documentation by YARD 0.9.43
   
 </title>
 
-  <link rel="stylesheet" href="../../../../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../../../../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Compony::ComponentMixins::Default::Standalone::ResourcefulVerbDsl";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../../../../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -98,16 +100,15 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/compony/component_mixins/default/standalone/resourceful_verb_dsl.rb</dd>
+    <dd>lib/compony/component_mixins/default/standalone/resourceful_verb_dsl.rb
+</dd>
   </dl>
   
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>Verb DSL override specifically for resourceful components</p>
-
+    <p>Verb DSL override specifically for resourceful components</p>
 
   </div>
 </div>
@@ -161,9 +162,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>DSL This is called after <code>load_data</code>.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>DSL This is called after <code>load_data</code>.</p></div></span>
   
 </li>
 
@@ -187,9 +186,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>A new instance of ResourcefulVerbDsl.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>A new instance of ResourcefulVerbDsl.</p></div></span>
   
 </li>
 
@@ -211,9 +208,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>DSL This is the first step in the life cycle.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>DSL This is the first step in the life cycle.</p></div></span>
   
 </li>
 
@@ -235,9 +230,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>DSL This is called after authorization.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>DSL This is called after authorization.</p></div></span>
   
 </li>
 
@@ -259,17 +252,17 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>For internal usage only, processes the block and returns a config hash.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>For internal usage only, processes the block and returns a config hash.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 
+  
   
   
   
@@ -295,9 +288,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Returns a new instance of ResourcefulVerbDsl.</p>
-
+    <p>Returns a new instance of ResourcefulVerbDsl.</p>
 
   </div>
 </div>
@@ -347,9 +338,10 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DSL This is called after <code>load_data</code>. The block is expected to assign data from <code>params</code> as attributes of <code>@data</code>. If this method gets never called, the verb config will not contain a assign_attributes block. If called without a block, the verb config will call the global_assign_attributes block defined in Resource.</p>
-
+    <p>DSL
+This is called after <code>load_data</code>. The block is expected to assign data from <code>params</code> as attributes of <code>@data</code>.
+If this method gets never called, the verb config will not contain a assign_attributes block.
+If called without a block, the verb config will call the global_assign_attributes block defined in Resource.</p>
 
   </div>
 </div>
@@ -396,9 +388,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DSL This is the first step in the life cycle. The block is expected to assign something to <code>@data</code>.</p>
-
+    <p>DSL
+This is the first step in the life cycle. The block is expected to assign something to <code>@data</code>.</p>
 
   </div>
 </div>
@@ -437,9 +428,10 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>DSL This is called after authorization. The block is expected to write back to the database. If this method gets never called, the verb config will not contain a store_data block. If called without a block, the verb config will call the global_store_data block defined in Resource.</p>
-
+    <p>DSL
+This is called after authorization. The block is expected to write back to the database.
+If this method gets never called, the verb config will not contain a store_data block.
+If called without a block, the verb config will call the global_store_data block defined in Resource.</p>
 
   </div>
 </div>
@@ -486,9 +478,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>For internal usage only, processes the block and returns a config hash.</p>
-
+    <p>For internal usage only, processes the block and returns a config hash.</p>
 
   </div>
 </div>
@@ -529,9 +519,9 @@
 </div>
 
       <div id="footer">
-  Generated on Fri May 15 10:29:44 2026 by
+  Generated on Mon May 18 12:37:23 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.34 (ruby-3.3.5).
+  0.9.43 (ruby-3.3.5).
 </div>
 
     </div>
