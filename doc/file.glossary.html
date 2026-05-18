@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: glossary
+  
+    &mdash; Documentation by YARD 0.9.43
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css">
+
+  <link rel="stylesheet" href="css/common.css" type="text/css">
+
+<script type="text/javascript">
+  pathId = "glossary";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: glossary</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><p><a href="/README.md#guide--documentation">Back to the guide</a></p>
+<h1 id="Glossary">Glossary</h1>
+<p>One-line definitions of Compony vocabulary. Deeper treatment is linked.</p>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Component</strong></td>
+<td>A Ruby class (<code>Components::Family::Name</code>) bundling a route, controller action and view. See <a href="/doc/guide/basic_component.md">basic_component.md</a>.</td>
+</tr>
+<tr>
+<td><strong>Family</strong></td>
+<td>The plural namespace grouping a model's components, analogous to a Rails controller (<code>Users</code>).</td>
+</tr>
+<tr>
+<td><strong>Comp name</strong></td>
+<td>The component's own name, analogous to a Rails action (<code>show</code>).</td>
+</tr>
+<tr>
+<td><strong><code>setup</code></strong></td>
+<td>Class-level block holding nearly all component config; parent's runs before child's.</td>
+</tr>
+<tr>
+<td><strong>Content block</strong></td>
+<td>A named (<code>:main</code> default) view block rendered via Dyny inside a RequestContext.</td>
+</tr>
+<tr>
+<td><strong><code>before_render</code></strong></td>
+<td>Hook chain run before content; if it sets a response body (e.g. redirect) content is skipped.</td>
+</tr>
+<tr>
+<td><strong>Standalone</strong></td>
+<td>A <code>standalone</code> config that makes Compony emit a Rails route for the component. See <a href="/doc/guide/standalone.md">standalone.md</a>.</td>
+</tr>
+<tr>
+<td><strong>Standalone name</strong></td>
+<td>Identifier for one of several routes a component exposes; <code>nil</code> = the main one.</td>
+</tr>
+<tr>
+<td><strong>Verb</strong></td>
+<td>An HTTP method config inside a standalone (<code>verb :get do ... end</code>).</td>
+</tr>
+<tr>
+<td><strong><code>authorize</code></strong></td>
+<td>Mandatory per-verb block; truthy grants access, falsy raises <code>CanCan::AccessDenied</code>.</td>
+</tr>
+<tr>
+<td><strong><code>respond</code></strong></td>
+<td>Per-verb block overriding the controller response; overriding it skips the default authorize step.</td>
+</tr>
+<tr>
+<td><strong>Resourceful</strong></td>
+<td>A component that auto-loads a record/relation into <code>@data</code> (mixin or pre-built parent). See <a href="/doc/guide/resourceful.md">resourceful.md</a>.</td>
+</tr>
+<tr>
+<td><strong><code>@data</code></strong></td>
+<td>The record (or AR relation) a resourceful component operates on.</td>
+</tr>
+<tr>
+<td><strong><code>data_class</code></strong></td>
+<td>The model class a resourceful component expects; defaults from the family name.</td>
+</tr>
+<tr>
+<td><strong>Lifecycle hooks</strong></td>
+<td><code>load_data → after_load_data → authorize → assign_attributes → after_assign_attributes → store_data</code>.</td>
+</tr>
+<tr>
+<td><strong>Intent</strong></td>
+<td>A gateway object to a target component carrying context (model, path, feasibility, label). See <a href="/doc/guide/intents.md">intents.md</a>.</td>
+</tr>
+<tr>
+<td><strong>Exposed intent</strong></td>
+<td>An intent a component declares for its parent/layout to render (e.g. an actions toolbar).</td>
+</tr>
+<tr>
+<td><strong><code>Compony.path</code></strong></td>
+<td>Helper that builds a Rails path string via an intent (use for redirects).</td>
+</tr>
+<tr>
+<td><strong><code>render_intent</code></strong></td>
+<td>Content/view helper that renders a link or button to another component.</td>
+</tr>
+<tr>
+<td><strong><code>render_sub_comp</code></strong></td>
+<td>Content helper that instantiates and nests another component.</td>
+</tr>
+<tr>
+<td><strong>Sub comp / parent comp</strong></td>
+<td>A component instantiated inside another; the outer one is its <code>parent_comp</code>.</td>
+</tr>
+<tr>
+<td><strong>Root comp</strong></td>
+<td>The top component of the current render tree (no parent); <code>Compony.root_comp</code>.</td>
+</tr>
+<tr>
+<td><strong>RequestContext</strong></td>
+<td>Dslblend object content blocks run in: providers are the component, controller, helpers. See <a href="/doc/guide/internal_datastructures.md">internal_datastructures.md</a>.</td>
+</tr>
+<tr>
+<td><strong>Backfire</strong></td>
+<td>Dslblend mechanism copying instance vars set in a block back onto the component.</td>
+</tr>
+<tr>
+<td><strong>Button / style</strong></td>
+<td>A presenter component for an intent; <code>style</code> (<code>:css_button</code>, <code>:link</code>, custom) selects the class.</td>
+</tr>
+<tr>
+<td><strong>Feasibility</strong></td>
+<td>Framework where model <code>prevent</code> blocks disable buttons/links to an action with a reason. See <a href="/doc/guide/feasibility.md">feasibility.md</a>.</td>
+</tr>
+<tr>
+<td><strong><code>prevent</code></strong></td>
+<td>Model class DSL declaring a feasibility prevention for one or more actions.</td>
+</tr>
+<tr>
+<td><strong>Field</strong></td>
+<td>A model-level declaration (<code>field :name, :type</code>) of a UI-relevant attribute and its formatting. See <a href="/doc/guide/model_fields.md">model_fields.md</a>.</td>
+</tr>
+<tr>
+<td><strong>Ownership / <code>owned_by</code></strong></td>
+<td>Declares a model conceptually part of another, adjusting redirects/top actions. See <a href="/doc/guide/ownership.md">ownership.md</a>.</td>
+</tr>
+<tr>
+<td><strong>Virtual model</strong></td>
+<td>A non-persistent ActiveType-backed model usable as a form target. See <a href="/doc/guide/virtual_models.md">virtual_models.md</a>.</td>
+</tr>
+<tr>
+<td><strong>Dyny</strong></td>
+<td>The HTML-as-Ruby templating gem content blocks are written in (<a href="https://github.com/kalsan/dyny">repo</a>).</td>
+</tr>
+<tr>
+<td><strong>Abstract component</strong></td>
+<td>A component never routed directly, only inherited from (e.g. an app's <code>BaseComponents::*</code>).</td>
+</tr>
+</tbody>
+</table>
+<p><a href="/README.md#guide--documentation">Guide index</a></p></div></div>
+
+      <div id="footer">
+  Generated on Mon May 18 13:22:40 2026 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.43 (ruby-3.3.5).
+</div>
+
+    </div>
+  </body>
+</html>

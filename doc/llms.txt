@@ -16,6 +16,8 @@ behavior is the Ruby source under lib/compony/; the guide pages below explain in
 - [Gotchas](/doc/guide/gotchas.md): numbered anti-patterns — symptom, cause, fix.
 - [Real-world patterns](/doc/guide/patterns.md): 18 recurring idioms from production apps (base layer, thin leaves, tabs, exports, jobs, virtual models, webhooks, turbo-frame inline edit, multi-step wizard, inline PATCH, signed-token capability links).
 - [Cookbook](/doc/guide/cookbook.md): pure task→pointer index ("I want to do X") into patterns/guide; no duplicated content.
+- [Integrations](/doc/integrations.md): companion gems — hard runtime deps (versions), optional feature-unlocking gems, app-side companions.
+- [Maintaining](/doc/guide/maintaining.md): contributor/AI policy — CHANGELOG per change, release steps, .yardopts, dependency + anonymization rules.
 
 ## Guide — concepts
 

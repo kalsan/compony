@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: integrations
+  
+    &mdash; Documentation by YARD 0.9.43
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css">
+
+  <link rel="stylesheet" href="css/common.css" type="text/css">
+
+<script type="text/javascript">
+  pathId = "integrations";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: integrations</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><p><a href="/README.md#guide--documentation">Back to the guide</a></p>
+<h1 id="Integrations___companion_gems">Integrations &amp; companion gems</h1>
+<p>What Compony pulls in, what it optionally lights up, and what you are expected to add
+yourself. The authoritative source for hard dependencies and their version constraints is
+the <code>:gemspec</code> task in <a href="/Rakefile"><code>Rakefile</code></a> (it generates <code>compony.gemspec</code>); the table
+below mirrors it and must be updated together with it (see
+<a href="/doc/guide/maintaining.md">maintaining.md</a>).</p>
+<h2 id="Hard_runtime_dependencies__installed_automatically_">Hard runtime dependencies (installed automatically)</h2>
+<table>
+<thead>
+<tr>
+<th>Gem</th>
+<th>Constraint</th>
+<th>Why Compony needs it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rails</code></td>
+<td><code>&gt;= 7.2.1</code></td>
+<td>Routing, controllers, views Compony plugs into.</td>
+</tr>
+<tr>
+<td><code>request_store</code></td>
+<td><code>&gt;= 1.7</code></td>
+<td>Per-request storage (e.g. <code>Compony.root_comp</code>).</td>
+</tr>
+<tr>
+<td><code>dyny</code></td>
+<td><code>&gt;= 0.0.3</code></td>
+<td>HTML-as-Ruby templating used in <code>content</code> blocks.</td>
+</tr>
+<tr>
+<td><code>schemacop</code></td>
+<td><code>&gt;= 3.0.17</code></td>
+<td>Strong-param schema validation behind <code>schema_field</code> / <code>schema_line</code>.</td>
+</tr>
+<tr>
+<td><code>simple_form</code></td>
+<td><code>&gt;= 5.3.1</code></td>
+<td>The form builder behind the Form component's <code>field</code>.</td>
+</tr>
+<tr>
+<td><code>dslblend</code></td>
+<td><code>&gt;= 0.0.3</code></td>
+<td>Powers the <code>RequestContext</code> multi-provider DSL.</td>
+</tr>
+<tr>
+<td><code>anchormodel</code></td>
+<td><code>&gt;= 0.3.0</code></td>
+<td><code>anchormodel</code> model-field type + enum-like associations.</td>
+</tr>
+<tr>
+<td><code>cancancan</code></td>
+<td><code>~&gt; 3.6.1</code></td>
+<td>Authorization: <code>authorize { can?(...) }</code>, <code>accessible_by</code>, per-field <code>permitted_attributes</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>The Ruby floor is <code>&gt;= 3.3.5</code> (<code>required_ruby_version</code>).</p>
+<blockquote>
+<p>Version note: the gemspec requires <code>rails &gt;= 7.2.1</code>. If the README's prose mentions an
+older range, the gemspec wins — keep them in sync when bumping (see maintaining.md).</p>
+</blockquote>
+<h2 id="Optional___presence_unlocks_a_feature">Optional — presence unlocks a feature</h2>
+<p>These are <strong>not</strong> declared dependencies; Compony detects them and enables behavior if they
+are in the host app's bundle.</p>
+<table>
+<thead>
+<tr>
+<th>Gem</th>
+<th>Unlocks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>active_type</code></td>
+<td><code>Compony::VirtualModel</code> (loaded only if <code>ActiveType::Object</code> is defined). Non-persistent / upload / wizard forms — <a href="/doc/guide/patterns.md#12-virtual-model-for-non-persistent--upload-forms">patterns §12</a>, <a href="/doc/guide/virtual_models.md">virtual_models.md</a>.</td>
+</tr>
+<tr>
+<td><code>ransack</code></td>
+<td>List filtering, sorting links and the sort select in <a href="/doc/guide/pre_built_components/list.md"><code>List</code></a>. Without it, declare no <code>filter</code>/<code>sort</code> and those UIs stay off.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="App_side_companions__you_add_these_">App-side companions (you add these)</h2>
+<p>Compony is UI- and auth-agnostic; these are conventional choices in real apps, pulled in
+by your app, not by Compony.</p>
+<table>
+<thead>
+<tr>
+<th>Concern</th>
+<th>Typical choice</th>
+<th>Used by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Authentication</td>
+<td>Devise, or a custom login component + <code>Compony.authentication_before_action=</code></td>
+<td>Compony ships <strong>no</strong> auth (<a href="/README.md">README</a>); token-link flows → <a href="/doc/guide/patterns.md#18-signed-token-capability-links-auth-less-onboarding--magic-links">patterns §18</a></td>
+</tr>
+<tr>
+<td>Turbo / Stimulus</td>
+<td><code>turbo-rails</code>, <code>stimulus-rails</code></td>
+<td>Compony fully supports Turbo Drive; inline-edit → <a href="/doc/guide/patterns.md#15-inline-edit-card-with-a-turbo-frame">patterns §15</a>, ajax PATCH → <a href="/doc/guide/patterns.md#17-inline-patch-without-a-form-reorder--quick-toggle">patterns §17</a></td>
+</tr>
+<tr>
+<td>Select / date inputs</td>
+<td>TomSelect, Flatpickr (as registered <code>simple_form</code> inputs)</td>
+<td><code>field(:x, as: :tom_select/:flatpickr_*)</code> — <a href="/doc/guide/patterns.md#5-custom-form--schemacop-kept-in-sync">patterns §5–6</a></td>
+</tr>
+<tr>
+<td>i18n</td>
+<td>Rails I18n and/or FastGettext</td>
+<td>Component labels; gem ships <code>config/locales/{de,en,fr}.yml</code></td>
+</tr>
+<tr>
+<td>File handling</td>
+<td>ActiveStorage (+ a variant/processor)</td>
+<td>Attachment fields, virtual-model uploads — <a href="/doc/guide/patterns.md#12-virtual-model-for-non-persistent--upload-forms">patterns §12</a></td>
+</tr>
+<tr>
+<td>PDF / CSV</td>
+<td>Prawn / wicked_pdf, Ruby <code>CSV</code></td>
+<td>Export endpoints — <a href="/doc/guide/patterns.md#10-csv--pdf-via-respond-format">patterns §10</a></td>
+</tr>
+<tr>
+<td>Signed tokens</td>
+<td><code>jwt</code></td>
+<td>Capability links — <a href="/doc/guide/patterns.md#18-signed-token-capability-links-auth-less-onboarding--magic-links">patterns §18</a></td>
+</tr>
+</tbody>
+</table>
+<p>Incompatibility: <code>tailwindcss-rails</code> purges Compony component CSS (component HTML is not in
+<code>app/views</code>); see <a href="/doc/guide/gotchas.md#13-tailwindcss-rails-purges-compony-styles">gotchas.md #13</a>.</p>
+<h2 id="Development_dependencies">Development dependencies</h2>
+<p><code>yard &gt;= 0.9.28</code> (docs), <code>rubocop &gt;= 1.48</code>, <code>rubocop-rails &gt;= 2.18.0</code> (lint).</p>
+<p><a href="/README.md#guide--documentation">Guide index</a></p></div></div>
+
+      <div id="footer">
+  Generated on Mon May 18 13:22:41 2026 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.43 (ruby-3.3.5).
+</div>
+
+    </div>
+  </body>
+</html>

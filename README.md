@@ -43,7 +43,9 @@ The following topics should help you get started. Please note that the links wil
     - [Gotchas](./doc/guide/gotchas.md): known anti-patterns with symptom, cause, fix
     - [Real-world patterns](./doc/guide/patterns.md): idioms distilled from production apps
     - [Cookbook](./doc/guide/cookbook.md): recipes indexed by task ("I want to do X")
+    - [Integrations](./doc/integrations.md): companion gems — required, optional, app-side
     - [Agent primer](./CLAUDE.md) and [doc/llms.txt](./doc/llms.txt): orientation for LLM-based tools
+    - [Maintaining](./doc/guide/maintaining.md): release & docs policy (for gem contributors)
 - Concepts and usage:
     - [A basic component](./doc/guide/basic_component.md): Basic concepts relevant for all components
     - [Standalone](./doc/guide/standalone.md): Routing to components

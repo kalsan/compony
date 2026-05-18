@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: standalone
+  
+    &mdash; Documentation by YARD 0.9.43
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css">
+
+  <link rel="stylesheet" href="css/common.css" type="text/css">
+
+<script type="text/javascript">
+  pathId = "standalone";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: standalone</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><p><a href="/README.md#guide--documentation">Back to the guide</a></p>
+<h1 id="Standalone__routing_to_components_">Standalone (routing to components)</h1>
+<p>As stated earlier, Compony can generate routes to your components. This is achieved by using the standalone DSL inside the setup block. The first step is calling the method <code>standalone</code> with a path. Inside this block, you will then specify which HTTP verbs (e.g. GET, PATCH etc.) the component should listen to. As soon as both are specified, Compony will generate an appropriate route.</p>
+<p>Assume that you want to create a simple component <code>statics/welcome.rb</code> that displays a static welcome page. The component should be exposed under the route <code>'/welcome'</code> and respond to the GET method. Here is the complete code for making this happen:</p>
+<pre class="code ruby"><code class="ruby"><span class='comment'># app/components/statics/welcome.rb
+</span><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Statics</span><span class='op'>::</span><span class='const'>Welcome</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Component.html" title="Compony::Component (class)">Component</a></span></span>
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='symbol'>:all</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Welcome</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span>
+
+    <span class='id identifier rubyid_standalone'>standalone</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>welcome</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_verb'>verb</span> <span class='symbol'>:get</span> <span class='kw'>do</span>
+        <span class='id identifier rubyid_authorize'>authorize</span> <span class='lbrace'>{</span> <span class='kw'>true</span> <span class='rbrace'>}</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_content'>content</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_h1'>h1</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Welcome to my dummy site!</span><span class='tstring_end'>&#39;</span></span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+<p>This is the minimal required code for standalone. For security, every verb config must provide an <code>authorize</code> block that specifies who has access to this standalone verb. The block is given the request context and is expected to return either true (access ok) or false (causing the request to fail with <code>Cancan::AccessDenied</code>).</p>
+<p>Typically, you would use this block to check authorization using the CanCanCan gem, such as <code>authorize { can?(:read, :welcome) }</code>. However, since we skip authentication in this simple example, we pass <code>true</code> to allow all access.</p>
+<p>The standalone DSL has more features than those presented in the minimal example above. Excluding <a href="./resourceful.md">resourceful</a> features, the full list is:</p>
+<ul>
+<li>
+<code>standalone</code> can be called multiple times, for components that need to expose multiple paths, as described below. Inside each <code>standalone</code> call, you can call:
+<ul>
+<li><code>skip_authentication!</code> which disables authentication, in case you provided some. You need to implement <code>authorize</code> regardless.</li>
+<li><code>skip_forgery_protection!</code> which disables CSRF protection for the controller action generated for this standalone configuration.</li>
+<li><code>layout</code> which takes the file name of a Rails layout and defaults to <code>layouts/application</code>. Use this to have your Rails application look differently depending on the component.</li>
+<li>
+<code>verb</code> which takes an HTTP verb as a symbol, one of: <code>%i[get head post put delete connect options trace patch]</code>. <code>verb</code> can be called up to once per verb. Inside each <code>verb</code> call, you can call (in the non-resourceful case):
+<ul>
+<li><code>authorize</code> is mandatory and explained above.</li>
+<li><code>respond</code> can be used to implement special behavior that in plain Rails would be placed in a controller action. The default, which calls <code>before_render</code> and the <code>content</code> blocks, is usually the right choice, so you will rarely implement <code>respond</code> on your own. See below how <code>respond</code> can be used to handle different formats or redirecting clients. <strong>Caution:</strong> <code>authorize</code> is evaluated in the default implementation of <code>respond</code>, so when you override that block, you must perform authorization yourself!</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Exposing_multiple_paths_in_the_same_component__calling_standalone_multiple_times_">Exposing multiple paths in the same component (calling standalone multiple times)</h2>
+<p>If your component loads data dynamically from a JavaScript front-end (e.g. implemented via Stimulus), you will find yourself in the situation where you need an extra route for a functionality that inherently belongs to the same component. Example use cases would be search fields that load data as the user types, maps that load tiles, dynamic photo galleries etc.</p>
+<p>In this case, you can call <code>standalone</code> a second time and provide a name for your extra route:</p>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+  <span class='comment'># Regular route for rendering the content
+</span>  <span class='id identifier rubyid_standalone'>standalone</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>map/viewer</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_verb'>verb</span> <span class='symbol'>:get</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_authorize'>authorize</span> <span class='lbrace'>{</span> <span class='kw'>true</span> <span class='rbrace'>}</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Extra route for loading tiles via AJAX
+</span>  <span class='id identifier rubyid_standalone'>standalone</span> <span class='symbol'>:tiles</span><span class='comma'>,</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>map/viewer/tiles</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_verb'>verb</span> <span class='symbol'>:get</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_respond'>respond</span> <span class='kw'>do</span> <span class='comment'># Again: overriding `respond` skips authorization! This is why we don&#39;t need to provide an `authorize` block here.
+</span>        <span class='id identifier rubyid_controller'>controller</span><span class='period'>.</span><span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='label'>json:</span> <span class='const'>MapTiler</span><span class='period'>.</span><span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='id identifier rubyid_current_ability'>current_ability</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='comment'># current_ability is provided by CanCanCan and made available by Compony.
+</span>      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># More code for labelling, content etc.
+</span><span class='kw'>end</span>
+</code></pre>
+<p>Please note that the idea here is to package things that belong together, not to provide different kinds of content in a single component. For displaying different pages, use multiple components and have each expose a single route.</p>
+<h2 id="Naming_of_exposed_routes">Naming of exposed routes</h2>
+<p>The routes to standalone components are named and you can point to them using Rails' <code>..._path</code> and <code>..._url</code> helpers. The naming scheme is: <code>[standalone]_[component]_[family]_comp</code>. Examples:</p>
+<ul>
+<li>Default standalone: <code>Components::Users::Index</code> exports <code>index_users_comp</code> and thus <code>index_users_comp_path</code> can be used.</li>
+<li>Named standalone: If <code>standalone :foo, path: ...</code> is used within <code>Components::Users::Index</code>, the exported name is <code>foo_index_users_comp</code>.</li>
+</ul>
+<h2 id="Handling_formats">Handling formats</h2>
+<p>Compony is capable of responding to formats like Rails does. This is useful to deliver PDFs, CSV files etc. to a user from within Compony. This can be achieved by specifying the <code>respond</code> block:</p>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_standalone'>standalone</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>generate/report</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_verb'>verb</span> <span class='symbol'>:get</span> <span class='kw'>do</span>
+      <span class='comment'># Respond with a file when generate/report.pdf is GETed:
+</span>      <span class='id identifier rubyid_respond'>respond</span> <span class='symbol'>:pdf</span> <span class='kw'>do</span>
+        <span class='id identifier rubyid_file'>file</span><span class='comma'>,</span> <span class='id identifier rubyid_filename'>filename</span> <span class='op'>=</span> <span class='const'>PdfGenerator</span><span class='period'>.</span><span class='id identifier rubyid_generate'>generate</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='id identifier rubyid_current_ability'>current_ability</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_send_data'>send_data</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='comma'>,</span> <span class='label'>filename:</span><span class='comma'>,</span> <span class='label'>type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>application/pdf</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
+      <span class='comment'># If someone visits generate/report, issue a 404:
+</span>      <span class='id identifier rubyid_respond'>respond</span> <span class='kw'>do</span>
+        <span class='id identifier rubyid_fail'>fail</span> <span class='const'>ActionController</span><span class='op'>::</span><span class='const'>RoutingError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Unsupported format - please make sure your URL ends with `.pdf`.</span><span class='tstring_end'>&#39;</span></span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+<h2 id="Redirect_in__respond__or_in__before_render__">Redirect in <code>respond</code> or in <code>before_render</code>?</h2>
+<p>Rails controller redirects can be issued both in a verb DSL's <code>respond</code> block and in <code>before_render</code>. The rule of thumb that tells you which way to go is:</p>
+<ul>
+<li>If you want to redirect depending on the HTTP verb, use <code>respond</code>.</li>
+<li>If you want to redirect depending on params, state, time etc.  <strong>independently of the HTTP verb</strong>, use <code>before_render</code>, as this is more convenient than writing a standalone -&gt; verb -&gt; respond tree.</li>
+</ul>
+<h2 id="Path_constraints">Path constraints</h2>
+<p>When calling <code>standalone</code>, you may specify the keyword <code>constraints</code> that will be passed to the route. For example:</p>
+<pre class="code ruby"><code class="ruby"><span class='comment'># In your component
+</span><span class='id identifier rubyid_standelone'>standelone</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/:lang</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>constraints:</span> <span class='lbrace'>{</span> <span class='label'>lang:</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>([a-z]{2})?</span><span class='regexp_end'>/i</span></span> <span class='rbrace'>}</span>
+
+<span class='comment'># This will automatically lead to a route of this form:
+</span><span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>:lang</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>constraints:</span> <span class='lbrace'>{</span> <span class='label'>lang:</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>([a-z]{2})?</span><span class='regexp_end'>/i</span></span> <span class='rbrace'>}</span>
+</code></pre>
+<h2 id="Passing_scopes">Passing scopes</h2>
+<p>When calling <code>standalone</code>, you may specify the keyword <code>scope</code> to wrap the component's Rails route into a route scope. Additionally, you may specify a hash <code>scope_args</code>, which will be passed as keyword arguments to the <code>scope</code> call in the route:</p>
+<pre class="code ruby"><code class="ruby"><span class='comment'># In your component
+</span><span class='id identifier rubyid_standalone'>standalone</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/welcome</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>scope:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>(:lang)</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>scope_args:</span> <span class='lbrace'>{</span> <span class='label'>lang:</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>([a-z]{2})?</span><span class='regexp_end'>/i</span></span> <span class='rbrace'>}</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_verb'>verb</span> <span class='symbol'>:get</span> <span class='kw'>do</span>
+    <span class='comment'># ....
+</span>  <span class='kw'>end</span>
+<span class='kw'>end</span>
+
+<span class='comment'># This will automatically lead to a route of this form:
+</span><span class='id identifier rubyid_scope'>scope</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>(:lang)</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>lang:</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>([a-z]{2})?</span><span class='regexp_end'>/i</span></span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>welcome</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>to:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>compony#your_component</span><span class='tstring_end'>&#39;</span></span>
+<span class='kw'>end</span>
+</code></pre>
+<h2 id="Customizing_path_generation">Customizing path generation</h2>
+<p>By implementing <code>path do ... end</code> inside the <code>setup</code> method of a component, you can override the way paths to that component are generated. Customizing the path generation will affect all mentioned methods mentioned here involving paths, such as <code>Compony.path</code>, <code>render_intent</code> etc.</p>
+<p>The block runs <strong>outside</strong> the request context, so build URLs via
+<code>Rails.application.routes.url_helpers</code> (not <code>controller</code>/<code>helpers</code>). It is given an optional
+model, positional path-helper args, the <code>standalone_name:</code> kwarg, and any extra kwargs.</p>
+<p>This is an advanced usage. Refer to the default implementation of <code>Component</code>'s <code>path_block</code>
+to see the baseline example.</p>
+<p>Where overriding <code>path</code> is genuinely useful:</p>
+<ul>
+<li><strong>Inject a derived/looked-up param.</strong> Callers pass a high-level argument and the block
+turns it into concrete path params.</li>
+<li><strong>Mint a signed token into the URL</strong> so an unauthenticated link can authorize itself —
+a full worked recipe is in
+<a href="/doc/guide/patterns.md#18-signed-token-capability-links-auth-less-onboarding--magic-links">Real-world patterns §18 (signed-token capability links)</a>
+(magic login, password reset, invite/confirm links).</li>
+<li><strong>Custom slugs / vanity paths</strong> that differ from the Rails route helper's default shape.</li>
+</ul>
+<p><a href="/README.md#guide--documentation">Guide index</a></p></div></div>
+
+      <div id="footer">
+  Generated on Mon May 18 13:22:40 2026 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.43 (ruby-3.3.5).
+</div>
+
+    </div>
+  </body>
+</html>

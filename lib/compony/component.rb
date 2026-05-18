@@ -219,8 +219,8 @@ module Compony
     end
 
     # DSL method
-    # If a block is given: Enters the DSL where exposed intents can be added or removed (use from {Component#setup} within the component).
-    # If no block is given: Builds the declared intents and returns them (use from a {RequestContest} outside the component).
+    # If a block is given: Enters the DSL where exposed intents can be added or removed (use from {Compony::Component.setup} within the component).
+    # If no block is given: Builds the declared intents and returns them (use from a {Compony::RequestContext} outside the component).
     def exposed_intents(&block)
       if block_given?
         # Enter DSL

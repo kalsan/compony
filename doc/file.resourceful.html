@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: resourceful
+  
+    &mdash; Documentation by YARD 0.9.43
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css">
+
+  <link rel="stylesheet" href="css/common.css" type="text/css">
+
+<script type="text/javascript">
+  pathId = "resourceful";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: resourceful</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><p><a href="/README.md#guide--documentation">Back to the guide</a></p>
+<h1 id="Resourceful_components">Resourceful components</h1>
+<p>So far, we have mainly seen how to present static content, without considering how loading and storing data is handled. Whenever a component is about data, be it a collection (e.g. index, list) or a single instance (e.g. new, show, edit, destroy, form), that component typically becomes resourceful. In order to implement a resourceful component, include the mixin <code>Compony::ComponentMixins::Resourceful</code>.</p>
+<p>Resourceful components use an instance variable <code>@data</code> and provide a reader <code>data</code> for it. As a convention, always store the data the component &quot;is about&quot; in this variable.</p>
+<p>Further, the class of which <code>data</code> should be can be specified and retrieved by using <code>data_class</code>. By default, <code>data_class</code> is inferred from the component's family name, i.e. <code>Components::User::Show</code> will automatically return <code>User</code> as <code>data_class</code>.</p>
+<p>The mixin adds extra hooks that can be used to store logic that can be executed in the request context when the component is rendered standalone. The formulation of that sentence is important, as the decision which of these blocks are executed depends on the verb DSL. But before elaborating on that, let's first look at all the available hooks provided by the Resourceful mixin:</p>
+<ul>
+<li><code>load_data</code>: Important. Specify a block that assigns something to <code>@data</code> here. The block will be run before authorization - thus, you can check <code>@data</code> for authorizing (e.g. <code>can?(:read, @data)</code>).</li>
+<li><code>after_load_data</code>: Optional. If a block is specified, it is run immediately after <code>load_data</code>. This is useful if you inherit from a component that loads data but you need to alter something, e.g. refining a collection.</li>
+<li><code>assign_attributes</code>: Important for components that alter data, e.g. New, Edit. Specify a block that assigns attributes to your model from <code>load_data</code>. The model is now dirty, which is important: <strong>do not save your model here</strong>, as authorization has not yet been performed. Also, <strong>do not forget to validate params before assigning them to attributes</strong>.</li>
+<li><code>after_assign_attributes</code>: Optional. If a block is specified, it is run immediately after <code>assign_attributes</code>. Its usage is similar to that of <code>after_load_data</code>.</li>
+<li>(At this point, your <code>authorize</code> block is executed, throwing a <code>CanCan::AccessDenied</code> exception causing HTTP 403 not authorized if the block returns false.)</li>
+<li><code>store_data</code>: Important for components that alter data, e.g. New, Edit. This is where you save your model stored in <code>@data</code> to the database.</li>
+</ul>
+<p>Another important aspect of the Resourceful mixin is that it also <strong>extends the Verb DSL</strong> available in the component. The added calls are:</p>
+<ul>
+<li><code>load_data</code></li>
+<li><code>assign_attributes</code></li>
+<li><code>store_data</code></li>
+</ul>
+<p>Unlike the calls above, which are global for the entire component, the ones in the Verb DSL are on a per-verb basis, same as the <code>authorize</code> call. If the same hook is both given as a global hook and in the Verb DSL, the Verb DSL hook overwrites the global one. The rule of thumb on where to place logic is:</p>
+<ul>
+<li>If multiple verbs use the same logic for a hook, place it in the global hook. For example, let us consider an Edit component: if GET is called on it, the model is loaded and parameters are assigned to it in order to fill the form's inputs. If PATCH is called, the exact same thing is done before attempting to save the model. In this case, you would implement both <code>load_data</code> and <code>assign_attributes</code> as global hooks.</li>
+<li>If a hook is specific to a single verb, place it in the verb config.</li>
+</ul>
+<p>Let's build an example of a simplified Destroy component. In practice, you'd instead inherit from <code>Compony::Components::Destroy</code>. However, for the sake of demonstration, we will implement it from scratch:</p>
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Users</span><span class='op'>::</span><span class='const'>Destroy</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Component.html" title="Compony::Component (class)">Component</a></span></span>
+  <span class='comment'># Make the component resourceful
+</span>  <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/ComponentMixins.html" title="Compony::ComponentMixins (module)">ComponentMixins</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/ComponentMixins/Resourceful.html" title="Compony::ComponentMixins::Resourceful (module)">Resourceful</a></span></span>
+
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='comment'># Let the path be of the form users/42/destroy
+</span>    <span class='id identifier rubyid_standalone'>standalone</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>users/:id/destroy</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_verb'>verb</span> <span class='symbol'>:get</span> <span class='kw'>do</span>
+        <span class='comment'># In the case of a GET request, ask for confirmation, not deleting anything.
+</span>        <span class='comment'># Nevertheless, we should authorize :destroy, not :read.
+</span>        <span class='comment'># Reason: this way, buttons pointing to this component will not be shown
+</span>        <span class='comment'># to users which lack the permission to destroy @data.
+</span>        <span class='id identifier rubyid_authorize'>authorize</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_can?'>can?</span><span class='lparen'>(</span><span class='symbol'>:destroy</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+      <span class='kw'>end</span>
+
+      <span class='id identifier rubyid_verb'>verb</span> <span class='symbol'>:delete</span> <span class='kw'>do</span>
+        <span class='comment'># In the case of a DELETE request, the record will be destroyed.
+</span>        <span class='id identifier rubyid_authorize'>authorize</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_can?'>can?</span><span class='lparen'>(</span><span class='symbol'>:destroy</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+        <span class='id identifier rubyid_store_data'>store_data</span> <span class='lbrace'>{</span> <span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_destroy!'>destroy!</span> <span class='rbrace'>}</span>
+        <span class='comment'># We overwrite the respond block because we want to redirect, not render
+</span>        <span class='id identifier rubyid_respond'>respond</span> <span class='kw'>do</span>
+          <span class='id identifier rubyid_flash'>flash</span><span class='period'>.</span><span class='id identifier rubyid_notice'>notice</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='embexpr_end'>}</span><span class='tstring_content'> was deleted.</span><span class='tstring_end'>&quot;</span></span>
+          <span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_path'><span class='object_link'><a href="Compony.html#path-class_method" title="Compony.path (method)">path</a></span></span><span class='lparen'>(</span><span class='symbol'>:index</span><span class='comma'>,</span> <span class='symbol'>:users</span><span class='rparen'>)</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># Resourceful components have a default `load_data` block that loads the model.
+</span>    <span class='comment'># Therefore, the default behavior is already set to:
+</span>    <span class='comment'># load_data { @data = User.find(params[:id]) }
+</span>
+    <span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='symbol'>:short</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid__'>_</span><span class='op'>|</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Delete</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='symbol'>:long</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_data'>data</span><span class='op'>|</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Delete </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_content'>content</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_h1'>h1</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Are you sure to delete </span><span class='embexpr_beg'>#{</span><span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='embexpr_end'>}</span><span class='tstring_content'>?</span><span class='tstring_end'>&quot;</span></span>
+      <span class='id identifier rubyid_div'>div</span> <span class='id identifier rubyid_render_intent'>render_intent</span><span class='lparen'>(</span><span class='symbol'>:destroy</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='comma'>,</span> <span class='label'>label:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Yes, delete</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>method:</span> <span class='symbol'>:delete</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+<h2 id="Complete_resourceful_lifecycle">Complete resourceful lifecycle</h2>
+<p>This graph documents a typical resourceful lifecycle according to which Compony's <a href="./pre_built_components.md">pre-built components</a> are implemented.</p>
+<ul>
+<li><code>load_data</code> creates or fetches the resource from the database.</li>
+<li><code>after_load_data</code> can refine the resource, e.g. add scopes to a relation.</li>
+<li><code>assign_attributes</code> takes the HTTP parameters, validates them and assigns them to the resource.</li>
+<li><code>after_assign_attributes</code> can refine the assigned resource, e.g. provide defaults for blank attributes.</li>
+<li><code>authorize</code> is called.</li>
+<li><code>store_data</code> creates/updates/destroys the resource.</li>
+<li><code>respond</code> typically shows a flash and redirects to another component.</li>
+</ul>
+<p><img src="/doc/resourceful_lifecycle.png" alt="Graph of the complete resourceful lifecycle" /></p>
+<h2 id="Nesting_resourceful_components">Nesting resourceful components</h2>
+<p>The <a href="/doc/guide/intents.md">Intent</a> API makes it very easy to pass a resource to nested components. For more details, refer to <a href="/doc/guide/nesting.md#rendering-list-as-sub-comp-in-show">this example</a>.</p>
+<p><a href="/README.md#guide--documentation">Guide index</a></p></div></div>
+
+      <div id="footer">
+  Generated on Mon May 18 13:22:40 2026 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.43 (ruby-3.3.5).
+</div>
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: dsl_reference
+  
+    &mdash; Documentation by YARD 0.9.43
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css">
+
+  <link rel="stylesheet" href="css/common.css" type="text/css">
+
+<script type="text/javascript">
+  pathId = "dsl_reference";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: dsl_reference</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><p><a href="/README.md#guide--documentation">Back to the guide</a></p>
+<h1 id="DSL_reference">DSL reference</h1>
+<p>Flat lookup of every Compony DSL method, its calling context, signature, and a one-line
+description. This page is generated from <code># DSL method</code> markers in the source — when in
+doubt the Ruby source under <code>lib/compony/</code> is authoritative. &quot;Context&quot; says where the call
+is legal.</p>
+<p>Contexts:</p>
+<ul>
+<li><strong>class</strong> — directly in the component class body.</li>
+<li><strong>setup</strong> — inside <code>setup do ... end</code>.</li>
+<li><strong>standalone</strong> — inside <code>standalone do ... end</code>.</li>
+<li><strong>verb</strong> — inside <code>verb :x do ... end</code>.</li>
+<li><strong>form_fields</strong> — inside a Form component's <code>form_fields do ... end</code>.</li>
+<li><strong>content</strong> — inside a <code>content do ... end</code> block (a RequestContext).</li>
+<li><strong>model</strong> — in an <code>ActiveRecord</code>/model class that <code>include</code>s the model mixin.</li>
+</ul>
+<h2 id="Component_definition">Component definition</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Context</th>
+<th>Signature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>setup</code></td>
+<td>class</td>
+<td><code>setup { block }</code></td>
+<td>Main config block. Runs at end of init; parent runs before child.</td>
+</tr>
+<tr>
+<td><code>label</code></td>
+<td>setup</td>
+<td>`label(:short/:long/:all) { \</td>
+<td>model\</td>
+<td>... }`</td>
+<td>Component title + link/button text. Resourceful comps take 1 block arg.</td>
+</tr>
+<tr>
+<td><code>color</code></td>
+<td>setup</td>
+<td><code>color { '#AA0000' }</code></td>
+<td>Component color (not used by Compony itself).</td>
+</tr>
+<tr>
+<td><code>icon</code></td>
+<td>setup</td>
+<td><code>icon { %i[fa-solid circle] }</code></td>
+<td>Component icon (not used by Compony itself).</td>
+</tr>
+<tr>
+<td><code>content</code></td>
+<td>setup</td>
+<td><code>content(name = :main, before: nil, hidden: false) { block }</code></td>
+<td>Define/replace a named view block (Dyny). <code>hidden: true</code> = don't auto-render. Non-obvious use: hidden <code>:main</code> + <code>:wrapper</code> chrome → <a href="/doc/guide/patterns.md#1-the-app-base-component-layer">patterns §1</a>.</td>
+</tr>
+<tr>
+<td><code>content</code></td>
+<td>content</td>
+<td><code>content(:name)</code></td>
+<td>Render another content block of the <em>same</em> component (nesting). <a href="/doc/guide/patterns.md#1-the-app-base-component-layer">patterns §1</a>.</td>
+</tr>
+<tr>
+<td><code>remove_content</code></td>
+<td>setup</td>
+<td><code>remove_content(:name)</code></td>
+<td>Remove an inherited content block (returns false if absent).</td>
+</tr>
+<tr>
+<td><code>remove_content!</code></td>
+<td>setup</td>
+<td><code>remove_content!(:name)</code></td>
+<td>Same, raises if the block was not found.</td>
+</tr>
+<tr>
+<td><code>before_render</code></td>
+<td>setup</td>
+<td><code>before_render(name = :main, before: nil) { block }</code></td>
+<td>Pre-content hook. If it sets a response body (e.g. redirect), content is skipped. Non-obvious uses: verb-independent guard → <a href="/doc/guide/patterns.md#8-lifecycle-hooks-for-derived-data">patterns §8</a>; wizard step nav → <a href="/doc/guide/patterns.md#16-multi-step-wizard-across-components">patterns §16</a>.</td>
+</tr>
+<tr>
+<td><code>exposed_intents</code></td>
+<td>setup</td>
+<td><code>exposed_intents { add ...; remove ... }</code></td>
+<td>Declare intents the layout/parent renders. See <code>add</code>/<code>remove</code>, and the toolbar pattern → <a href="/doc/guide/patterns.md#9-exposed-intents-as-the-action-toolbar">patterns §9</a>.</td>
+</tr>
+<tr>
+<td><code>path</code></td>
+<td>setup</td>
+<td>`path { \</td>
+<td>model, *args, standalone_name:, **kw\</td>
+<td>... }`</td>
+<td>Override path generation for this component (advanced). Runs outside the request context — build URLs via <code>Rails.application.routes.url_helpers</code>. Non-obvious use: mint a signed token into the URL → <a href="/doc/guide/patterns.md#18-signed-token-capability-links-auth-less-onboarding--magic-links">patterns §18</a>; see also <a href="/doc/guide/standalone.md#customizing-path-generation">standalone.md</a>.</td>
+</tr>
+</tbody>
+</table>
+<p><code>exposed_intents</code> DSL (inside its block):</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>add</code></td>
+<td><code>add(comp, model_or_family, before: nil, **intent_opts)</code></td>
+<td>Add/replace an exposed intent (keyed by intent name).</td>
+</tr>
+<tr>
+<td><code>remove</code></td>
+<td><code>remove(:intent_name)</code></td>
+<td>Remove a previously added exposed intent.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Standalone__routing_">Standalone (routing)</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Context</th>
+<th>Signature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>standalone</code></td>
+<td>setup</td>
+<td><code>standalone(name = nil, path:, constraints: nil, scope: nil, scope_args: {}) { ... }</code></td>
+<td>Generate a Rails route. Non-obvious use: a <em>named</em> extra <code>standalone</code> for an ajax companion endpoint of the same screen → <a href="/doc/guide/patterns.md#17-inline-patch-without-a-form-reorder--quick-toggle">patterns §17</a>.</td>
+</tr>
+<tr>
+<td><code>verb</code></td>
+<td>standalone</td>
+<td><code>verb(:get/:post/:patch/:put/:delete/...) { ... }</code></td>
+<td>Config one HTTP verb. Up to once per verb per standalone.</td>
+</tr>
+<tr>
+<td><code>skip_authentication!</code></td>
+<td>standalone</td>
+<td><code>skip_authentication!</code></td>
+<td>Disable app authentication for this standalone (still need <code>authorize</code>). Non-obvious use: token-gated auth-less links → <a href="/doc/guide/patterns.md#18-signed-token-capability-links-auth-less-onboarding--magic-links">patterns §18</a>.</td>
+</tr>
+<tr>
+<td><code>skip_forgery_protection!</code></td>
+<td>standalone</td>
+<td><code>skip_forgery_protection!</code></td>
+<td>Disable CSRF for this standalone's action. Non-obvious use: inbound webhooks → <a href="/doc/guide/patterns.md#13-public-endpoints--webhooks">patterns §13</a>.</td>
+</tr>
+<tr>
+<td><code>layout</code></td>
+<td>standalone</td>
+<td><code>layout('layouts/backend')</code></td>
+<td>Rails layout for this standalone. Defaults to <code>layouts/application</code>. Centralize in the base layer → <a href="/doc/guide/patterns.md#1-the-app-base-component-layer">patterns §1</a>.</td>
+</tr>
+<tr>
+<td><code>authorize</code></td>
+<td>verb</td>
+<td><code>authorize { can?(:read, @data) }</code></td>
+<td><strong>Mandatory.</strong> Truthy = access; falsy → <code>CanCan::AccessDenied</code>. Non-obvious use: validate a signed token → <a href="/doc/guide/patterns.md#18-signed-token-capability-links-auth-less-onboarding--magic-links">patterns §18</a>.</td>
+</tr>
+<tr>
+<td><code>respond</code></td>
+<td>verb</td>
+<td><code>respond(format = nil) { ... }</code></td>
+<td>Override the controller response (e.g. send_data, render json, redirect). Overriding <code>nil</code> format <strong>skips <code>authorize</code></strong> — re-check yourself. Non-obvious uses: CSV/PDF export → <a href="/doc/guide/patterns.md#10-csv--pdf-via-respond-format">patterns §10</a>; ajax-only PATCH → <a href="/doc/guide/patterns.md#17-inline-patch-without-a-form-reorder--quick-toggle">patterns §17</a>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Resourceful_lifecycle_hooks">Resourceful lifecycle hooks</h2>
+<p>Available in <strong>setup</strong> (global, all verbs) on resourceful components; the same names also
+work inside a <strong>verb</strong> block to override for one path+verb.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>data_class</code></td>
+<td><code>data_class(NewClass = nil)</code></td>
+<td>Set/get the model class. Defaults to family name singularized+constantized. Non-obvious use: point at a <code>VirtualModel</code> → <a href="/doc/guide/patterns.md#12-virtual-model-for-non-persistent--upload-forms">patterns §12</a>.</td>
+</tr>
+<tr>
+<td><code>load_data</code></td>
+<td><code>load_data { @data = ... }</code></td>
+<td>Override record loading. Default: <code>data_class.find(params[:id])</code>. Runs before <code>authorize</code>. Non-obvious uses: Index scope → <a href="/doc/guide/patterns.md#3-index--load_data-scope--nested-list">patterns §3</a>; load+dup for clone → <a href="/doc/guide/patterns.md#11-non-crud-job-dispatch-toggles-clone">patterns §11</a>.</td>
+</tr>
+<tr>
+<td><code>after_load_data</code></td>
+<td><code>after_load_data { ... }</code></td>
+<td>Runs after <code>load_data</code>, before <code>authorize</code>. Refine an AR relation here.</td>
+</tr>
+<tr>
+<td><code>assign_attributes</code></td>
+<td><code>assign_attributes { ... }</code></td>
+<td>Assign validated params onto <code>@data</code>. Pre-built forms supply a default.</td>
+</tr>
+<tr>
+<td><code>after_assign_attributes</code></td>
+<td><code>after_assign_attributes { ... }</code></td>
+<td>After <code>assign_attributes</code>, before <code>store_data</code>. Prefill/derive fields here → <a href="/doc/guide/patterns.md#8-lifecycle-hooks-for-derived-data">patterns §8</a>; seed from a token → <a href="/doc/guide/patterns.md#18-signed-token-capability-links-auth-less-onboarding--magic-links">patterns §18</a>.</td>
+</tr>
+<tr>
+<td><code>store_data</code></td>
+<td><code>store_data { @data.save }</code></td>
+<td>Persist <code>@data</code>. Override for virtual models / uploads → <a href="/doc/guide/patterns.md#12-virtual-model-for-non-persistent--upload-forms">patterns §12</a>, or to enqueue work / multi-record txn → <a href="/doc/guide/patterns.md#11-non-crud-job-dispatch-toggles-clone">patterns §11</a>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Form_component_DSL">Form component DSL</h2>
+<p><code>class Components::X::Form &lt; Compony::Components::Form</code></p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Context</th>
+<th>Signature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>form_fields</code></td>
+<td>setup</td>
+<td><code>form_fields { ... }</code></td>
+<td><strong>Mandatory.</strong> Block holding the form inputs (Dyny + <code>field</code>/<code>f</code>).</td>
+</tr>
+<tr>
+<td><code>field</code></td>
+<td>form_fields</td>
+<td><code>field(:name, multilang: false, **simple_form_opts)</code></td>
+<td>Render a simple_form input inferred from the model field. <code>as:</code>/<code>hidden:</code> supported.</td>
+</tr>
+<tr>
+<td><code>pw_field</code></td>
+<td>form_fields</td>
+<td><code>pw_field(:password, **opts)</code></td>
+<td>Password input; checks <code>:set_password</code> ability.</td>
+</tr>
+<tr>
+<td><code>f</code></td>
+<td>form_fields</td>
+<td><code>f</code></td>
+<td>The underlying <code>simple_form</code> builder (for <code>f.rich_text_area</code> etc.).</td>
+</tr>
+<tr>
+<td><code>collect</code></td>
+<td>form_fields</td>
+<td><code>collect(...)</code></td>
+<td>Wrap a collection in Rails-compatible format (Anchormodel helper).</td>
+</tr>
+<tr>
+<td><code>schema_field</code></td>
+<td>setup</td>
+<td><code>schema_field(:name, multilang: false)</code></td>
+<td>Whitelist one field in the Schemacop param schema. For associations use the <strong>association name</strong>, not <code>_id</code>.</td>
+</tr>
+<tr>
+<td><code>schema_fields</code></td>
+<td>setup</td>
+<td><code>schema_fields(:a, :b, ...)</code></td>
+<td>Mass <code>schema_field</code>.</td>
+</tr>
+<tr>
+<td><code>schema_pw_field</code></td>
+<td>setup</td>
+<td><code>schema_pw_field(:password)</code></td>
+<td>Whitelist a password param (checks <code>:set_password</code>).</td>
+</tr>
+<tr>
+<td><code>schema_line</code></td>
+<td>setup</td>
+<td><code>schema_line { str? :foo }</code></td>
+<td>Add a raw Schemacop3 line (nested attrs, custom shapes) → <a href="/doc/guide/patterns.md#5-custom-form--schemacop-kept-in-sync">patterns §5</a>.</td>
+</tr>
+<tr>
+<td><code>schema</code></td>
+<td>setup</td>
+<td><code>schema(:wrapper_key) { ... }</code></td>
+<td>Replace the whole schema + wrapper key (fully manual).</td>
+</tr>
+<tr>
+<td><code>form_params</code></td>
+<td>setup</td>
+<td><code>form_params(**opts)</code></td>
+<td>Extra kwargs passed to <code>simple_form_for</code>.</td>
+</tr>
+<tr>
+<td><code>disable!</code></td>
+<td>setup</td>
+<td><code>disable!</code></td>
+<td>Render all inputs disabled.</td>
+</tr>
+<tr>
+<td><code>skip_autofocus</code></td>
+<td>setup</td>
+<td><code>skip_autofocus</code></td>
+<td>Don't autofocus the first field.</td>
+</tr>
+</tbody>
+</table>
+<p>WithForm / New / Edit wiring (in the New/Edit component's <code>setup</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>submit_verb</code></td>
+<td><code>submit_verb(:patch)</code></td>
+<td>HTTP verb the form submits with (<code>:post</code> for New, <code>:patch</code> for Edit).</td>
+</tr>
+<tr>
+<td><code>form_comp_class</code></td>
+<td><code>form_comp_class(Components::X::MyForm)</code></td>
+<td>Use a custom Form component instead of <code>Components::&lt;Family&gt;::Form</code>. Non-obvious uses: non-default form → <a href="/doc/guide/patterns.md#5-custom-form--schemacop-kept-in-sync">patterns §5</a>; token-gated signup → <a href="/doc/guide/patterns.md#18-signed-token-capability-links-auth-less-onboarding--magic-links">patterns §18</a>.</td>
+</tr>
+<tr>
+<td><code>form_cancancan_action</code></td>
+<td><code>form_cancancan_action(:edit)</code></td>
+<td>CanCanCan action used for per-field <code>permitted_attributes</code>. Pass <code>nil</code> to disable per-field auth (e.g. token-gated forms → <a href="/doc/guide/patterns.md#18-signed-token-capability-links-auth-less-onboarding--magic-links">patterns §18</a>).</td>
+</tr>
+<tr>
+<td><code>submit_path</code></td>
+<td><code>submit_path { Compony.path(...) }</code></td>
+<td>Override where the form POSTs/PATCHes to. Non-obvious use: carry a token through submit → <a href="/doc/guide/patterns.md#18-signed-token-capability-links-auth-less-onboarding--magic-links">patterns §18</a>.</td>
+</tr>
+<tr>
+<td><code>on_created</code> / <code>on_updated</code></td>
+<td><code>on_created { ... }</code></td>
+<td>Post-save, pre-respond hook (success).</td>
+</tr>
+<tr>
+<td><code>on_created_respond</code> / <code>on_updated_respond</code></td>
+<td><code>... { ... }</code></td>
+<td>Override the success response (default: flash + redirect).</td>
+</tr>
+<tr>
+<td><code>on_created_redirect_path</code> / <code>on_updated_redirect_path</code></td>
+<td><code>... { path }</code></td>
+<td>Override the success redirect target. Non-obvious use: chain wizard steps → <a href="/doc/guide/patterns.md#16-multi-step-wizard-across-components">patterns §16</a>.</td>
+</tr>
+<tr>
+<td><code>on_create_failed_respond</code> / <code>on_update_failed</code></td>
+<td><code>... { ... }</code></td>
+<td>Override the validation-failure response.</td>
+</tr>
+<tr>
+<td><code>on_destroyed</code> / <code>on_destroyed_respond</code> / <code>on_destroyed_redirect_path</code></td>
+<td><code>... { ... }</code></td>
+<td>Destroy component equivalents.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="List___Index_component_DSL">List / Index component DSL</h2>
+<p><code>Compony::Components::List</code> (nest in Index or owner Show); <code>Compony::Components::Index</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Context</th>
+<th>Signature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>column</code></td>
+<td>setup</td>
+<td>`column(:name, label: nil, class: nil, link_opts: {}) { \</td>
+<td>record\</td>
+<td>... }`</td>
+<td>Add/define a column; block renders the cell.</td>
+</tr>
+<tr>
+<td><code>columns</code></td>
+<td>setup</td>
+<td><code>columns(:a, :b, as_title: false)</code></td>
+<td>Add several field-based columns. <code>as_title: true</code> = card title on mobile.</td>
+</tr>
+<tr>
+<td><code>filter</code></td>
+<td>setup</td>
+<td>`filter(:name, label: nil) { \</td>
+<td>f\</td>
+<td>... }`</td>
+<td>Add/define a filter; block customizes the input.</td>
+</tr>
+<tr>
+<td><code>filters</code></td>
+<td>setup</td>
+<td><code>filters(:a, :b)</code></td>
+<td>Add several filters.</td>
+</tr>
+<tr>
+<td><code>sort</code></td>
+<td>setup</td>
+<td><code>sort(:name, label: nil)</code></td>
+<td>Add a sort option.</td>
+</tr>
+<tr>
+<td><code>sorts</code></td>
+<td>setup</td>
+<td><code>sorts(:a, :b)</code></td>
+<td>Add several sort options.</td>
+</tr>
+<tr>
+<td><code>default_sorting</code></td>
+<td>setup</td>
+<td><code>default_sorting('id desc')</code></td>
+<td>Default Ransack sort string.</td>
+</tr>
+<tr>
+<td><code>row_intents</code></td>
+<td>setup</td>
+<td><code>row_intents(**opts) { add/remove }</code></td>
+<td>Per-row action buttons (intent DSL) → <a href="/doc/guide/patterns.md#4-list-customization">patterns §4</a>.</td>
+</tr>
+<tr>
+<td><code>pagination</code></td>
+<td>setup</td>
+<td><code>pagination(false)</code></td>
+<td>Enable/disable pagination (caution: loads all rows).</td>
+</tr>
+<tr>
+<td><code>results_per_page</code></td>
+<td>setup</td>
+<td><code>results_per_page(20)</code></td>
+<td>Rows per page when paginating.</td>
+</tr>
+<tr>
+<td><code>filtering</code></td>
+<td>setup</td>
+<td><code>filtering(false)</code></td>
+<td>Enable/disable filtering entirely.</td>
+</tr>
+<tr>
+<td><code>sorting</code></td>
+<td>setup</td>
+<td><code>sorting(false)</code></td>
+<td>Enable/disable both sorting links and in-filter sorting.</td>
+</tr>
+<tr>
+<td><code>sorting_in_filter</code> / <code>sorting_links</code></td>
+<td>setup</td>
+<td><code>sorting_links(false)</code></td>
+<td>Toggle one sorting UI independently.</td>
+</tr>
+<tr>
+<td><code>filter_label_class</code> / <code>filter_input_class</code> / <code>filter_select_class</code></td>
+<td>setup</td>
+<td><code>filter_input_class('...')</code></td>
+<td>CSS classes for filter form elements.</td>
+</tr>
+<tr>
+<td><code>skip_column</code></td>
+<td>setup</td>
+<td><code>skip_column(:name)</code></td>
+<td>Remove an inherited column (Show/List).</td>
+</tr>
+</tbody>
+</table>
+<p>Many of these also accept <code>skip_*</code> kwargs on the constructor when the List is nested via
+<code>render_sub_comp</code> (e.g. <code>render_sub_comp(:list, coll, skip_pagination: true)</code>).</p>
+<h2 id="Model_mixin__in_your__ApplicationRecord__models_">Model mixin (in your <code>ApplicationRecord</code> models)</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Context</th>
+<th>Signature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>field</code></td>
+<td>model (class)</td>
+<td><code>field(:name, :type, multilang: false, **attrs)</code></td>
+<td>Declare a UI-relevant attribute + its type/formatting.</td>
+</tr>
+<tr>
+<td><code>prevent</code></td>
+<td>model (class)</td>
+<td><code>prevent(:destroy, 'msg') { condition }</code></td>
+<td>Feasibility: block returns truthy → action prevented (buttons disabled).</td>
+</tr>
+<tr>
+<td><code>owned_by</code></td>
+<td>model (class)</td>
+<td><code>owned_by(:invoice)</code></td>
+<td>Mark this model as owned by another; adjusts redirects/top actions.</td>
+</tr>
+<tr>
+<td><code>skip_autodetect_feasibilities</code></td>
+<td>model (class)</td>
+<td><code>skip_autodetect_feasibilities</code></td>
+<td>Don't auto-derive <code>:destroy</code> preventions from <code>dependent:</code> associations.</td>
+</tr>
+<tr>
+<td><code>feasible?</code></td>
+<td>model (instance)</td>
+<td><code>record.feasible?(:destroy)</code></td>
+<td>True if no prevention blocks the action.</td>
+</tr>
+<tr>
+<td><code>feasibility_messages</code></td>
+<td>model (instance)</td>
+<td><code>record.feasibility_messages(:destroy)</code></td>
+<td>Array of reasons (like <code>errors</code>).</td>
+</tr>
+<tr>
+<td><code>full_feasibility_messages</code></td>
+<td>model (instance)</td>
+<td><code>record.full_feasibility_messages(:destroy)</code></td>
+<td>Joined human string (like <code>full_messages</code>).</td>
+</tr>
+</tbody>
+</table>
+<p><code>label</code> is not a DSL method but <strong>every Compony model must implement <code>def label</code></strong> (or have
+a <code>label</code> column) — used for titles and link text.</p>
+<h2 id="Intent___navigation_helpers">Intent / navigation helpers</h2>
+<p>Used from <code>content</code> blocks or controllers — see <a href="/doc/guide/intents.md">intents.md</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Context</th>
+<th>Signature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Compony.intent</code></td>
+<td>anywhere</td>
+<td><code>Compony.intent(:show, model, **opts)</code></td>
+<td>Build an <code>Intent</code>.</td>
+</tr>
+<tr>
+<td><code>Compony.path</code></td>
+<td>anywhere</td>
+<td><code>Compony.path(:index, :users, **opts)</code></td>
+<td>Rails path string (redirects).</td>
+</tr>
+<tr>
+<td><code>render_intent</code></td>
+<td>content</td>
+<td><code>render_intent(:edit, model, style:, label:, button:)</code></td>
+<td>Render a link/button to a component. Wrap in <code>concat</code>.</td>
+</tr>
+<tr>
+<td><code>render_sub_comp</code></td>
+<td>content</td>
+<td><code>render_sub_comp(:list, @data.quotes, **opts)</code></td>
+<td>Instantiate + nest another component. Wrap in <code>concat</code>.</td>
+</tr>
+<tr>
+<td><code>Compony.comp_class_for</code></td>
+<td>anywhere</td>
+<td><code>Compony.comp_class_for(:show, family)</code></td>
+<td>Comp class or <code>nil</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><a href="/README.md#guide--documentation">Guide index</a></p></div></div>
+
+      <div id="footer">
+  Generated on Mon May 18 13:22:40 2026 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.43 (ruby-3.3.5).
+</div>
+
+    </div>
+  </body>
+</html>

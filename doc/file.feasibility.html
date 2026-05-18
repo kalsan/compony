@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: feasibility
+  
+    &mdash; Documentation by YARD 0.9.43
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css">
+
+  <link rel="stylesheet" href="css/common.css" type="text/css">
+
+<script type="text/javascript">
+  pathId = "feasibility";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: feasibility</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><p><a href="/README.md#guide--documentation">Back to the guide</a></p>
+<h1 id="Feasibility">Feasibility</h1>
+<p>When a user has the permission to perform an action in general, but it is currently not feasible (for instance if the concerned object is incomplete, or if right now is not the right time to do the action), buttons pointing to that action should be disabled and a HTML <code>title</code> attribute should cause a tooltip explaining why this action cannot be performed right now.</p>
+<p>This can be easily achieved with the feasibility framework, which allows you to prevent actions on conditions, along with an error message. Formulate the error message similar to Rails validation errors (first letter not capital, no period at the end), as the prevention framework is able to concatenate multiple error messages if multiple conditions prevent an action.</p>
+<p>The feasibility framework currently only makes sense for resourceful components.</p>
+<p>Example:</p>
+<pre class="code ruby"><code class="ruby"><span class='comment'># app/models/user.rb
+</span><span class='comment'># Prevent sending an e-mail to a user that has no e-mail address present
+</span><span class='id identifier rubyid_prevent'>prevent</span> <span class='symbol'>:send_mail</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>the e-mail address is missing</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_email'>email</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
+<span class='kw'>end</span>
+
+<span class='comment'># app/models/event.rb
+</span><span class='comment'># Multiple actions can be prevented at once:
+</span><span class='comment'># Prevent creating or removing a booking to an event that lies in the past or that is locked
+</span><span class='id identifier rubyid_prevent'>prevent</span> <span class='lbracket'>[</span><span class='symbol'>:create_booking</span><span class='comma'>,</span> <span class='symbol'>:destroy_booking</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>the event is already over</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_ends_at'>ends_at</span> <span class='op'>&lt;</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_zone'>zone</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span> <span class='op'>||</span> <span class='id identifier rubyid_locked?'>locked?</span>
+<span class='kw'>end</span>
+</code></pre>
+<p><strong>Note that the feasibility framework currently only affects buttons/links pointing to actions, not the action itself.</strong> If a user were to issue the HTTP call manually, the component happily responds and performs the action. This is why you should always back important preventions with an appropriate Rails model validation:</p>
+<ul>
+<li>The Rails model validation prevents that invalid data can be saved to the database.</li>
+<li>The feasibility framework disables buttons and links and explains to guide the user.</li>
+<li>Links are disabled by changing the href to <code>'#'</code> and adding the <code>.disabled</code> class, which is useful when bootstrap is used.</li>
+<li>Authorization is orthogonal to this, limiting the actions of a specific user.</li>
+<li>If an action is both prevented and not authorized, the authorization &quot;wins&quot; and the action button is not shown at all.</li>
+</ul>
+<p>Compony has a feature that auto-detects feasibility of some actions. In particular, it checks for <code>dependent</code> relations in the <code>has_one</code>/<code>has_many</code> relations and disables delete buttons that point to objects that have dependent objects that cannot automatically be destroyed.</p>
+<p>To disable auto detection, call <code>skip_autodetect_feasibilities</code> in your model.</p>
+<p><a href="/README.md#guide--documentation">Guide index</a></p></div></div>
+
+      <div id="footer">
+  Generated on Mon May 18 13:22:40 2026 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.43 (ruby-3.3.5).
+</div>
+
+    </div>
+  </body>
+</html>

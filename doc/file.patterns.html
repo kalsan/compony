@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: patterns
+  
+    &mdash; Documentation by YARD 0.9.43
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css">
+
+  <link rel="stylesheet" href="css/common.css" type="text/css">
+
+<script type="text/javascript">
+  pathId = "patterns";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: patterns</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><p><a href="/README.md#guide--documentation">Back to the guide</a></p>
+<h1 id="Real_world_patterns">Real-world patterns</h1>
+<p>Conventions distilled from a range of production Compony apps. These are <em>idioms</em>, not
+framework requirements — but they recur consistently and are worth adopting. Every example
+uses a neutral domain (<code>Account</code>, <code>Order</code>, <code>LineItem</code>, <code>Document</code>). Where a pattern relies
+on a companion gem (CanCanCan, ActiveType, simple_form, a date/select input) that is
+called out.</p>
+<p>For exact method signatures see <a href="/doc/guide/dsl_reference.md">dsl_reference.md</a>; for
+footguns see <a href="/doc/guide/gotchas.md">gotchas.md</a>.</p>
+<h2 id="1__The_app_base_component_layer">1. The app base-component layer</h2>
+<p>Almost every non-trivial app inserts one abstract layer between Compony's pre-built
+components and the concrete ones. Concrete components inherit from the app layer, never
+from Compony directly. This centralizes layout, button styling, and chrome so the whole
+app's look changes in one place.</p>
+<pre class="code ruby"><code class="ruby"><span class='comment'># app/components/base_components/show.rb  (a common location; app/compony/ is also used)
+</span><span class='kw'>module</span> <span class='const'>BaseComponents</span>
+  <span class='kw'>class</span> <span class='const'>Show</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Show.html" title="Compony::Components::Show (class)">Show</a></span></span>
+    <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_standalone'>standalone</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_layout'>layout</span> <span class='symbol'>:backend</span> <span class='rbrace'>}</span>     <span class='comment'># app-wide Rails layout for all non-publicly accessible components
+</span>      <span class='id identifier rubyid_button'>button</span><span class='lparen'>(</span><span class='symbol'>:icon</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='symbol'>:eye</span> <span class='rbrace'>}</span>
+      <span class='id identifier rubyid_content'>content</span> <span class='symbol'>:main</span><span class='comma'>,</span> <span class='label'>hidden:</span> <span class='kw'>true</span>        <span class='comment'># concrete comps fill :main…
+</span>      <span class='id identifier rubyid_content'>content</span> <span class='symbol'>:wrapper</span> <span class='kw'>do</span>                <span class='comment'># …chrome lives here, inherited
+</span>        <span class='id identifier rubyid_div'>div</span> <span class='label'>class:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>card card-body</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+          <span class='id identifier rubyid_content'>content</span> <span class='symbol'>:main</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+
+<span class='comment'># app/components/orders/show.rb
+</span><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Orders</span><span class='op'>::</span><span class='const'>Show</span> <span class='op'>&lt;</span> <span class='const'>BaseComponents</span><span class='op'>::</span><span class='const'>Show</span>
+<span class='kw'>end</span>                                      <span class='comment'># fully functional, empty body
+</span></code></pre>
+<p>Recurring forms of this layer: <code>BaseComponents::{Index,Show,New,Edit,Destroy,List}</code>. The
+<code>content :main, hidden: true</code> + <code>content :wrapper</code> pair is the standard way to let
+children override the inner content while inheriting the outer chrome (see
+<a href="/doc/guide/basic_component.md#nesting-content-blocks-calling-a-content-block-from-another">basic_component.md</a>).</p>
+<p>Teams sometimes add their own helper DSL on top of this layer (CSV/PDF helpers, archive
+toggles, etc.). Keep such helpers in the app base layer, not in concrete components.</p>
+<h2 id="2__Thin_leaf_components">2. Thin leaf components</h2>
+<p>Concrete CRUD components are usually empty — all behavior is inherited. Add a <code>setup</code> block
+only to deviate.</p>
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Orders</span><span class='op'>::</span><span class='const'>Destroy</span> <span class='op'>&lt;</span> <span class='const'>BaseComponents</span><span class='op'>::</span><span class='const'>Destroy</span><span class='semicolon'>;</span> <span class='kw'>end</span>
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Orders</span><span class='op'>::</span><span class='const'>New</span>     <span class='op'>&lt;</span> <span class='const'>BaseComponents</span><span class='op'>::</span><span class='const'>New</span><span class='semicolon'>;</span>     <span class='kw'>end</span>
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Orders</span><span class='op'>::</span><span class='const'>Edit</span>    <span class='op'>&lt;</span> <span class='const'>BaseComponents</span><span class='op'>::</span><span class='const'>Edit</span><span class='semicolon'>;</span>    <span class='kw'>end</span>
+</code></pre>
+<p>This is the single most common pattern. Prefer it over hand-written endpoints
+(<a href="/doc/guide/gotchas.md#15-hand-rolled-endpoint-where-a-pre-built-crud-component-exists">gotchas.md #15</a>).</p>
+<h2 id="3__Index____load_data__scope___nested___list_">3. Index = <code>load_data</code> scope + nested <code>:list</code></h2>
+<p>Index components rarely render rows themselves; they load a scope and embed the family's
+List via <code>render_sub_comp</code>.</p>
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Orders</span><span class='op'>::</span><span class='const'>Index</span> <span class='op'>&lt;</span> <span class='const'>BaseComponents</span><span class='op'>::</span><span class='const'>Index</span>
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_load_data'>load_data</span> <span class='lbrace'>{</span> <span class='ivar'>@data</span> <span class='op'>=</span> <span class='const'>Order</span><span class='period'>.</span><span class='id identifier rubyid_accessible_by'>accessible_by</span><span class='lparen'>(</span><span class='id identifier rubyid_current_ability'>current_ability</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_order'>order</span><span class='lparen'>(</span><span class='label'>created_at:</span> <span class='symbol'>:desc</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_content'>content</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_h1'>h1</span> <span class='const'>Order</span><span class='period'>.</span><span class='id identifier rubyid_model_name'>model_name</span><span class='period'>.</span><span class='id identifier rubyid_human'>human</span><span class='lparen'>(</span><span class='label'>count:</span> <span class='int'>2</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_render_sub_comp'>render_sub_comp</span><span class='lparen'>(</span><span class='symbol'>:list</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+<ul>
+<li><code>accessible_by(current_ability)</code> is the CanCanCan scoping idiom — pair it with the
+<code>authorize</code> block so list and access rules agree.</li>
+<li><code>concat</code> is mandatory around <code>render_sub_comp</code>/<code>render_intent</code>
+(<a href="/doc/guide/gotchas.md#2-render_intent--render_sub_comp-output-not-appearing">gotchas.md #2</a>).</li>
+</ul>
+<h2 id="4__List_customization">4. List customization</h2>
+<p>This pattern is typically combined with a customized <code>BaseComponents::List</code> that adds styling and
+features to the pre-built list component.</p>
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Orders</span><span class='op'>::</span><span class='const'>List</span> <span class='op'>&lt;</span> <span class='const'>BaseComponents</span><span class='op'>::</span><span class='const'>List</span>
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_columns'>columns</span> <span class='symbol'>:number</span><span class='comma'>,</span> <span class='symbol'>:customer</span><span class='comma'>,</span> <span class='label'>as_title:</span> <span class='kw'>true</span>   <span class='comment'># as_title -&gt; card title on mobile
+</span>    <span class='id identifier rubyid_columns'>columns</span> <span class='symbol'>:total</span><span class='comma'>,</span> <span class='symbol'>:created_at</span>
+    <span class='id identifier rubyid_column'>column</span> <span class='symbol'>:status</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_order'>order</span><span class='op'>|</span>                     <span class='comment'># computed/custom cell
+</span>      <span class='id identifier rubyid_span'>span</span> <span class='id identifier rubyid_order'>order</span><span class='period'>.</span><span class='id identifier rubyid_status'>status</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='label'>class:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>badge bg-</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_order'>order</span><span class='period'>.</span><span class='id identifier rubyid_status'>status</span><span class='period'>.</span><span class='id identifier rubyid_key'>key</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_filters'>filters</span> <span class='symbol'>:number</span><span class='comma'>,</span> <span class='symbol'>:status</span>
+    <span class='id identifier rubyid_sorts'>sorts</span> <span class='symbol'>:number</span><span class='comma'>,</span> <span class='symbol'>:created_at</span>
+    <span class='id identifier rubyid_default_sorting'>default_sorting</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>created_at desc</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+<p>Embedding a child list inside a Show, dropping the redundant FK column and preserving the
+active tab across filter submits:</p>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_render_sub_comp'>render_sub_comp</span><span class='lparen'>(</span><span class='symbol'>:list</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_line_items'>line_items</span><span class='comma'>,</span> <span class='label'>skip_columns:</span> <span class='lbracket'>[</span><span class='symbol'>:order</span><span class='rbracket'>]</span><span class='comma'>,</span>
+                                                 <span class='label'>params_in_filter:</span> <span class='lbracket'>[</span><span class='id identifier rubyid_param_name'>param_name</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>tab</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+</code></pre>
+<p><code>skip_*</code> options (<code>skip_pagination:</code>, <code>skip_filtering:</code>, <code>skip_columns:</code>, …) are
+constructor kwargs passed through <code>render_sub_comp</code>, useful for read-only embeds.</p>
+<h2 id="5__Custom_form___Schemacop__kept_in_sync">5. Custom form + Schemacop, kept in sync</h2>
+<p><code>form_fields</code> (rendering) and <code>schema_*</code> (param whitelist) must mirror each other.</p>
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Orders</span><span class='op'>::</span><span class='const'>Form</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Form.html" title="Compony::Components::Form (class)">Form</a></span></span>
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_form_fields'>form_fields</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='symbol'>:number</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='symbol'>:customer</span><span class='comma'>,</span> <span class='label'>as:</span> <span class='symbol'>:tom_select</span><span class='rparen'>)</span>        <span class='comment'># association name, not _id
+</span>      <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='symbol'>:placed_at</span><span class='comma'>,</span> <span class='label'>as:</span> <span class='symbol'>:flatpickr_datetime</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_pw_field'>pw_field</span><span class='lparen'>(</span><span class='symbol'>:access_code</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='symbol'>:internal_ref</span><span class='comma'>,</span> <span class='label'>hidden:</span> <span class='kw'>true</span><span class='rparen'>)</span>        <span class='comment'># submitted, not shown
+</span>      <span class='id identifier rubyid_div'>div</span> <span class='label'>class:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>row</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>                               <span class='comment'># arbitrary Dyny layout
+</span>        <span class='id identifier rubyid_div'>div</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='symbol'>:first_name</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>class:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>col</span><span class='tstring_end'>&#39;</span></span>
+        <span class='id identifier rubyid_div'>div</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='symbol'>:last_name</span><span class='rparen'>)</span><span class='comma'>,</span>  <span class='label'>class:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>col</span><span class='tstring_end'>&#39;</span></span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_schema_fields'>schema_fields</span> <span class='symbol'>:number</span><span class='comma'>,</span> <span class='symbol'>:customer</span><span class='comma'>,</span> <span class='symbol'>:placed_at</span><span class='comma'>,</span> <span class='symbol'>:internal_ref</span>
+    <span class='id identifier rubyid_schema_pw_field'>schema_pw_field</span> <span class='symbol'>:access_code</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+<ul>
+<li><code>as: :tom_select</code> / <code>as: :flatpickr_date(time)</code> are app-registered simple_form inputs
+(TomSelect, Flatpickr) — a good choice for selects and date pickers.</li>
+<li>Use the <strong>association name</strong> in <code>field</code>/<code>schema_field</code>; <code>_id</code> is added automatically
+(<a href="/doc/guide/gotchas.md#4-schema_field-with-the-foreign-key-name">gotchas.md #4</a>).</li>
+<li>Nested attributes: <code>f.simple_fields_for(:line_items)</code> in <code>form_fields</code> plus a raw
+<code>schema_line { ary? :line_items_attributes do ... end }</code>.</li>
+<li>Multilang fields: <code>field(:title, multilang: true).each { |i| concat i }</code> paired with
+<code>schema_field :title, multilang: true</code>.</li>
+</ul>
+<p>Wire a non-default form into New/Edit with <code>form_comp_class</code>:</p>
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Orders</span><span class='op'>::</span><span class='const'>QuickAdd</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/New.html" title="Compony::Components::New (class)">New</a></span></span>
+  <span class='id identifier rubyid_setup'>setup</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_form_comp_class'>form_comp_class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Orders</span><span class='op'>::</span><span class='const'>QuickAddForm</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span>
+</code></pre>
+<h2 id="6__Autocomplete_form__app_level_subclass_">6. Autocomplete form (app-level subclass)</h2>
+<p>Compony does not ship autocomplete, but a very common app pattern is an
+<code>AutocompleteForm</code> base (subclass of <code>Compony::Components::Form</code>) exposing an extra
+<code>standalone</code> JSON endpoint for an ajax select. Shape:</p>
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>BaseComponents</span><span class='op'>::</span><span class='const'>AutocompleteForm</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Form.html" title="Compony::Components::Form (class)">Form</a></span></span>
+  <span class='comment'># class-level `autocomplete(field) { |query, ability| ...collection... }` that
+</span>  <span class='comment'># registers an extra `standalone :autocomplete_&lt;field&gt;` returning
+</span>  <span class='comment'># [{ text:, value:, icon: }] JSON, consumed by a TomSelect Stimulus controller.
+</span><span class='kw'>end</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Orders</span><span class='op'>::</span><span class='const'>Form</span> <span class='op'>&lt;</span> <span class='const'>BaseComponents</span><span class='op'>::</span><span class='const'>AutocompleteForm</span>
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_form_fields'>form_fields</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='symbol'>:customer</span><span class='comma'>,</span> <span class='label'>as:</span> <span class='symbol'>:tom_select</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_schema_field'>schema_field</span> <span class='symbol'>:customer</span>
+    <span class='id identifier rubyid_autocomplete'>autocomplete</span><span class='lparen'>(</span><span class='symbol'>:customer</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_q'>q</span><span class='comma'>,</span> <span class='id identifier rubyid_ability'>ability</span><span class='op'>|</span> <span class='const'>Customer</span><span class='period'>.</span><span class='id identifier rubyid_accessible_by'>accessible_by</span><span class='lparen'>(</span><span class='id identifier rubyid_ability'>ability</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_search'>search</span><span class='lparen'>(</span><span class='id identifier rubyid_q'>q</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+<p>If you need autocomplete, build this base once and reuse it.</p>
+<h2 id="7__Tabbed_Show_via_a_mixin">7. Tabbed Show via a mixin</h2>
+<p>Detail pages are split into tabs with a small app mixin that adds a <code>tab</code> DSL and renders
+a tab bar into <code>:main</code>. Each tab body typically renders <code>content :data</code> or a nested list.</p>
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Orders</span><span class='op'>::</span><span class='const'>Show</span> <span class='op'>&lt;</span> <span class='const'>BaseComponents</span><span class='op'>::</span><span class='const'>Show</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'>ComponentMixins</span><span class='op'>::</span><span class='const'>Tabs</span>
+
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_tab'>tab</span><span class='lparen'>(</span><span class='symbol'>:overview</span><span class='comma'>,</span> <span class='id identifier rubyid__'>_</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Overview</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_content'>content</span> <span class='symbol'>:data</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_tab'>tab</span><span class='lparen'>(</span><span class='symbol'>:items</span><span class='comma'>,</span>    <span class='id identifier rubyid__'>_</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Items</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>    <span class='lbrace'>{</span> <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_render_sub_comp'>render_sub_comp</span><span class='lparen'>(</span><span class='symbol'>:list</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_line_items'>line_items</span><span class='comma'>,</span>
+                                                           <span class='label'>skip_columns:</span> <span class='lbracket'>[</span><span class='symbol'>:order</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+<p>The mixin keys the active tab off a prefixed param (<code>param_name('tab')</code>) so multiple
+tabbed components can coexist. Compony has no built-in tabs — copy the mixin per app.</p>
+<h2 id="8__Lifecycle_hooks_for_derived_data">8. Lifecycle hooks for derived data</h2>
+<ul>
+<li><strong><code>after_assign_attributes</code></strong> — fill defaults / context after params are assigned,
+before validation: <code>@data.account_id ||= current_user.account_id</code>.</li>
+<li>
+<strong><code>before_render</code></strong> — verb-independent guards and precomputation. Redirect and the
+content chain is skipped:
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_before_render'>before_render</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_path'><span class='object_link'><a href="Compony.html#path-class_method" title="Compony.path (method)">path</a></span></span><span class='lparen'>(</span><span class='symbol'>:show</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_locked?'>locked?</span>
+<span class='kw'>end</span>
+</code></pre>
+</li>
+<li><strong><code>load_data</code></strong> — narrow the scope (<code>accessible_by</code>, <code>includes</code>, ordering).</li>
+<li><strong><code>store_data</code></strong> — override persistence (virtual models, file handling, bulk import).</li>
+<li><strong><code>on_{created,updated,destroyed}_redirect_path</code></strong> — control where success lands, e.g.
+<code>Compony.path(:show, @data.parent)</code> for owned records.</li>
+</ul>
+<h2 id="9__Exposed_intents_as_the_action_toolbar">9. Exposed intents as the action toolbar</h2>
+<p>Concrete components tailor the header toolbar by <code>add</code>/<code>remove</code> on inherited intents.</p>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_exposed_intents'>exposed_intents</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_remove'>remove</span> <span class='symbol'>:destroy</span>
+  <span class='id identifier rubyid_add'>add</span> <span class='symbol'>:show</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='comma'>,</span> <span class='label'>label:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>PDF</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>name:</span> <span class='symbol'>:pdf</span><span class='comma'>,</span> <span class='label'>path:</span> <span class='lbrace'>{</span> <span class='label'>format:</span> <span class='symbol'>:pdf</span> <span class='rbrace'>}</span><span class='comma'>,</span>
+      <span class='label'>feasibility_action:</span> <span class='symbol'>:pdf</span>
+  <span class='id identifier rubyid_add'>add</span> <span class='symbol'>:archive</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='comma'>,</span> <span class='label'>method:</span> <span class='symbol'>:patch</span><span class='comma'>,</span> <span class='label'>before:</span> <span class='symbol'>:destroy</span>
+<span class='kw'>end</span>
+</code></pre>
+<ul>
+<li><code>path: { format: :pdf }</code> points a button at a format endpoint (see pattern 10).</li>
+<li><code>feasibility_action:</code> ties the button's enabled state to a model <code>prevent</code>
+(<a href="/doc/guide/feasibility.md">feasibility.md</a>).</li>
+<li>State-dependent toolbars (archived vs active) are done by branching inside the
+<code>exposed_intents</code> block on <code>@data</code>.</li>
+<li>Generating one intent per enum value is common:
+<code>Period.all.each { |p| add :new, :prices, name: :&quot;new_#{p.key}&quot;, path: { price: { period: p.key } } }</code>.</li>
+</ul>
+<h2 id="10__CSV___PDF_via__respond__format_">10. CSV / PDF via <code>respond :format</code></h2>
+<p>A format export is the same component with an extra <code>respond</code> branch and an exposed intent
+pointing at it. Because overriding <code>respond</code> skips the default <code>authorize</code>, re-check there
+(<a href="/doc/guide/gotchas.md#3-overriding-respond-skips-authorization">gotchas.md #3</a>).</p>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_standalone'>standalone</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>orders</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_verb'>verb</span> <span class='symbol'>:get</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_authorize'>authorize</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_can?'>can?</span><span class='lparen'>(</span><span class='symbol'>:read</span><span class='comma'>,</span> <span class='const'>Order</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_respond'>respond</span> <span class='symbol'>:csv</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_can?'>can?</span><span class='lparen'>(</span><span class='symbol'>:read</span><span class='comma'>,</span> <span class='const'>Order</span><span class='rparen'>)</span> <span class='kw'>or</span> <span class='id identifier rubyid_raise'>raise</span> <span class='const'>CanCan</span><span class='op'>::</span><span class='const'>AccessDenied</span>
+      <span class='id identifier rubyid_send_data'>send_data</span><span class='lparen'>(</span><span class='const'>OrderCsv</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='ivar'>@data</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_csv'>to_csv</span><span class='comma'>,</span> <span class='label'>filename:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>orders.csv</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>text/csv</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_respond'>respond</span> <span class='symbol'>:pdf</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_can?'>can?</span><span class='lparen'>(</span><span class='symbol'>:read</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='rparen'>)</span> <span class='kw'>or</span> <span class='id identifier rubyid_raise'>raise</span> <span class='const'>CanCan</span><span class='op'>::</span><span class='const'>AccessDenied</span>
+      <span class='id identifier rubyid_send_data'>send_data</span><span class='lparen'>(</span><span class='const'>OrderPdf</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='ivar'>@data</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_render'>render</span><span class='comma'>,</span> <span class='label'>filename:</span> <span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_pdf_name'>pdf_name</span><span class='comma'>,</span>
+                <span class='label'>type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>application/pdf</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+<span class='comment'># exposed_intents { add :index, :orders, label: &#39;CSV&#39;, path: { format: :csv } }
+</span></code></pre>
+<h2 id="11__Non_CRUD__job_dispatch__toggles__clone">11. Non-CRUD: job dispatch, toggles, clone</h2>
+<p><strong>Job dispatch</strong> — POST-only custom component, enqueue, flash, redirect:</p>
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Orders</span><span class='op'>::</span><span class='const'>ScheduleSync</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Component.html" title="Compony::Component (class)">Component</a></span></span>
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_standalone'>standalone</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>orders/schedule_sync</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_verb'>verb</span> <span class='symbol'>:post</span> <span class='kw'>do</span>
+        <span class='id identifier rubyid_authorize'>authorize</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_can?'>can?</span><span class='lparen'>(</span><span class='symbol'>:create</span><span class='comma'>,</span> <span class='const'>Order</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+        <span class='id identifier rubyid_respond'>respond</span> <span class='kw'>do</span>
+          <span class='const'>SyncOrdersJob</span><span class='period'>.</span><span class='id identifier rubyid_perform_later'>perform_later</span>
+          <span class='id identifier rubyid_flash'>flash</span><span class='period'>.</span><span class='id identifier rubyid_notice'>notice</span> <span class='op'>=</span> <span class='id identifier rubyid__'>_</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Queued — give it a few minutes.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+          <span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_path'><span class='object_link'><a href="Compony.html#path-class_method" title="Compony.path (method)">path</a></span></span><span class='lparen'>(</span><span class='symbol'>:index</span><span class='comma'>,</span> <span class='symbol'>:orders</span><span class='rparen'>)</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='symbol'>:all</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid__'>_</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Sync now</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_button'>button</span><span class='lparen'>(</span><span class='symbol'>:icon</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='symbol'>:rotate</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+<p>Expose it from Index: <code>exposed_intents { add :schedule_sync, :orders, method: :post }</code>.</p>
+<p><strong>State toggle</strong> — inherit <code>Edit</code>, flip in <code>after_assign_attributes</code>, dynamic label:</p>
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Accounts</span><span class='op'>::</span><span class='const'>ToggleActive</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Edit.html" title="Compony::Components::Edit (class)">Edit</a></span></span>
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_standalone'>standalone</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>accounts/:id/toggle_active</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_verb'>verb</span> <span class='symbol'>:patch</span> <span class='kw'>do</span> <span class='id identifier rubyid_authorize'>authorize</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_can?'>can?</span><span class='lparen'>(</span><span class='symbol'>:toggle_active</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='rparen'>)</span> <span class='rbrace'>}</span> <span class='kw'>end</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='symbol'>:long</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_a'>a</span><span class='op'>|</span> <span class='id identifier rubyid_a'>a</span><span class='period'>.</span><span class='id identifier rubyid_active?'>active?</span> <span class='op'>?</span> <span class='id identifier rubyid__'>_</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Deactivate</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id identifier rubyid__'>_</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Activate</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_after_assign_attributes'>after_assign_attributes</span> <span class='lbrace'>{</span> <span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_active'>active</span> <span class='op'>=</span> <span class='op'>!</span><span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_active'>active</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+<p><strong>Clone</strong> — inherit <code>New</code>, load + dup the source in <code>load_data</code>, redirect to the copy:</p>
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Orders</span><span class='op'>::</span><span class='const'>Clone</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/New.html" title="Compony::Components::New (class)">New</a></span></span>
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_standalone'>standalone</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>orders/:id/clone</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_load_data'>load_data</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_source'>source</span> <span class='op'>=</span> <span class='const'>Order</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_authorize!'>authorize!</span><span class='lparen'>(</span><span class='symbol'>:read</span><span class='comma'>,</span> <span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>          <span class='comment'># CanCanCan bang form
+</span>      <span class='ivar'>@data</span> <span class='op'>=</span> <span class='id identifier rubyid_source'>source</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_on_created_redirect_path'>on_created_redirect_path</span> <span class='lbrace'>{</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_path'><span class='object_link'><a href="Compony.html#path-class_method" title="Compony.path (method)">path</a></span></span><span class='lparen'>(</span><span class='symbol'>:show</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+<h2 id="12__Virtual_model_for_non_persistent___upload_forms">12. Virtual model for non-persistent / upload forms</h2>
+<p>Inherit <code>New</code>, back it with a <code>Compony::VirtualModel</code>, take over the response. <code>@data.save</code>
+is a no-op so business logic goes in <code>on_created_respond</code> (or <code>store_data</code>).</p>
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Documents</span><span class='op'>::</span><span class='const'>Import</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/New.html" title="Compony::Components::New (class)">New</a></span></span>
+  <span class='kw'>class</span> <span class='const'>VirtualModel</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/VirtualModel.html" title="Compony::VirtualModel (class)">VirtualModel</a></span></span>
+    <span class='id identifier rubyid_attribute'>attribute</span> <span class='symbol'>:id</span><span class='comma'>,</span> <span class='symbol'>:bigint</span>
+    <span class='id identifier rubyid_belongs_to'>belongs_to</span> <span class='symbol'>:account</span>
+    <span class='id identifier rubyid_has_one_attached'>has_one_attached</span> <span class='symbol'>:file</span>
+    <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:account</span><span class='comma'>,</span> <span class='symbol'>:association</span>
+    <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:file</span><span class='comma'>,</span>    <span class='symbol'>:attachment</span>
+    <span class='id identifier rubyid_validates'>validates</span> <span class='symbol'>:file</span><span class='comma'>,</span> <span class='label'>presence:</span> <span class='kw'>true</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_standalone'>standalone</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>documents/import</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_data_class'>data_class</span> <span class='const'>VirtualModel</span>
+    <span class='id identifier rubyid_form_comp_class'>form_comp_class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Documents</span><span class='op'>::</span><span class='const'>ImportForm</span>
+
+    <span class='comment'># ActiveStorage on a virtual model: validate only, read the tempfile yourself.
+</span>    <span class='id identifier rubyid_store_data'>store_data</span> <span class='kw'>do</span>
+      <span class='ivar'>@create_succeeded</span> <span class='op'>=</span> <span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_validate'>validate</span>
+      <span class='kw'>next</span> <span class='kw'>unless</span> <span class='ivar'>@create_succeeded</span>
+      <span class='id identifier rubyid_tempfile'>tempfile</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_dig'>dig</span><span class='lparen'>(</span><span class='symbol'>:documents_virtual_model</span><span class='comma'>,</span> <span class='symbol'>:file</span><span class='rparen'>)</span><span class='op'>&amp;.</span><span class='id identifier rubyid_tempfile'>tempfile</span>
+      <span class='const'>DocumentImporter</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='label'>account:</span> <span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_account'>account</span><span class='comma'>,</span> <span class='label'>io:</span> <span class='id identifier rubyid_tempfile'>tempfile</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_on_created_respond'>on_created_respond</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_flash'>flash</span><span class='period'>.</span><span class='id identifier rubyid_notice'>notice</span> <span class='op'>=</span> <span class='id identifier rubyid__'>_</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Imported.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_path'><span class='object_link'><a href="Compony.html#path-class_method" title="Compony.path (method)">path</a></span></span><span class='lparen'>(</span><span class='symbol'>:index</span><span class='comma'>,</span> <span class='symbol'>:documents</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+<p>See <a href="/doc/guide/virtual_models.md">virtual_models.md</a> and
+<a href="/doc/guide/gotchas.md#12-activestorage-attachment-on-a-virtual-model">gotchas.md #12</a>.</p>
+<h2 id="13__Public_endpoints___webhooks">13. Public endpoints &amp; webhooks</h2>
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Public</span><span class='op'>::</span><span class='const'>Webhook</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Component.html" title="Compony::Component (class)">Component</a></span></span>
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_standalone'>standalone</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/webhooks/orders</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_skip_authentication!'>skip_authentication!</span>
+      <span class='id identifier rubyid_skip_forgery_protection!'>skip_forgery_protection!</span>
+      <span class='id identifier rubyid_verb'>verb</span> <span class='symbol'>:post</span> <span class='kw'>do</span>
+        <span class='id identifier rubyid_authorize'>authorize</span> <span class='lbrace'>{</span> <span class='kw'>true</span> <span class='rbrace'>}</span>                       <span class='comment'># still mandatory
+</span>        <span class='id identifier rubyid_respond'>respond</span> <span class='kw'>do</span>
+          <span class='id identifier rubyid_expected'>expected</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Bearer </span><span class='embexpr_beg'>#{</span><span class='const'>ENV</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>WEBHOOK_TOKEN</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+          <span class='id identifier rubyid_got'>got</span>      <span class='op'>=</span> <span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_headers'>headers</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Authorization</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+          <span class='kw'>unless</span> <span class='const'>ActiveSupport</span><span class='op'>::</span><span class='const'>SecurityUtils</span><span class='period'>.</span><span class='id identifier rubyid_secure_compare'>secure_compare</span><span class='lparen'>(</span><span class='id identifier rubyid_got'>got</span><span class='comma'>,</span> <span class='id identifier rubyid_expected'>expected</span><span class='rparen'>)</span>
+            <span class='id identifier rubyid_sleep'>sleep</span> <span class='int'>1</span>                               <span class='comment'># crude timing equalization
+</span>            <span class='kw'>next</span> <span class='id identifier rubyid_controller'>controller</span><span class='period'>.</span><span class='id identifier rubyid_head'>head</span><span class='lparen'>(</span><span class='symbol'>:unauthorized</span><span class='rparen'>)</span>
+          <span class='kw'>end</span>
+          <span class='const'>OrderWebhook</span><span class='period'>.</span><span class='id identifier rubyid_process!'>process!</span><span class='lparen'>(</span><span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
+          <span class='id identifier rubyid_controller'>controller</span><span class='period'>.</span><span class='id identifier rubyid_head'>head</span> <span class='symbol'>:accepted</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+<p>A login-aware redirect splitter is the same shape with <code>verb :get</code> + <code>before_render</code>
+choosing a <code>Compony.path</code> by <code>current_user</code>.</p>
+<h2 id="14__Custom_button_style">14. Custom button style</h2>
+<p>Register one app button style and refer to it everywhere via <code>style:</code>.</p>
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Commons</span><span class='op'>::</span><span class='const'>BootstrapButton</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Buttons.html" title="Compony::Components::Buttons (module)">Buttons</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Buttons/Link.html" title="Compony::Components::Buttons::Link (class)">Link</a></span></span>
+  <span class='id identifier rubyid_protected'>protected</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_prepare_opts!'>prepare_opts!</span>
+    <span class='kw'>super</span>
+    <span class='id identifier rubyid_classes'>classes</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='ivar'>@comp_opts</span><span class='lbracket'>[</span><span class='symbol'>:class</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span>
+    <span class='id identifier rubyid_classes'>classes</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>btn</span><span class='tstring_end'>&#39;</span></span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>btn-</span><span class='embexpr_beg'>#{</span><span class='ivar'>@comp_opts</span><span class='lbracket'>[</span><span class='symbol'>:color</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='symbol'>:primary</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='ivar'>@comp_opts</span><span class='lbracket'>[</span><span class='symbol'>:class</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_classes'>classes</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+<span class='comment'># config/initializers/compony.rb
+</span><span class='comment'># Compony.register_button_style :bootstrap, &#39;::Components::Commons::BootstrapButton&#39;
+</span><span class='comment'># Compony.default_button_style = :bootstrap
+</span></code></pre>
+<p>Make a separate style per visual kind (dropdown item, pill, compact) and select with
+<code>render_intent(:show, @data, style: :compact)</code>.</p>
+<h2 id="15__Inline_edit_card_with_a_Turbo_Frame">15. Inline-edit card with a Turbo Frame</h2>
+<p>A Show panel where the Edit form swaps in place (no full-page nav) and swaps back on save.
+Wrap both the Show content and the Edit form in a <strong>same-named</strong> <code>turbo_frame_tag</code>; Turbo
+Drive then scopes navigation to that frame. Distinct from the <code>render_sub_comp(:list, …, turbo_frame:)</code> use in <a href="/doc/guide/nesting.md">nesting.md</a> (there the frame isolates a
+nested list's own search/filter params; here it is the inline-edit boundary for one
+record's Show/Edit pair).</p>
+<pre class="code ruby"><code class="ruby"><span class='comment'># One frame name shared by the Show panel and the Edit form.
+</span><span class='kw'>def</span> <span class='id identifier rubyid_card_frame'>card_frame</span><span class='lparen'>(</span><span class='id identifier rubyid_record'>record</span><span class='rparen'>)</span> <span class='op'>=</span> <span class='symbol'>:&quot;#{</span><span class='id identifier rubyid_record'>record</span><span class='period'>.</span><span class='id identifier rubyid_model_name'>model_name</span><span class='period'>.</span><span class='id identifier rubyid_singular'>singular</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_record'>record</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='embexpr_end'>}</span><span class='tstring_content'>_card</span><span class='tstring_end'>&quot;</span></span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Accounts</span><span class='op'>::</span><span class='const'>Show</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Show.html" title="Compony::Components::Show (class)">Show</a></span></span>
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_content'>content</span> <span class='symbol'>:data</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_turbo_frame_tag'>turbo_frame_tag</span> <span class='id identifier rubyid_card_frame'>card_frame</span><span class='lparen'>(</span><span class='ivar'>@data</span><span class='rparen'>)</span> <span class='kw'>do</span>      <span class='comment'># Dyny: Rails view helper
+</span>        <span class='comment'># …render fields…
+</span>        <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_render_intent'>render_intent</span><span class='lparen'>(</span><span class='symbol'>:edit</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='comma'>,</span> <span class='label'>label:</span> <span class='lbrace'>{</span> <span class='label'>format:</span> <span class='symbol'>:short</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Accounts</span><span class='op'>::</span><span class='const'>Edit</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Edit.html" title="Compony::Components::Edit (class)">Edit</a></span></span>
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_content'>content</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_turbo_frame_tag'>turbo_frame_tag</span> <span class='id identifier rubyid_card_frame'>card_frame</span><span class='lparen'>(</span><span class='ivar'>@data</span><span class='rparen'>)</span> <span class='kw'>do</span>      <span class='comment'># same frame name
+</span>        <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_form_comp'>form_comp</span><span class='period'>.</span><span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='id identifier rubyid_controller'>controller</span><span class='comma'>,</span> <span class='label'>data:</span> <span class='ivar'>@data</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+    <span class='comment'># Default on_updated_redirect_path → Show; Turbo replaces just the frame.
+</span>  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+<ul>
+<li>Frame name must match exactly; deriving it from the record id keeps it unique when
+several cards render on one page.</li>
+<li>A failed save re-renders Edit with HTTP 422 — keep the <code>turbo_frame_tag</code> wrapper in the
+Edit content so errors render in-frame too.</li>
+</ul>
+<h2 id="16__Multi_step_wizard_across_components">16. Multi-step wizard across components</h2>
+<p>A create/edit flow split over several steps, each its own component, advancing on save.
+Chain steps with <code>on_updated_redirect_path</code> (or <code>on_created_redirect_path</code>) and render a
+step indicator via a shared mixin (same mechanism as the tabs mixin in §7).</p>
+<pre class="code ruby"><code class="ruby"><span class='kw'>module</span> <span class='const'>OrderWizard</span>
+  <span class='id identifier rubyid_extend'>extend</span> <span class='const'>ActiveSupport</span><span class='op'>::</span><span class='const'>Concern</span>
+  <span class='const'>STEPS</span> <span class='op'>=</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>details_edit</span><span class='words_sep'> </span><span class='tstring_content'>shipping_edit</span><span class='words_sep'> </span><span class='tstring_content'>confirm_edit</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span>
+
+  <span class='id identifier rubyid_included'>included</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_content'>content</span> <span class='symbol'>:wizard_nav</span><span class='comma'>,</span> <span class='label'>before:</span> <span class='symbol'>:main</span> <span class='kw'>do</span>
+        <span class='id identifier rubyid_ol'>ol</span> <span class='label'>class:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>wizard</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+          <span class='const'>OrderWizard</span><span class='op'>::</span><span class='const'>STEPS</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_step'>step</span><span class='op'>|</span>
+            <span class='id identifier rubyid_li'>li</span> <span class='id identifier rubyid_step'>step</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_delete_suffix'>delete_suffix</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>_edit</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span>
+               <span class='label'>class:</span> <span class='lparen'>(</span><span class='id identifier rubyid_component'>component</span><span class='period'>.</span><span class='id identifier rubyid_comp_name'>comp_name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span> <span class='op'>==</span> <span class='id identifier rubyid_step'>step</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>active</span><span class='tstring_end'>&#39;</span></span> <span class='op'>:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+          <span class='kw'>end</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Orders</span><span class='op'>::</span><span class='const'>DetailsEdit</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Edit.html" title="Compony::Components::Edit (class)">Edit</a></span></span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'>OrderWizard</span>
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_standalone'>standalone</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>orders/:id/details</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_on_updated_redirect_path'>on_updated_redirect_path</span> <span class='lbrace'>{</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_path'><span class='object_link'><a href="Compony.html#path-class_method" title="Compony.path (method)">path</a></span></span><span class='lparen'>(</span><span class='symbol'>:shipping_edit</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='rparen'>)</span> <span class='rbrace'>}</span>   <span class='comment'># → next step
+</span>  <span class='kw'>end</span>
+<span class='kw'>end</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Orders</span><span class='op'>::</span><span class='const'>ShippingEdit</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Edit.html" title="Compony::Components::Edit (class)">Edit</a></span></span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'>OrderWizard</span>
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_standalone'>standalone</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>orders/:id/shipping</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_on_updated_redirect_path'>on_updated_redirect_path</span> <span class='lbrace'>{</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_path'><span class='object_link'><a href="Compony.html#path-class_method" title="Compony.path (method)">path</a></span></span><span class='lparen'>(</span><span class='symbol'>:confirm_edit</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+<span class='comment'># …ConfirmEdit redirects to Show when done.
+</span></code></pre>
+<ul>
+<li>Each step is a normal resourceful component on the same model — partial validation per
+step is just per-step <code>schema_field</code>s in each step's Form.</li>
+<li>For a <em>non-persistent</em> wizard (nothing saved until the end), back the components with a
+<a href="/doc/guide/virtual_models.md">VirtualModel</a> and carry state in its attributes (§12).</li>
+<li><code>comp_name</code> drives the active-step highlight, so the mixin needs no per-step config.</li>
+</ul>
+<h2 id="17__Inline_PATCH_without_a_form__reorder___quick_toggle_">17. Inline PATCH without a form (reorder / quick toggle)</h2>
+<p>A JS front-end (drag-to-sort, an inline checkbox) issues a small PATCH that mutates state
+and returns no body. Add a <strong>named</strong> extra <code>standalone</code> with <code>verb :patch</code>, validate with
+Schemacop directly, and <code>head :ok</code>. No Form component involved.</p>
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Orders</span><span class='op'>::</span><span class='const'>Show</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Show.html" title="Compony::Components::Show (class)">Show</a></span></span>
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='comment'># Main route inherited from Show. Companion endpoint for reordering line items:
+</span>    <span class='id identifier rubyid_standalone'>standalone</span> <span class='symbol'>:reorder</span><span class='comma'>,</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>orders/:id/reorder</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_verb'>verb</span> <span class='symbol'>:patch</span> <span class='kw'>do</span>
+        <span class='id identifier rubyid_authorize'>authorize</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_can?'>can?</span><span class='lparen'>(</span><span class='symbol'>:update</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+        <span class='id identifier rubyid_respond'>respond</span> <span class='kw'>do</span>                       <span class='comment'># overriding respond skips default authorize…
+</span>          <span class='id identifier rubyid_can?'>can?</span><span class='lparen'>(</span><span class='symbol'>:update</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='rparen'>)</span> <span class='kw'>or</span> <span class='id identifier rubyid_raise'>raise</span> <span class='const'>CanCan</span><span class='op'>::</span><span class='const'>AccessDenied</span>   <span class='comment'># …so re-check here
+</span>          <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='const'>Schemacop</span><span class='op'>::</span><span class='const'>Schema3</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='symbol'>:hash</span><span class='rparen'>)</span> <span class='kw'>do</span>
+            <span class='id identifier rubyid_ary!'>ary!</span> <span class='symbol'>:ordered_ids</span> <span class='kw'>do</span>
+              <span class='id identifier rubyid_list'>list</span> <span class='symbol'>:integer</span>
+            <span class='kw'>end</span>
+          <span class='kw'>end</span><span class='period'>.</span><span class='id identifier rubyid_validate!'>validate!</span><span class='lparen'>(</span><span class='id identifier rubyid_controller'>controller</span><span class='period'>.</span><span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
+          <span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_line_items'>line_items</span><span class='period'>.</span><span class='id identifier rubyid_reorder_by!'>reorder_by!</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:ordered_ids</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+          <span class='id identifier rubyid_controller'>controller</span><span class='period'>.</span><span class='id identifier rubyid_head'>head</span> <span class='symbol'>:ok</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+<p>The route is <code>reorder_show_orders_comp</code> (see
+<a href="/doc/guide/standalone.md#naming-of-exposed-routes">standalone naming</a>); point your
+Stimulus controller's PATCH at
+<code>Compony.path(:show, @data, standalone_name: :reorder)</code>.</p>
+<ul>
+<li>This is the <a href="/doc/guide/gotchas.md#3-overriding-respond-skips-authorization">gotchas.md #3</a>
+case: the custom <code>respond</code> replaces the default that runs <code>authorize</code>, so authorize
+again inside it.</li>
+<li>Keep companion endpoints in the <em>same</em> component as the screen they serve — what extra
+named <code>standalone</code>s are for
+(<a href="/doc/guide/standalone.md#exposing-multiple-paths-in-the-same-component-calling-standalone-multiple-times">standalone.md</a>),
+not a reason for a new component.</li>
+<li>Return <code>head :ok</code> (or small JSON) — no Compony content to render for an ajax-only verb.</li>
+</ul>
+<h2 id="18__Signed_token_capability_links__auth_less_onboarding___magic_links_">18. Signed-token capability links (auth-less onboarding / magic links)</h2>
+<p>Goal: an emailed link that lets an unauthenticated visitor perform one bounded action —
+invite acceptance, magic login, password reset, email confirmation — without a session.
+The trick: override Compony's <code>path do … end</code> to <strong>mint a signed JWT</strong> and carry it as a
+<code>token</code> query param, then gate a <code>skip_authentication!</code> standalone with
+<code>authorize { token_valid?(params) }</code>. A small mixin centralizes encode/decode.</p>
+<blockquote>
+<p><strong>Security — read before copying.</strong> Such a link <em>is</em> the capability; anyone holding the
+URL can perform the action. It is only safe if every one of these holds:</p>
+<ul>
+<li><strong>Expiry is mandatory.</strong> Put <code>exp</code> in the payload and verify it. A capability link
+without a TTL is a permanent account-takeover primitive (it leaks via referrer
+headers, proxy logs, mail forwarding, browser history). Pair short TTLs with a resend
+flow.</li>
+<li><strong>Pin the algorithm and verify the signature</strong> — <code>JWT.decode(token, secret, true, { algorithm: 'HS512' })</code>. Never accept <code>alg: none</code>; never leave verification off.</li>
+<li><strong>Fail closed.</strong> Rescue <code>JWT::DecodeError</code> (its subclasses cover bad signature,
+malformed token and expiry) and return <code>nil</code>/<code>false</code> so <code>authorize</code> denies with 403 —
+not a 500.</li>
+<li><strong>Use a dedicated signing secret</strong>, not <code>secret_key_base</code>, so rotating it doesn't also
+invalidate every session (and vice-versa).</li>
+<li>Still provide an <code>authorize</code> block: <code>skip_authentication!</code> removes <em>authentication</em>,
+not authorization (<a href="/doc/guide/gotchas.md#14-public-endpoint-still-401redirecting">gotchas.md #14</a>).</li>
+</ul>
+</blockquote>
+<pre class="code ruby"><code class="ruby"><span class='comment'># app/component_mixins/with_token.rb
+</span><span class='kw'>module</span> <span class='const'>WithToken</span>
+  <span class='id identifier rubyid_extend'>extend</span> <span class='const'>ActiveSupport</span><span class='op'>::</span><span class='const'>Concern</span>
+  <span class='const'>TOKEN_TTL</span> <span class='op'>=</span> <span class='int'>14</span><span class='period'>.</span><span class='id identifier rubyid_days'>days</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_encode_token'>encode_token</span><span class='lparen'>(</span><span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span>
+    <span class='const'>JWT</span><span class='period'>.</span><span class='id identifier rubyid_encode'>encode</span><span class='lparen'>(</span><span class='id identifier rubyid_payload'>payload</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='label'>exp:</span> <span class='const'>TOKEN_TTL</span><span class='period'>.</span><span class='id identifier rubyid_from_now'>from_now</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_token_secret'>token_secret</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>HS512</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Memoized; returns the payload (indifferent access) or nil. Fails closed.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_token_data'>token_data</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='kw'>return</span> <span class='ivar'>@token_data</span> <span class='kw'>if</span> <span class='ivar'>@token_data</span>
+    <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
+    <span class='ivar'>@token</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:token</span><span class='rbracket'>]</span>
+    <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='ivar'>@token</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
+    <span class='ivar'>@token_data</span> <span class='op'>=</span> <span class='const'>JWT</span><span class='period'>.</span><span class='id identifier rubyid_decode'>decode</span><span class='lparen'>(</span><span class='ivar'>@token</span><span class='comma'>,</span> <span class='id identifier rubyid_token_secret'>token_secret</span><span class='comma'>,</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='lbrace'>{</span> <span class='label'>algorithm:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>HS512</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span><span class='rparen'>)</span>
+                     <span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='period'>.</span><span class='id identifier rubyid_with_indifferent_access'>with_indifferent_access</span>
+  <span class='kw'>rescue</span> <span class='const'>JWT</span><span class='op'>::</span><span class='const'>DecodeError</span>   <span class='comment'># bad sig / malformed / expired — all subclasses
+</span>    <span class='kw'>nil</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_token_secret'>token_secret</span>
+    <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_credentials'>credentials</span><span class='period'>.</span><span class='id identifier rubyid_capability_token_secret'>capability_token_secret</span><span class='period'>.</span><span class='id identifier rubyid_presence'>presence</span> <span class='op'>||</span>
+      <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_credentials'>credentials</span><span class='period'>.</span><span class='id identifier rubyid_secret_key_base'>secret_key_base</span>   <span class='comment'># fallback until set
+</span>  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+<p>Override <code>path</code> so links self-mint a token (callers pass the subject, not the token):</p>
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Invites</span><span class='op'>::</span><span class='const'>Accept</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/New.html" title="Compony::Components::New (class)">New</a></span></span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'>WithToken</span>
+
+  <span class='kw'>class</span> <span class='const'>VirtualModel</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/VirtualModel.html" title="Compony::VirtualModel (class)">VirtualModel</a></span></span>
+    <span class='id identifier rubyid_attribute'>attribute</span> <span class='symbol'>:password</span><span class='comma'>,</span> <span class='symbol'>:string</span>
+    <span class='id identifier rubyid_attribute'>attribute</span> <span class='symbol'>:account_id</span>          <span class='comment'># carried for validation only
+</span>    <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:password</span><span class='comma'>,</span> <span class='symbol'>:string</span>
+    <span class='kw'>def</span> <span class='id identifier rubyid_label'>label</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Invite</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='comment'># Building a path to this component mints the token from the given account.
+</span>    <span class='id identifier rubyid_path'>path</span> <span class='kw'>do</span> <span class='op'>|</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='label'>account:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>token:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='op'>|</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_token'>token</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
+        <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Missing kwarg :account in path</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_account'>account</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+        <span class='id identifier rubyid_token'>token</span> <span class='op'>=</span> <span class='id identifier rubyid_encode_token'>encode_token</span><span class='lparen'>(</span><span class='label'>account_id:</span> <span class='id identifier rubyid_account'>account</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
+      <span class='kw'>next</span> <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_routes'>routes</span><span class='period'>.</span><span class='id identifier rubyid_url_helpers'>url_helpers</span>
+              <span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path_helper_name'>path_helper_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_path</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='label'>token:</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_standalone'>standalone</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/invites/accept</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_skip_authentication!'>skip_authentication!</span>
+      <span class='id identifier rubyid_verb'>verb</span> <span class='symbol'>:get</span>  <span class='kw'>do</span> <span class='id identifier rubyid_authorize'>authorize</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_token_valid?'>token_valid?</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span> <span class='rbrace'>}</span> <span class='kw'>end</span>
+      <span class='id identifier rubyid_verb'>verb</span> <span class='symbol'>:post</span> <span class='kw'>do</span> <span class='id identifier rubyid_authorize'>authorize</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_token_valid?'>token_valid?</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span> <span class='rbrace'>}</span> <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_data_class'>data_class</span> <span class='const'>VirtualModel</span>
+    <span class='id identifier rubyid_form_cancancan_action'>form_cancancan_action</span> <span class='kw'>nil</span>
+    <span class='id identifier rubyid_submit_path'>submit_path</span> <span class='lbrace'>{</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_path'><span class='object_link'><a href="Compony.html#path-class_method" title="Compony.path (method)">path</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='comma'>,</span> <span class='label'>token:</span> <span class='ivar'>@token</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_after_assign_attributes'>after_assign_attributes</span> <span class='lbrace'>{</span> <span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_account_id'>account_id</span> <span class='op'>=</span> <span class='id identifier rubyid_token_data'>token_data</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='symbol'>:account_id</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+
+    <span class='id identifier rubyid_store_data'>store_data</span> <span class='kw'>do</span>
+      <span class='ivar'>@create_succeeded</span> <span class='op'>=</span> <span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_validate'>validate</span>
+      <span class='kw'>next</span> <span class='kw'>unless</span> <span class='ivar'>@create_succeeded</span>
+      <span class='const'>Account</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_token_data'>token_data</span><span class='lbracket'>[</span><span class='symbol'>:account_id</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_update!'>update!</span><span class='lparen'>(</span><span class='label'>password:</span> <span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_password'>password</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_on_created_respond'>on_created_respond</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_path'><span class='object_link'><a href="Compony.html#path-class_method" title="Compony.path (method)">path</a></span></span><span class='lparen'>(</span><span class='symbol'>:show</span><span class='comma'>,</span> <span class='symbol'>:sessions</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Shape-check the decoded payload; anything off → false → 403 (never 500).
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_token_valid?'>token_valid?</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_token_data'>token_data</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
+    <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>if</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
+    <span class='const'>Schemacop</span><span class='op'>::</span><span class='const'>Schema3</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='symbol'>:hash</span><span class='rparen'>)</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_int!'>int!</span> <span class='symbol'>:account_id</span><span class='comma'>,</span> <span class='label'>cast_str:</span> <span class='kw'>true</span>
+      <span class='id identifier rubyid_int?'>int?</span> <span class='symbol'>:exp</span>
+    <span class='kw'>end</span><span class='period'>.</span><span class='id identifier rubyid_validate!'>validate!</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
+    <span class='kw'>true</span>
+  <span class='kw'>rescue</span> <span class='const'>Schemacop</span><span class='op'>::</span><span class='const'>Exceptions</span><span class='op'>::</span><span class='const'>ValidationError</span>
+    <span class='kw'>false</span>                                <span class='comment'># token signed for a different flow
+</span>  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+<p>Notes:</p>
+<ul>
+<li><code>Compony.path(:accept, :invites, account: some_account)</code> returns the full tokenized URL —
+email that. The token, not a session, authorizes the request.</li>
+<li><code>path do</code> runs outside the request context; build URLs via
+<code>Rails.application.routes.url_helpers</code>, not <code>controller</code>/<code>helpers</code> (see
+<a href="/doc/guide/standalone.md#customizing-path-generation">standalone.md</a>).</li>
+<li>Reuse the mixin for every link flow (magic login, password reset, email confirm); encode
+a flow discriminator or rely on the per-component payload shape-check to stop a token
+minted for one flow being replayed against another.</li>
+<li>One signed boolean in the payload (e.g. <code>confirmed: true</code>) is tamper-proof since the
+client cannot re-sign — handy for multi-hop confirm flows.</li>
+</ul>
+<h2 id="Good_habits">Good habits</h2>
+<ul>
+<li><strong>CanCanCan everywhere:</strong> <code>authorize { can?(...) }</code>, scope with
+<code>Model.accessible_by(current_ability)</code>, bang form <code>authorize!(:read, record)</code> for
+ad-hoc checks in <code>load_data</code>.</li>
+<li><strong>Always <code>Compony.path</code> / <code>render_intent</code>,</strong> never hardcoded routes or <code>button_to</code>
+(<a href="/doc/guide/gotchas.md#11-redirect_to-with-a-hardcoded-path">gotchas.md #11</a>, <a href="/doc/guide/gotchas.md#15-hand-rolled-endpoint-where-a-pre-built-crud-component-exists">#15</a>).</li>
+<li><strong>Place a resourceful component in the family of the model it acts on,</strong> not the family
+it is reached from; pass parent context via path params.</li>
+<li><strong>Keep virtual/form-only fields off models</strong> — use ActiveType/VirtualModel
+(<a href="/doc/guide/gotchas.md#16-attr_accessor-on-a-model-for-form-only-fields">gotchas.md #16</a>).</li>
+<li><strong><code>concat</code></strong> around every <code>render_intent</code>/<code>render_sub_comp</code>/<code>field</code> in a block.</li>
+</ul>
+<p><a href="/README.md#guide--documentation">Guide index</a></p></div></div>
+
+      <div id="footer">
+  Generated on Mon May 18 13:22:41 2026 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.43 (ruby-3.3.5).
+</div>
+
+    </div>
+  </body>
+</html>

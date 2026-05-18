@@ -51,6 +51,8 @@ Set the config setters in `config/initializers/compony.rb`.
 | Routing | [doc/guide/standalone.md](/doc/guide/standalone.md) |
 | Linking between components | [doc/guide/intents.md](/doc/guide/intents.md) |
 | Pre-built CRUD components | [doc/guide/pre_built_components.md](/doc/guide/pre_built_components.md) |
+| Companion gems (required/optional/app-side) | [doc/integrations.md](/doc/integrations.md) |
+| Release & docs policy (working on the gem) | [doc/guide/maintaining.md](/doc/guide/maintaining.md) |
 | Machine-readable index of all docs | [doc/llms.txt](/doc/llms.txt) |
 
 ## Source layout
@@ -74,7 +76,10 @@ When a consumer app vendors the gem, source is at
 
 - DSL methods carry a `# DSL method` comment. Keep that marker; the
   [dsl_reference.md](/doc/guide/dsl_reference.md) table mirrors it.
-- Every user-facing behavior change needs a `CHANGELOG.md` entry. `VERSION` ending in
-  `.edge` means an unreleased prerelease.
+- Every user-facing behavior change needs a `CHANGELOG.md` entry (under `# unreleased`).
+  `VERSION` ending in `.edge` means an unreleased prerelease.
 - Write code matching surrounding style. RuboCop config is in `.rubocop.yml`.
 - The gem ships no CSS/JS — never add styling; that is the host app's job.
+- Dependencies live in the `:gemspec` Rake task (not the hand); `compony.gemspec` is
+  generated. New guide page → add it to [.yardopts](/.yardopts) or it won't render.
+- Full release/docs/anonymization rules: [doc/guide/maintaining.md](/doc/guide/maintaining.md).

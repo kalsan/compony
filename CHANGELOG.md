@@ -11,7 +11,12 @@
   - Inline YARD: documented previously-bare DSL hooks (New/Edit/Destroy `on_*`) and added
     `@param`/`@return`/`@yield`/`@api` plus `@!group DSL` to the WithForm, Form,
     Resourceful, verb and standalone DSL methods. Comments only — no behavior change.
-    (Run `yard doc` to regenerate the HTML under `doc/`.)
+  - `.yardopts` now lists the guide pages as extra files so the whole guide (including
+    the new agent docs) renders in the YARD/rubydoc reference, not just `lib/`.
+  - Add `doc/integrations.md` (companion-gem map mirroring the gemspec) and
+    `doc/guide/maintaining.md` (release / docs / dependency / anonymization policy);
+    cross-link non-obvious DSL methods (e.g. `path`) to matching patterns.
+  - (Run `yard doc` to regenerate the HTML under `doc/` after doc changes.)
 
 # 0.11.8
 

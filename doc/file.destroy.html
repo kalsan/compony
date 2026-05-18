@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: destroy
+  
+    &mdash; Documentation by YARD 0.9.43
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css">
+
+  <link rel="stylesheet" href="css/common.css" type="text/css">
+
+<script type="text/javascript">
+  pathId = "destroy";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: destroy</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><ul>
+<li><a href="/README.md#guide--documentation">Back to the guide</a></li>
+<li><a href="/doc/guide/pre_built_components.md">List of pre-built components</a></li>
+</ul>
+<h1 id="Pre_built_components__Destroy">Pre-built components: Destroy</h1>
+<p>This component is the Compony equivalent to a typical Rails controller's <code>destroy</code> action.</p>
+<p><code>Compony::Components::Destroy</code> is a resourceful standalone component that listens to two verbs:</p>
+<ul>
+<li>GET will cause the Destroy component to ask if the resource should be destroyed, along with a button pointing to the DELETE verb. If the record does not exist, a HTTP 404 code is returned.</li>
+<li>DELETE will <code>destroy!</code> the resource, show a flash and redirect to:
+<ul>
+<li>if present: the data's Show component</li>
+<li>otherwise: the data's Index component</li>
+</ul>
+</li>
+</ul>
+<p>Authorization checks for <code>destroy</code> even in GET. The reason is that users that aren't able to destroy a resource shouldn't even arrive at the page asking them whether they want to do so, unable to click the only button due to lacking permissions. This also causes any <a href="/doc/guide/intents.md">intents</a> to Destroy components to be hidden if the user is unable to destroy the corresponding resource.</p>
+<p>This component largely follows the <a href="/doc/guide/resourceful.md#complete-resourceful-lifecycle">resourceful lifecycle</a>. As can be expected, the resource is loaded by <code>Resourceful</code>'s default load block and <code>store_data</code> is implemented to destroy the resource.</p>
+<p>If the resource is <a href="/doc/guide/ownership.md">owned</a>, the component provides a <code>:back_to_owner</code> <a href="/doc/guide/intents.md#exposed-intents">exposed intent</a> in the form of a cancel button.</p>
+<p>The following DSL methods are implemented to allow for convenient overrides of default logic:</p>
+<ul>
+<li>The block <code>on_destroyed</code> is evaluated between successful record destruction and responding. By default, it is not implemented and doing so is optional. This would be a suitable location for hooks that update state after a resource was destroyed (like an <code>after_destroy</code> hook, but only executed if a record was destroyed by this component). Do not redirect or render here, use the next blocks instead.</li>
+<li>The block given in <code>on_destroyed_respond</code> is evaluated after destruction and by default shows a flash, then redirects. The redirection is performed with HTTP code 303 (&quot;see other&quot;) in oder to force a GET request. This is required for the component to work with Turbo. Overwrite this block if you need to completely customize all logic that happens after destruction. If this block is overwritten, <code>on_destroyed_redirect_path</code> will not be called.</li>
+<li><code>on_destroyed_redirect_path</code> is evaluated as the second step of <code>on_destroyed_respond</code> and redirects to the resource's Show or Index component as described above. Overwrite this block in order to redirect to another component instead, while keeping the default flash provided by <code>on_destroyed_respond</code>.</li>
+</ul></div></div>
+
+      <div id="footer">
+  Generated on Mon May 18 13:22:40 2026 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.43 (ruby-3.3.5).
+</div>
+
+    </div>
+  </body>
+</html>

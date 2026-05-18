@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: CHANGELOG
+  
+    &mdash; Documentation by YARD 0.9.43
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css">
+
+  <link rel="stylesheet" href="css/common.css" type="text/css">
+
+<script type="text/javascript">
+  pathId = "CHANGELOG";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: CHANGELOG</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><h1 id="unreleased">unreleased</h1>
+<ul>
+<li>Enhance documentation for better LLM support (and humans as well of course):
+<ul>
+<li>Documentation: add agent-oriented docs — <code>CLAUDE.md</code> primer, <code>doc/llms.txt</code> index,
+<code>doc/guide/dsl_reference.md</code>, <code>doc/guide/glossary.md</code>, <code>doc/guide/gotchas.md</code>,
+<code>doc/guide/example_advanced.md</code>, <code>doc/guide/patterns.md</code>, <code>doc/guide/cookbook.md</code>
+(task-indexed recipes). Thicken the thin pre-built
+component docs (Index, Show, List, WithForm). Fix stale docs: README guide index links
+(Virtual models, Edit), <code>pre_built_components.md</code> (wrongly claimed no Show/Index
+component; Edit link), and an <code>Edit</code> hook name in <code>edit.md</code> (<code>on_update_failed</code>).</li>
+<li>Inline YARD: documented previously-bare DSL hooks (New/Edit/Destroy <code>on_*</code>) and added
+<code>@param</code>/<code>@return</code>/<code>@yield</code>/<code>@api</code> plus <code>@!group DSL</code> to the WithForm, Form,
+Resourceful, verb and standalone DSL methods. Comments only — no behavior change.</li>
+<li><code>.yardopts</code> now lists the guide pages as extra files so the whole guide (including
+the new agent docs) renders in the YARD/rubydoc reference, not just <code>lib/</code>.</li>
+<li>Add <code>doc/integrations.md</code> (companion-gem map mirroring the gemspec) and
+<code>doc/guide/maintaining.md</code> (release / docs / dependency / anonymization policy);
+cross-link non-obvious DSL methods (e.g. <code>path</code>) to matching patterns.</li>
+<li>(Run <code>yard doc</code> to regenerate the HTML under <code>doc/</code> after doc changes.)</li>
+</ul>
+</li>
+</ul>
+<h1 id="0_11_8">0.11.8</h1>
+<ul>
+<li>Fix <code>Compony::VirtualModel#attributes</code> to include virtual attributes (declared via <code>attribute :foo, :type</code>). The <code>include ActiveModel::Attributes</code> was shadowing <code>ActiveType::VirtualAttributes#attributes</code>, so virtual attribute values were stored in <code>@virtual_attributes</code> but invisible to <code>#attributes</code>, breaking callers that use <code>model.attributes.slice(...)</code> or <code>model.attributes.select { ... }</code>.</li>
+</ul>
+<h1 id="0_11_7">0.11.7</h1>
+<ul>
+<li>Relax anchormodel dependency, since anchormodel 0.4 is compatible</li>
+</ul>
+<h1 id="0_11_6">0.11.6</h1>
+<ul>
+<li>Enhance output of component's <code>inspect</code></li>
+<li>Add request context view helper <code>standalone_name</code></li>
+</ul>
+<h1 id="0_11_5">0.11.5</h1>
+<ul>
+<li>Replace deprecated <code>:unprocessable_entity</code> by <code>:unprocessable_content</code></li>
+<li>In pre-built <code>:list</code> component, expose more details suitable for showing pagination information</li>
+</ul>
+<h1 id="0_11_4">0.11.4</h1>
+<ul>
+<li>Internal refactoring of submit button</li>
+<li>Switch to anchormodel 0.3.0</li>
+</ul>
+<h1 id="0_11_3">0.11.3</h1>
+<ul>
+<li>Enhance error message when attachment reflection is missing</li>
+</ul>
+<h1 id="0_11_2">0.11.2</h1>
+<ul>
+<li>Harmonize authentication interface for the <code>:new</code> component
+<ul>
+<li>When called via GET, and pointing to it from <code>:index</code>, check for permission on the data class</li>
+<li>When called via POST, check for permission on the model instance</li>
+</ul>
+</li>
+</ul>
+<h1 id="0_11_1">0.11.1</h1>
+<ul>
+<li>Fix wrong naming in changelog</li>
+<li>In pre-built <code>:new</code> component, switch authorization to the previously created data class and check for <code>new</code> in GET. This allows to:
+<pre class="code ruby"><code class="ruby">- Build intents with prepared data, e.g. `Compony.intent(:new, Post.new(user_id: @data.id), path: { post: { user_id: @data.id } })`
+- Make the `cancancan` ability watch for this, e.g. `can :manage, Post, user_id: user.id`
+</code></pre>
+</li>
+</ul>
+<h1 id="0_11_0">0.11.0</h1>
+<ul>
+<li>Remove <code>resourceful_sub_comp</code> as the intent API has made it obsolete.</li>
+<li>Allow handling UUID style IDs in pre-built Show component</li>
+<li>Fix a bug in intents preventing overriding the feasibility target</li>
+</ul>
+<h2 id="Steps_to_take">Steps to take</h2>
+<ul>
+<li>Search for <code>resourceful_sub_comp</code> and replace those calls by <code>render_sub_comp</code> while passing <code>@data</code> as the second intent argument.</li>
+</ul>
+<h1 id="0_10_2">0.10.2</h1>
+<ul>
+<li>Produce debug output when skipping an intent due to a NameError</li>
+<li>When intents are given both a model (through data) and a family name (through the second argument), prefer the family name to find out the component class</li>
+</ul>
+<h1 id="0_10_1">0.10.1</h1>
+<ul>
+<li>Implement intent to always return the path it was initialized with in case the argument was given</li>
+</ul>
+<h1 id="0_10_0">0.10.0</h1>
+<ul>
+<li>Fix a bug in error message for <code>comp_class_for!</code></li>
+<li>Replace <code>color</code> and <code>icon</code> by <code>button</code>. This new component DSL call provides defaults for <code>button</code> options when intents render, similar to <code>label</code>.</li>
+<li>Allow blank intents (intents that have no component), useful for creating custom buttons within exposed intents.</li>
+<li>Accept argument <code>turbo_frame</code> in <code>render_sub_comp</code></li>
+<li>Fix a problem with translations when fastgettext is not installed</li>
+<li>Update <code>Compony::Components::List</code>:
+<pre class="code ruby"><code class="ruby">- Fix a problem where disabling only filtering caused a crash
+- Distinguish between boolean setters and `skip_` prefixes
+- Replace `row_action` by `row_intent`
+</code></pre>
+</li>
+<li>Rename <code>ExposedIntentsDsl</code> to <code>ManageIntentsDsl</code>, allow passing options and ignore <code>add</code> call if the target component is not defined</li>
+</ul>
+<h2 id="Steps_to_take">Steps to take</h2>
+<ul>
+<li>In your components, replace code like <code>icon :eye</code> by: <code>button(:icon){ :eye }</code> or <code>button(:icon){|_| :eye }</code> (the latter in the resourceful case)</li>
+<li>In your components, replace code like <code>color :danger</code> by: <code>button(:color){ :danger }</code> or <code>button(:color){|_| :danger }</code> (the latter in the resourceful case)</li>
+<li>Check all your <code>List</code> components, as the interface has changed:
+<pre class="code ruby"><code class="ruby">- `skip_` DSL calls have been replaced by boolean writers.
+- `row_action` has been replaced by `row_intents` which renders intents using `add` and `remove`.
+</code></pre>
+</li>
+</ul>
+<h1 id="0_9_0">0.9.0</h1>
+<ul>
+<li>Enhance Intent API:
+<pre class="code ruby"><code class="ruby">- Make `style` a property of the Intent rather than a button option.
+- No longer allow arbitrary options for building intents. Instead, options for buttons must be wrapped in `button: { class: &#39;...&#39; }`.
+</code></pre>
+</li>
+</ul>
+<h2 id="Steps_to_take">Steps to take</h2>
+<ul>
+<li>Replace code like <code>button: { style: :link }</code> by simply <code>style: :link</code></li>
+<li>Make sure that code like <code>button: { label: ... }</code> becomes simply: <code>label: ...</code></li>
+<li>Make sure that all kwargs in intents meant for buttons are wrapped in <code>button: { ... }</code>.</li>
+</ul>
+<h1 id="0_8_1">0.8.1</h1>
+<ul>
+<li>Fix a problem in List resulting in <code>data_class</code> being read too early</li>
+</ul>
+<h1 id="0_8_0">0.8.0</h1>
+<p>Be advised that this version brings major interface changes that will break existing applications. When upgrading, carefully follow sthe steps unter &quot;Steps to take&quot; and test your application thoroughly.</p>
+<ul>
+<li>Add <code>render_sub_comp</code> helper</li>
+<li>Major API change: implement <code>Compony::Intent</code> as discussed in Issue #14:
+<pre class="code ruby"><code class="ruby">- Rewire many pure helpers to use intents instead, greatly cleaning up their interface
+- Remove pure helpers `rails_action_name`, `path_helper_name`, `comp_cst` and `family_cst`
+- Remove `button_defaults` and associated logic, as it was rarely used
+- Remove `Compony::Components::Button` and replace it by `Compony::Components::Buttons::Link` and `Compony::Components::Buttons::CssButton`
+- Remove `Compony.button`, `compony_button` and `compony_link`
+- Use intents in `sub_comp` and thus also in `resourceful_sub_comp`, allowing tho write something like `sub_comp :list, user.quotes`
+</code></pre>
+</li>
+<li>Update documentation</li>
+</ul>
+<h2 id="Steps_to_take">Steps to take</h2>
+<ul>
+<li>Make sure you no longer use the following methods that have been removed:
+<pre class="code ruby"><code class="ruby">- `Compony.rails_action_name`
+- `Compony.path_helper_name`
+- `Compony.button_defaults`
+- `Compony.with_button_defaults`
+- `Compony.button_component_class=` (replace by button styles, see documentation)
+- `Component.comp_cst` (replace by `comp_name`)
+- `Component.family_cst` (replace by `family_name`)
+</code></pre>
+</li>
+<li>If using custom buttons, inherit from <code>Compony::Components::Buttons::Link</code> and adjust code as needed. Register your button with <code>Compony.register_button_style</code> and consider setting <code>Compony.default_button_style=</code>.</li>
+<li>Search for each following keywords in your application and replace it as follows:
+<pre class="code ruby"><code class="ruby">- Replace root actions (`action ... do` and `skip_action`)  by exposed intents (see documentation).
+- Replace `render_actions` or `compony_actions` by a custom loop of the kind `Compony.root_comp&amp;.exposed_intents&amp;.map { |i| i.render(controller) }`
+- Replace buttons and change any `params:` to `path:`; as well as `label_format` or `label_opts: { format: ... }` by something like: `render_intent(:show, @data, button: { label: { format: :short } })`:
+- `Compony.button` was typically used in a component&#39;s root actions and should thus already have been replaced in the previous step.
+- Replace `compony_button` by `render_intent`
+- Replace `compony_link` by `render_intent` and pass `button: { style: :link }` as an argument
+</code></pre>
+</li>
+<li>Enhancement: Consider replacing patterns like <code>sub_comp(Components::Quotes::List, data: user.quotes).render(controller)</code> by <code>render_sub_comp(:list, user.quotes)</code>.</li>
+</ul>
+<h1 id="0_7_1">0.7.1</h1>
+<ul>
+<li>Implement <code>Compony::VirtualModel</code> and document it in the Readme file</li>
+<li>Break up documentation into separate files</li>
+</ul>
+<h1 id="0_7_0">0.7.0</h1>
+<ul>
+<li>Rename Component's internal <code>path</code> to <code>id_path</code> to distinguish it from Rails paths, as well as <code>path_hash</code> to <code>id_path_hash</code></li>
+<li>(internal change): switch <code>WithForm</code>'s default <code>submit_path</code> block to <code>Compony.path</code> logic</li>
+<li>Implement new component DSL method <code>path</code>, closes #13
+<ul>
+<li>The method allows components to define the path pointing towards them (the default behavior corresponds to that of <code>Compony.path</code> of previous versions)</li>
+<li>Adjust <code>Compony.path</code> to instanciate the target component and use the <code>path</code> block rather than come up with the path on its own</li>
+</ul>
+</li>
+</ul>
+<h2 id="Steps_to_take">Steps to take</h2>
+<ul>
+<li>If using the methods formerly called <code>path</code> or <code>path_hash</code>, rename them to <code>id_path</code> respectively <code>id_path_hash</code>.</li>
+</ul>
+<h1 id="0_6_4">0.6.4</h1>
+<ul>
+<li>Replace Feasibility's error message generation in case of dependent errors by a logic that fits fastgettext's modern pluralization</li>
+</ul>
+<h1 id="0_6_3">0.6.3</h1>
+<ul>
+<li>Restrict multi-attachments to upload only when the form's object is a new record</li>
+</ul>
+<h1 id="0_6_2">0.6.2</h1>
+<ul>
+<li>Change download link label of attachments from &quot;Download&quot; to the actual filename</li>
+<li>Support multiple attachments by providing a simple UI for adding and removing attachments</li>
+</ul>
+<h1 id="0_6_1">0.6.1</h1>
+<ul>
+<li>Implement <code>default_sorting</code> in <code>Compony::Components::List</code></li>
+</ul>
+<h1 id="0_6_0">0.6.0</h1>
+<ul>
+<li>Implement <code>Compony::Components::Show</code></li>
+<li>Implement <code>Compony::Components::Index</code> and <code>Compony::Components::List</code></li>
+</ul>
+<h1 id="0_5_9">0.5.9</h1>
+<ul>
+<li>Fix a bug in generator that was introduced with the previous commit</li>
+</ul>
+<h1 id="0_5_8">0.5.8</h1>
+<ul>
+<li>Apply most recent rubocop recommendations</li>
+<li>Update rubocop</li>
+<li>#10: Implement feasibility framework for links</li>
+<li>Support <code>BaseComponents</code></li>
+</ul>
+<h1 id="0_5_7">0.5.7</h1>
+<ul>
+<li>Fix a minor bug causing unnecessary param <code>id</code> to be added to the path after creating or updating when redirecting back to the index component</li>
+</ul>
+<h1 id="0_5_6">0.5.6</h1>
+<ul>
+<li>Allow overriding the label in the view helper <code>compony_link</code></li>
+</ul>
+<h1 id="0_5_5">0.5.5</h1>
+<ul>
+<li>Support <code>has_one</code> associations for feasibility</li>
+</ul>
+<h1 id="0_5_4">0.5.4</h1>
+<ul>
+<li>Fix a failure description in Form</li>
+<li>Support <code>multilang: true</code> in <code>ModelMixin</code>'s and <code>Form</code>'s <code>field</code> call, as well as in <code>Form</code>'s <code>schema_field</code></li>
+<li>Allow customizing parameters for form builder</li>
+<li>Implement <code>skip_forgery_protection!</code></li>
+</ul>
+<h1 id="0_5_3">0.5.3</h1>
+<ul>
+<li>Support <code>standalone_name</code> in <code>Compony.button</code> and <code>compony_link</code></li>
+<li>Support passing component classes directly to <code>compony_link</code></li>
+<li>Support <code>button_params</code> in regular buttons</li>
+<li>Support <code>value</code> in submit buttons</li>
+<li>Support <code>disable!</code> and <code>disabled: true</code> in Form, disabling all inputs</li>
+</ul>
+<h1 id="0_5_2">0.5.2</h1>
+<ul>
+<li>Add <code>constraints</code> to <code>standalone</code></li>
+<li>Add <code>scope</code> and <code>scope_args</code> to <code>standalone</code></li>
+<li>Set default <code>label_method</code> to <code>label</code> when generating a <code>simple_form</code> input for <code>:association</code></li>
+</ul>
+<h1 id="0_5_1">0.5.1</h1>
+<ul>
+<li>Correctly handle <code>ActiveType::Object</code> virtual fields in Rails 7.2</li>
+</ul>
+<h1 id="0_5_0">0.5.0</h1>
+<ul>
+<li>Require Ruby 3.3.5 and Rails 7.2.1</li>
+<li>Update Gems Compony depends on (this is to ensure all Compony users have versions Compony is frequently tested against)</li>
+</ul>
+<h2 id="Steps_to_take">Steps to take</h2>
+<ul>
+<li>Update your application to Ruby 3.3.5 and Rails 7.2.1. For instance, if you are running an rbenv setup, these would be typical steps involved:
+<ul>
+<li>set <code>rbenv local 3.3.5</code> and perhaps restart your editor (in particular with VS code)</li>
+<li>In your Gemfile:
+<ul>
+<li>switch ruby version to <code>3.3.5</code></li>
+<li>switch Rails version to <code>7.2.1</code></li>
+</ul>
+</li>
+<li>Run bundler:
+<ul>
+<li>Update bundler itself: <code>bundle update --bundler</code></li>
+<li>Run <code>bundle update</code> or <code>bundle update --conservative</code> depending on your preference.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Check for warnings and react accordingly</li>
+</ul>
+<h1 id="0_4_1">0.4.1</h1>
+<ul>
+<li>Allow the argument <code>standalone_name</code> in button and path helper</li>
+<li>Provide family and comp name accessors in the static context as well for convenience</li>
+<li>Make <code>Compony.path</code> accept a component class as well</li>
+<li>Make Compony.button accept a component as well. Works in combination with passing a model.</li>
+<li>Fix a bug that caused an override of input option arguments if the <code>accept</code> parameter is present</li>
+</ul>
+<h1 id="0_4_0">0.4.0</h1>
+<ul>
+<li>Support Cancancan's <code>accessible_attributes</code>
+<ul>
+<li>Cancancan has fixed <a href="https://github.com/CanCanCommunity/cancancan/issues/838">https://github.com/CanCanCommunity/cancancan/issues/838</a></li>
+<li>Automatically declare all fields as ActiveModel attributes
+<ul>
+<li>When using this feature together with ActiveType, be sure to add <code>include ActiveModel::Attributes</code> at the top of your virtual models.</li>
+<li>Due to Rails' implementation of <code>authenticate_by</code>, <code>:password</code> and <code>:password_confirmation</code> can not be attributes and thus should no longer be declared as fields in your applications.
+<ul>
+<li>To handle password fields in forms, <code>pw_field</code> and <code>schema_pw_field</code> were added</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Require <code>cancancan_action</code> for every Form, respectively <code>form_cancancan_action</code> for every WithForm</li>
+<li>Filter form fields by Cancancan action, effectively providing per-field authorization</li>
+<li>Attention, this feature is only used when using <code>field</code> and <code>schema_field</code>, it will not affect custom inputs or schema lines.</li>
+<li>Require Ruby 3.2.2</li>
+</ul>
+</li>
+</ul>
+<h2 id="Steps_to_perform">Steps to perform</h2>
+<ul>
+<li>If using ActiveType, add <code>include ActiveModel::Attributes</code> at the top of your virtual models.</li>
+<li>In your User model, remove <code>field :password</code> and <code>field :password_confirmation</code>
+<ul>
+<li>If on login, you get the ArgumentError &quot;One or more password arguments are required&quot;, you have forgotten to do this.</li>
+</ul>
+</li>
+<li>In your User Form:
+<ul>
+<li>replace <code>concat field :password</code> by <code>concat pw_field :password</code></li>
+<li>replace <code>concat field :password_confirmation</code> by <code>concat pw_field :password_confirmation</code></li>
+<li>replace <code>schema_field :password</code> by <code>schema_pw_field :password</code></li>
+<li>replace <code>schema_field :password_confirmation</code> by <code>schema_pw_field :password_confirmation</code></li>
+</ul>
+</li>
+<li>Make sure your forms work as expected, as cancancan action is now required (see above).
+<ul>
+<li>Either supply the appropriate action (e.g. <code>:edit</code> or <code>:new</code>), or pass <code>nil</code> to disable per-field authorization for a form.</li>
+</ul>
+</li>
+</ul>
+<h1 id="0_3_3">0.3.3</h1>
+<ul>
+<li>In <code>RequestContext</code>, distinguish between <code>content</code> and <code>content!</code>, where the first allows for missing content blocks.</li>
+</ul>
+<h1 id="0_3_2">0.3.2</h1>
+<ul>
+<li>Add label content block to edit component</li>
+<li>Introduce <code>remove_content!</code> and make its non-bang pendant tolerate missing blocks</li>
+</ul>
+<h1 id="0_3_1">0.3.1</h1>
+<ul>
+<li>In <code>NaturalOrdering</code>, tolerate omitting payload only if it's an override</li>
+<li>In <code>content</code>, tolerate omitting block if it's an override</li>
+<li>Instanciate a fresh ActionView <code>output_buffer</code> when rendering nested content to prevent double render errors</li>
+<li>Reshape <code>Destroy</code> and <code>Form</code> components to provide more fine-grained content blocks that can be selectively overridden</li>
+<li>Implement <code>remove_content</code> which allows removing a previously defined content block (useful for usage in subclasses)</li>
+</ul>
+<h1 id="0_3_0">0.3.0</h1>
+<ul>
+<li>Internals:
+<ul>
+<li>Change internal parameter handling in edit and update (now use validated params only)</li>
+<li>Create <code>NaturalOrdering</code> which provides an interface for the <code>action</code> call behavior</li>
+<li>Switch actions to <code>NaturalOrdering</code></li>
+<li>Remove redundant code</li>
+</ul>
+</li>
+<li>Remove <code>Component</code>'s dynamic <code>comp_class_for</code> and <code>comp_class_for!</code></li>
+<li>Switch <code>content</code> to <code>NaturalOrdering</code>, enabling <code>before:</code>
+<ul>
+<li>Remove <code>add_content</code></li>
+</ul>
+</li>
+<li>Switch <code>before_render</code> to <code>NaturalOrdering</code>, allowing having multiple <code>before_render</code> blocks and overwriting them selectively
+<ul>
+<li>This change is backwards-compatible as the default behavior of <code>before_render</code> is to overwrite <code>:main</code>.</li>
+</ul>
+</li>
+<li>Implement nesting of content blocks, as described in README.md -&gt; &quot;Nesting content blocks, calling a content block from another&quot;</li>
+</ul>
+<h2 id="Steps_to_take">Steps to take</h2>
+<ul>
+<li>Search for <code>comp_class_for</code> and <code>comp_class_for!</code> and replace them by <code>Compony.comp_class_for</code> and <code>Compony.comp_class_for!</code></li>
+<li>Search for <code>add_content</code> and replace it by <code>content</code> along with a name. If you used an index in <code>add_content</code>, replace it by <code>before:</code> (see documentation)</li>
+</ul>
+<h1 id="0_2_3">0.2.3</h1>
+<ul>
+<li>Support collection of Anchormodels in hidden input</li>
+</ul>
+<h1 id="0_2_2">0.2.2</h1>
+<ul>
+<li>Adjust gemspec</li>
+<li>Generate documentation</li>
+<li>Add VERSION file</li>
+<li>Replace custom anchormodel field implementation by Anchormodel's new implementation of SimpleForm Input</li>
+</ul>
+<h1 id="0_2_1">0.2.1</h1>
+<ul>
+<li>Fix a bug where the app crashed on HEAD verb</li>
+<li>Show more details about failing authorization block</li>
+<li>Implement <code>submit_path</code> DSL call for WithForm</li>
+<li>Add French translation</li>
+<li>Implement <code>skip_autofocus</code> in Form</li>
+<li>Allow partial override of standalone verb configs. Example:
+<pre class="code ruby"><code class="ruby">  <span class='id identifier rubyid_verb'>verb</span> <span class='symbol'>:get</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_authorize'>authorize</span> <span class='lbrace'>{</span> <span class='kw'>true</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_verb'>verb</span> <span class='symbol'>:post</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_authorize'>authorize</span> <span class='lbrace'>{</span> <span class='kw'>true</span> <span class='rbrace'>}</span>
+    <span class='comment'># Parent class implements more logic here, which will no longer be overwritten by calling `verb :post`.
+</span>  <span class='kw'>end</span>
+</code></pre>
+</li>
+</ul>
+<h1 id="0_2_0">0.2.0</h1>
+<ul>
+<li>Cleanup old code
+<ul>
+<li>Remove <code>check_config!</code> that was barely used</li>
+</ul>
+</li>
+</ul>
+<h1 id="0_1_1">0.1.1</h1>
+<ul>
+<li>Support and force Rails 7.1.2</li>
+</ul>
+<h2 id="Steps_to_perform">Steps to perform</h2>
+<ul>
+<li>in <code>config/application.rb</code>, replace <code>config.load_defaults 7.0</code> by <code>config.load_defaults 7.1</code> and add:
+<pre class="code ruby"><code class="ruby">  <span class='comment'># Please, add to the `ignore` list any other `lib` subdirectories that do
+</span>  <span class='comment'># not contain `.rb` files, or that should not be reloaded or eager loaded.
+</span>  <span class='comment'># Common ones are `templates`, `generators`, or `middleware`, for example.
+</span>  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_autoload_lib'>autoload_lib</span><span class='lparen'>(</span><span class='label'>ignore:</span> <span class='qwords_beg'>%w(</span><span class='tstring_content'>assets</span><span class='words_sep'> </span><span class='tstring_content'>tasks</span><span class='tstring_end'>)</span></span><span class='rparen'>)</span>
+</code></pre>
+</li>
+</ul>
+<h1 id="0_1_0">0.1.0</h1>
+<ul>
+<li>Remove (hopefully) obsolete database safeguard in <code>resolve_association!</code> as we should no longer be accessing the DB.</li>
+<li>BREAKING: Remove <code>primary_key_type</code> and tolerate int and str as primary and foreign key in all params.
+<ul>
+<li>This fixes a bug introduced in 0.0.10 breaking polymorphic relations.</li>
+</ul>
+</li>
+<li>Support Rails 7.1
+<ul>
+<li>No longer rely on <code>controller.response.body.blank?</code> but use <code>controller.response_body.nil?</code> instead</li>
+</ul>
+</li>
+</ul>
+<h2 id="Steps_to_perform">Steps to perform</h2>
+<ul>
+<li>Remove any calls to <code>primary_key_type</code></li>
+</ul>
+<h1 id="0_0_9">0.0.9</h1>
+<p>Do not use.</p>
+<ul>
+<li>Support forms with references to tables with uuid type primary key</li>
+<li>Support for <code>owned_by</code> in model:
+<ul>
+<li>Smart redirect</li>
+<li>Auto-generate a back / cancel button</li>
+</ul>
+</li>
+<li>Add <code>clear_standalone!</code> to components</li>
+<li>Allow passing an array to <code>prevent</code> to prevent multiple actions at once</li>
+<li>Add features <code>Compony.content_before_root_comp</code> and <code>Compony.content_after_root_comp</code></li>
+<li>Add new field kind percentage</li>
+</ul>
+<h2 id="KNOWN_BUGS">KNOWN BUGS</h2>
+<ul>
+<li>This version breaks polymorphic relations.</li>
+</ul>
+<h1 id="0_0_8">0.0.8</h1>
+<ul>
+<li>Support selecting anchormodel inputs via radio buttons</li>
+<li>Fix <code>value_for</code> for associations to elements that have no show component</li>
+<li>Fix spacing problem with invisible action buttons</li>
+<li>Pass the controller as argument to action buttons</li>
+<li>Support option <code>:label</code> in <code>value_for</code> of date and datetime, support superfluous options in association</li>
+<li>Support argument list in form generator</li>
+<li>Create new model field type :color</li>
+</ul>
+<h1 id="0_0_7">0.0.7</h1>
+<ul>
+<li>Fix <code>standalone_access_permitted_for?</code> check for buttons pointing to non-get verbs</li>
+</ul>
+<h1 id="0_0_6">0.0.6</h1>
+<ul>
+<li>Fix a bug that breaks hidden fields of type reference</li>
+<li>Add dynamic method &quot;field&quot; to model mixin</li>
+<li>Tolerate and skip actions that do not define buttons, allows for dynamic action skipping</li>
+<li>Fix <code>value_for</code> for boolean fields when they are nil</li>
+<li>BREAKING: Rename <code>on_created</code> to <code>on_created_respond</code>, <code>on_updated</code> to <code>on_updated_respond</code>, and <code>on_destroyed</code> to <code>on_destroyed_respond</code>
+<ul>
+<li>New hooks <code>on_created</code>, <code>on_updated</code>, and <code>on_destroyed</code> are called before their <code>_respond</code> counterpart</li>
+</ul>
+</li>
+<li>Fix a bug in Attachment Field</li>
+<li>Support overriding simpleform name by providing <code>name:</code> as an argument to field.simpleform_input</li>
+<li>In ModelField Anchormodel, tolerate &quot;value&quot; as input_html key and infer correct constant, allow form.object to be missing</li>
+</ul>
+<h1 id="0_0_5">0.0.5</h1>
+<ul>
+<li>Fix row bug for Email field type</li>
+<li>Auto-focus first non-hidden element in forms</li>
+<li>Add field type :url</li>
+<li>Automatically set the correct class when generating known components</li>
+<li>Add generator <code>components</code> that is able to mass-produce the most used components</li>
+<li>Make fields point to the correct <code>model_class</code> in case of STI</li>
+<li>Support hidden Anchormodel fields</li>
+</ul>
+<h2 id="KNOWN_BUGS">KNOWN BUGS</h2>
+<ul>
+<li>Breaks hidden fields of type reference</li>
+</ul>
+<h1 id="0_0_4">0.0.4</h1>
+<ul>
+<li>Unscope the namespace of resourceful components</li>
+<li>Add field type :email</li>
+</ul>
+<h2 id="Steps_to_take">Steps to take</h2>
+<ul>
+<li>When inheriting from components, replace <code>Components::Resourceful::...</code> by <code>Components::...</code></li>
+</ul>
+<h1 id="0_0_3">0.0.3</h1>
+<ul>
+<li>Tolerate nil anchormodels</li>
+<li>Fix a nil pointer bug in namespace management</li>
+</ul>
+<h1 id="0_0_2">0.0.2</h1>
+<ul>
+<li>Add new model field <code>Attachment</code></li>
+<li>Slightly extend documentation</li>
+<li>Update <code>Gemfile.lock</code></li>
+</ul>
+<h1 id="0_0_1">0.0.1</h1>
+<p>First version</p></div></div>
+
+      <div id="footer">
+  Generated on Mon May 18 13:22:39 2026 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.43 (ruby-3.3.5).
+</div>
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: example_advanced
+  
+    &mdash; Documentation by YARD 0.9.43
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css">
+
+  <link rel="stylesheet" href="css/common.css" type="text/css">
+
+<script type="text/javascript">
+  pathId = "example_advanced";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: example_advanced</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><p><a href="/README.md#guide--documentation">Back to the guide</a></p>
+<h1 id="Advanced_example">Advanced example</h1>
+<p><a href="/doc/guide/example.md">example.md</a> shows the basics. This one combines patterns you hit in
+real apps: a custom form, feasibility, exposed intents, a CSV export endpoint, a
+<code>before_render</code> guard, and a virtual-model launch form for a background job.</p>
+<p>Domain: invoicing. An <code>Invoice</code> has line items, can be locked, exported as CSV, and a
+background &quot;send reminders&quot; job can be launched from a non-persistent form.</p>
+<h2 id="The_models">The models</h2>
+<pre class="code ruby"><code class="ruby"><span class='comment'># app/models/invoice.rb
+</span><span class='kw'>class</span> <span class='const'>Invoice</span> <span class='op'>&lt;</span> <span class='const'>ApplicationRecord</span>
+  <span class='id identifier rubyid_has_many'>has_many</span> <span class='symbol'>:line_items</span><span class='comma'>,</span> <span class='label'>dependent:</span> <span class='symbol'>:destroy</span>
+  <span class='id identifier rubyid_accepts_nested_attributes_for'>accepts_nested_attributes_for</span> <span class='symbol'>:line_items</span><span class='comma'>,</span> <span class='label'>allow_destroy:</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_belongs_to'>belongs_to</span> <span class='symbol'>:customer</span>
+
+  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:number</span><span class='comma'>,</span>   <span class='symbol'>:string</span>
+  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:customer</span><span class='comma'>,</span> <span class='symbol'>:association</span>
+  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:total</span><span class='comma'>,</span>    <span class='symbol'>:decimal</span>
+  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:locked</span><span class='comma'>,</span>   <span class='symbol'>:boolean</span>
+  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:issued_at</span><span class='comma'>,</span> <span class='symbol'>:datetime</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_label'>label</span> <span class='op'>=</span> <span class='id identifier rubyid_number'>number</span>
+
+  <span class='comment'># Feasibility: a locked invoice must not be edited or destroyed.
+</span>  <span class='comment'># Back every important prevention with a real validation (see note in feasibility.md).
+</span>  <span class='id identifier rubyid_prevent'>prevent</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>edit</span><span class='words_sep'> </span><span class='tstring_content'>destroy</span><span class='tstring_end'>]</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>the invoice is locked</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_locked?'>locked?</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_validate'>validate</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_errors'>errors</span><span class='period'>.</span><span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='symbol'>:base</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>invoice is locked</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_locked_was'>locked_was</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_locked?'>locked?</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span>
+
+<span class='comment'># app/models/line_item.rb
+</span><span class='kw'>class</span> <span class='const'>LineItem</span> <span class='op'>&lt;</span> <span class='const'>ApplicationRecord</span>
+  <span class='id identifier rubyid_belongs_to'>belongs_to</span> <span class='symbol'>:invoice</span>
+  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:description</span><span class='comma'>,</span> <span class='symbol'>:string</span>
+  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:amount</span><span class='comma'>,</span>      <span class='symbol'>:decimal</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_label'>label</span> <span class='op'>=</span> <span class='id identifier rubyid_description'>description</span>
+<span class='kw'>end</span>
+</code></pre>
+<h2 id="Index_with_a_CSV_export_endpoint_and_exposed_intents">Index with a CSV export endpoint and exposed intents</h2>
+<p>One component, two routes: the HTML list and a <code>.csv</code> download. The CSV intent is exposed
+so the layout renders a &quot;Download CSV&quot; button in the page header.</p>
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Invoices</span><span class='op'>::</span><span class='const'>Index</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Component.html" title="Compony::Component (class)">Component</a></span></span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/ComponentMixins.html" title="Compony::ComponentMixins (module)">ComponentMixins</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/ComponentMixins/Resourceful.html" title="Compony::ComponentMixins::Resourceful (module)">Resourceful</a></span></span>
+
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='symbol'>:all</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Invoices</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span>
+
+    <span class='id identifier rubyid_standalone'>standalone</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>invoices</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_verb'>verb</span> <span class='symbol'>:get</span> <span class='kw'>do</span>
+        <span class='id identifier rubyid_authorize'>authorize</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_can?'>can?</span><span class='lparen'>(</span><span class='symbol'>:read</span><span class='comma'>,</span> <span class='const'>Invoice</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+        <span class='comment'># Default (HTML) response renders content. CSV gets its own response:
+</span>        <span class='id identifier rubyid_respond'>respond</span> <span class='symbol'>:csv</span> <span class='kw'>do</span>
+          <span class='id identifier rubyid_authorize_csv'>authorize_csv</span> <span class='op'>=</span> <span class='id identifier rubyid_can?'>can?</span><span class='lparen'>(</span><span class='symbol'>:read</span><span class='comma'>,</span> <span class='const'>Invoice</span><span class='rparen'>)</span> <span class='kw'>or</span> <span class='id identifier rubyid_raise'>raise</span> <span class='const'>CanCan</span><span class='op'>::</span><span class='const'>AccessDenied</span> <span class='comment'># respond skips authorize!
+</span>          <span class='id identifier rubyid_send_data'>send_data</span><span class='lparen'>(</span><span class='const'>InvoiceCsv</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='ivar'>@data</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_csv'>to_csv</span><span class='comma'>,</span> <span class='label'>filename:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>invoices.csv</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>text/csv</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_load_data'>load_data</span> <span class='lbrace'>{</span> <span class='ivar'>@data</span> <span class='op'>=</span> <span class='const'>Invoice</span><span class='period'>.</span><span class='id identifier rubyid_accessible_by'>accessible_by</span><span class='lparen'>(</span><span class='id identifier rubyid_current_ability'>current_ability</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_order'>order</span><span class='lparen'>(</span><span class='label'>issued_at:</span> <span class='symbol'>:desc</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+
+    <span class='id identifier rubyid_exposed_intents'>exposed_intents</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_add'>add</span> <span class='symbol'>:index</span><span class='comma'>,</span> <span class='symbol'>:invoices</span><span class='comma'>,</span> <span class='label'>label:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Download CSV</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>name:</span> <span class='symbol'>:csv</span><span class='comma'>,</span> <span class='label'>path:</span> <span class='lbrace'>{</span> <span class='label'>format:</span> <span class='symbol'>:csv</span> <span class='rbrace'>}</span>
+      <span class='id identifier rubyid_add'>add</span> <span class='symbol'>:request_reminders</span><span class='comma'>,</span> <span class='symbol'>:invoices</span><span class='comma'>,</span> <span class='label'>label:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Send reminders</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>method:</span> <span class='symbol'>:get</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_content'>content</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_render_intent'>render_intent</span><span class='lparen'>(</span><span class='symbol'>:new</span><span class='comma'>,</span> <span class='symbol'>:invoices</span><span class='comma'>,</span> <span class='label'>button:</span> <span class='lbrace'>{</span> <span class='label'>label:</span> <span class='lbrace'>{</span> <span class='label'>format:</span> <span class='symbol'>:short</span> <span class='rbrace'>}</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_render_sub_comp'>render_sub_comp</span><span class='lparen'>(</span><span class='symbol'>:list</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+<p>Notes:</p>
+<ul>
+<li><code>respond :csv</code> handles <code>GET /invoices.csv</code>. Because overriding <code>respond</code> <strong>skips the
+default <code>authorize</code></strong> (see <a href="/doc/guide/gotchas.md#3-overriding-respond-skips-authorization">gotchas.md</a>),
+the CSV branch re-checks the ability itself.</li>
+<li><code>path: { format: :csv }</code> on the exposed intent makes its button point at <code>.csv</code>.</li>
+<li>The layout renders exposed intents of <code>Compony.root_comp</code> — see
+<a href="/doc/guide/intents.md#rendering-exposed-intents">intents.md</a>.</li>
+</ul>
+<h2 id="A_custom_Form_with_nested_line_items">A custom Form with nested line items</h2>
+<p><code>Edit</code>/<code>New</code> look for <code>Components::Invoices::Form</code> by default. We write it with
+<code>accepts_nested_attributes_for</code> via <code>simple_form</code>'s <code>simple_fields_for</code>, and whitelist the
+nested params with a raw <code>schema_line</code>.</p>
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Invoices</span><span class='op'>::</span><span class='const'>Form</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Form.html" title="Compony::Components::Form (class)">Form</a></span></span>
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_form_fields'>form_fields</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='symbol'>:number</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='symbol'>:customer</span><span class='comma'>,</span> <span class='label'>as:</span> <span class='symbol'>:tom_select</span><span class='rparen'>)</span> <span class='comment'># association name, NOT customer_id
+</span>      <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='symbol'>:issued_at</span><span class='comma'>,</span> <span class='label'>as:</span> <span class='symbol'>:flatpickr_datetime</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_concat'>concat</span><span class='lparen'>(</span><span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_simple_fields_for'>simple_fields_for</span><span class='lparen'>(</span><span class='symbol'>:line_items</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_lf'>lf</span><span class='op'>|</span>
+        <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_lf'>lf</span><span class='period'>.</span><span class='id identifier rubyid_input'>input</span><span class='lparen'>(</span><span class='symbol'>:description</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_lf'>lf</span><span class='period'>.</span><span class='id identifier rubyid_input'>input</span><span class='lparen'>(</span><span class='symbol'>:amount</span><span class='rparen'>)</span>
+      <span class='kw'>end</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_schema_fields'>schema_fields</span> <span class='symbol'>:number</span><span class='comma'>,</span> <span class='symbol'>:customer</span><span class='comma'>,</span> <span class='symbol'>:issued_at</span>
+    <span class='comment'># Nested attributes need a manual Schemacop line:
+</span>    <span class='id identifier rubyid_schema_line'>schema_line</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_ary?'>ary?</span> <span class='symbol'>:line_items_attributes</span> <span class='kw'>do</span>
+        <span class='id identifier rubyid_list'>list</span> <span class='symbol'>:hash</span> <span class='kw'>do</span>
+          <span class='id identifier rubyid_int?'>int?</span> <span class='symbol'>:id</span>
+          <span class='id identifier rubyid_str?'>str?</span> <span class='symbol'>:description</span>
+          <span class='id identifier rubyid_num?'>num?</span> <span class='symbol'>:amount</span>
+          <span class='id identifier rubyid_boo?'>boo?</span> <span class='symbol'>:_destroy</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+<p><code>schema_field :customer</code> (association name) lets Compony add <code>customer_id</code> automatically —
+passing <code>:customer_id</code> here would not work
+(<a href="/doc/guide/gotchas.md#4-schema_field-with-the-foreign-key-name">gotchas.md</a>).</p>
+<h2 id="Edit__thin__plus_a_guard_and_a_custom_redirect">Edit: thin, plus a guard and a custom redirect</h2>
+<p><code>Edit</code> inherits all CRUD wiring. We only add a <code>before_render</code> guard (independent of HTTP
+verb) and override where a successful save lands.</p>
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Invoices</span><span class='op'>::</span><span class='const'>Edit</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Edit.html" title="Compony::Components::Edit (class)">Edit</a></span></span>
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_before_render'>before_render</span> <span class='kw'>do</span>
+      <span class='kw'>if</span> <span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_locked?'>locked?</span>
+        <span class='id identifier rubyid_flash'>flash</span><span class='period'>.</span><span class='id identifier rubyid_alert'>alert</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>This invoice is locked.</span><span class='tstring_end'>&#39;</span></span>
+        <span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_path'><span class='object_link'><a href="Compony.html#path-class_method" title="Compony.path (method)">path</a></span></span><span class='lparen'>(</span><span class='symbol'>:show</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_on_updated_redirect_path'>on_updated_redirect_path</span> <span class='lbrace'>{</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_path'><span class='object_link'><a href="Compony.html#path-class_method" title="Compony.path (method)">path</a></span></span><span class='lparen'>(</span><span class='symbol'>:show</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+<p>The <code>prevent :edit</code> in the model already greys out the edit button with a tooltip; the
+<code>before_render</code> guard plus the model validation stop a hand-crafted request
+(<a href="/doc/guide/feasibility.md">feasibility.md</a> explains why all three layers are needed).</p>
+<p><code>Components::Invoices::New</code>, <code>Show</code>, <code>Destroy</code> can stay empty — the pre-built parents do
+the work.</p>
+<h2 id="A_virtual_model_launch_form_for_a_background_job">A virtual-model launch form for a background job</h2>
+<p>&quot;Send reminders&quot; should pop a small form (which customers? how many days overdue?) and, on
+submit, queue a job — nothing is persisted. Inherit <code>New</code>, back it with a
+<code>Compony::VirtualModel</code>, and take over <code>on_created_respond</code>.</p>
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Invoices</span><span class='op'>::</span><span class='const'>RequestReminders</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/New.html" title="Compony::Components::New (class)">New</a></span></span>
+  <span class='kw'>class</span> <span class='const'>VirtualModel</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/VirtualModel.html" title="Compony::VirtualModel (class)">VirtualModel</a></span></span>
+    <span class='id identifier rubyid_attribute'>attribute</span> <span class='symbol'>:min_days_overdue</span><span class='comma'>,</span> <span class='symbol'>:integer</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='int'>7</span>
+    <span class='id identifier rubyid_attribute'>attribute</span> <span class='symbol'>:only_locked</span><span class='comma'>,</span>      <span class='symbol'>:boolean</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='kw'>false</span>
+    <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:min_days_overdue</span><span class='comma'>,</span> <span class='symbol'>:integer</span>
+    <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:only_locked</span><span class='comma'>,</span>      <span class='symbol'>:boolean</span>
+    <span class='id identifier rubyid_validates'>validates</span> <span class='symbol'>:min_days_overdue</span><span class='comma'>,</span> <span class='label'>numericality:</span> <span class='lbrace'>{</span> <span class='label'>greater_than:</span> <span class='int'>0</span> <span class='rbrace'>}</span>
+    <span class='kw'>def</span> <span class='id identifier rubyid_label'>label</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Reminder request</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>class</span> <span class='const'>Form</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Form.html" title="Compony::Components::Form (class)">Form</a></span></span>
+    <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_form_fields'>form_fields</span> <span class='kw'>do</span>
+        <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='symbol'>:min_days_overdue</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='symbol'>:only_locked</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
+      <span class='id identifier rubyid_schema_fields'>schema_fields</span> <span class='symbol'>:min_days_overdue</span><span class='comma'>,</span> <span class='symbol'>:only_locked</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_standalone'>standalone</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>invoices/request_reminders</span><span class='tstring_end'>&#39;</span></span> <span class='comment'># avoid clashing with the New route
+</span>    <span class='id identifier rubyid_data_class'>data_class</span> <span class='const'>VirtualModel</span>
+    <span class='id identifier rubyid_form_comp_class'>form_comp_class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Invoices</span><span class='op'>::</span><span class='const'>RequestReminders</span><span class='op'>::</span><span class='const'>Form</span>
+    <span class='id identifier rubyid_label'>label</span><span class='lparen'>(</span><span class='symbol'>:all</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Send reminders</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span>
+
+    <span class='comment'># @data.save is a no-op (virtual). on_created_respond fires only after validations pass.
+</span>    <span class='id identifier rubyid_on_created_respond'>on_created_respond</span> <span class='kw'>do</span>
+      <span class='const'>SendRemindersJob</span><span class='period'>.</span><span class='id identifier rubyid_perform_later'>perform_later</span><span class='lparen'>(</span><span class='label'>min_days_overdue:</span> <span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_min_days_overdue'>min_days_overdue</span><span class='comma'>,</span>
+                                     <span class='label'>only_locked:</span>      <span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_only_locked'>only_locked</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_flash'>flash</span><span class='period'>.</span><span class='id identifier rubyid_notice'>notice</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Reminders queued — give it a few minutes.</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_path'><span class='object_link'><a href="Compony.html#path-class_method" title="Compony.path (method)">path</a></span></span><span class='lparen'>(</span><span class='symbol'>:index</span><span class='comma'>,</span> <span class='symbol'>:invoices</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+<p>Why it works: inheriting <code>New</code> gives the <code>new</code>/<code>create</code> flow. On submit Compony validates,
+re-renders the form with errors on failure, otherwise calls <code>@data.save</code> (a no-op on a
+virtual model) and runs <code>on_created_respond</code>, where you regain control. For ActiveStorage
+on a virtual model, also override <code>store_data</code> to only <code>validate</code> — see
+<a href="/doc/guide/virtual_models.md">virtual_models.md</a>.</p>
+<p><a href="/README.md#guide--documentation">Guide index</a></p></div></div>
+
+      <div id="footer">
+  Generated on Mon May 18 13:22:40 2026 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.43 (ruby-3.3.5).
+</div>
+
+    </div>
+  </body>
+</html>

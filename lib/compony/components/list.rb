@@ -163,7 +163,7 @@ module Compony
       end
 
       # DSL method
-      # If a block is given: Enters the DSL where row intents can be added or removed (use from {Component#setup} within the component).
+      # If a block is given: Enters the DSL where row intents can be added or removed (use from {Compony::Component.setup} within the component).
       # If no block is given: Builds the declared intents for the given record and returns them (use in `content` or `before_render`, pass kwarg `:data`).
       def row_intents(**intent_opts, &block)
         if block_given?
