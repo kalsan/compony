@@ -21,7 +21,7 @@ In case you overwrite `store_data`, make sure to set `@update_succeeded` to true
 
 The following DSL calls are implemented to allow for convenient overrides of default logic:
 
-- The block `on_update_failed_respond` is run if `@update_succeeded` is not true. By default, it logs all error messages with level `warn` and renders the component again through HTTP 422, causing Turbo to correctly display the page. Error messages are displayed by the form inputs.
+- The block `on_update_failed` is run if `@update_succeeded` is not true. By default, it logs all error messages with level `warn` and renders the component again through HTTP 422, causing Turbo to correctly display the page. Error messages are displayed by the form inputs.
 - The block `on_updated` is evaluated between successful record creation and responding. By default, it is not implemented and doing so is optional. This would be a suitable location for hooks that update state after a resource was updated (like an `after_update` hook, but only executed if a record was updated by this component). Do not redirect or render here, use the next blocks instead.
 - The block given in `on_updated_respond` is evaluated after successful creation and by default shows a flash, then redirects. Overwrite this block if you need to completely customize all logic that happens after creation. If this block is overwritten, `on_updated_redirect_path` will not be called.
 - `on_updated_redirect_path` is evaluated as the second step of `on_updated_respond` and redirects to the resource's Show, its owner's Show, or its own Index component as described above. Overwrite this block in order to redirect ot another component instead, while keeping the default flash provided by `on_updated_respond`.
