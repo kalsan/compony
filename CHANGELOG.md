@@ -16,6 +16,9 @@
   - Add `doc/integrations.md` (companion-gem map mirroring the gemspec) and
     `doc/guide/maintaining.md` (release / docs / dependency / anonymization policy);
     cross-link non-obvious DSL methods (e.g. `path`) to matching patterns.
+  - Fix broken relative links: `generators.md` → `inheritance.md#best-practice` (was a
+    doubled `./doc/guide/` path) and two wrong-depth links in `pre_built_components.md`
+    (`../` → `./`). Full guide link/anchor set now verified (0 broken).
   - (Run `yard doc` to regenerate the HTML under `doc/` after doc changes.)
 
 # 0.11.8

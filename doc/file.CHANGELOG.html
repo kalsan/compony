@@ -78,6 +78,9 @@ the new agent docs) renders in the YARD/rubydoc reference, not just <code>lib/</
 <li>Add <code>doc/integrations.md</code> (companion-gem map mirroring the gemspec) and
 <code>doc/guide/maintaining.md</code> (release / docs / dependency / anonymization policy);
 cross-link non-obvious DSL methods (e.g. <code>path</code>) to matching patterns.</li>
+<li>Fix broken relative links: <code>generators.md</code> → <code>inheritance.md#best-practice</code> (was a
+doubled <code>./doc/guide/</code> path) and two wrong-depth links in <code>pre_built_components.md</code>
+(<code>../</code> → <code>./</code>). Full guide link/anchor set now verified (0 broken).</li>
 <li>(Run <code>yard doc</code> to regenerate the HTML under <code>doc/</code> after doc changes.)</li>
 </ul>
 </li>
@@ -596,7 +599,7 @@ cross-link non-obvious DSL methods (e.g. <code>path</code>) to matching patterns
 <p>First version</p></div></div>
 
       <div id="footer">
-  Generated on Mon May 18 13:25:06 2026 by
+  Generated on Mon May 18 13:32:17 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.43 (ruby-3.3.5).
 </div>

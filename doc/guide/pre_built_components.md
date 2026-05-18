@@ -7,9 +7,9 @@ Compony comes with a few pre-built components that cover the most common cases t
 The pre-built components can be found in the module `Compony::Components`. They ship a
 sensible, UI-agnostic default (plain HTML, no styling) — you typically inherit from them
 in an app base layer that adds your UI framework's markup (see
-[Real-world patterns](../patterns.md#1-the-app-base-component-layer)). `Show` and `Index`
+[Real-world patterns](./patterns.md#1-the-app-base-component-layer)). `Show` and `Index`
 are intentionally minimal because their presentation depends heavily on your UI framework;
-they are easy to override (see the [example](../example.md)).
+they are easy to override (see the [example](./example.md)).
 
 In the following, the pre-built components currently shipped with Compony are presented:
 
