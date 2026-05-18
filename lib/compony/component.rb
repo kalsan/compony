@@ -123,7 +123,12 @@ module Compony
     # Overrides how the path to this component should be generated.
     # The block will be given the following args: a model (optional), pos. args for the path helper, the kwarg `standalone_name` and kwargs for the path helper.
     # The block is expected to return a Rails path. It is not given `controller` or `helpers`, instead use: `Rails.application.routes.url_helpers`.
-    # For an example, refer to the initializer of this class, where the default block is defined.
+    # For the default block, refer to the initializer of this class.
+    # Useful when callers should pass a higher-level argument that is translated into path params here, e.g. minting a
+    # signed token into the URL so an unauthenticated link can authorize itself. Worked examples:
+    # see `doc/guide/standalone.md` ("Customizing path generation") and `doc/guide/patterns.md` §18 (signed-token capability links).
+    # @return [void] when defining (block given); otherwise the generated Rails path String.
+    # @api public
     def path(*, **, &block)
       if block_given?
         # Assignment via DSL

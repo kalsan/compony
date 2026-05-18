@@ -139,6 +139,21 @@ end
 
 By implementing `path do ... end` inside the `setup` method of a component, you can override the way paths to that component are generated. Customizing the path generation will affect all mentioned methods mentioned here involving paths, such as `Compony.path`, `render_intent` etc.
 
-This is an advanced usage. Refer to the default implementation of `Component`'s `path_block` to see an example.
+The block runs **outside** the request context, so build URLs via
+`Rails.application.routes.url_helpers` (not `controller`/`helpers`). It is given an optional
+model, positional path-helper args, the `standalone_name:` kwarg, and any extra kwargs.
+
+This is an advanced usage. Refer to the default implementation of `Component`'s `path_block`
+to see the baseline example.
+
+Where overriding `path` is genuinely useful:
+
+- **Inject a derived/looked-up param.** Callers pass a high-level argument and the block
+  turns it into concrete path params.
+- **Mint a signed token into the URL** so an unauthenticated link can authorize itself —
+  a full worked recipe is in
+  [Real-world patterns §18 (signed-token capability links)](/doc/guide/patterns.md#18-signed-token-capability-links-auth-less-onboarding--magic-links)
+  (magic login, password reset, invite/confirm links).
+- **Custom slugs / vanity paths** that differ from the Rails route helper's default shape.
 
 [Guide index](/README.md#guide--documentation)

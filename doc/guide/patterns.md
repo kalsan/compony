@@ -408,6 +408,263 @@ end
 Make a separate style per visual kind (dropdown item, pill, compact) and select with
 `render_intent(:show, @data, style: :compact)`.
 
+## 15. Inline-edit card with a Turbo Frame
+
+A Show panel where the Edit form swaps in place (no full-page nav) and swaps back on save.
+Wrap both the Show content and the Edit form in a **same-named** `turbo_frame_tag`; Turbo
+Drive then scopes navigation to that frame. Distinct from the `render_sub_comp(:list, …,
+turbo_frame:)` use in [nesting.md](/doc/guide/nesting.md) (there the frame isolates a
+nested list's own search/filter params; here it is the inline-edit boundary for one
+record's Show/Edit pair).
+
+```ruby
+# One frame name shared by the Show panel and the Edit form.
+def card_frame(record) = :"#{record.model_name.singular}_#{record.id}_card"
+
+class Components::Accounts::Show < Compony::Components::Show
+  setup do
+    content :data do
+      turbo_frame_tag card_frame(@data) do      # Dyny: Rails view helper
+        # …render fields…
+        concat render_intent(:edit, @data, label: { format: :short })
+      end
+    end
+  end
+end
+
+class Components::Accounts::Edit < Compony::Components::Edit
+  setup do
+    content do
+      turbo_frame_tag card_frame(@data) do      # same frame name
+        concat form_comp.render(controller, data: @data)
+      end
+    end
+    # Default on_updated_redirect_path → Show; Turbo replaces just the frame.
+  end
+end
+```
+
+- Frame name must match exactly; deriving it from the record id keeps it unique when
+  several cards render on one page.
+- A failed save re-renders Edit with HTTP 422 — keep the `turbo_frame_tag` wrapper in the
+  Edit content so errors render in-frame too.
+
+## 16. Multi-step wizard across components
+
+A create/edit flow split over several steps, each its own component, advancing on save.
+Chain steps with `on_updated_redirect_path` (or `on_created_redirect_path`) and render a
+step indicator via a shared mixin (same mechanism as the tabs mixin in §7).
+
+```ruby
+module OrderWizard
+  extend ActiveSupport::Concern
+  STEPS = %i[details_edit shipping_edit confirm_edit].freeze
+
+  included do
+    setup do
+      content :wizard_nav, before: :main do
+        ol class: 'wizard' do
+          OrderWizard::STEPS.each do |step|
+            li step.to_s.delete_suffix('_edit'),
+               class: (component.comp_name.to_sym == step ? 'active' : nil)
+          end
+        end
+      end
+    end
+  end
+end
+
+class Components::Orders::DetailsEdit < Compony::Components::Edit
+  include OrderWizard
+  setup do
+    standalone path: 'orders/:id/details'
+    on_updated_redirect_path { Compony.path(:shipping_edit, @data) }   # → next step
+  end
+end
+
+class Components::Orders::ShippingEdit < Compony::Components::Edit
+  include OrderWizard
+  setup do
+    standalone path: 'orders/:id/shipping'
+    on_updated_redirect_path { Compony.path(:confirm_edit, @data) }
+  end
+end
+# …ConfirmEdit redirects to Show when done.
+```
+
+- Each step is a normal resourceful component on the same model — partial validation per
+  step is just per-step `schema_field`s in each step's Form.
+- For a *non-persistent* wizard (nothing saved until the end), back the components with a
+  [VirtualModel](/doc/guide/virtual_models.md) and carry state in its attributes (§12).
+- `comp_name` drives the active-step highlight, so the mixin needs no per-step config.
+
+## 17. Inline PATCH without a form (reorder / quick toggle)
+
+A JS front-end (drag-to-sort, an inline checkbox) issues a small PATCH that mutates state
+and returns no body. Add a **named** extra `standalone` with `verb :patch`, validate with
+Schemacop directly, and `head :ok`. No Form component involved.
+
+```ruby
+class Components::Orders::Show < Compony::Components::Show
+  setup do
+    # Main route inherited from Show. Companion endpoint for reordering line items:
+    standalone :reorder, path: 'orders/:id/reorder' do
+      verb :patch do
+        authorize { can?(:update, @data) }
+        respond do                       # overriding respond skips default authorize…
+          can?(:update, @data) or raise CanCan::AccessDenied   # …so re-check here
+          params = Schemacop::Schema3.new(:hash) do
+            ary! :ordered_ids do
+              list :integer
+            end
+          end.validate!(controller.request.params)
+          @data.line_items.reorder_by!(params[:ordered_ids])
+          controller.head :ok
+        end
+      end
+    end
+  end
+end
+```
+
+The route is `reorder_show_orders_comp` (see
+[standalone naming](/doc/guide/standalone.md#naming-of-exposed-routes)); point your
+Stimulus controller's PATCH at
+`Compony.path(:show, @data, standalone_name: :reorder)`.
+
+- This is the [gotchas.md #3](/doc/guide/gotchas.md#3-overriding-respond-skips-authorization)
+  case: the custom `respond` replaces the default that runs `authorize`, so authorize
+  again inside it.
+- Keep companion endpoints in the *same* component as the screen they serve — what extra
+  named `standalone`s are for
+  ([standalone.md](/doc/guide/standalone.md#exposing-multiple-paths-in-the-same-component-calling-standalone-multiple-times)),
+  not a reason for a new component.
+- Return `head :ok` (or small JSON) — no Compony content to render for an ajax-only verb.
+
+## 18. Signed-token capability links (auth-less onboarding / magic links)
+
+Goal: an emailed link that lets an unauthenticated visitor perform one bounded action —
+invite acceptance, magic login, password reset, email confirmation — without a session.
+The trick: override Compony's `path do … end` to **mint a signed JWT** and carry it as a
+`token` query param, then gate a `skip_authentication!` standalone with
+`authorize { token_valid?(params) }`. A small mixin centralizes encode/decode.
+
+> **Security — read before copying.** Such a link *is* the capability; anyone holding the
+> URL can perform the action. It is only safe if every one of these holds:
+> - **Expiry is mandatory.** Put `exp` in the payload and verify it. A capability link
+>   without a TTL is a permanent account-takeover primitive (it leaks via referrer
+>   headers, proxy logs, mail forwarding, browser history). Pair short TTLs with a resend
+>   flow.
+> - **Pin the algorithm and verify the signature** — `JWT.decode(token, secret, true,
+>   { algorithm: 'HS512' })`. Never accept `alg: none`; never leave verification off.
+> - **Fail closed.** Rescue `JWT::DecodeError` (its subclasses cover bad signature,
+>   malformed token and expiry) and return `nil`/`false` so `authorize` denies with 403 —
+>   not a 500.
+> - **Use a dedicated signing secret**, not `secret_key_base`, so rotating it doesn't also
+>   invalidate every session (and vice-versa).
+> - Still provide an `authorize` block: `skip_authentication!` removes *authentication*,
+>   not authorization ([gotchas.md #14](/doc/guide/gotchas.md#14-public-endpoint-still-401redirecting)).
+
+```ruby
+# app/component_mixins/with_token.rb
+module WithToken
+  extend ActiveSupport::Concern
+  TOKEN_TTL = 14.days
+
+  def encode_token(payload)
+    JWT.encode(payload.merge(exp: TOKEN_TTL.from_now.to_i), token_secret, 'HS512')
+  end
+
+  # Memoized; returns the payload (indifferent access) or nil. Fails closed.
+  def token_data(params = nil)
+    return @token_data if @token_data
+    return nil if params.blank?
+    @token = params[:token]
+    return nil if @token.blank?
+    @token_data = JWT.decode(@token, token_secret, true, { algorithm: 'HS512' })
+                     .first.with_indifferent_access
+  rescue JWT::DecodeError   # bad sig / malformed / expired — all subclasses
+    nil
+  end
+
+  def token_secret
+    Rails.application.credentials.capability_token_secret.presence ||
+      Rails.application.credentials.secret_key_base   # fallback until set
+  end
+end
+```
+
+Override `path` so links self-mint a token (callers pass the subject, not the token):
+
+```ruby
+class Components::Invites::Accept < Compony::Components::New
+  include WithToken
+
+  class VirtualModel < Compony::VirtualModel
+    attribute :password, :string
+    attribute :account_id          # carried for validation only
+    field :password, :string
+    def label = 'Invite'
+  end
+
+  setup do
+    # Building a path to this component mints the token from the given account.
+    path do |*args, account: nil, token: nil, **kwargs|
+      if token.blank?
+        fail('Missing kwarg :account in path') if account.nil?
+        token = encode_token(account_id: account.id)
+      end
+      next Rails.application.routes.url_helpers
+              .send("#{path_helper_name}_path", *args, token:, **kwargs)
+    end
+
+    standalone path: '/invites/accept' do
+      skip_authentication!
+      verb :get  do authorize { token_valid?(params) } end
+      verb :post do authorize { token_valid?(params) } end
+    end
+
+    data_class VirtualModel
+    form_cancancan_action nil
+    submit_path { Compony.path(self.class, @data, token: @token) }
+    after_assign_attributes { @data.account_id = token_data(params)[:account_id] }
+
+    store_data do
+      @create_succeeded = @data.validate
+      next unless @create_succeeded
+      Account.find(token_data[:account_id]).update!(password: @data.password)
+    end
+    on_created_respond { redirect_to Compony.path(:show, :sessions) }
+  end
+
+  # Shape-check the decoded payload; anything off → false → 403 (never 500).
+  def token_valid?(params)
+    data = token_data(params)
+    return false if data.blank?
+    Schemacop::Schema3.new(:hash) do
+      int! :account_id, cast_str: true
+      int? :exp
+    end.validate!(data)
+    true
+  rescue Schemacop::Exceptions::ValidationError
+    false                                # token signed for a different flow
+  end
+end
+```
+
+Notes:
+
+- `Compony.path(:accept, :invites, account: some_account)` returns the full tokenized URL —
+  email that. The token, not a session, authorizes the request.
+- `path do` runs outside the request context; build URLs via
+  `Rails.application.routes.url_helpers`, not `controller`/`helpers` (see
+  [standalone.md](/doc/guide/standalone.md#customizing-path-generation)).
+- Reuse the mixin for every link flow (magic login, password reset, email confirm); encode
+  a flow discriminator or rely on the per-component payload shape-check to stop a token
+  minted for one flow being replayed against another.
+- One signed boolean in the payload (e.g. `confirmed: true`) is tamper-proof since the
+  client cannot re-sign — handy for multi-hop confirm flows.
+
 ## Good habits
 
 - **CanCanCan everywhere:** `authorize { can?(...) }`, scope with
