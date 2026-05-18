@@ -16,16 +16,27 @@ module Compony
             @scope = scope
             @scope_args = scope_args
             @verbs = {}
-            @skip_authentication = false
-            @skip_forgery_protection = false
-            @layout = true # can be overriden by false or a string
+            # These default to nil so that, on subsequent `standalone` calls (e.g. subclass overrides), they are stripped
+            # by `compact` and thus do NOT clobber values inherited via `deep_merge!`. The actual defaults are only injected
+            # when `provide_defaults` is true (i.e. the first `standalone` call). This mirrors VerbDsl#to_conf.
+            @skip_authentication = nil
+            @skip_forgery_protection = nil
+            @layout = nil # can be overriden by false or a string
           end
+
+          # Defaults injected only on the first `standalone` call. Kept out of subsequent calls so inherited values survive.
+          DEFAULT_CONFIG = {
+            skip_authentication:     false,
+            skip_forgery_protection: false,
+            layout:                  true
+          }.freeze
 
           # For internal usage only, processes the block and returns a config hash.
           def to_conf(&block)
             evaluate(&block)
             @component = block.binding.eval('self') # Fetches the component holding this DSL call (via the block)
-            return {
+            base_config = @provide_defaults ? DEFAULT_CONFIG.dup : {}
+            return base_config.merge({
               name:                    @name,
               path:                    @path,
               constraints:             @constraints,
@@ -37,7 +48,7 @@ module Compony
               skip_authentication:     @skip_authentication,
               skip_forgery_protection: @skip_forgery_protection,
               layout:                  @layout
-            }.compact
+            }.compact)
           end
 
           protected

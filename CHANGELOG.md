@@ -1,5 +1,13 @@
 # unreleased
 
+- Fix `standalone` overrides clobbering inherited `layout` / `skip_authentication` /
+  `skip_forgery_protection`. A second `standalone` call (e.g. a subclass overriding a
+  pre-built component) re-ran `StandaloneDsl` whose `to_conf` always emitted the hard
+  defaults (`layout: true`, `skip_*: false`); `deep_merge!` then overwrote the value
+  inherited from the parent. These now default to `nil` and the real defaults are only
+  injected when `provide_defaults` is true (first call), so `compact` strips them on
+  overrides and `deep_merge!` preserves the inherited value — mirroring `VerbDsl#to_conf`.
+  Subclasses no longer need to repeat `layout :backend` just to keep it.
 - Enhance documentation for better LLM support (and humans as well of course):
   - Documentation: add agent-oriented docs — `CLAUDE.md` primer, `doc/llms.txt` index,
     `doc/guide/dsl_reference.md`, `doc/guide/glossary.md`, `doc/guide/gotchas.md`,
