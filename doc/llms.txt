@@ -14,7 +14,8 @@ behavior is the Ruby source under lib/compony/; the guide pages below explain in
 - [DSL reference](/doc/guide/dsl_reference.md): every setup/standalone/form/list DSL method with signature and context.
 - [Glossary](/doc/guide/glossary.md): one-line definitions of Compony vocabulary.
 - [Gotchas](/doc/guide/gotchas.md): numbered anti-patterns — symptom, cause, fix.
-- [Real-world patterns](/doc/guide/patterns.md): recurring idioms from production apps (base layer, thin leaves, tabs, exports, jobs, virtual models, webhooks).
+- [Real-world patterns](/doc/guide/patterns.md): 18 recurring idioms from production apps (base layer, thin leaves, tabs, exports, jobs, virtual models, webhooks, turbo-frame inline edit, multi-step wizard, inline PATCH, signed-token capability links).
+- [Cookbook](/doc/guide/cookbook.md): pure task→pointer index ("I want to do X") into patterns/guide; no duplicated content.
 
 ## Guide — concepts
 

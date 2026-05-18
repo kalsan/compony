@@ -42,6 +42,7 @@ The following topics should help you get started. Please note that the links wil
     - [Glossary](./doc/guide/glossary.md): one-line definitions of Compony vocabulary
     - [Gotchas](./doc/guide/gotchas.md): known anti-patterns with symptom, cause, fix
     - [Real-world patterns](./doc/guide/patterns.md): idioms distilled from production apps
+    - [Cookbook](./doc/guide/cookbook.md): recipes indexed by task ("I want to do X")
     - [Agent primer](./CLAUDE.md) and [doc/llms.txt](./doc/llms.txt): orientation for LLM-based tools
 - Concepts and usage:
     - [A basic component](./doc/guide/basic_component.md): Basic concepts relevant for all components
