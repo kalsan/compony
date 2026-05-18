@@ -1,0 +1,58 @@
+# Compony
+
+> Compony is a Ruby on Rails gem for writing apps in component style: one Ruby class
+> bundles a route, a controller action, and a view (Dyny). Components are subclassable,
+> giving inheritance for views and controller logic, DRY CRUD via pre-built components,
+> a model mixin for fields and feasibility, and an intent system for linking components.
+
+Read CLAUDE.md first for the mental model and the public API surface. Source of truth for
+behavior is the Ruby source under lib/compony/; the guide pages below explain intent.
+
+## Agent entrypoints
+
+- [Agent primer](/CLAUDE.md): mental model, public API table, source layout, conventions.
+- [DSL reference](/doc/guide/dsl_reference.md): every setup/standalone/form/list DSL method with signature and context.
+- [Glossary](/doc/guide/glossary.md): one-line definitions of Compony vocabulary.
+- [Gotchas](/doc/guide/gotchas.md): numbered anti-patterns — symptom, cause, fix.
+
+## Guide — concepts
+
+- [README](/README.md): what Compony is, key aspects, caveats, guide index.
+- [Self-contained example](/doc/guide/example.md): full small app (model, Show, Destroy, New, Form, Edit, Index).
+- [Advanced example](/doc/guide/example_advanced.md): custom form, virtual fields, CSV export, exposed intents, feasibility, before_render guard.
+- [Installation](/doc/guide/installation.md): setup steps.
+- [Basic component](/doc/guide/basic_component.md): naming, setup, labelling, content blocks, before_render.
+- [Standalone](/doc/guide/standalone.md): routing, verbs, authorize, respond, formats, scopes, constraints.
+- [Inheritance](/doc/guide/inheritance.md): DRYing via base components.
+- [Nesting](/doc/guide/nesting.md): sub_comp, embedding components.
+- [Resourceful](/doc/guide/resourceful.md): @data auto-loading, load_data.
+- [Intents](/doc/guide/intents.md): Compony.path, render_intent, render_sub_comp, buttons/styles, exposed_intents.
+- [Feasibility](/doc/guide/feasibility.md): prevent, feasible?, disabling buttons.
+- [Ownership](/doc/guide/ownership.md): owned_by, owner-aware redirects.
+- [Model fields](/doc/guide/model_fields.md): field types, value_for, auto-generated UI.
+- [Generators](/doc/guide/generators.md): rails g component / components.
+- [Internal datastructures](/doc/guide/internal_datastructures.md): RequestContext, MethodAccessibleHash.
+- [Virtual models](/doc/guide/virtual_models.md): non-persistent ActiveType-backed models.
+
+## Guide — pre-built components
+
+- [Introduction](/doc/guide/pre_built_components.md): overview of shipped CRUD components.
+- [Show](/doc/guide/pre_built_components/show.md): Rails show equivalent.
+- [Index](/doc/guide/pre_built_components/index.md): Rails index equivalent.
+- [List](/doc/guide/pre_built_components/list.md): Rails _list partial equivalent (columns, filters, sorts, pagination).
+- [Destroy](/doc/guide/pre_built_components/destroy.md): Rails destroy equivalent.
+- [WithForm](/doc/guide/pre_built_components/with_form.md): base for form-submitting components.
+- [Form](/doc/guide/pre_built_components/form.md): Rails _form partial equivalent (form_fields, schema_*).
+- [New](/doc/guide/pre_built_components/new.md): Rails new+create equivalent.
+- [Edit](/doc/guide/pre_built_components/edit.md): Rails edit+update equivalent.
+
+## Source (behavior source of truth)
+
+- lib/compony.rb: Compony.* module methods (public API).
+- lib/compony/component.rb: base Component DSL (setup, content, before_render, exposed_intents).
+- lib/compony/intent.rb: Intent — path, label, feasibility, button rendering.
+- lib/compony/component_mixins/resourceful.rb: @data lifecycle hooks.
+- lib/compony/component_mixins/default/standalone/: routing DSL (standalone/verb/respond/authorize).
+- lib/compony/components/: pre-built component implementations.
+- lib/compony/model_mixin.rb: model-side field/prevent/owned_by.
+- lib/compony/virtual_model.rb: VirtualModel base.

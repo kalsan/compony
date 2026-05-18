@@ -1,3 +1,10 @@
+# unreleased
+
+- Documentation: add agent-oriented docs — `CLAUDE.md` primer, `doc/llms.txt` index,
+  `doc/guide/dsl_reference.md`, `doc/guide/glossary.md`, `doc/guide/gotchas.md`,
+  `doc/guide/example_advanced.md`. Fix two stale links in the README guide index
+  (Virtual models, Edit).
+
 # 0.11.8
 
 - Fix `Compony::VirtualModel#attributes` to include virtual attributes (declared via `attribute :foo, :type`). The `include ActiveModel::Attributes` was shadowing `ActiveType::VirtualAttributes#attributes`, so virtual attribute values were stored in `@virtual_attributes` but invisible to `#attributes`, breaking callers that use `model.attributes.slice(...)` or `model.attributes.select { ... }`.

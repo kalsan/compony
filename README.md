@@ -35,7 +35,13 @@ A project with a similar aim, but a different approach, is [Phlex](https://githu
 The following topics should help you get started. Please note that the links will not work in yard doc - read this on [Compony's GitHub repo](https://github.com/kalsan/compony).
 
 - [Self-contained example](./doc/guide/example.md) for those who like to dive straight into code
+- [Advanced example](./doc/guide/example_advanced.md): custom form, feasibility, CSV export, virtual-model launch form
 - [Installation](./doc/guide/installation.md) (start here)
+- Quick reference (also handy for AI coding assistants):
+    - [DSL reference](./doc/guide/dsl_reference.md): every DSL method with signature and context
+    - [Glossary](./doc/guide/glossary.md): one-line definitions of Compony vocabulary
+    - [Gotchas](./doc/guide/gotchas.md): known anti-patterns with symptom, cause, fix
+    - [Agent primer](./CLAUDE.md) and [doc/llms.txt](./doc/llms.txt): orientation for LLM-based tools
 - Concepts and usage:
     - [A basic component](./doc/guide/basic_component.md): Basic concepts relevant for all components
     - [Standalone](./doc/guide/standalone.md): Routing to components
@@ -48,7 +54,7 @@ The following topics should help you get started. Please note that the links wil
     - [Model fields](./doc/guide/model_fields.md): Allowing Compony to auto-generate UI elements by telling it about the structure of your model
     - [Rails generators](./doc/guide/generators.md): Creating components quickly
     - [Internal datastructures](./doc/guide/internal_datastructures.md): Noteworthy datastructures provided by Compony
-    - [Virtual models](./doc/guide/internal_datastructures.md): Unleashing non-persistent interactions through Compony's `ActiveType` integration
+    - [Virtual models](./doc/guide/virtual_models.md): Unleashing non-persistent interactions through Compony's `ActiveType` integration
 - Pre-built components shipped with Compony
     - [Introduction](./doc/guide/pre_built_components.md)
     - [Show](./doc/guide/pre_built_components/show.md): Compony's equivalent to Rail's `show` controller action
@@ -58,7 +64,7 @@ The following topics should help you get started. Please note that the links wil
     - [WithForm](./doc/guide/pre_built_components/with_form.md): A base class for components containing and submitting forms
     - [Form](./doc/guide/pre_built_components/form.md): Compony's equivalent to Rail's `_form` partial
     - [New](./doc/guide/pre_built_components/new.md): Compony's equivalent to Rail's `new` and `create` controller action
-    - [Edit](./doc/guide/pre_built_components/new.md): Compony's equivalent to Rail's `edit` and `update` controller action
+    - [Edit](./doc/guide/pre_built_components/edit.md): Compony's equivalent to Rail's `edit` and `update` controller action
 
 # Contributing
 
