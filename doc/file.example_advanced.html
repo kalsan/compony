@@ -6,13 +6,13 @@
 <title>
   File: example_advanced
   
-    &mdash; Documentation by YARD 0.9.43
+    &mdash; Documentation by YARD 0.9.34
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css">
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css">
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
 <script type="text/javascript">
   pathId = "example_advanced";
@@ -27,8 +27,6 @@
 
   </head>
   <body>
-    <div id="main_progress" aria-hidden="true"></div>
-
     <div class="nav_wrap">
       <iframe id="nav" src="file_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -59,14 +57,17 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><div id='filecontents'><p><a href="/README.md#guide--documentation">Back to the guide</a></p>
-<h1 id="Advanced_example">Advanced example</h1>
-<p><a href="/doc/guide/example.md">example.md</a> shows the basics. This one combines patterns you hit in
-real apps: a custom form, feasibility, exposed intents, a CSV export endpoint, a
-<code>before_render</code> guard, and a virtual-model launch form for a background job.</p>
-<p>Domain: invoicing. An <code>Invoice</code> has line items, can be locked, exported as CSV, and a
-background &quot;send reminders&quot; job can be launched from a non-persistent form.</p>
-<h2 id="The_models">The models</h2>
+      <div id="content"><div id='filecontents'>
+<p><a href="/README_md.html#guide--documentation">Back to the guide</a></p>
+
+<h1 id="label-Advanced+example">Advanced example</h1>
+
+<p><a href="/doc/guide/example_md.html">example.md</a> shows the basics. This one combines patterns you hit in real apps: a custom form, feasibility, exposed intents, a CSV export endpoint, a <code>before_render</code> guard, and a virtual-model launch form for a background job.</p>
+
+<p>Domain: invoicing. An <code>Invoice</code> has line items, can be locked, exported as CSV, and a background “send reminders” job can be launched from a non-persistent form.</p>
+
+<h2 id="label-The+models">The models</h2>
+
 <pre class="code ruby"><code class="ruby"><span class='comment'># app/models/invoice.rb
 </span><span class='kw'>class</span> <span class='const'>Invoice</span> <span class='op'>&lt;</span> <span class='const'>ApplicationRecord</span>
   <span class='id identifier rubyid_has_many'>has_many</span> <span class='symbol'>:line_items</span><span class='comma'>,</span> <span class='label'>dependent:</span> <span class='symbol'>:destroy</span>
@@ -97,9 +98,11 @@ background &quot;send reminders&quot; job can be launched from a non-persistent 
   <span class='kw'>def</span> <span class='id identifier rubyid_label'>label</span> <span class='op'>=</span> <span class='id identifier rubyid_description'>description</span>
 <span class='kw'>end</span>
 </code></pre>
-<h2 id="Index_with_a_CSV_export_endpoint_and_exposed_intents">Index with a CSV export endpoint and exposed intents</h2>
-<p>One component, two routes: the HTML list and a <code>.csv</code> download. The CSV intent is exposed
-so the layout renders a &quot;Download CSV&quot; button in the page header.</p>
+
+<h2 id="label-Index+with+a+CSV+export+endpoint+and+exposed+intents">Index with a CSV export endpoint and exposed intents</h2>
+
+<p>One component, two routes: the HTML list and a <code>.csv</code> download. The CSV intent is exposed so the layout renders a “Download CSV” button in the page header.</p>
+
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Invoices</span><span class='op'>::</span><span class='const'>Index</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Component.html" title="Compony::Component (class)">Component</a></span></span>
   <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/ComponentMixins.html" title="Compony::ComponentMixins (module)">ComponentMixins</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/ComponentMixins/Resourceful.html" title="Compony::ComponentMixins::Resourceful (module)">Resourceful</a></span></span>
 
@@ -131,19 +134,20 @@ so the layout renders a &quot;Download CSV&quot; button in the page header.</p>
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
+
 <p>Notes:</p>
-<ul>
-<li><code>respond :csv</code> handles <code>GET /invoices.csv</code>. Because overriding <code>respond</code> <strong>skips the
-default <code>authorize</code></strong> (see <a href="/doc/guide/gotchas.md#3-overriding-respond-skips-authorization">gotchas.md</a>),
-the CSV branch re-checks the ability itself.</li>
-<li><code>path: { format: :csv }</code> on the exposed intent makes its button point at <code>.csv</code>.</li>
-<li>The layout renders exposed intents of <code>Compony.root_comp</code> — see
-<a href="/doc/guide/intents.md#rendering-exposed-intents">intents.md</a>.</li>
-</ul>
-<h2 id="A_custom_Form_with_nested_line_items">A custom Form with nested line items</h2>
-<p><code>Edit</code>/<code>New</code> look for <code>Components::Invoices::Form</code> by default. We write it with
-<code>accepts_nested_attributes_for</code> via <code>simple_form</code>'s <code>simple_fields_for</code>, and whitelist the
-nested params with a raw <code>schema_line</code>.</p>
+<ul><li>
+<p><code>respond :csv</code> handles <code>GET /invoices.csv</code>. Because overriding <code>respond</code> <strong>skips the  default <code>authorize</code></strong> (see <a href="/doc/guide/gotchas_md.html#3-overriding-respond-skips-authorization">gotchas.md</a>),  the CSV branch re-checks the ability itself.</p>
+</li><li>
+<p><code>path: { format: :csv }</code> on the exposed intent makes its button point at <code>.csv</code>.</p>
+</li><li>
+<p>The layout renders exposed intents of <code>Compony.root_comp</code> — see  <a href="/doc/guide/intents_md.html#rendering-exposed-intents">intents.md</a>.</p>
+</li></ul>
+
+<h2 id="label-A+custom+Form+with+nested+line+items">A custom Form with nested line items</h2>
+
+<p><code>Edit</code>/<code>New</code> look for <code>Components::Invoices::Form</code> by default. We write it with <code>accepts_nested_attributes_for</code> via <code>simple_form</code>‘s <code>simple_fields_for</code>, and whitelist the nested params with a raw <code>schema_line</code>.</p>
+
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Invoices</span><span class='op'>::</span><span class='const'>Form</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Form.html" title="Compony::Components::Form (class)">Form</a></span></span>
   <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
     <span class='id identifier rubyid_form_fields'>form_fields</span> <span class='kw'>do</span>
@@ -171,12 +175,13 @@ nested params with a raw <code>schema_line</code>.</p>
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
-<p><code>schema_field :customer</code> (association name) lets Compony add <code>customer_id</code> automatically —
-passing <code>:customer_id</code> here would not work
-(<a href="/doc/guide/gotchas.md#4-schema_field-with-the-foreign-key-name">gotchas.md</a>).</p>
-<h2 id="Edit__thin__plus_a_guard_and_a_custom_redirect">Edit: thin, plus a guard and a custom redirect</h2>
-<p><code>Edit</code> inherits all CRUD wiring. We only add a <code>before_render</code> guard (independent of HTTP
-verb) and override where a successful save lands.</p>
+
+<p><code>schema_field :customer</code> (association name) lets Compony add <code>customer_id</code> automatically — passing <code>:customer_id</code> here would not work (<a href="/doc/guide/gotchas_md.html#4-schema_field-with-the-foreign-key-name">gotchas.md</a>).</p>
+
+<h2 id="label-Edit-3A+thin-2C+plus+a+guard+and+a+custom+redirect">Edit: thin, plus a guard and a custom redirect</h2>
+
+<p><code>Edit</code> inherits all CRUD wiring. We only add a <code>before_render</code> guard (independent of HTTP verb) and override where a successful save lands.</p>
+
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Invoices</span><span class='op'>::</span><span class='const'>Edit</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Edit.html" title="Compony::Components::Edit (class)">Edit</a></span></span>
   <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
     <span class='id identifier rubyid_before_render'>before_render</span> <span class='kw'>do</span>
@@ -190,15 +195,15 @@ verb) and override where a successful save lands.</p>
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
-<p>The <code>prevent :edit</code> in the model already greys out the edit button with a tooltip; the
-<code>before_render</code> guard plus the model validation stop a hand-crafted request
-(<a href="/doc/guide/feasibility.md">feasibility.md</a> explains why all three layers are needed).</p>
-<p><code>Components::Invoices::New</code>, <code>Show</code>, <code>Destroy</code> can stay empty — the pre-built parents do
-the work.</p>
-<h2 id="A_virtual_model_launch_form_for_a_background_job">A virtual-model launch form for a background job</h2>
-<p>&quot;Send reminders&quot; should pop a small form (which customers? how many days overdue?) and, on
-submit, queue a job — nothing is persisted. Inherit <code>New</code>, back it with a
-<code>Compony::VirtualModel</code>, and take over <code>on_created_respond</code>.</p>
+
+<p>The <code>prevent :edit</code> in the model already greys out the edit button with a tooltip; the <code>before_render</code> guard plus the model validation stop a hand-crafted request (<a href="/doc/guide/feasibility_md.html">feasibility.md</a> explains why all three layers are needed).</p>
+
+<p><code>Components::Invoices::New</code>, <code>Show</code>, <code>Destroy</code> can stay empty — the pre-built parents do the work.</p>
+
+<h2 id="label-A+virtual-model+launch+form+for+a+background+job">A virtual-model launch form for a background job</h2>
+
+<p>“Send reminders” should pop a small form (which customers? how many days overdue?) and, on submit, queue a job — nothing is persisted. Inherit <code>New</code>, back it with a <code>Compony::VirtualModel</code>, and take over <code>on_created_respond</code>.</p>
+
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Invoices</span><span class='op'>::</span><span class='const'>RequestReminders</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/New.html" title="Compony::Components::New (class)">New</a></span></span>
   <span class='kw'>class</span> <span class='const'>VirtualModel</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/VirtualModel.html" title="Compony::VirtualModel (class)">VirtualModel</a></span></span>
     <span class='id identifier rubyid_attribute'>attribute</span> <span class='symbol'>:min_days_overdue</span><span class='comma'>,</span> <span class='symbol'>:integer</span><span class='comma'>,</span> <span class='label'>default:</span> <span class='int'>7</span>
@@ -235,17 +240,16 @@ submit, queue a job — nothing is persisted. Inherit <code>New</code>, back it 
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
-<p>Why it works: inheriting <code>New</code> gives the <code>new</code>/<code>create</code> flow. On submit Compony validates,
-re-renders the form with errors on failure, otherwise calls <code>@data.save</code> (a no-op on a
-virtual model) and runs <code>on_created_respond</code>, where you regain control. For ActiveStorage
-on a virtual model, also override <code>store_data</code> to only <code>validate</code> — see
-<a href="/doc/guide/virtual_models.md">virtual_models.md</a>.</p>
-<p><a href="/README.md#guide--documentation">Guide index</a></p></div></div>
+
+<p>Why it works: inheriting <code>New</code> gives the <code>new</code>/<code>create</code> flow. On submit Compony validates, re-renders the form with errors on failure, otherwise calls <code>@data.save</code> (a no-op on a virtual model) and runs <code>on_created_respond</code>, where you regain control. For ActiveStorage on a virtual model, also override <code>store_data</code> to only <code>validate</code> — see <a href="/doc/guide/virtual_models_md.html">virtual_models.md</a>.</p>
+
+<p><a href="/README_md.html#guide--documentation">Guide index</a></p>
+</div></div>
 
       <div id="footer">
-  Generated on Mon May 18 13:32:17 2026 by
+  Generated on Mon May 18 13:55:33 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.43 (ruby-3.3.5).
+  0.9.34 (ruby-3.3.5).
 </div>
 
     </div>

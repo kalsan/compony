@@ -6,13 +6,13 @@
 <title>
   Class: Compony::ComponentMixins::Default::Standalone::VerbDsl
   
-    &mdash; Documentation by YARD 0.9.43
+    &mdash; Documentation by YARD 0.9.34
   
 </title>
 
-  <link rel="stylesheet" href="../../../../css/style.css" type="text/css">
+  <link rel="stylesheet" href="../../../../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../../../../css/common.css" type="text/css">
+  <link rel="stylesheet" href="../../../../css/common.css" type="text/css" />
 
 <script type="text/javascript">
   pathId = "Compony::ComponentMixins::Default::Standalone::VerbDsl";
@@ -27,8 +27,6 @@
 
   </head>
   <body>
-    <div id="main_progress" aria-hidden="true"></div>
-
     <div class="nav_wrap">
       <iframe id="nav" src="../../../../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -98,15 +96,16 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/compony/component_mixins/default/standalone/verb_dsl.rb
-</dd>
+    <dd>lib/compony/component_mixins/default/standalone/verb_dsl.rb</dd>
   </dl>
   
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>DSL for speficying verb configs within a standalone config.</p>
+    
+<p>DSL for speficying verb configs within a standalone config.</p>
+
 
   </div>
 </div>
@@ -183,7 +182,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>DSL Mandatory.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>DSL Mandatory.</p>
+</div></span>
   
 </li>
 
@@ -205,7 +206,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Internal, do not use.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Internal, do not use.</p>
+</div></span>
   
 </li>
 
@@ -229,7 +232,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>A new instance of VerbDsl.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of VerbDsl.</p>
+</div></span>
   
 </li>
 
@@ -251,7 +256,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>DSL Last step in the lifecycle.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>DSL Last step in the lifecycle.</p>
+</div></span>
   
 </li>
 
@@ -273,13 +280,14 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>For internal usage only, processes the block and returns a config hash.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>For internal usage only, processes the block and returns a config hash.</p>
+</div></span>
   
 </li>
 
       
     </ul>
-    
   
 
 
@@ -297,7 +305,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns a new instance of VerbDsl.</p>
+    
+<p>Returns a new instance of VerbDsl.</p>
+
 
   </div>
 </div>
@@ -359,9 +369,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p><p>DSL
-Mandatory. The block must return truthy iff <code>current_ability</code> may access the component over this verb;
-a falsy result raises <code>CanCan::AccessDenied</code>.</p>
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>DSL Mandatory. The block must return truthy iff <code>current_ability</code> may access the component over this verb; a falsy result raises <code>CanCan::AccessDenied</code>.</p>
+
 
   </div>
 </div>
@@ -378,7 +388,9 @@ a falsy result raises <code>CanCan::AccessDenied</code>.</p>
       
       
         
-        <div class='inline'><p>Runs in the component's request context; returns truthy to grant access.</p></div>
+        <div class='inline'>
+<p>Runs in the component’s request context; returns truthy to grant access.</p>
+</div>
       
     </li>
   
@@ -416,7 +428,9 @@ a falsy result raises <code>CanCan::AccessDenied</code>.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Internal, do not use</p>
+    
+<p>Internal, do not use</p>
+
 
   </div>
 </div>
@@ -461,9 +475,9 @@ a falsy result raises <code>CanCan::AccessDenied</code>.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p><p>DSL
-Last step in the lifecycle. May redirect or render. If omitted, the default is <code>render_standalone</code>.
-NOTE: overriding <code>respond</code> replaces the default, which is where <code>authorize</code> is evaluated - re-check authorization yourself.</p>
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>DSL Last step in the lifecycle. May redirect or render. If omitted, the default is <code>render_standalone</code>. NOTE: overriding <code>respond</code> replaces the default, which is where <code>authorize</code> is evaluated - re-check authorization yourself.</p>
+
 
   </div>
 </div>
@@ -483,7 +497,9 @@ NOTE: overriding <code>respond</code> replaces the default, which is where <code
       
       
         &mdash;
-        <div class='inline'><p>Format this block responds to; <code>nil</code> means &quot;all other formats&quot;.</p></div>
+        <div class='inline'>
+<p>Format this block responds to; <code>nil</code> means “all other formats”.</p>
+</div>
       
     </li>
   
@@ -500,7 +516,9 @@ NOTE: overriding <code>respond</code> replaces the default, which is where <code
       
       
         
-        <div class='inline'><p>Runs in the component's request context; renders or redirects.</p></div>
+        <div class='inline'>
+<p>Runs in the component’s request context; renders or redirects.</p>
+</div>
       
     </li>
   
@@ -538,7 +556,9 @@ NOTE: overriding <code>respond</code> replaces the default, which is where <code
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>For internal usage only, processes the block and returns a config hash.</p>
+    
+<p>For internal usage only, processes the block and returns a config hash.</p>
+
 
   </div>
 </div>
@@ -583,9 +603,9 @@ NOTE: overriding <code>respond</code> replaces the default, which is where <code
 </div>
 
       <div id="footer">
-  Generated on Mon May 18 13:32:20 2026 by
+  Generated on Mon May 18 13:55:36 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.43 (ruby-3.3.5).
+  0.9.34 (ruby-3.3.5).
 </div>
 
     </div>

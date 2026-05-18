@@ -6,13 +6,13 @@
 <title>
   Class: Compony::ComponentMixins::Default::Standalone::StandaloneDsl
   
-    &mdash; Documentation by YARD 0.9.43
+    &mdash; Documentation by YARD 0.9.34
   
 </title>
 
-  <link rel="stylesheet" href="../../../../css/style.css" type="text/css">
+  <link rel="stylesheet" href="../../../../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../../../../css/common.css" type="text/css">
+  <link rel="stylesheet" href="../../../../css/common.css" type="text/css" />
 
 <script type="text/javascript">
   pathId = "Compony::ComponentMixins::Default::Standalone::StandaloneDsl";
@@ -27,8 +27,6 @@
 
   </head>
   <body>
-    <div id="main_progress" aria-hidden="true"></div>
-
     <div class="nav_wrap">
       <iframe id="nav" src="../../../../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -98,16 +96,16 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/compony/component_mixins/default/standalone/standalone_dsl.rb
-</dd>
+    <dd>lib/compony/component_mixins/default/standalone/standalone_dsl.rb</dd>
   </dl>
   
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>Wrapper and DSL helper for component's standalone config
-Pass <code>provide_defaults</code> true if this is the first standalone DSL of a component. Pass false if it is a subsequent one (e.g. if subclassed comp)</p>
+    
+<p>Wrapper and DSL helper for component’s standalone config Pass <code>provide_defaults</code> true if this is the first standalone DSL of a component. Pass false if it is a subsequent one (e.g. if subclassed comp)</p>
+
 
   </div>
 </div>
@@ -115,6 +113,37 @@ Pass <code>provide_defaults</code> true if this is the first standalone DSL of a
   
 
 </div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="DEFAULT_CONFIG-constant" class="">DEFAULT_CONFIG =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Defaults injected only on the first <code>standalone</code> call. Kept out of subsequent calls so inherited values survive.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+  <span class='label'>skip_authentication:</span>     <span class='kw'>false</span><span class='comma'>,</span>
+  <span class='label'>skip_forgery_protection:</span> <span class='kw'>false</span><span class='comma'>,</span>
+  <span class='label'>layout:</span>                  <span class='kw'>true</span>
+<span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+    </dl>
+  
+
 
 
 
@@ -148,7 +177,9 @@ Pass <code>provide_defaults</code> true if this is the first standalone DSL of a
   
 
   
-    <span class="summary_desc"><div class='inline'><p>A new instance of StandaloneDsl.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of StandaloneDsl.</p>
+</div></span>
   
 </li>
 
@@ -170,7 +201,9 @@ Pass <code>provide_defaults</code> true if this is the first standalone DSL of a
   
 
   
-    <span class="summary_desc"><div class='inline'><p>DSL method.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method.</p>
+</div></span>
   
 </li>
 
@@ -192,7 +225,9 @@ Pass <code>provide_defaults</code> true if this is the first standalone DSL of a
   
 
   
-    <span class="summary_desc"><div class='inline'><p>DSL method.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method.</p>
+</div></span>
   
 </li>
 
@@ -214,7 +249,9 @@ Pass <code>provide_defaults</code> true if this is the first standalone DSL of a
   
 
   
-    <span class="summary_desc"><div class='inline'><p>DSL method.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method.</p>
+</div></span>
   
 </li>
 
@@ -236,7 +273,9 @@ Pass <code>provide_defaults</code> true if this is the first standalone DSL of a
   
 
   
-    <span class="summary_desc"><div class='inline'><p>For internal usage only, processes the block and returns a config hash.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>For internal usage only, processes the block and returns a config hash.</p>
+</div></span>
   
 </li>
 
@@ -258,13 +297,14 @@ Pass <code>provide_defaults</code> true if this is the first standalone DSL of a
   
 
   
-    <span class="summary_desc"><div class='inline'><p>DSL method.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method.</p>
+</div></span>
   
 </li>
 
       
     </ul>
-    
   
 
 
@@ -282,7 +322,9 @@ Pass <code>provide_defaults</code> true if this is the first standalone DSL of a
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns a new instance of StandaloneDsl.</p>
+    
+<p>Returns a new instance of StandaloneDsl.</p>
+
 
   </div>
 </div>
@@ -308,7 +350,10 @@ Pass <code>provide_defaults</code> true if this is the first standalone DSL of a
 19
 20
 21
-22</pre>
+22
+23
+24
+25</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 9</span>
@@ -323,9 +368,12 @@ Pass <code>provide_defaults</code> true if this is the first standalone DSL of a
   <span class='ivar'>@scope</span> <span class='op'>=</span> <span class='id identifier rubyid_scope'>scope</span>
   <span class='ivar'>@scope_args</span> <span class='op'>=</span> <span class='id identifier rubyid_scope_args'>scope_args</span>
   <span class='ivar'>@verbs</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
-  <span class='ivar'>@skip_authentication</span> <span class='op'>=</span> <span class='kw'>false</span>
-  <span class='ivar'>@skip_forgery_protection</span> <span class='op'>=</span> <span class='kw'>false</span>
-  <span class='ivar'>@layout</span> <span class='op'>=</span> <span class='kw'>true</span> <span class='comment'># can be overriden by false or a string
+  <span class='comment'># These default to nil so that, on subsequent `standalone` calls (e.g. subclass overrides), they are stripped
+</span>  <span class='comment'># by `compact` and thus do NOT clobber values inherited via `deep_merge!`. The actual defaults are only injected
+</span>  <span class='comment'># when `provide_defaults` is true (i.e. the first `standalone` call). This mirrors VerbDsl#to_conf.
+</span>  <span class='ivar'>@skip_authentication</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@skip_forgery_protection</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@layout</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='comment'># can be overriden by false or a string
 </span><span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -350,8 +398,9 @@ Pass <code>provide_defaults</code> true if this is the first standalone DSL of a
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method. Sets the Rails layout (under <code>app/views/layouts</code>) used to render this component.
-Defaults to Rails' default (<code>layouts/application</code>) if never called.</p>
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>DSL method. Sets the Rails layout (under <code>app/views/layouts</code>) used to render this component. Defaults to Rails’ default (<code>layouts/application</code>) if never called.</p>
+
 
   </div>
 </div>
@@ -369,7 +418,9 @@ Defaults to Rails' default (<code>layouts/application</code>) if never called.</
       
       
         &mdash;
-        <div class='inline'><p>Layout name, as passed to a Rails controller's <code>render</code>.</p></div>
+        <div class='inline'>
+<p>Layout name, as passed to a Rails controller’s <code>render</code>.</p>
+</div>
       
     </li>
   
@@ -382,12 +433,12 @@ Defaults to Rails' default (<code>layouts/application</code>) if never called.</
       <pre class="lines">
 
 
-86
-87
-88</pre>
+97
+98
+99</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 86</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 97</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_layout'>layout</span><span class='lparen'>(</span><span class='id identifier rubyid_layout'>layout</span><span class='rparen'>)</span>
   <span class='ivar'>@layout</span> <span class='op'>=</span> <span class='id identifier rubyid_layout'>layout</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
@@ -408,7 +459,9 @@ Defaults to Rails' default (<code>layouts/application</code>) if never called.</
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method. Disables app authentication for this standalone (an <code>authorize</code> block is still mandatory).</p>
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>DSL method. Disables app authentication for this standalone (an <code>authorize</code> block is still mandatory).</p>
+
 
   </div>
 </div>
@@ -421,12 +474,12 @@ Defaults to Rails' default (<code>layouts/application</code>) if never called.</
       <pre class="lines">
 
 
-70
-71
-72</pre>
+81
+82
+83</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 70</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 81</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_skip_authentication!'>skip_authentication!</span>
   <span class='ivar'>@skip_authentication</span> <span class='op'>=</span> <span class='kw'>true</span>
@@ -447,7 +500,9 @@ Defaults to Rails' default (<code>layouts/application</code>) if never called.</
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method. Disables forgery protection (CSRF) for this standalone's controller action.</p>
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>DSL method. Disables forgery protection (CSRF) for this standalone’s controller action.</p>
+
 
   </div>
 </div>
@@ -460,12 +515,12 @@ Defaults to Rails' default (<code>layouts/application</code>) if never called.</
       <pre class="lines">
 
 
-77
-78
-79</pre>
+88
+89
+90</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 77</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 88</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_skip_forgery_protection!'>skip_forgery_protection!</span>
   <span class='ivar'>@skip_forgery_protection</span> <span class='op'>=</span> <span class='kw'>true</span>
@@ -486,7 +541,9 @@ Defaults to Rails' default (<code>layouts/application</code>) if never called.</
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>For internal usage only, processes the block and returns a config hash.</p>
+    
+<p>For internal usage only, processes the block and returns a config hash.</p>
+
 
   </div>
 </div>
@@ -499,31 +556,33 @@ Defaults to Rails' default (<code>layouts/application</code>) if never called.</
       <pre class="lines">
 
 
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
 35
 36
 37
 38
 39
 40
-41</pre>
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 35</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_conf'>to_conf</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_evaluate'>evaluate</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='ivar'>@component</span> <span class='op'>=</span> <span class='id identifier rubyid_block'>block</span><span class='period'>.</span><span class='id identifier rubyid_binding'>binding</span><span class='period'>.</span><span class='id identifier rubyid_eval'>eval</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>self</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='comment'># Fetches the component holding this DSL call (via the block)
-</span>  <span class='kw'>return</span> <span class='lbrace'>{</span>
+</span>  <span class='id identifier rubyid_base_config'>base_config</span> <span class='op'>=</span> <span class='ivar'>@provide_defaults</span> <span class='op'>?</span> <span class='const'><span class='object_link'><a href="#DEFAULT_CONFIG-constant" title="Compony::ComponentMixins::Default::Standalone::StandaloneDsl::DEFAULT_CONFIG (constant)">DEFAULT_CONFIG</a></span></span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span> <span class='op'>:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_base_config'>base_config</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='lbrace'>{</span>
     <span class='label'>name:</span>                    <span class='ivar'>@name</span><span class='comma'>,</span>
     <span class='label'>path:</span>                    <span class='ivar'>@path</span><span class='comma'>,</span>
     <span class='label'>constraints:</span>             <span class='ivar'>@constraints</span><span class='comma'>,</span>
@@ -535,7 +594,7 @@ Defaults to Rails' default (<code>layouts/application</code>) if never called.</
     <span class='label'>skip_authentication:</span>     <span class='ivar'>@skip_authentication</span><span class='comma'>,</span>
     <span class='label'>skip_forgery_protection:</span> <span class='ivar'>@skip_forgery_protection</span><span class='comma'>,</span>
     <span class='label'>layout:</span>                  <span class='ivar'>@layout</span>
-  <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span>
+  <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -553,8 +612,9 @@ Defaults to Rails' default (<code>layouts/application</code>) if never called.</
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method. Defines the config for one HTTP verb. The block runs within the verb DSL; positional and named
-arguments are forwarded to it. Call at most once per verb per standalone.</p>
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>DSL method. Defines the config for one HTTP verb. The block runs within the verb DSL; positional and named arguments are forwarded to it. Call at most once per verb per standalone.</p>
+
 
   </div>
 </div>
@@ -572,7 +632,9 @@ arguments are forwarded to it. Call at most once per verb per standalone.</p>
       
       
         &mdash;
-        <div class='inline'><p>The HTTP verb (one of <code>:get :head :post :put :delete :connect :options :trace :patch</code>).</p></div>
+        <div class='inline'>
+<p>The HTTP verb (one of <code>:get :head :post :put :delete :connect :options :trace :patch</code>).</p>
+</div>
       
     </li>
   
@@ -592,24 +654,24 @@ arguments are forwarded to it. Call at most once per verb per standalone.</p>
       <pre class="lines">
 
 
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
 62
 63
 64
-65</pre>
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 51</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/component_mixins/default/standalone/standalone_dsl.rb', line 62</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_verb'>verb</span><span class='lparen'>(</span><span class='id identifier rubyid_verb'>verb</span><span class='comma'>,</span> <span class='op'>*</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_nargs'>nargs</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_verb'>verb</span> <span class='op'>=</span> <span class='id identifier rubyid_verb'>verb</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
@@ -636,9 +698,9 @@ arguments are forwarded to it. Call at most once per verb per standalone.</p>
 </div>
 
       <div id="footer">
-  Generated on Mon May 18 13:32:20 2026 by
+  Generated on Mon May 18 13:55:36 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.43 (ruby-3.3.5).
+  0.9.34 (ruby-3.3.5).
 </div>
 
     </div>

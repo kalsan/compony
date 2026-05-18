@@ -6,13 +6,13 @@
 <title>
   File: installation
   
-    &mdash; Documentation by YARD 0.9.43
+    &mdash; Documentation by YARD 0.9.34
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css">
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css">
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
 <script type="text/javascript">
   pathId = "installation";
@@ -27,8 +27,6 @@
 
   </head>
   <body>
-    <div id="main_progress" aria-hidden="true"></div>
-
     <div class="nav_wrap">
       <iframe id="nav" src="file_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -59,19 +57,31 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><div id='filecontents'><p><a href="/README.md#guide--documentation">Back to the guide</a></p>
-<h1 id="Installation">Installation</h1>
-<h2 id="Installing_Compony">Installing Compony</h2>
+      <div id="content"><div id='filecontents'>
+<p><a href="/README_md.html#guide--documentation">Back to the guide</a></p>
+
+<h1 id="label-Installation">Installation</h1>
+
+<h2 id="label-Installing+Compony">Installing Compony</h2>
+
 <p>First, add Compony to your Gemfile:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>compony</span><span class='tstring_end'>&#39;</span></span>
 </code></pre>
+
 <p>Then run <code>bundle install</code>.</p>
+
 <p>Create the directory <code>app/components</code>.</p>
+
 <p>In <code>app/models/application_record.rb</code>, add the following line below <code>primary_abstract_class</code>:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/ModelMixin.html" title="Compony::ModelMixin (module)">ModelMixin</a></span></span>
 </code></pre>
-<h2 id="Installing_CanCanCan">Installing CanCanCan</h2>
+
+<h2 id="label-Installing+CanCanCan">Installing CanCanCan</h2>
+
 <p>Create the file <code>app/models/ability.rb</code> with the following content:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>Ability</span>
   <span class='id identifier rubyid_include'>include</span> <span class='const'>CanCan</span><span class='op'>::</span><span class='const'>Ability</span>
 
@@ -80,17 +90,24 @@
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
-<p>This is an initial dummy ability that allows anyone to do anything. Most likely, you will want to adjust the file. For documentation, refer to <a href="https://github.com/CanCanCommunity/cancancan/"><a href="https://github.com/CanCanCommunity/cancancan/">https://github.com/CanCanCommunity/cancancan/</a></a>.</p>
-<h2 id="Optional__installing_anchormodel">Optional: installing anchormodel</h2>
-<p>To take advantage of the anchormodel integration, follow the installation instructions under <a href="https://github.com/kalsan/anchormodel/"><a href="https://github.com/kalsan/anchormodel/">https://github.com/kalsan/anchormodel/</a></a>.</p>
-<h2 id="Optional__installing__active_type_">Optional: installing <code>active_type</code></h2>
-<p>To take advantage of <a href="./virtual_models.md">virtual models</a> through the <code>active_type</code> integration, follow the instructions under <a href="https://github.com/makandra/active_type"><a href="https://github.com/makandra/active_type">https://github.com/makandra/active_type</a></a></p>
-<p><a href="/README.md#guide--documentation">Guide index</a></p></div></div>
+
+<p>This is an initial dummy ability that allows anyone to do anything. Most likely, you will want to adjust the file. For documentation, refer to <a href="https://github.com/CanCanCommunity/cancancan/">github.com/CanCanCommunity/cancancan/</a>.</p>
+
+<h2 id="label-Optional-3A+installing+anchormodel">Optional: installing anchormodel</h2>
+
+<p>To take advantage of the anchormodel integration, follow the installation instructions under <a href="https://github.com/kalsan/anchormodel/">github.com/kalsan/anchormodel/</a>.</p>
+
+<h2 id="label-Optional-3A+installing+active_type">Optional: installing <code>active_type</code></h2>
+
+<p>To take advantage of <a href="./virtual_models_md.html">virtual models</a> through the <code>active_type</code> integration, follow the instructions under <a href="https://github.com/makandra/active_type">github.com/makandra/active_type</a></p>
+
+<p><a href="/README_md.html#guide--documentation">Guide index</a></p>
+</div></div>
 
       <div id="footer">
-  Generated on Mon May 18 13:32:17 2026 by
+  Generated on Mon May 18 13:55:32 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.43 (ruby-3.3.5).
+  0.9.34 (ruby-3.3.5).
 </div>
 
     </div>

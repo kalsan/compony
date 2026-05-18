@@ -6,13 +6,13 @@
 <title>
   File: new
   
-    &mdash; Documentation by YARD 0.9.43
+    &mdash; Documentation by YARD 0.9.34
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css">
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css">
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
 <script type="text/javascript">
   pathId = "new";
@@ -27,8 +27,6 @@
 
   </head>
   <body>
-    <div id="main_progress" aria-hidden="true"></div>
-
     <div class="nav_wrap">
       <iframe id="nav" src="file_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -59,38 +57,51 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><div id='filecontents'><ul>
-<li><a href="/README.md#guide--documentation">Back to the guide</a></li>
-<li><a href="/doc/guide/pre_built_components.md">List of pre-built components</a></li>
-</ul>
-<h1 id="Pre_built_components__New">Pre-built components: New</h1>
-<p>This component is the Compony equivalent to a typical Rails controller's <code>new</code> and <code>create</code> actions.</p>
-<p><code>Compony::Components::New</code> is a resourceful standalone component based on <a href="./with_form.md"><code>WithForm</code></a> that listens to two verbs:</p>
-<ul>
-<li>GET will cause the New component to create a fresh instance of its <code>data_class</code> and render the form.</li>
-<li>POST (equivalent to a <code>create</code> action in a controller) will attempt to save the resource. If that fails, the form is rendered again with a HTTP 422 code (&quot;unprocessable entity&quot;). If the creation succeeds, a flash is shown and the user is redirected:
-<ul>
-<li>if present: the data's Show component</li>
-<li>otherwise, if the resource is owned by another resource class: the owner's Show component</li>
-<li>otherwise, the data's Index component</li>
-</ul>
-</li>
-</ul>
-<p>Authorization checks for <code>create</code> even in GET. The reason is that it makes no sense to present an empty form to a user who cannot create a new record. This also causes any <a href="/doc/guide/intents.md">intents</a> to New components to be hidden to users lacking the permission.</p>
-<p>This component follows the <a href="/doc/guide/resourceful.md#complete-resourceful-lifecycle">resourceful lifecycle</a>. <code>load_data</code> is set to create a new record and <code>store_data</code> attempts to create it. Parameters are validated in <code>assign_attributes</code> using a Schemacop schema that is generated from the form. The schema corresponds to Rail's typical strong parameter structure for forms. For example, a user's New component would look for a parameter <code>user</code> holding a hash of attributes (e.g. <code>user[first_name]=Tom</code>).</p>
+      <div id="content"><div id='filecontents'><ul><li>
+<p><a href="/README_md.html#guide--documentation">Back to the guide</a></p>
+</li><li>
+<p><a href="/doc/guide/pre_built_components_md.html">List of pre-built components</a></p>
+</li></ul>
+
+<h1 id="label-Pre-built+components-3A+New">Pre-built components: New</h1>
+
+<p>This component is the Compony equivalent to a typical Rails controller’s <code>new</code> and <code>create</code> actions.</p>
+
+<p><code>Compony::Components::New</code> is a resourceful standalone component based on href="./with_form_md.html"></a> that listens to two verbs:</p>
+<ul><li>
+<p>GET will cause the New component to create a fresh instance of its <code>data_class</code> and render the form.</p>
+</li><li>
+<p>POST (equivalent to a <code>create</code> action in a controller) will attempt to save the resource. If that fails, the form is rendered again with a HTTP 422 code (“unprocessable entity”). If the creation succeeds, a flash is shown and the user is redirected:</p>
+</li><li>
+<p>if present: the data’s Show component</p>
+</li><li>
+<p>otherwise, if the resource is owned by another resource class: the owner’s Show component</p>
+</li><li>
+<p>otherwise, the data’s Index component</p>
+</li></ul>
+
+<p>Authorization checks for <code>create</code> even in GET. The reason is that it makes no sense to present an empty form to a user who cannot create a new record. This also causes any <a href="/doc/guide/intents_md.html">intents</a> to New components to be hidden to users lacking the permission.</p>
+
+<p>This component follows the <a href="/doc/guide/resourceful_md.html#complete-resourceful-lifecycle">resourceful lifecycle</a>. <code>load_data</code> is set to create a new record and <code>store_data</code> attempts to create it. Parameters are validated in <code>assign_attributes</code> using a Schemacop schema that is generated from the form. The schema corresponds to Rail’s typical strong parameter structure for forms. For example, a user’s New component would look for a parameter <code>user</code> holding a hash of attributes (e.g. <code>user[first_name]=Tom</code>).</p>
+
 <p>In case you overwrite <code>store_data</code>, make sure to set <code>@create_succeeded</code> to true if storing was successful (and to set it to false otherwise).</p>
+
 <p>The following DSL calls are implemented to allow for convenient overrides of default logic:</p>
-<ul>
-<li>The block <code>on_create_failed_respond</code> is run if <code>@create_succeeded</code> is not true. By default, it logs all error messages with level <code>warn</code> and renders the component again through HTTP 422, causing Turbo to correctly display the page. Error messages are displayed by the form inputs.</li>
-<li>The block <code>on_created</code> is evaluated between successful record creation and responding. By default, it is not implemented and doing so is optional. This would be a suitable location for hooks that update state after a resource was created (like an <code>after_create</code> hook, but only executed if a record was created by this component). Do not redirect or render here, use the next blocks instead.</li>
-<li>The block given in <code>on_created_respond</code> is evaluated after successful creation and by default shows a flash, then redirects. Overwrite this block if you need to completely customize all logic that happens after creation. If this block is overwritten, <code>on_created_redirect_path</code> will not be called.</li>
-<li><code>on_created_redirect_path</code> is evaluated as the second step of <code>on_created_respond</code> and redirects to the resource's Show, its owner's Show, or its own Index component as described above. Overwrite this block in order to redirect ot another component instead, while keeping the default flash provided by <code>on_created_respond</code>.</li>
-</ul></div></div>
+<ul><li>
+<p>The block <code>on_create_failed_respond</code> is run if <code>@create_succeeded</code> is not true. By default, it logs all error messages with level <code>warn</code> and renders the component again through HTTP 422, causing Turbo to correctly display the page. Error messages are displayed by the form inputs.</p>
+</li><li>
+<p>The block <code>on_created</code> is evaluated between successful record creation and responding. By default, it is not implemented and doing so is optional. This would be a suitable location for hooks that update state after a resource was created (like an <code>after_create</code> hook, but only executed if a record was created by this component). Do not redirect or render here, use the next blocks instead.</p>
+</li><li>
+<p>The block given in <code>on_created_respond</code> is evaluated after successful creation and by default shows a flash, then redirects. Overwrite this block if you need to completely customize all logic that happens after creation. If this block is overwritten, <code>on_created_redirect_path</code> will not be called.</p>
+</li><li>
+<p><code>on_created_redirect_path</code> is evaluated as the second step of <code>on_created_respond</code> and redirects to the resource’s Show, its owner’s Show, or its own Index component as described above. Overwrite this block in order to redirect ot another component instead, while keeping the default flash provided by <code>on_created_respond</code>.</p>
+</li></ul>
+</div></div>
 
       <div id="footer">
-  Generated on Mon May 18 13:32:18 2026 by
+  Generated on Mon May 18 13:55:34 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.43 (ruby-3.3.5).
+  0.9.34 (ruby-3.3.5).
 </div>
 
     </div>

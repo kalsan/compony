@@ -6,13 +6,13 @@
 <title>
   Class: Compony::Components::WithForm
   
-    &mdash; Documentation by YARD 0.9.43
+    &mdash; Documentation by YARD 0.9.34
   
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css">
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css">
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
 
 <script type="text/javascript">
   pathId = "Compony::Components::WithForm";
@@ -27,8 +27,6 @@
 
   </head>
   <body>
-    <div id="main_progress" aria-hidden="true"></div>
-
     <div class="nav_wrap">
       <iframe id="nav" src="../../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -98,16 +96,16 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/compony/components/with_form.rb
-</dd>
+    <dd>lib/compony/components/with_form.rb</dd>
   </dl>
   
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>This component is destined to take a sub-component that is a form component.
-It can be called via :get or via <code>submit_verb</code> depending on whether its form should be shown or submitted.</p>
+    
+<p>This component is destined to take a sub-component that is a form component. It can be called via :get or via <code>submit_verb</code> depending on whether its form should be shown or submitted.</p>
+
 
   </div>
 </div>
@@ -155,7 +153,9 @@ It can be called via :get or via <code>submit_verb</code> depending on whether i
   
 
   
-    <span class="summary_desc"><div class='inline'><p>DSL method Sets and gets the form's CanCanCan action, used for per-field <code>permitted_attributes</code>.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Sets and gets the form’s CanCanCan action, used for per-field <code>permitted_attributes</code>.</p>
+</div></span>
   
 </li>
 
@@ -177,7 +177,9 @@ It can be called via :get or via <code>submit_verb</code> depending on whether i
   
 
   
-    <span class="summary_desc"><div class='inline'><p>DSL method Overrides the Form component class instantiated by <span class='object_link'><a href="#form_comp-instance_method" title="Compony::Components::WithForm#form_comp (method)">#form_comp</a></span> (defaults to the same-family <code>Form</code>).</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Overrides the Form component class instantiated by <span class='object_link'><a href="#form_comp-instance_method" title="Compony::Components::WithForm#form_comp (method)">#form_comp</a></span> (defaults to the same-family <code>Form</code>).</p>
+</div></span>
   
 </li>
 
@@ -199,7 +201,9 @@ It can be called via :get or via <code>submit_verb</code> depending on whether i
   
 
   
-    <span class="summary_desc"><div class='inline'><p>DSL method Overrides the submit path, which otherwise defaults to this component's own path.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Overrides the submit path, which otherwise defaults to this component’s own path.</p>
+</div></span>
   
 </li>
 
@@ -221,13 +225,14 @@ It can be called via :get or via <code>submit_verb</code> depending on whether i
   
 
   
-    <span class="summary_desc"><div class='inline'><p>DSL method Sets or returns the HTTP verb the twinned form submits with (<code>:post</code> for New, <code>:patch</code> for Edit).</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Sets or returns the HTTP verb the twinned form submits with (<code>:post</code> for New, <code>:patch</code> for Edit).</p>
+</div></span>
   
 </li>
 
       
     </ul>
-    
   
     <h2>
       Instance Method Summary
@@ -253,7 +258,9 @@ It can be called via :get or via <code>submit_verb</code> depending on whether i
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Returns an instance of the form component responsible for rendering the form.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Returns an instance of the form component responsible for rendering the form.</p>
+</div></span>
   
 </li>
 
@@ -277,17 +284,17 @@ It can be called via :get or via <code>submit_verb</code> depending on whether i
   
 
   
-    <span class="summary_desc"><div class='inline'><p>A new instance of WithForm.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of WithForm.</p>
+</div></span>
   
 </li>
 
       
     </ul>
-    
   
 
 
-  
   
   
   
@@ -312,7 +319,9 @@ It can be called via :get or via <code>submit_verb</code> depending on whether i
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns a new instance of WithForm.</p>
+    
+<p>Returns a new instance of WithForm.</p>
+
 
   </div>
 </div>
@@ -362,8 +371,9 @@ It can be called via :get or via <code>submit_verb</code> depending on whether i
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>DSL method
-Sets and gets the form's CanCanCan action, used for per-field <code>permitted_attributes</code>. Pass <code>nil</code> to disable per-field auth.</p>
+    
+<p>DSL method Sets and gets the form’s CanCanCan action, used for per-field <code>permitted_attributes</code>. Pass <code>nil</code> to disable per-field auth.</p>
+
 
   </div>
 </div>
@@ -383,7 +393,9 @@ Sets and gets the form's CanCanCan action, used for per-field <code>permitted_at
       
       
         &mdash;
-        <div class='inline'><p>The CanCanCan action (e.g. <code>:edit</code>); omit to read the current value.</p></div>
+        <div class='inline'>
+<p>The CanCanCan action (e.g. <code>:edit</code>); omit to read the current value.</p>
+</div>
       
     </li>
   
@@ -400,7 +412,9 @@ Sets and gets the form's CanCanCan action, used for per-field <code>permitted_at
       
       
         &mdash;
-        <div class='inline'><p>The configured CanCanCan action.</p></div>
+        <div class='inline'>
+<p>The configured CanCanCan action.</p>
+</div>
       
     </li>
   
@@ -444,8 +458,9 @@ Sets and gets the form's CanCanCan action, used for per-field <code>permitted_at
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns an instance of the form component responsible for rendering the form.
-Feel free to override this in subclasses.</p>
+    
+<p>Returns an instance of the form component responsible for rendering the form. Feel free to override this in subclasses.</p>
+
 
   </div>
 </div>
@@ -496,8 +511,9 @@ Feel free to override this in subclasses.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>DSL method
-Overrides the Form component class instantiated by <span class='object_link'><a href="#form_comp-instance_method" title="Compony::Components::WithForm#form_comp (method)">#form_comp</a></span> (defaults to the same-family <code>Form</code>).</p>
+    
+<p>DSL method Overrides the Form component class instantiated by <span class='object_link'><a href="#form_comp-instance_method" title="Compony::Components::WithForm#form_comp (method)">#form_comp</a></span> (defaults to the same-family <code>Form</code>).</p>
+
 
   </div>
 </div>
@@ -517,7 +533,9 @@ Overrides the Form component class instantiated by <span class='object_link'><a 
       
       
         &mdash;
-        <div class='inline'><p>The Form component class to use.</p></div>
+        <div class='inline'>
+<p>The Form component class to use.</p>
+</div>
       
     </li>
   
@@ -534,7 +552,9 @@ Overrides the Form component class instantiated by <span class='object_link'><a 
       
       
         &mdash;
-        <div class='inline'><p>The configured form component class.</p></div>
+        <div class='inline'>
+<p>The configured form component class.</p>
+</div>
       
     </li>
   
@@ -572,8 +592,9 @@ Overrides the Form component class instantiated by <span class='object_link'><a 
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method
-Overrides the submit path, which otherwise defaults to this component's own path.</p>
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>DSL method Overrides the submit path, which otherwise defaults to this component’s own path.</p>
+
 
   </div>
 </div>
@@ -590,7 +611,9 @@ Overrides the submit path, which otherwise defaults to this component's own path
       
       
         &mdash;
-        <div class='inline'><p>Called with the controller; expected to return the Rails path the form submits to.</p></div>
+        <div class='inline'>
+<p>Called with the controller; expected to return the Rails path the form submits to.</p>
+</div>
       
     </li>
   
@@ -628,8 +651,9 @@ Overrides the submit path, which otherwise defaults to this component's own path
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>DSL method
-Sets or returns the HTTP verb the twinned form submits with (<code>:post</code> for New, <code>:patch</code> for Edit).</p>
+    
+<p>DSL method Sets or returns the HTTP verb the twinned form submits with (<code>:post</code> for New, <code>:patch</code> for Edit).</p>
+
 
   </div>
 </div>
@@ -649,7 +673,9 @@ Sets or returns the HTTP verb the twinned form submits with (<code>:post</code> 
       
       
         &mdash;
-        <div class='inline'><p>If given, sets the submit verb; must be a known HTTP verb.</p></div>
+        <div class='inline'>
+<p>If given, sets the submit verb; must be a known HTTP verb.</p>
+</div>
       
     </li>
   
@@ -666,7 +692,9 @@ Sets or returns the HTTP verb the twinned form submits with (<code>:post</code> 
       
       
         &mdash;
-        <div class='inline'><p>The (possibly just set) submit verb.</p></div>
+        <div class='inline'>
+<p>The (possibly just set) submit verb.</p>
+</div>
       
     </li>
   
@@ -710,9 +738,9 @@ Sets or returns the HTTP verb the twinned form submits with (<code>:post</code> 
 </div>
 
       <div id="footer">
-  Generated on Mon May 18 13:32:20 2026 by
+  Generated on Mon May 18 13:55:36 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.43 (ruby-3.3.5).
+  0.9.34 (ruby-3.3.5).
 </div>
 
     </div>

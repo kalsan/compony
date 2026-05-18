@@ -6,13 +6,13 @@
 <title>
   Module: Compony::ComponentMixins::Default::Labelling
   
-    &mdash; Documentation by YARD 0.9.43
+    &mdash; Documentation by YARD 0.9.34
   
 </title>
 
-  <link rel="stylesheet" href="../../../css/style.css" type="text/css">
+  <link rel="stylesheet" href="../../../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../../../css/common.css" type="text/css">
+  <link rel="stylesheet" href="../../../css/common.css" type="text/css" />
 
 <script type="text/javascript">
   pathId = "Compony::ComponentMixins::Default::Labelling";
@@ -27,8 +27,6 @@
 
   </head>
   <body>
-    <div id="main_progress" aria-hidden="true"></div>
-
     <div class="nav_wrap">
       <iframe id="nav" src="../../../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -85,16 +83,16 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/compony/component_mixins/default/labelling.rb
-</dd>
+    <dd>lib/compony/component_mixins/default/labelling.rb</dd>
   </dl>
   
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>api description
-This module contains all methods for Component that concern labelling and look.</p>
+    
+<p>api description This module contains all methods for Component that concern labelling and look.</p>
+
 
   </div>
 </div>
@@ -133,7 +131,9 @@ This module contains all methods for Component that concern labelling and look.<
   
 
   
-    <span class="summary_desc"><div class='inline'><p>DSL method Defines defaults for intents when rendering buttons.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Defines defaults for intents when rendering buttons.</p>
+</div></span>
   
 </li>
 
@@ -155,7 +155,9 @@ This module contains all methods for Component that concern labelling and look.<
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Executes and retrieves the button blocks If this component is resourceful, give the block the resource.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Executes and retrieves the button blocks If this component is resourceful, give the block the resource.</p>
+</div></span>
   
 </li>
 
@@ -177,13 +179,14 @@ This module contains all methods for Component that concern labelling and look.<
   
 
   
-    <span class="summary_desc"><div class='inline'><p>DSL method and accessor When assigning via DSL, pass format as first parameter.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method and accessor When assigning via DSL, pass format as first parameter.</p>
+</div></span>
   
 </li>
 
       
     </ul>
-    
   
 
 
@@ -204,8 +207,9 @@ This module contains all methods for Component that concern labelling and look.<
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>DSL method
-Defines defaults for intents when rendering buttons. Just like in <span class='object_link'><a href="#label-instance_method" title="Compony::ComponentMixins::Default::Labelling#label (method)">#label</a></span>, the block may be given a resource.</p>
+    
+<p>DSL method Defines defaults for intents when rendering buttons. Just like in <span class='object_link'><a href="#label-instance_method" title="Compony::ComponentMixins::Default::Labelling#label (method)">#label</a></span>, the block may be given a resource.</p>
+
 
   </div>
 </div>
@@ -223,7 +227,9 @@ Defines defaults for intents when rendering buttons. Just like in <span class='o
       
       
         &mdash;
-        <div class='inline'><p>The name of the keyword that should be given to the button by the intent if not overwritten</p></div>
+        <div class='inline'>
+<p>The name of the keyword that should be given to the button by the intent if not overwritten</p>
+</div>
       
     </li>
   
@@ -237,7 +243,9 @@ Defines defaults for intents when rendering buttons. Just like in <span class='o
       
       
         &mdash;
-        <div class='inline'><p>The block that, when called in the context of the component while rendering, returns the value for the arg given to the button.</p></div>
+        <div class='inline'>
+<p>The block that, when called in the context of the component while rendering, returns the value for the arg given to the button.</p>
+</div>
       
     </li>
   
@@ -287,8 +295,9 @@ Defines defaults for intents when rendering buttons. Just like in <span class='o
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Executes and retrieves the button blocks
-If this component is resourceful, give the block the resource. Expect the arity to match.</p>
+    
+<p>Executes and retrieves the button blocks If this component is resourceful, give the block the resource. Expect the arity to match.</p>
+
 
   </div>
 </div>
@@ -308,7 +317,9 @@ If this component is resourceful, give the block the resource. Expect the arity 
       
       
         &mdash;
-        <div class='inline'><p>Pass the resource if and only if the component is resourceful.</p></div>
+        <div class='inline'>
+<p>Pass the resource if and only if the component is resourceful.</p>
+</div>
       
     </li>
   
@@ -375,21 +386,9 @@ If this component is resourceful, give the block the resource. Expect the arity 
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>DSL method and accessor When assigning via DSL, pass format as first
-parameter. When accessing the value, pass format as named parameter
-(e.g. <code>format: :short</code>). <br/> A component either generates labels
-without data (e.g. &quot;New user&quot;) or with data (e.g. &quot;Edit John Doe&quot;).
-This needs to be consistent across all formats. If the block generates
-labels with data, the label block must take exactly one argument,
-otherwise none. Label blocks with data are given the data as argument.
-The block is expected to return the label in the given format. <br/>
-Examples:</p>
-<ul>
-<li>Setting a block with data: <code>label(:short){ |data| &quot;Edit #{data.label}&quot; }</code></li>
-<li>Setting a block without data: <code>label(:short){ 'New user' }</code></li>
-<li>Reading a component's label with data: <code>comp.label(User.first, format: :short)</code></li>
-<li>Reading a component's label without data: <code>comp.label(format: :short)</code></li>
-</ul>
+    
+<p>DSL method and accessor When assigning via DSL, pass format as first parameter. When accessing the value, pass format as named parameter (e.g. <code>format: :short</code>). &lt;br/&gt; A component either generates labels without data (e.g. “New user”) or with data (e.g. “Edit John Doe”). This needs to be consistent across all formats. If the block generates labels with data, the label block must take exactly one argument, otherwise none. Label blocks with data are given the data as argument. The block is expected to return the label in the given format. &lt;br/&gt; Examples: - Setting a block with data: <code>label(:short){ |data| &quot;Edit #{data.label}&quot; }</code> - Setting a block without data: <code>label(:short){ &#39;New user&#39; }</code> - Reading a component’s label with data: <code>comp.label(User.first, format: :short)</code> - Reading a component’s label without data: <code>comp.label(format: :short)</code></p>
+
 
   </div>
 </div>
@@ -478,9 +477,9 @@ Examples:</p>
 </div>
 
       <div id="footer">
-  Generated on Mon May 18 13:32:19 2026 by
+  Generated on Mon May 18 13:55:35 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.43 (ruby-3.3.5).
+  0.9.34 (ruby-3.3.5).
 </div>
 
     </div>

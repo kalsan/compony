@@ -6,13 +6,13 @@
 <title>
   File: form
   
-    &mdash; Documentation by YARD 0.9.43
+    &mdash; Documentation by YARD 0.9.34
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css">
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css">
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
 <script type="text/javascript">
   pathId = "form";
@@ -27,8 +27,6 @@
 
   </head>
   <body>
-    <div id="main_progress" aria-hidden="true"></div>
-
     <div class="nav_wrap">
       <iframe id="nav" src="file_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -59,29 +57,44 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><div id='filecontents'><ul>
-<li><a href="/README.md#guide--documentation">Back to the guide</a></li>
-<li><a href="/doc/guide/pre_built_components.md">List of pre-built components</a></li>
-</ul>
-<h1 id="Pre_built_components__Form">Pre-built components: Form</h1>
-<p>This component holds a form and should only be instantiated by the <code>form_comp</code> call of a component that inherits from <a href="./with_form.md"><code>WithForm</code></a>.</p>
-<p><code>Compony::Components::Form</code> is an abstract base class for any components presenting a regular form. This class comes with a lot of tooling for rendering forms and inputs, as well as validating parameters. When the component is rendered, the Gem SimpleForm is used to create the actual form: <a href="https://github.com/heartcombo/simple_form"><a href="https://github.com/heartcombo/simple_form">https://github.com/heartcombo/simple_form</a></a>.</p>
-<p>Parameters are structured like typical Rails forms. For instance, if you have a form for a <code>User</code> model and the attribute is <code>first_name</code>, the parameter looks like <code>user[first_name]=Tom</code>. In this case, we will call <code>user</code> the <code>schema_wrapper_key</code>. Parameters are validated using Schemacop: <a href="https://github.com/sitrox/schemacop"><a href="https://github.com/sitrox/schemacop">https://github.com/sitrox/schemacop</a></a>.</p>
+      <div id="content"><div id='filecontents'><ul><li>
+<p><a href="/README_md.html#guide--documentation">Back to the guide</a></p>
+</li><li>
+<p><a href="/doc/guide/pre_built_components_md.html">List of pre-built components</a></p>
+</li></ul>
+
+<h1 id="label-Pre-built+components-3A+Form">Pre-built components: Form</h1>
+
+<p>This component holds a form and should only be instantiated by the <code>form_comp</code> call of a component that inherits from href="./with_form_md.html"></a>.</p>
+
+<p><code>Compony::Components::Form</code> is an abstract base class for any components presenting a regular form. This class comes with a lot of tooling for rendering forms and inputs, as well as validating parameters. When the component is rendered, the Gem SimpleForm is used to create the actual form: <a href="https://github.com/heartcombo/simple_form">github.com/heartcombo/simple_form</a>.</p>
+
+<p>Parameters are structured like typical Rails forms. For instance, if you have a form for a <code>User</code> model and the attribute is <code>first_name</code>, the parameter looks like <code>user[first_name]=Tom</code>. In this case, we will call <code>user</code> the <code>schema_wrapper_key</code>. Parameters are validated using Schemacop: <a href="https://github.com/sitrox/schemacop">github.com/sitrox/schemacop</a>.</p>
+
 <p>The following DSL calls are provided by the Form component:</p>
-<ul>
-<li>Required: <code>form_fields</code> takes a block that renders the inputs of your form. More on that below.</li>
-<li>Optional: <code>skip_autofocus</code> will prevent the first input to be auto-focussed when the user visits the form.</li>
-<li>Typically required: <code>schema_fields</code> takes the names of fields as a whitelist for strong parameters. Together with model fields, this will completely auto-generate a Schemacop schema suitable for validating this form. If your argument list gets too long, you can use multiple calls to <code>schema_field</code> instead to declare your fields one by one on separate lines.</li>
-<li>Optional: <code>schema_line</code> takes a single Schemacop line. Use this for custom whitelisting of an argument, e.g. if you have an input that does not have a corresponding model field.</li>
-<li>Optional: <code>schema</code> allows you to instead fully define your own custom Schemacop V3 schema manually. Note that this disables all of the above schema calls.</li>
-<li>Optional: <code>disable!</code> causes generated inputs to be disabled. Alternatively, <code>disabled: true</code> can be passed to the initializer to achieve the same result.</li>
-</ul>
+<ul><li>
+<p>Required: <code>form_fields</code> takes a block that renders the inputs of your form. More on that below.</p>
+</li><li>
+<p>Optional: <code>skip_autofocus</code> will prevent the first input to be auto-focussed when the user visits the form.</p>
+</li><li>
+<p>Typically required: <code>schema_fields</code> takes the names of fields as a whitelist for strong parameters. Together with model fields, this will completely auto-generate a Schemacop schema suitable for validating this form. If your argument list gets too long, you can use multiple calls to <code>schema_field</code> instead to declare your fields one by one on separate lines.</p>
+</li><li>
+<p>Optional: <code>schema_line</code> takes a single Schemacop line. Use this for custom whitelisting of an argument, e.g. if you have an input that does not have a corresponding model field.</p>
+</li><li>
+<p>Optional: <code>schema</code> allows you to instead fully define your own custom Schemacop V3 schema manually. Note that this disables all of the above schema calls.</p>
+</li><li>
+<p>Optional: <code>disable!</code> causes generated inputs to be disabled. Alternatively, <code>disabled: true</code> can be passed to the initializer to achieve the same result.</p>
+</li></ul>
+
 <p>The <code>form_fields</code> block acts much like a content block and you will use Dyny there. Two additional methods are made available exclusively inside the block:</p>
-<ul>
-<li><code>field</code> (not to be confused with the model mixin's static method) takes the name of a model field and auto-generates a suitable SimpleForm input as defined in the field's type.</li>
-<li><code>f</code> gives you direct access to the <code>simple_form</code> instance. You can use it to write e.g. <code>f.input(...)</code>.</li>
-</ul>
+<ul><li>
+<p><code>field</code> (not to be confused with the model mixin’s static method) takes the name of a model field and auto-generates a suitable SimpleForm input as defined in the field’s type.</p>
+</li><li>
+<p><code>f</code> gives you direct access to the <code>simple_form</code> instance. You can use it to write e.g. <code>f.input(...)</code>.</p>
+</li></ul>
+
 <p>Here is a simple example for a form for a sample user:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Users</span><span class='op'>::</span><span class='const'>Form</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Form.html" title="Compony::Components::Form (class)">Form</a></span></span>
   <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
     <span class='id identifier rubyid_form_fields'>form_fields</span> <span class='kw'>do</span>
@@ -95,16 +108,24 @@
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
-<p>Note that the inputs and schema are two completely different concepts that are not auto-inferred from each other. You must make sure that they always correspond. If you forget to mention a field in <code>schema_fields</code>, posting the form will fail. Luckily, Schemacop's excellent error messaging will explain which parameter is prohibited.</p>
-<p>Both calls respect Cancancan's <code>permitted_attributes</code> directive. This means that you can safely declare <code>field</code> and <code>schema_field</code> in a form that is shared among users with different kinds of permissions. If the current user is not allowed to access a field, the input will be omitted automatically. Further, the parameter validation will exclude that field, effectively disallowing that user from submitting that parameter.</p>
-<h2 id="Handling_password_fields">Handling password fields</h2>
-<p>When using Rails' <code>has_secure_password</code> method, which typically generates the attributes accessors <code>:password</code> and <code>password_confirmation</code>, do not declare these two as fields in your User model.</p>
+
+<p>Note that the inputs and schema are two completely different concepts that are not auto-inferred from each other. You must make sure that they always correspond. If you forget to mention a field in <code>schema_fields</code>, posting the form will fail. Luckily, Schemacop’s excellent error messaging will explain which parameter is prohibited.</p>
+
+<p>Both calls respect Cancancan’s <code>permitted_attributes</code> directive. This means that you can safely declare <code>field</code> and <code>schema_field</code> in a form that is shared among users with different kinds of permissions. If the current user is not allowed to access a field, the input will be omitted automatically. Further, the parameter validation will exclude that field, effectively disallowing that user from submitting that parameter.</p>
+
+<h2 id="label-Handling+password+fields">Handling password fields</h2>
+
+<p>When using Rails’ <code>has_secure_password</code> method, which typically generates the attributes accessors <code>:password</code> and <code>password_confirmation</code>, do not declare these two as fields in your User model.</p>
+
 <p>There are two main reasons for this:</p>
-<ul>
-<li><code>password</code> and <code>password_confirmation</code> should never show up in lists and show pages, and as these kinds of components tend to iterate over all fields, it's best to have anything that should not show up there declared as a field in the first place.</li>
-<li>Rails' <code>authenticate_by</code> does not work when <code>password</code> is declared as a model attribute.</li>
-</ul>
+<ul><li>
+<p><code>password</code> and <code>password_confirmation</code> should never show up in lists and show pages, and as these kinds of components tend to iterate over all fields, it’s best to have anything that should not show up there declared as a field in the first place.</p>
+</li><li>
+<p>Rails’ <code>authenticate_by</code> does not work when <code>password</code> is declared as a model attribute.</p>
+</li></ul>
+
 <p>Instead of making these accessors Compony fields, ignore them in the User model and use the following methods in your Form:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Users</span><span class='op'>::</span><span class='const'>Form</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Form.html" title="Compony::Components::Form (class)">Form</a></span></span>
   <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
     <span class='id identifier rubyid_form_fields'>form_fields</span> <span class='kw'>do</span>
@@ -119,16 +140,22 @@
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
-<p>In contrast to the regular <code>field</code> and <code>schema_field</code> calls, their <code>pw_...</code> pendants do not check for per-field authorization. Instead, they check whether the current user can <code>:set_password</code> on the form's object. Therefore, your ability may look something like:</p>
+
+<p>In contrast to the regular <code>field</code> and <code>schema_field</code> calls, their <code>pw_...</code> pendants do not check for per-field authorization. Instead, they check whether the current user can <code>:set_password</code> on the form’s object. Therefore, your ability may look something like:</p>
+
 <pre class="code ruby"><code class="ruby">class Ability
   # ...
   can :manage, User # This allows full access to all users
   cannot :manage, User, [:user_role] # This prohibits access to user_role, thus removing the input and making the parameter invalid if passed anyway
   cannot :set_password, User # This prohibits setting and changing passwords of any user
 </code></pre>
-<h2 id="Dealing_with_multilingual_fields">Dealing with multilingual fields</h2>
-<p>When using Gems such as <code>mobility</code>, Compony provides support for multilingual fields. For instance, assuming that a model has the attribute <code>label</code> translated in English and German, making <code>label</code> a virtual attribute reading either <code>label_en</code> and <code>label_de</code>, depending on the user's language, Compony automatically generates a multilingual field if the following is used:</p>
+
+<h2 id="label-Dealing+with+multilingual+fields">Dealing with multilingual fields</h2>
+
+<p>When using Gems such as <code>mobility</code>, Compony provides support for multilingual fields. For instance, assuming that a model has the attribute <code>label</code> translated in English and German, making <code>label</code> a virtual attribute reading either <code>label_en</code> and <code>label_de</code>, depending on the user’s language, Compony automatically generates a multilingual field if the following is used:</p>
+
 <p>In the model:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>Foo</span> <span class='op'>&lt;</span> <span class='const'>ApplicationRecord</span>
   <span class='comment'># No need to write:
 </span>  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:label</span><span class='comma'>,</span> <span class='symbol'>:string</span><span class='comma'>,</span> <span class='label'>virtual:</span> <span class='kw'>true</span>
@@ -140,7 +167,9 @@
 </span>  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:label</span><span class='comma'>,</span> <span class='symbol'>:string</span><span class='comma'>,</span> <span class='label'>multilang:</span> <span class='kw'>true</span>
 <span class='kw'>end</span>
 </code></pre>
+
 <p>In the same mindset, you can simplify your form as follows to generate one input per language:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Foos</span><span class='op'>::</span><span class='const'>Form</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Form.html" title="Compony::Components::Form (class)">Form</a></span></span>
   <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
     <span class='id identifier rubyid_form_fields'>form_fields</span> <span class='kw'>do</span>
@@ -152,12 +181,13 @@
 </span>    <span class='id identifier rubyid_schema_field'>schema_field</span> <span class='symbol'>:label</span><span class='comma'>,</span> <span class='label'>multilang:</span> <span class='kw'>true</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span>
-</code></pre></div></div>
+</code></pre>
+</div></div>
 
       <div id="footer">
-  Generated on Mon May 18 13:32:18 2026 by
+  Generated on Mon May 18 13:55:34 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.43 (ruby-3.3.5).
+  0.9.34 (ruby-3.3.5).
 </div>
 
     </div>

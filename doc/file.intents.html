@@ -6,13 +6,13 @@
 <title>
   File: intents
   
-    &mdash; Documentation by YARD 0.9.43
+    &mdash; Documentation by YARD 0.9.34
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css">
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css">
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
 <script type="text/javascript">
   pathId = "intents";
@@ -27,8 +27,6 @@
 
   </head>
   <body>
-    <div id="main_progress" aria-hidden="true"></div>
-
     <div class="nav_wrap">
       <iframe id="nav" src="file_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -59,73 +57,110 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><div id='filecontents'><p><a href="/README.md#guide--documentation">Back to the guide</a></p>
-<h1 id="Intents">Intents</h1>
-<p>An intent is a gateway to a component, along with relevant context. It encapsulates tools used to generate paths, checking <a href="/doc/guide/feasibility.md">feasibility</a> and rendering links and buttons pointing other components within your application.</p>
+      <div id="content"><div id='filecontents'>
+<p><a href="/README_md.html#guide--documentation">Back to the guide</a></p>
+
+<h1 id="label-Intents">Intents</h1>
+
+<p>An intent is a gateway to a component, along with relevant context. It encapsulates tools used to generate paths, checking <a href="/doc/guide/feasibility_md.html">feasibility</a> and rendering links and buttons pointing other components within your application.</p>
+
 <p>To instanciate an intent, use either the raw <code>Compony.intent</code> method or one of the <a href="#helpers">helpers</a>. All methods that use intents under the hood have a similar interface, especially regarding the first two positional arguments. The most commonly used forms are:</p>
-<ul>
-<li><code>Compony.intent(:index, :users)</code>: point to a component by its comp and family name</li>
-<li><code>Compony.intent(:show, User.first)</code>: pass the intent a single model and let it figure out the family name from <code>model_name</code></li>
-<li><code>Compony.intent(:list, current_user.quotes)</code>: pass the intent an active record collection and let it figure out the family name from <code>model_name</code></li>
-<li><code>Compony.intent(Components::Users::Index)</code>: point to a component by giving its class as a single argument</li>
-</ul>
+<ul><li>
+<p><code>Compony.intent(:index, :users)</code>: point to a component by its comp and family name</p>
+</li><li>
+<p><code>Compony.intent(:show, User.first)</code>: pass the intent a single model and let it figure out the family name from <code>model_name</code></p>
+</li><li>
+<p><code>Compony.intent(:list, current_user.quotes)</code>: pass the intent an active record collection and let it figure out the family name from <code>model_name</code></p>
+</li><li>
+<p><code>Compony.intent(Components::Users::Index)</code>: point to a component by giving its class as a single argument</p>
+</li></ul>
+
 <p>The returned intent can then be used to:</p>
-<ul>
-<li>Retrieve the target component class using <code>intent.comp_class</code></li>
-<li>Build an instance of the target component using <code>intent.comp</code>
-<ul>
-<li>If a model was given when building the intent, such as in the second form above, the comp instance will contain it as <code>@data</code>.</li>
-</ul>
-</li>
-<li>Retrieve the <code>path</code> to the target component (only works for standalone components; will automatically set ID parameter if a model was given)</li>
-<li>Retrieve the <code>name</code> that can be used to store the intent in a hash or similar</li>
-<li>Retrieve the <code>label</code> that can be used to refer to the component (if a model was given, passes it to the target component's label block)</li>
-<li>Check for <a href="/doc/guide/feasibility.md">feasibility</a> using <code>feasible?</code></li>
-<li>Render a <a href="#buttons-and-styles">button</a> to the target component which automatically includes all of the above along with the suitable behavior using <code>render</code> and passing a controller</li>
-</ul>
-<p>An intent's behavior can be customized by passing some of the following keyword arguments when building it:</p>
-<ul>
-<li><code>standalone_name</code> allows you to point to another endpoint within your target component, which is especially useful for generating paths. Keep in mind that within each standalone name, multiple HTTP methods can exist. This argument defaults to <code>nil</code>, which is the main endpoint created by <code>standalone</code>.</li>
-<li><code>method</code> defines the HTTP verb within the standalone configuration that should be addressed. Defaults to <code>:get</code>, but can be overriden to be <code>:patch</code>, <code>:put</code>, <code>:post</code> or <code>:delete</code>. When generating a button, the <code>turbo_method</code> will be automatically be derived from this argument.</li>
-<li><code>name</code> overrides the auto-generated name of the intent, affecting the result of the reader of the same name.</li>
-<li>
-<code>label</code> accepts two forms:
-<pre class="code ruby"><code class="ruby">- When passing a String, it will be returned as-is when returning the label, also affecting buttons generated by this intent.
-- When passing a Hash, any included key-value pair will be used as keyword arguments to the `label` reader method.
-</code></pre>
-</li>
-<li><code>path</code> allows altering generated paths and accepts either a String or a Hash just like <code>label</code>.</li>
-<li><code>data</code> and <code>data_class</code> will be given to the target component if/when it gets instanciated. This is used to point to <a href="/doc/guide/resourceful.md">resourceful</a> components. If a model was passed as the second positional argument (instead of a family name), it will become <code>data</code> and this argument can be omitted. If <code>data</code> responds to <code>model_name</code>, it will be considered a model-like class.</li>
-<li><code>feasibility_target</code> and <code>feasibility_action</code> can be given to alter the behavior of the <code>feasible?</code> reader.</li>
-<li>Any further arguments are passed to the initializer of the button if/when the intent gets rendered.</li>
-</ul>
-<h2 id="Helpers">Helpers</h2>
+<ul><li>
+<p>Retrieve the target component class using <code>intent.comp_class</code></p>
+</li><li>
+<p>Build an instance of the target component using <code>intent.comp</code></p>
+<ul><li>
+<p>If a model was given when building the intent, such as in the second form above, the comp instance will contain it as <code>@data</code>.</p>
+</li></ul>
+</li><li>
+<p>Retrieve the <code>path</code> to the target component (only works for standalone components; will automatically set ID parameter if a model was given)</p>
+</li><li>
+<p>Retrieve the <code>name</code> that can be used to store the intent in a hash or similar</p>
+</li><li>
+<p>Retrieve the <code>label</code> that can be used to refer to the component (if a model was given, passes it to the target component’s label block)</p>
+</li><li>
+<p>Check for <a href="/doc/guide/feasibility_md.html">feasibility</a> using <code>feasible?</code></p>
+</li><li>
+<p>Render a <a href="#buttons-and-styles">button</a> to the target component which automatically includes all of the above along with the suitable behavior using <code>render</code> and passing a controller</p>
+</li></ul>
+
+<p>An intent’s behavior can be customized by passing some of the following keyword arguments when building it:</p>
+<ul><li>
+<p><code>standalone_name</code> allows you to point to another endpoint within your target component, which is especially useful for generating paths. Keep in mind that within each standalone name, multiple HTTP methods can exist. This argument defaults to <code>nil</code>, which is the main endpoint created by <code>standalone</code>.</p>
+</li><li>
+<p><code>method</code> defines the HTTP verb within the standalone configuration that should be addressed. Defaults to <code>:get</code>, but can be overriden to be <code>:patch</code>, <code>:put</code>, <code>:post</code> or <code>:delete</code>. When generating a button, the <code>turbo_method</code> will be automatically be derived from this argument.</p>
+</li><li>
+<p><code>name</code> overrides the auto-generated name of the intent, affecting the result of the reader of the same name.</p>
+</li><li>
+<p><code>label</code> accepts two forms:</p>
+<ul><li>
+<p>When passing a String, it will be returned as-is when returning the label, also affecting buttons generated by this intent.</p>
+</li><li>
+<p>When passing a Hash, any included key-value pair will be used as keyword arguments to the <code>label</code> reader method.</p>
+</li></ul>
+</li><li>
+<p><code>path</code> allows altering generated paths and accepts either a String or a Hash just like <code>label</code>.</p>
+</li><li>
+<p><code>data</code> and <code>data_class</code> will be given to the target component if/when it gets instanciated. This is used to point to <a href="/doc/guide/resourceful_md.html">resourceful</a> components. If a model was passed as the second positional argument (instead of a family name), it will become <code>data</code> and this argument can be omitted. If <code>data</code> responds to <code>model_name</code>, it will be considered a model-like class.</p>
+</li><li>
+<p><code>feasibility_target</code> and <code>feasibility_action</code> can be given to alter the behavior of the <code>feasible?</code> reader.</p>
+</li><li>
+<p>Any further arguments are passed to the initializer of the button if/when the intent gets rendered.</p>
+</li></ul>
+
+<h2 id="label-Helpers">Helpers</h2>
+
 <p>In practice, you will rarely call <code>Compony.intent</code> directly, and likely never <code>Compony::Intent.new</code>. Instead, you will be interacting with one of the following helpers that will instanciate an intent under the hood and thus all accept similar arguments as those described above:</p>
-<h3 id="_Compony_path_"><code>Compony.path</code></h3>
-<p>This helper is useful when generating paths without rendering any HTML, such as when redirecting. Internally, this builds an intent which will in turn use the target component's <code>path</code> block to generate a Rails path (String) pointing to the correct location. Any keyword arguments are passed to the intent's <code>path</code> method, allowing you to override the model (to refer to <a href="/doc/guide/resourceful.md">resourceful</a> target components), as well as specifying a <code>standalone_name</code> or pass extra arguments to the target component's <code>path</code> block.</p>
+
+<h3 id="label-Compony.path"><code>Compony.path</code></h3>
+
+<p>This helper is useful when generating paths without rendering any HTML, such as when redirecting. Internally, this builds an intent which will in turn use the target component’s <code>path</code> block to generate a Rails path (String) pointing to the correct location. Any keyword arguments are passed to the intent’s <code>path</code> method, allowing you to override the model (to refer to <a href="/doc/guide/resourceful_md.html">resourceful</a> target components), as well as specifying a <code>standalone_name</code> or pass extra arguments to the target component’s <code>path</code> block.</p>
+
 <p>Examples:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_path'><span class='object_link'><a href="Compony.html#path-class_method" title="Compony.path (method)">path</a></span></span><span class='lparen'>(</span><span class='symbol'>:index</span><span class='comma'>,</span> <span class='symbol'>:users</span><span class='rparen'>)</span> <span class='comment'># Redirects to /users
 </span><span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_path'><span class='object_link'><a href="Compony.html#path-class_method" title="Compony.path (method)">path</a></span></span><span class='lparen'>(</span><span class='symbol'>:show</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_author'>author</span><span class='rparen'>)</span> <span class='comment'># Redirects to something like /authors/42
 </span><span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_path'><span class='object_link'><a href="Compony.html#path-class_method" title="Compony.path (method)">path</a></span></span><span class='lparen'>(</span><span class='symbol'>:thank_you</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='rparen'>)</span> <span class='comment'># Redirects to something like /feedbacks/42/thank_you
 </span><span class='id identifier rubyid_redirect_to'>redirect_to</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_path'><span class='object_link'><a href="Compony.html#path-class_method" title="Compony.path (method)">path</a></span></span><span class='lparen'>(</span><span class='symbol'>:step_2</span><span class='comma'>,</span> <span class='symbol'>:registrations</span><span class='comma'>,</span> <span class='label'>accept_terms:</span> <span class='symbol'>:yes</span><span class='rparen'>)</span> <span class='comment'># Redirects to something like /registrations/step_2?accept_terms=yes
 </span></code></pre>
-<h3 id="_render_intent_"><code>render_intent</code></h3>
+
+<h3 id="label-render_intent"><code>render_intent</code></h3>
+
 <p>This is the preferred way of quickly rendering <a href="#buttons-and-styles">links or buttons to components</a> from other parts of your application. The method is implemented twice:</p>
-<ul>
-<li>When called from within a <code>content</code> block of a component, the method implemented in the <code>RequestContext</code> is used, which automatically detects the component from which it is called and passes it as <code>parent_comp</code> to the rendered button.</li>
-<li>When called from a regular Rails view, the Rails helper method is used, which instanciates a button without passing a <code>parent_comp</code>.</li>
-</ul>
+<ul><li>
+<p>When called from within a <code>content</code> block of a component, the method implemented in the <code>RequestContext</code> is used, which automatically detects the component from which it is called and passes it as <code>parent_comp</code> to the rendered button.</p>
+</li><li>
+<p>When called from a regular Rails view, the Rails helper method is used, which instanciates a button without passing a <code>parent_comp</code>.</p>
+</li></ul>
+
 <p>Use the <code>button</code> argument to customize the generated button. Example:</p>
+
 <pre class="code ruby"><code class="ruby">setup do
   content do
     div render_intent(:show, User.first, style: :link, label: { format: :short })`
   end
 end
 </code></pre>
-<p>In the example above, there is a lot more going on than it seems. Due to the <a href="#buttons-and-styles">specified style</a>, a plain HTML link will be generated, pointing to the component <code>Components::Users::Show</code> and instanciating it with the first user as <code>@data</code>. Assuming that component inherits from <code>Compony::Components::Show</code> and did not override label or path, the link will be labelled &quot;Show&quot; (which is the default short format label generated by Compony's default <a href="/doc/guide/pre_built_components/show.md">pre-built Show component</a>), and the <code>href</code> will be <code>/users/:id</code> where ID will automatically be <code>User.first</code>'s ID (e.g. <code>/users/1</code>). However, if <code>:show</code> was <a href="/doc/guide/feasibility.md">prevented</a>, the link will be strikethrough, non-clickable, greyed out and have a title explaining why it can't be clicked. Further, if the current user does not have <a href="/doc/guide/standalone.md">authorization</a> to display the target user, the link will not show up at all, and no HTML will be generated within the <code>div</code>.</p>
-<h3 id="_render_sub_comp_"><code>render_sub_comp</code></h3>
-<p>This is used within a component's <code>content</code> block to instanciate another component and <a href="/doc/guide/nesting.md">nest it within</a>. Internally, the current component's <code>sub_comp</code> method is used and all arguments are passed to that.</p>
-<p>For example, let us consider you want to build your user management's Show component to include the list of quotes belonging to the displayed user. Assuming you have already built <code>Components::Quotes::List</code> for quotes' Index component, this helper allows you to simply write:</p>
+
+<p>In the example above, there is a lot more going on than it seems. Due to the <a href="#buttons-and-styles">specified style</a>, a plain HTML link will be generated, pointing to the component <code>Components::Users::Show</code> and instanciating it with the first user as <code>@data</code>. Assuming that component inherits from <code>Compony::Components::Show</code> and did not override label or path, the link will be labelled “Show” (which is the default short format label generated by Compony’s default <a href="/doc/guide/pre_built_components/show_md.html">pre-built Show component</a>), and the <code>href</code> will be <code>/users/:id</code> where ID will automatically be <code>User.first</code>‘s ID (e.g. <code>/users/1</code>). However, if <code>:show</code> was <a href="/doc/guide/feasibility_md.html">prevented</a>, the link will be strikethrough, non-clickable, greyed out and have a title explaining why it can’t be clicked. Further, if the current user does not have <a href="/doc/guide/standalone_md.html">authorization</a> to display the target user, the link will not show up at all, and no HTML will be generated within the <code>div</code>.</p>
+
+<h3 id="label-render_sub_comp"><code>render_sub_comp</code></h3>
+
+<p>This is used within a component’s <code>content</code> block to instanciate another component and <a href="/doc/guide/nesting_md.html">nest it within</a>. Internally, the current component’s <code>sub_comp</code> method is used and all arguments are passed to that.</p>
+
+<p>For example, let us consider you want to build your user management’s Show component to include the list of quotes belonging to the displayed user. Assuming you have already built <code>Components::Quotes::List</code> for quotes’ Index component, this helper allows you to simply write:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Users</span><span class='op'>::</span><span class='const'>Show</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Show.html" title="Compony::Components::Show (class)">Show</a></span></span>
   <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
     <span class='comment'># ...
@@ -135,34 +170,57 @@ end
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
-<p>This implicitely builds an intent which auto-detects the family name <code>:quotes</code> from <code>@data.quotes</code>, which is an active record collection and thus implements <code>model_name</code>. The List component is then instanciated with its <code>@data</code> being that very collection and the users's Show component as <code>parent_comp</code>, resulting in the proper nesting and display of the desired resources.</p>
-<h3 id="_Compony_comp_class_for_"><code>Compony.comp_class_for</code></h3>
-<p>This helper is useful for checking whether a component is implemented. For instance, when implementing <a href="/doc/guide/inheritance.md">abstract components to inherit from later</a>, you can check for <code>if Compony.comp_class_for(:destroy, family_name)</code> to only provide some functionality of a Destroy component exists for the current family.</p>
+
+<p>This implicitely builds an intent which auto-detects the family name <code>:quotes</code> from <code>@data.quotes</code>, which is an active record collection and thus implements <code>model_name</code>. The List component is then instanciated with its <code>@data</code> being that very collection and the users’s Show component as <code>parent_comp</code>, resulting in the proper nesting and display of the desired resources.</p>
+
+<h3 id="label-Compony.comp_class_for"><code>Compony.comp_class_for</code></h3>
+
+<p>This helper is useful for checking whether a component is implemented. For instance, when implementing <a href="/doc/guide/inheritance_md.html">abstract components to inherit from later</a>, you can check for <code>if Compony.comp_class_for(:destroy, family_name)</code> to only provide some functionality of a Destroy component exists for the current family.</p>
+
 <p>This method also has its sibling <code>Compony.comp_class_for!</code>, which will fail if no such component could be found. It is however mostly used internally.</p>
-<h2 id="Buttons_and_styles">Buttons and styles</h2>
-<p>Button components are used as presenters for intents, hyperlinks to other components or submit buttons. They are a central way to define how buttons all over the application should look like. Their interface is adapted to intents, creating a standardized &quot;slim waist&quot; that greatly simplifies linking between components. Note that the term &quot;button&quot; refers to how they look and not how they are actually implemented - actual HTML buttons have several disadvantages (e.g. requiring drop-in forms and not responding to Ctrl+Click or middle-click when the user would prefer a new tab).</p>
+
+<h2 id="label-Buttons+and+styles">Buttons and styles</h2>
+
+<p>Button components are used as presenters for intents, hyperlinks to other components or submit buttons. They are a central way to define how buttons all over the application should look like. Their interface is adapted to intents, creating a standardized “slim waist” that greatly simplifies linking between components. Note that the term “button” refers to how they look and not how they are actually implemented - actual HTML buttons have several disadvantages (e.g. requiring drop-in forms and not responding to Ctrl+Click or middle-click when the user would prefer a new tab).</p>
+
 <p>Compony comes with two button styles:</p>
-<ul>
-<li><code>:css_button</code> is the default button style and creates a div that looks similar to a HTML button rendered in Firefox. If the class <code>disabled</code> is given, it is greyed out.</li>
-<li><code>:link</code> is mostly just a regular <code>&lt;a&gt;</code> tag, but will appear greyed out and strikethrough if the class <code>disabled</code> is given.</li>
-</ul>
+<ul><li>
+<p><code>:css_button</code> is the default button style and creates a div that looks similar to a HTML button rendered in Firefox. If the class <code>disabled</code> is given, it is greyed out.</p>
+</li><li>
+<p><code>:link</code> is mostly just a regular <code>&lt;a&gt;</code> tag, but will appear greyed out and strikethrough if the class <code>disabled</code> is given.</p>
+</li></ul>
+
 <p>All button styles support the following keyword arguments to their initializer:</p>
-<ul>
-<li><code>label</code> is a String which will be displayed as the text of the link or button.</li>
-<li><code>href</code> is the url/path that the button points to. If <code>nil</code>, will change to <code>javascript:void(0)</code>.</li>
-<li><code>method</code> takes a HTTP verb will generate a suitable <code>turbo_method</code> data attribute.</li>
-<li><code>class</code> will mostly let be as-is, but checked for the <code>disabled</code> class - if given, the style will be ovewritten.</li>
-</ul>
-<p>Note that since buttons are full components, they can be <a href="/doc/guide/nesting.md">nested</a> into another component by providing <code>parent_comp</code>. If called from within a component's <code>content</code> block, the helper <code>render_intent</code> does this automatically.</p>
+<ul><li>
+<p><code>label</code> is a String which will be displayed as the text of the link or button.</p>
+</li><li>
+<p><code>href</code> is the url/path that the button points to. If <code>nil</code>, will change to <code>javascript:void(0)</code>.</p>
+</li><li>
+<p><code>method</code> takes a HTTP verb will generate a suitable <code>turbo_method</code> data attribute.</p>
+</li><li>
+<p><code>class</code> will mostly let be as-is, but checked for the <code>disabled</code> class - if given, the style will be ovewritten.</p>
+</li></ul>
+
+<p>Note that since buttons are full components, they can be <a href="/doc/guide/nesting_md.html">nested</a> into another component by providing <code>parent_comp</code>. If called from within a component’s <code>content</code> block, the helper <code>render_intent</code> does this automatically.</p>
+
 <p>As implicitely mentioned above, Compony buttons are referenced to by a name called a style (<code>:css_button</code> actually points to <code>Compony::Components::Buttons::CssButton</code>). When rendering an intent, the style can be passed as an argument: <code>render_intent(:show, User.first, style: :link)</code> and the intent will automatically instanciate the desired component class.</p>
-<p>Note: it is possible to use a button component to submit a form. In order to achieve this, you must implement a hidden submit button (for handling keyboard Enter and Return), as well as pass <code>onclick: &quot;this.closest('form').requestSubmit(); return false;&quot;</code> as an argument. See the pre-built Form component's implementation for an example.</p>
-<h3 id="Adding_your_own_styles">Adding your own styles</h3>
-<p>In your application, you will likely want to implement your own button styles. Create a component (e.g. <code>Components::Commons::MyButton</code>) and inherit from <code>Compony::Components::Buttons::Link</code>. Override the method <code>prepare_opts!</code> and don't forget to call <code>super</code> first. Then, go through any <code>@comp_args</code> that might be of interest to you and mutate <code>@comp_args[:style]</code> and/or <code>@comp_args[:class]</code> to suit your needs. Make sure to handle the class <code>disabled</code>, as intents will set them if the intent is not feasible. Note that if a user is lacking authorization to perform an intent, the intent will not even instanciate the button.</p>
-<p>Once your button class is ready, register it in <code>config/initializers/compony.rb</code> with: <code>Compony.register_button_style :my_button, '::Components::Commons::MyButton'</code>. You can also change the default button style there using: <code>Compony.default_button_style = :my_button</code>.</p>
+
+<p>Note: it is possible to use a button component to submit a form. In order to achieve this, you must implement a hidden submit button (for handling keyboard Enter and Return), as well as pass <code>onclick: &quot;this.closest(&#39;form&#39;).requestSubmit(); return false;&quot;</code> as an argument. See the pre-built Form component’s implementation for an example.</p>
+
+<h3 id="label-Adding+your+own+styles">Adding your own styles</h3>
+
+<p>In your application, you will likely want to implement your own button styles. Create a component (e.g. <code>Components::Commons::MyButton</code>) and inherit from <code>Compony::Components::Buttons::Link</code>. Override the method <code>prepare_opts!</code> and don’t forget to call <code>super</code> first. Then, go through any <code>@comp_args</code> that might be of interest to you and mutate <code>@comp_args[:style]</code> and/or <code>@comp_args[:class]</code> to suit your needs. Make sure to handle the class <code>disabled</code>, as intents will set them if the intent is not feasible. Note that if a user is lacking authorization to perform an intent, the intent will not even instanciate the button.</p>
+
+<p>Once your button class is ready, register it in <code>config/initializers/compony.rb</code> with: <code>Compony.register_button_style :my_button, &#39;::Components::Commons::MyButton&#39;</code>. You can also change the default button style there using: <code>Compony.default_button_style = :my_button</code>.</p>
+
 <p>If you have multiple kinds of buttons (e.g. dropdown items, pill-style buttons, compact forms etc.), you should create a separate style and button component class for every kind. This will make it easy to refer to them by supplying something like <code>style: :dropdown_item</code> in <code>render_intent</code>.</p>
-<h2 id="Exposed_intents">Exposed intents</h2>
-<p>Components can expose a set of intents to be displayed elsewhere. Those can either be rendered by the parent comp, or by the application layout itself in case the component exposing them is currently <code>root_comp</code> (see the chapter about <a href="/doc/guide/standalone.md">standalone</a>). This is useful if you have something like an actions toolbar that changes depending on the currently contained component.</p>
+
+<h2 id="label-Exposed+intents">Exposed intents</h2>
+
+<p>Components can expose a set of intents to be displayed elsewhere. Those can either be rendered by the parent comp, or by the application layout itself in case the component exposing them is currently <code>root_comp</code> (see the chapter about <a href="/doc/guide/standalone_md.html">standalone</a>). This is useful if you have something like an actions toolbar that changes depending on the currently contained component.</p>
+
 <p>To expose an intent, proceed as shown in the following example:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='comment'># ...
 </span><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Quotes</span><span class='op'>::</span><span class='const'>Show</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Show.html" title="Compony::Components::Show (class)">Show</a></span></span>
   <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
@@ -173,23 +231,33 @@ end
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
-<p>In this example, the shown component exposes an intent pointing to the Index component of it's own family (<code>:users</code>). The <code>:name</code> argument causes the new intent to be just named <code>:index</code> rather than <code>:index_users</code>. This is for the sake of the example and would allow a component inheriting from this component to use <code>exposed_intents { remove :index }</code> rather than <code>exposed_intents { remove :index_users }</code>.</p>
-<p>Similarly, this component removes the exposed intent <code>:destroy</code> which it whould otherwise inherit from <code>Comopony::Components::Show</code>. Every call to <code>exposed_intents</code> overrides properties set in previous calls by the same component, primarly useful for <a href="/doc/guide/inheritance.md">reusing components by inheritance</a>.</p>
-<p>In order to replace an existing intent defined by a previous call to <code>exposed_intents</code> (e.g. in a parent class), simply call <code>add</code> again and make sure the intent's name matches that of the one to override. <code>add</code> also accepts the <code>before:</code> keyword, allowing you to reorder intents or insert a new one into a specific place in the intent list.</p>
+
+<p>In this example, the shown component exposes an intent pointing to the Index component of it’s own family (<code>:users</code>). The <code>:name</code> argument causes the new intent to be just named <code>:index</code> rather than <code>:index_users</code>. This is for the sake of the example and would allow a component inheriting from this component to use <code>exposed_intents { remove :index }</code> rather than <code>exposed_intents { remove :index_users }</code>.</p>
+
+<p>Similarly, this component removes the exposed intent <code>:destroy</code> which it whould otherwise inherit from <code>Comopony::Components::Show</code>. Every call to <code>exposed_intents</code> overrides properties set in previous calls by the same component, primarly useful for <a href="/doc/guide/inheritance_md.html">reusing components by inheritance</a>.</p>
+
+<p>In order to replace an existing intent defined by a previous call to <code>exposed_intents</code> (e.g. in a parent class), simply call <code>add</code> again and make sure the intent’s name matches that of the one to override. <code>add</code> also accepts the <code>before:</code> keyword, allowing you to reorder intents or insert a new one into a specific place in the intent list.</p>
+
 <p>Note that the <code>add</code> method has full intent argument support and thus also accepts parameters related to the button (e.g. <code>style</code>), path generation, feasibility etc.</p>
-<h3 id="Rendering_exposed_intents">Rendering exposed intents</h3>
+
+<h3 id="label-Rendering+exposed+intents">Rendering exposed intents</h3>
+
 <p>You can render exposed intents in the parent component or in the application layout. To do so, call <code>component.exposed_intents</code>, loop across them and call <code>.render(controller)</code> on each (perhaps inside a <code>div</code> tag or whatever suits your needs).</p>
+
 <p>Example in <code>layouts/application.html.erb</code></p>
-<pre class="code erb"><code class="erb">&lt;% Compony.root_comp&amp;.exposed_intents&amp;.each do |intent| %&gt;
+
+<pre class="code ruby"><code class="ruby">&lt;% Compony.root_comp&amp;.exposed_intents&amp;.each do |intent| %&gt;
   &lt;div class=&quot;root-intent&quot;&gt;&lt;%= intent.render(controller) %&gt;
 &lt;% end %&gt;
 </code></pre>
-<p><a href="/README.md#guide--documentation">Guide index</a></p></div></div>
+
+<p><a href="/README_md.html#guide--documentation">Guide index</a></p>
+</div></div>
 
       <div id="footer">
-  Generated on Mon May 18 13:32:18 2026 by
+  Generated on Mon May 18 13:55:33 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.43 (ruby-3.3.5).
+  0.9.34 (ruby-3.3.5).
 </div>
 
     </div>

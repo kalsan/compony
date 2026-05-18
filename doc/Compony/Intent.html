@@ -6,13 +6,13 @@
 <title>
   Class: Compony::Intent
   
-    &mdash; Documentation by YARD 0.9.43
+    &mdash; Documentation by YARD 0.9.34
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css">
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css">
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
 <script type="text/javascript">
   pathId = "Compony::Intent";
@@ -27,8 +27,6 @@
 
   </head>
   <body>
-    <div id="main_progress" aria-hidden="true"></div>
-
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -96,17 +94,16 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/compony/intent.rb
-</dd>
+    <dd>lib/compony/intent.rb</dd>
   </dl>
   
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>An Intent is a a gateway to a component, along with relevant context, such as the comp and family, perhaps a resource, standalone name, feasibility etc.
-The class provides tooling used by various Compony helpers used to point to other components in some way.
-Note: The arguments <code>label</code> and <code>style</code> are not part of the <code>button:</code> hash, because they are processed by the Intent before affecting the button.</p>
+    
+<p>An Intent is a a gateway to a component, along with relevant context, such as the comp and family, perhaps a resource, standalone name, feasibility etc. The class provides tooling used by various Compony helpers used to point to other components in some way. Note: The arguments <code>label</code> and <code>style</code> are not part of the <code>button:</code> hash, because they are processed by the Intent before affecting the button.</p>
+
 
   </div>
 </div>
@@ -204,7 +201,9 @@ Note: The arguments <code>label</code> and <code>style</code> are not part of th
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Returns the options that are given to the initializer when creating a button from this intent.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the options that are given to the initializer when creating a button from this intent.</p>
+</div></span>
   
 </li>
 
@@ -226,7 +225,9 @@ Note: The arguments <code>label</code> and <code>style</code> are not part of th
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Instanciates the component and returns the instance.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Instanciates the component and returns the instance.</p>
+</div></span>
   
 </li>
 
@@ -292,7 +293,9 @@ Note: The arguments <code>label</code> and <code>style</code> are not part of th
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Returns whether this intent is feasible (no prevention).</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Returns whether this intent is feasible (no prevention).</p>
+</div></span>
   
 </li>
 
@@ -316,7 +319,9 @@ Note: The arguments <code>label</code> and <code>style</code> are not part of th
   
 
   
-    <span class="summary_desc"><div class='inline'><p>A new instance of Intent.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of Intent.</p>
+</div></span>
   
 </li>
 
@@ -338,7 +343,9 @@ Note: The arguments <code>label</code> and <code>style</code> are not part of th
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Returns the label of buttons produced by this intent.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the label of buttons produced by this intent.</p>
+</div></span>
   
 </li>
 
@@ -382,7 +389,9 @@ Note: The arguments <code>label</code> and <code>style</code> are not part of th
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Returns true for things like User.first, but false for things like :users or User.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Returns true for things like User.first, but false for things like :users or User.</p>
+</div></span>
   
 </li>
 
@@ -404,7 +413,9 @@ Note: The arguments <code>label</code> and <code>style</code> are not part of th
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Returns a name for this intent, consisting of comp and family name.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Returns a name for this intent, consisting of comp and family name.</p>
+</div></span>
   
 </li>
 
@@ -426,7 +437,9 @@ Note: The arguments <code>label</code> and <code>style</code> are not part of th
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Returns the path to the component.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the path to the component.</p>
+</div></span>
   
 </li>
 
@@ -448,13 +461,14 @@ Note: The arguments <code>label</code> and <code>style</code> are not part of th
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Renders this intent into a button defined by <code>style</code>.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Renders this intent into a button defined by <code>style</code>.</p>
+</div></span>
   
 </li>
 
       
     </ul>
-    
   
 
 <div id="constructor_details" class="method_details_list">
@@ -471,7 +485,9 @@ Note: The arguments <code>label</code> and <code>style</code> are not part of th
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns a new instance of Intent.</p>
+    
+<p>Returns a new instance of Intent.</p>
+
 
   </div>
 </div>
@@ -491,9 +507,9 @@ Note: The arguments <code>label</code> and <code>style</code> are not part of th
       
       
         &mdash;
-        <div class='inline'><p>The component that should be loaded,
-for instance <code>ShowForAll</code>, <code>'ShowForAll'</code> or <code>:show_for_all</code>,
-or can also pass a component class (such as Components::Users::Show)</p></div>
+        <div class='inline'>
+<p>The component that should be loaded, for instance <code>ShowForAll</code>, <code>&#39;ShowForAll&#39;</code> or <code>:show_for_all</code>, or can also pass a component class (such as Components::Users::Show)</p>
+</div>
       
     </li>
   
@@ -509,9 +525,9 @@ or can also pass a component class (such as Components::Users::Show)</p></div>
       
       
         &mdash;
-        <div class='inline'><p>Either the family that contains the requested component, or an
-instance implementing <code>model_name</code> from which the family name is auto-generated.
-Examples: <code>Users</code>, <code>'Users'</code>, <code>:users</code>, <code>User.first</code></p></div>
+        <div class='inline'>
+<p>Either the family that contains the requested component, or an instance implementing <code>model_name</code> from which the family name is auto-generated. Examples: <code>Users</code>, <code>&#39;Users&#39;</code>, <code>:users</code>, <code>User.first</code></p>
+</div>
       
     </li>
   
@@ -527,7 +543,9 @@ Examples: <code>Users</code>, <code>'Users'</code>, <code>:users</code>, <code>U
       
       
         &mdash;
-        <div class='inline'><p>If given, will override the standalone name for all <code>path</code> calls for this intent instance.</p></div>
+        <div class='inline'>
+<p>If given, will override the standalone name for all <code>path</code> calls for this intent instance.</p>
+</div>
       
     </li>
   
@@ -543,7 +561,9 @@ Examples: <code>Users</code>, <code>'Users'</code>, <code>:users</code>, <code>U
       
       
         &mdash;
-        <div class='inline'><p>If given, will override the name of this intent. Defaults to component and family name joined by underscore.</p></div>
+        <div class='inline'>
+<p>If given, will override the name of this intent. Defaults to component and family name joined by underscore.</p>
+</div>
       
     </li>
   
@@ -559,7 +579,9 @@ Examples: <code>Users</code>, <code>'Users'</code>, <code>:users</code>, <code>U
       
       
         &mdash;
-        <div class='inline'><p>If given, will be used for generating the label. If Hash, is given as options to <span class='object_link'><a href="#label-instance_method" title="Compony::Intent#label (method)">#label</a></span>.</p></div>
+        <div class='inline'>
+<p>If given, will be used for generating the label. If Hash, is given as options to <span class='object_link'><a href="#label-instance_method" title="Compony::Intent#label (method)">#label</a></span>.</p>
+</div>
       
     </li>
   
@@ -575,7 +597,9 @@ Examples: <code>Users</code>, <code>'Users'</code>, <code>:users</code>, <code>U
       
       
         &mdash;
-        <div class='inline'><p>If given, sets the button style to use and uses the default one otherwise.</p></div>
+        <div class='inline'>
+<p>If given, sets the button style to use and uses the default one otherwise.</p>
+</div>
       
     </li>
   
@@ -591,7 +615,9 @@ Examples: <code>Users</code>, <code>'Users'</code>, <code>:users</code>, <code>U
       
       
         &mdash;
-        <div class='inline'><p>Parameters that will be given as-is to the button component initializer.</p></div>
+        <div class='inline'>
+<p>Parameters that will be given as-is to the button component initializer.</p>
+</div>
       
     </li>
   
@@ -607,7 +633,9 @@ Examples: <code>Users</code>, <code>'Users'</code>, <code>:users</code>, <code>U
       
       
         &mdash;
-        <div class='inline'><p>If given, will be used for generating the path. If Hash, is given as options to <span class='object_link'><a href="#path-instance_method" title="Compony::Intent#path (method)">#path</a></span>.</p></div>
+        <div class='inline'>
+<p>If given, will be used for generating the path. If Hash, is given as options to <span class='object_link'><a href="#path-instance_method" title="Compony::Intent#path (method)">#path</a></span>.</p>
+</div>
       
     </li>
   
@@ -623,7 +651,9 @@ Examples: <code>Users</code>, <code>'Users'</code>, <code>:users</code>, <code>U
       
       
         &mdash;
-        <div class='inline'><p>If given, the target component will be instanciated with this argument. Omit if your second pos arg is a model.</p></div>
+        <div class='inline'>
+<p>If given, the target component will be instanciated with this argument. Omit if your second pos arg is a model.</p>
+</div>
       
     </li>
   
@@ -639,7 +669,9 @@ Examples: <code>Users</code>, <code>'Users'</code>, <code>:users</code>, <code>U
       
       
         &mdash;
-        <div class='inline'><p>If given, the target component will be instanciated with this argument.</p></div>
+        <div class='inline'>
+<p>If given, the target component will be instanciated with this argument.</p>
+</div>
       
     </li>
   
@@ -655,7 +687,9 @@ Examples: <code>Users</code>, <code>'Users'</code>, <code>:users</code>, <code>U
       
       
         &mdash;
-        <div class='inline'><p>If given, will override the feasibility target (prevention framework)</p></div>
+        <div class='inline'>
+<p>If given, will override the feasibility target (prevention framework)</p>
+</div>
       
     </li>
   
@@ -671,7 +705,9 @@ Examples: <code>Users</code>, <code>'Users'</code>, <code>:users</code>, <code>U
       
       
         &mdash;
-        <div class='inline'><p>If given, will override the feasibility action (prevention framework)</p></div>
+        <div class='inline'>
+<p>If given, will override the feasibility action (prevention framework)</p>
+</div>
       
     </li>
   
@@ -902,7 +938,9 @@ Examples: <code>Users</code>, <code>'Users'</code>, <code>:users</code>, <code>U
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns the options that are given to the initializer when creating a button from this intent.</p>
+    
+<p>Returns the options that are given to the initializer when creating a button from this intent.</p>
+
 
   </div>
 </div>
@@ -953,8 +991,9 @@ Examples: <code>Users</code>, <code>'Users'</code>, <code>:users</code>, <code>U
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Instanciates the component and returns the instance. If <code>data</code> and/or <code>data_class</code> were specified when instantiating this intent, they are passed.
-All given arguments will be given to the component's initializer, also overriding <code>data</code> and <code>data_class</code> if present.</p>
+    
+<p>Instanciates the component and returns the instance. If <code>data</code> and/or <code>data_class</code> were specified when instantiating this intent, they are passed. All given arguments will be given to the component’s initializer, also overriding <code>data</code> and <code>data_class</code> if present.</p>
+
 
   </div>
 </div>
@@ -1073,7 +1112,9 @@ All given arguments will be given to the component's initializer, also overridin
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns whether this intent is feasible (no prevention)</p>
+    
+<p>Returns whether this intent is feasible (no prevention)</p>
+
 
   </div>
 </div>
@@ -1127,7 +1168,9 @@ All given arguments will be given to the component's initializer, also overridin
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns the label of buttons produced by this intent.</p>
+    
+<p>Returns the label of buttons produced by this intent.</p>
+
 
   </div>
 </div>
@@ -1207,7 +1250,9 @@ All given arguments will be given to the component's initializer, also overridin
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns true for things like User.first, but false for things like :users or User</p>
+    
+<p>Returns true for things like User.first, but false for things like :users or User</p>
+
 
   </div>
 </div>
@@ -1261,8 +1306,9 @@ All given arguments will be given to the component's initializer, also overridin
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns a name for this intent, consisting of comp and family name. Can be overriden in the constructor.
-Example: :show_users, :destroy_sessions</p>
+    
+<p>Returns a name for this intent, consisting of comp and family name. Can be overriden in the constructor. Example: :show_users, :destroy_sessions</p>
+
 
   </div>
 </div>
@@ -1301,8 +1347,9 @@ Example: :show_users, :destroy_sessions</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns the path to the component.
-Additional arguments are passed to the component's path block, which typically passes them to the Rails path helper.</p>
+    
+<p>Returns the path to the component. Additional arguments are passed to the component’s path block, which typically passes them to the Rails path helper.</p>
+
 
   </div>
 </div>
@@ -1322,7 +1369,9 @@ Additional arguments are passed to the component's path block, which typically p
       
       
         &mdash;
-        <div class='inline'><p>If given and non-nil, will override the model passed to the component's path block</p></div>
+        <div class='inline'>
+<p>If given and non-nil, will override the model passed to the component’s path block</p>
+</div>
       
     </li>
   
@@ -1338,7 +1387,9 @@ Additional arguments are passed to the component's path block, which typically p
       
       
         &mdash;
-        <div class='inline'><p>If given and non-nil, will override the <code>standalone_name</code> passed to the component's path block</p></div>
+        <div class='inline'>
+<p>If given and non-nil, will override the <code>standalone_name</code> passed to the component’s path block</p>
+</div>
       
     </li>
   
@@ -1383,7 +1434,9 @@ Additional arguments are passed to the component's path block, which typically p
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Renders this intent into a button defined by <code>style</code>.</p>
+    
+<p>Renders this intent into a button defined by <code>style</code>.</p>
+
 
   </div>
 </div>
@@ -1401,7 +1454,9 @@ Additional arguments are passed to the component's path block, which typically p
       
       
         &mdash;
-        <div class='inline'><p>The controller from the request context, needed to render the button.</p></div>
+        <div class='inline'>
+<p>The controller from the request context, needed to render the button.</p>
+</div>
       
     </li>
   
@@ -1417,7 +1472,9 @@ Additional arguments are passed to the component's path block, which typically p
       
       
         &mdash;
-        <div class='inline'><p>If called from within a component, pass the component to inform the button that it is nested within.</p></div>
+        <div class='inline'>
+<p>If called from within a component, pass the component to inform the button that it is nested within.</p>
+</div>
       
     </li>
   
@@ -1433,7 +1490,9 @@ Additional arguments are passed to the component's path block, which typically p
       
       
         &mdash;
-        <div class='inline'><p>If present, overrides the class of the generated  button component, defaults to <span class='object_link'><a href="../Compony.html#default_button_style-class_method" title="Compony.default_button_style (method)">Compony.default_button_style</a></span>.</p></div>
+        <div class='inline'>
+<p>If present, overrides the class of the generated button component, defaults to <span class='object_link'><a href="../Compony.html#default_button_style-class_method" title="Compony.default_button_style (method)">Compony.default_button_style</a></span>.</p>
+</div>
       
     </li>
   
@@ -1447,7 +1506,9 @@ Additional arguments are passed to the component's path block, which typically p
       
       
         &mdash;
-        <div class='inline'><p>Any further kwargs are passed to the button component's initializer.</p></div>
+        <div class='inline'>
+<p>Any further kwargs are passed to the button component’s initializer.</p>
+</div>
       
     </li>
   
@@ -1500,9 +1561,9 @@ Additional arguments are passed to the component's path block, which typically p
 </div>
 
       <div id="footer">
-  Generated on Mon May 18 13:32:19 2026 by
+  Generated on Mon May 18 13:55:35 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.43 (ruby-3.3.5).
+  0.9.34 (ruby-3.3.5).
 </div>
 
     </div>

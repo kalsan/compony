@@ -6,13 +6,13 @@
 <title>
   File: ownership
   
-    &mdash; Documentation by YARD 0.9.43
+    &mdash; Documentation by YARD 0.9.34
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css">
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css">
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
 <script type="text/javascript">
   pathId = "ownership";
@@ -27,8 +27,6 @@
 
   </head>
   <body>
-    <div id="main_progress" aria-hidden="true"></div>
-
     <div class="nav_wrap">
       <iframe id="nav" src="file_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -59,29 +57,40 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><div id='filecontents'><p><a href="/README.md#guide--documentation">Back to the guide</a></p>
-<h1 id="Ownership">Ownership</h1>
-<p>Ownership is a concept that captures the nature of data to be presented by Compony. It means that an object only makes sense within the context of another that it belongs to. Owned objects have therefore no index component, because they don't have meaning on their own. For instance:</p>
-<ul>
-<li>typically NOT owned: visitors and vouchers: while a voucher can <code>belong_to</code> a visitor, the voucher can be managed on it's own. Vouchers can have their own index page which makes it possible to search for a given voucher code across all vouchers.</li>
-<li>typically owned: users and their permissions: a permission only makes sense with respect to its associated user and having a list of all permissions across the system would rarely be a use case. In this case, we consider the <code>Permission</code> model to be conceptually <strong>owned by</strong> the <code>User</code> model.</li>
-</ul>
+      <div id="content"><div id='filecontents'>
+<p><a href="/README_md.html#guide--documentation">Back to the guide</a></p>
+
+<h1 id="label-Ownership">Ownership</h1>
+
+<p>Ownership is a concept that captures the nature of data to be presented by Compony. It means that an object only makes sense within the context of another that it belongs to. Owned objects have therefore no index component, because they don’t have meaning on their own. For instance:</p>
+<ul><li>
+<p>typically NOT owned: visitors and vouchers: while a voucher can <code>belong_to</code> a visitor, the voucher can be managed on it’s own. Vouchers can have their own index page which makes it possible to search for a given voucher code across all vouchers.</p>
+</li><li>
+<p>typically owned: users and their permissions: a permission only makes sense with respect to its associated user and having a list of all permissions across the system would rarely be a use case. In this case, we consider the <code>Permission</code> model to be conceptually <strong>owned by</strong> the <code>User</code> model.</p>
+</li></ul>
+
 <p>In Compony, if a model class is owned by another, it means that:</p>
-<ul>
-<li>The owned model has a non-optional <code>belongs_to</code> relation ship to its owner.</li>
-<li>The owned model class has no Index component.</li>
-<li><a href="/doc/guide/pre_built_components.md">Pre-built components</a> offer <a href="/doc/guide/intents.md#exposed-intents">exposed intents</a> to the owner model and redirect to its Show component instead of to the current object's Index component.</li>
-</ul>
+<ul><li>
+<p>The owned model has a non-optional <code>belongs_to</code> relation ship to its owner.</p>
+</li><li>
+<p>The owned model class has no Index component.</p>
+</li><li>
+<p><a href="/doc/guide/pre_built_components_md.html">Pre-built components</a> offer <a href="/doc/guide/intents_md.html#exposed-intents">exposed intents</a> to the owner model and redirect to its Show component instead of to the current object’s Index component.</p>
+</li></ul>
+
 <p>To mark a model as owned by another, write the following code <strong>in the model</strong>:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='comment'># app/models/permission.rb
 </span><span class='id identifier rubyid_owned_by'>owned_by</span> <span class='symbol'>:user</span>
 </code></pre>
-<p><a href="/README.md#guide--documentation">Guide index</a></p></div></div>
+
+<p><a href="/README_md.html#guide--documentation">Guide index</a></p>
+</div></div>
 
       <div id="footer">
-  Generated on Mon May 18 13:32:18 2026 by
+  Generated on Mon May 18 13:55:33 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.43 (ruby-3.3.5).
+  0.9.34 (ruby-3.3.5).
 </div>
 
     </div>

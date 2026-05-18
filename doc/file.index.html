@@ -6,13 +6,13 @@
 <title>
   File: index
   
-    &mdash; Documentation by YARD 0.9.43
+    &mdash; Documentation by YARD 0.9.34
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css">
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css">
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
 <script type="text/javascript">
   pathId = "index";
@@ -27,8 +27,6 @@
 
   </head>
   <body>
-    <div id="main_progress" aria-hidden="true"></div>
-
     <div class="nav_wrap">
       <iframe id="nav" src="file_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -59,42 +57,52 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><div id='filecontents'><ul>
-<li><a href="/README.md#guide--documentation">Back to the guide</a></li>
-<li><a href="/doc/guide/pre_built_components.md">List of pre-built components</a></li>
-</ul>
-<h1 id="Pre_built_components__Index">Pre-built components: Index</h1>
-<p><code>Compony::Components::Index</code> is a resourceful standalone component corresponding to Rails'
-<code>index</code> controller action. It holds a collection of records and is a thin wrapper that
-nests the <a href="./list.md"><code>List</code></a> component of the same family.</p>
-<h2 id="What_it_does_by_default">What it does by default</h2>
+      <div id="content"><div id='filecontents'><ul><li>
+<p><a href="/README_md.html#guide--documentation">Back to the guide</a></p>
+</li><li>
+<p><a href="/doc/guide/pre_built_components_md.html">List of pre-built components</a></p>
+</li></ul>
+
+<h1 id="label-Pre-built+components-3A+Index">Pre-built components: Index</h1>
+
+<p><code>Compony::Components::Index</code> is a resourceful standalone component corresponding to Rails’ <code>index</code> controller action. It holds a collection of records and is a thin wrapper that nests the href="./list_md.html"></a> component of the same family.</p>
+
+<h2 id="label-What+it+does+by+default">What it does by default</h2>
+
 <p>The shipped <code>setup</code> (see <code>lib/compony/components/index.rb</code>) is deliberately minimal:</p>
-<ul>
-<li><strong>Route:</strong> <code>standalone path: family_name</code> with a <code>verb :get</code> authorized by
-<code>can?(:index, data_class)</code>, e.g. <code>/users</code>.</li>
-<li><strong>Label:</strong> <code>label(:all) { data_class.model_name.human(count: 2) }</code> — e.g. &quot;Users&quot;.</li>
-<li><strong>Data:</strong> <code>load_data { @data = data_class.accessible_by(controller.current_ability) }</code>
-— the full <a href="https://github.com/CanCanCommunity/cancancan">CanCanCan</a>-scoped collection.</li>
-<li><strong>Exposed intent:</strong> adds a <code>:new</code> intent (unless the model is
-<a href="/doc/guide/ownership.md">owned</a> by another).</li>
-<li><strong>Content:</strong> <code>concat render_sub_comp(:list, @data)</code> — delegates all rendering to the
-family's <code>List</code>.</li>
-</ul>
+<ul><li>
+<p><strong>Route:</strong> <code>standalone path: family_name</code> with a <code>verb :get</code> authorized by  <code>can?(:index, data_class)</code>, e.g. <code>/users</code>.</p>
+</li><li>
+<p><strong>Label:</strong> <code>label(:all) { data_class.model_name.human(count: 2) }</code> — e.g. “Users”.</p>
+</li><li>
+<p><strong>Data:</strong> <code>load_data { @data = data_class.accessible_by(controller.current_ability) }</code>  — the full CanCanCan[https://github.com/CanCanCommunity/cancancan]-scoped collection.</p>
+</li><li>
+<p><strong>Exposed intent:</strong> adds a <code>:new</code> intent (unless the model is  <a href="/doc/guide/ownership_md.html">owned</a> by another).</p>
+</li><li>
+<p><strong>Content:</strong> <code>concat render_sub_comp(:list, @data)</code> — delegates all rendering to the  family’s <code>List</code>.</p>
+</li></ul>
+
 <p>So with both an <code>Index</code> and a <code>List</code> component present, a family lists out of the box:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Users</span><span class='op'>::</span><span class='const'>Index</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Index.html" title="Compony::Components::Index (class)">Index</a></span></span><span class='semicolon'>;</span> <span class='kw'>end</span>
 <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Users</span><span class='op'>::</span><span class='const'>List</span>  <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/List.html" title="Compony::Components::List (class)">List</a></span></span>
   <span class='id identifier rubyid_setup'>setup</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_columns'>columns</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='symbol'>:email</span> <span class='rbrace'>}</span>
 <span class='kw'>end</span>
 </code></pre>
-<h2 id="Typical_overrides">Typical overrides</h2>
+
+<h2 id="label-Typical+overrides">Typical overrides</h2>
+
 <p>Narrow or order the collection:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Users</span><span class='op'>::</span><span class='const'>Index</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Index.html" title="Compony::Components::Index (class)">Index</a></span></span>
   <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
     <span class='id identifier rubyid_load_data'>load_data</span> <span class='lbrace'>{</span> <span class='ivar'>@data</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_accessible_by'>accessible_by</span><span class='lparen'>(</span><span class='id identifier rubyid_current_ability'>current_ability</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_active'>active</span><span class='period'>.</span><span class='id identifier rubyid_order'>order</span><span class='lparen'>(</span><span class='symbol'>:name</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
-<p>Customize the action toolbar via <a href="/doc/guide/intents.md#exposed-intents">exposed intents</a>:</p>
+
+<p>Customize the action toolbar via <a href="/doc/guide/intents_md.html#exposed-intents">exposed intents</a>:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
   <span class='id identifier rubyid_exposed_intents'>exposed_intents</span> <span class='kw'>do</span>
     <span class='id identifier rubyid_add'>add</span> <span class='symbol'>:index</span><span class='comma'>,</span> <span class='symbol'>:users</span><span class='comma'>,</span> <span class='label'>label:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>CSV</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>name:</span> <span class='symbol'>:csv</span><span class='comma'>,</span> <span class='label'>path:</span> <span class='lbrace'>{</span> <span class='label'>format:</span> <span class='symbol'>:csv</span> <span class='rbrace'>}</span>
@@ -102,7 +110,9 @@ family's <code>List</code>.</li>
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
+
 <p>Add a second standalone route serving an alternative <code>List</code>:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
   <span class='id identifier rubyid_standalone'>standalone</span> <span class='label'>path:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>users/archived</span><span class='tstring_end'>&#39;</span></span>
   <span class='id identifier rubyid_content'>content</span> <span class='symbol'>:main</span><span class='comma'>,</span> <span class='label'>hidden:</span> <span class='kw'>true</span> <span class='kw'>do</span>
@@ -110,14 +120,14 @@ family's <code>List</code>.</li>
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
-<p>In practice apps put the layout/markup chrome in a <code>BaseComponents::Index</code> and inherit
-from that — see <a href="../patterns.md#3-index--load_data-scope--nested-list">Real-world patterns</a>.
-For column/filter/sort configuration, see <a href="./list.md"><code>List</code></a>.</p></div></div>
+
+<p>In practice apps put the layout/markup chrome in a <code>BaseComponents::Index</code> and inherit from that — see <a href="../patterns_md.html#3-index--load_data-scope--nested-list">Real-world patterns</a>. For column/filter/sort configuration, see href="./list_md.html"></a>.</p>
+</div></div>
 
       <div id="footer">
-  Generated on Mon May 18 13:32:18 2026 by
+  Generated on Mon May 18 13:55:33 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.43 (ruby-3.3.5).
+  0.9.34 (ruby-3.3.5).
 </div>
 
     </div>

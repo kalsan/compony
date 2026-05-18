@@ -6,13 +6,13 @@
 <title>
   Module: Compony::ComponentMixins::Resourceful
   
-    &mdash; Documentation by YARD 0.9.43
+    &mdash; Documentation by YARD 0.9.34
   
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css">
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css">
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
 
 <script type="text/javascript">
   pathId = "Compony::ComponentMixins::Resourceful";
@@ -27,8 +27,6 @@
 
   </head>
   <body>
-    <div id="main_progress" aria-hidden="true"></div>
-
     <div class="nav_wrap">
       <iframe id="nav" src="../../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -90,17 +88,16 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/compony/component_mixins/resourceful.rb
-</dd>
+    <dd>lib/compony/component_mixins/resourceful.rb</dd>
   </dl>
   
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>Include this when your component's family name corresponds to the pluralized Rails model name the component's family is responsible for.
-When including this, the component gets an attribute @data which contains a record or a collection of records.
-Resourceful components are always aware of a data_class, corresponding to the expected @data.class and used e.g. to render lists or for <code>.new</code>.</p>
+    
+<p>Include this when your component’s family name corresponds to the pluralized Rails model name the component’s family is responsible for. When including this, the component gets an attribute @data which contains a record or a collection of records. Resourceful components are always aware of a data_class, corresponding to the expected @data.class and used e.g. to render lists or for <code>.new</code>.</p>
+
 
   </div>
 </div>
@@ -244,7 +241,9 @@ Resourceful components are always aware of a data_class, corresponding to the ex
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Must prefix the following instance variables with global_ in order to avoid overwriting VerbDsl inst vars due to Dslblend.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Must prefix the following instance variables with global_ in order to avoid overwriting VerbDsl inst vars due to Dslblend.</p>
+</div></span>
   
 </li>
 
@@ -306,7 +305,9 @@ Resourceful components are always aware of a data_class, corresponding to the ex
   
 
   
-    <span class="summary_desc"><div class='inline'><p>DSL method Runs after <code>assign_attributes</code> and before <code>store_data</code> for all standalone paths and verbs.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Runs after <code>assign_attributes</code> and before <code>store_data</code> for all standalone paths and verbs.</p>
+</div></span>
   
 </li>
 
@@ -328,7 +329,9 @@ Resourceful components are always aware of a data_class, corresponding to the ex
   
 
   
-    <span class="summary_desc"><div class='inline'><p>DSL method Runs after <code>load_data</code> and before authorization for all standalone paths and verbs.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Runs after <code>load_data</code> and before authorization for all standalone paths and verbs.</p>
+</div></span>
   
 </li>
 
@@ -350,7 +353,9 @@ Resourceful components are always aware of a data_class, corresponding to the ex
   
 
   
-    <span class="summary_desc"><div class='inline'><p>DSL method Sets the default <code>assign_attributes</code> block for all standalone paths and verbs (overridable per verb in the VerbDsl).</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Sets the default <code>assign_attributes</code> block for all standalone paths and verbs (overridable per verb in the VerbDsl).</p>
+</div></span>
   
 </li>
 
@@ -372,7 +377,9 @@ Resourceful components are always aware of a data_class, corresponding to the ex
   
 
   
-    <span class="summary_desc"><div class='inline'><p>DSL method Sets or calculates the model class.</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Sets or calculates the model class.</p>
+</div></span>
   
 </li>
 
@@ -394,7 +401,9 @@ Resourceful components are always aware of a data_class, corresponding to the ex
   
 
   
-    <span class="summary_desc"><div class='inline'><p>DSL method Sets the default <code>load_data</code> block for all standalone paths and verbs (overridable per verb in the VerbDsl).</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Sets the default <code>load_data</code> block for all standalone paths and verbs (overridable per verb in the VerbDsl).</p>
+</div></span>
   
 </li>
 
@@ -438,13 +447,14 @@ Resourceful components are always aware of a data_class, corresponding to the ex
   
 
   
-    <span class="summary_desc"><div class='inline'><p>DSL method Sets the default <code>store_data</code> block for all standalone paths and verbs (overridable per verb in the VerbDsl).</p></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>DSL method Sets the default <code>store_data</code> block for all standalone paths and verbs (overridable per verb in the VerbDsl).</p>
+</div></span>
   
 </li>
 
       
     </ul>
-    
   
     <h2>
       Instance Method Summary
@@ -476,7 +486,6 @@ Resourceful components are always aware of a data_class, corresponding to the ex
 
       
     </ul>
-    
   
 
 
@@ -661,7 +670,9 @@ Resourceful components are always aware of a data_class, corresponding to the ex
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Must prefix the following instance variables with global_ in order to avoid overwriting VerbDsl inst vars due to Dslblend.</p>
+    
+<p>Must prefix the following instance variables with global_ in order to avoid overwriting VerbDsl inst vars due to Dslblend.</p>
+
 
   </div>
 </div>
@@ -748,9 +759,9 @@ Resourceful components are always aware of a data_class, corresponding to the ex
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method
-Runs after <code>assign_attributes</code> and before <code>store_data</code> for all standalone paths and verbs.
-Example: prefill or derive fields before validation.</p>
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>DSL method Runs after <code>assign_attributes</code> and before <code>store_data</code> for all standalone paths and verbs. Example: prefill or derive fields before validation.</p>
+
 
   </div>
 </div>
@@ -767,7 +778,9 @@ Example: prefill or derive fields before validation.</p>
       
       
         
-        <div class='inline'><p>Runs in the component's request context; may mutate <code>@data</code>.</p></div>
+        <div class='inline'>
+<p>Runs in the component’s request context; may mutate <code>@data</code>.</p>
+</div>
       
     </li>
   
@@ -805,9 +818,9 @@ Example: prefill or derive fields before validation.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method
-Runs after <code>load_data</code> and before authorization for all standalone paths and verbs.
-Example: refine an AR collection produced by <code>load_data</code> before it is read.</p>
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>DSL method Runs after <code>load_data</code> and before authorization for all standalone paths and verbs. Example: refine an AR collection produced by <code>load_data</code> before it is read.</p>
+
 
   </div>
 </div>
@@ -824,7 +837,9 @@ Example: refine an AR collection produced by <code>load_data</code> before it is
       
       
         
-        <div class='inline'><p>Runs in the component's request context; may refine <code>@data</code>.</p></div>
+        <div class='inline'>
+<p>Runs in the component’s request context; may refine <code>@data</code>.</p>
+</div>
       
     </li>
   
@@ -862,9 +877,9 @@ Example: refine an AR collection produced by <code>load_data</code> before it is
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method
-Sets the default <code>assign_attributes</code> block for all standalone paths and verbs (overridable per verb in the VerbDsl).
-The block is expected to assign validated <code>params</code> to attributes of <code>@data</code>.</p>
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>DSL method Sets the default <code>assign_attributes</code> block for all standalone paths and verbs (overridable per verb in the VerbDsl). The block is expected to assign validated <code>params</code> to attributes of <code>@data</code>.</p>
+
 
   </div>
 </div>
@@ -881,7 +896,9 @@ The block is expected to assign validated <code>params</code> to attributes of <
       
       
         
-        <div class='inline'><p>Runs in the component's request context; assigns params onto <code>@data</code>.</p></div>
+        <div class='inline'>
+<p>Runs in the component’s request context; assigns params onto <code>@data</code>.</p>
+</div>
       
     </li>
   
@@ -926,8 +943,9 @@ The block is expected to assign validated <code>params</code> to attributes of <
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>DSL method
-Sets or calculates the model class. Defaults to the component's family name, singularized and constantized.</p>
+    
+<p>DSL method Sets or calculates the model class. Defaults to the component’s family name, singularized and constantized.</p>
+
 
   </div>
 </div>
@@ -947,7 +965,9 @@ Sets or calculates the model class. Defaults to the component's family name, sin
       
       
         &mdash;
-        <div class='inline'><p>If given, the model class to use (e.g. a <span class='object_link'><a href="../VirtualModel.html" title="Compony::VirtualModel (class)">VirtualModel</a></span> subclass).</p></div>
+        <div class='inline'>
+<p>If given, the model class to use (e.g. a <span class='object_link'><a href="../VirtualModel.html" title="Compony::VirtualModel (class)">VirtualModel</a></span> subclass).</p>
+</div>
       
     </li>
   
@@ -964,7 +984,9 @@ Sets or calculates the model class. Defaults to the component's family name, sin
       
       
         &mdash;
-        <div class='inline'><p>The resolved data class.</p></div>
+        <div class='inline'>
+<p>The resolved data class.</p>
+</div>
       
     </li>
   
@@ -1053,9 +1075,9 @@ Sets or calculates the model class. Defaults to the component's family name, sin
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method
-Sets the default <code>load_data</code> block for all standalone paths and verbs (overridable per verb in the VerbDsl).
-Runs before authorization. The block is expected to assign <code>@data</code>.</p>
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>DSL method Sets the default <code>load_data</code> block for all standalone paths and verbs (overridable per verb in the VerbDsl). Runs before authorization. The block is expected to assign <code>@data</code>.</p>
+
 
   </div>
 </div>
@@ -1072,7 +1094,9 @@ Runs before authorization. The block is expected to assign <code>@data</code>.</
       
       
         
-        <div class='inline'><p>Runs in the component's request context; must assign <code>@data</code>.</p></div>
+        <div class='inline'>
+<p>Runs in the component’s request context; must assign <code>@data</code>.</p>
+</div>
       
     </li>
   
@@ -1169,9 +1193,9 @@ Runs before authorization. The block is expected to assign <code>@data</code>.</
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p><p>DSL method
-Sets the default <code>store_data</code> block for all standalone paths and verbs (overridable per verb in the VerbDsl).
-The block is expected to persist <code>@data</code> (override e.g. for virtual models or custom persistence).</p>
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>DSL method Sets the default <code>store_data</code> block for all standalone paths and verbs (overridable per verb in the VerbDsl). The block is expected to persist <code>@data</code> (override e.g. for virtual models or custom persistence).</p>
+
 
   </div>
 </div>
@@ -1188,7 +1212,9 @@ The block is expected to persist <code>@data</code> (override e.g. for virtual m
       
       
         
-        <div class='inline'><p>Runs in the component's request context; persists <code>@data</code>.</p></div>
+        <div class='inline'>
+<p>Runs in the component’s request context; persists <code>@data</code>.</p>
+</div>
       
     </li>
   
@@ -1227,9 +1253,9 @@ The block is expected to persist <code>@data</code> (override e.g. for virtual m
 </div>
 
       <div id="footer">
-  Generated on Mon May 18 13:32:19 2026 by
+  Generated on Mon May 18 13:55:35 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.43 (ruby-3.3.5).
+  0.9.34 (ruby-3.3.5).
 </div>
 
     </div>

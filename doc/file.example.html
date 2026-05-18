@@ -6,13 +6,13 @@
 <title>
   File: example
   
-    &mdash; Documentation by YARD 0.9.43
+    &mdash; Documentation by YARD 0.9.34
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css">
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css">
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
 <script type="text/javascript">
   pathId = "example";
@@ -27,8 +27,6 @@
 
   </head>
   <body>
-    <div id="main_progress" aria-hidden="true"></div>
-
     <div class="nav_wrap">
       <iframe id="nav" src="file_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -59,14 +57,23 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><div id='filecontents'><p><a href="/README.md#guide--documentation">Back to the guide</a></p>
-<h1 id="Example">Example</h1>
-<p>To get you a rough idea what working with Compony feels like, let's look at a small dummy application using Compony from scratch, to make this example as explicit as possible. In practice, much of the logic shown here would be moved to abstract components that you can inherit from.</p>
-<p>The example is meant to be read top-down and information will mostly not be repeated. Comments will give you a rough idea of what's going on on each line. The features are more completely documented in subsequent chapters.</p>
-<p>Please note that from this example alone, you won't be able to comprehend the underlying concepts - refer to the rest of the <a href="/README.md#guide--documentation">guide</a> for this.</p>
-<p>Let's implement a simple user management page with Compony. User's have a name, an integer age, a comment, as well as a role (which we will conveniently model using <code>AnchorModel</code>: <a href="https://github.com/kalsan/anchormodel">https://github.com/kalsan/anchormodel</a>). We want to be able to list, show, create, edit and destroy users. Users having the role Admin shall not be destroyed.</p>
-<h2 id="The_User_model">The User model</h2>
-<p>We'll assume a model that has the standard Rails schema:</p>
+      <div id="content"><div id='filecontents'>
+<p><a href="/README_md.html#guide--documentation">Back to the guide</a></p>
+
+<h1 id="label-Example">Example</h1>
+
+<p>To get you a rough idea what working with Compony feels like, let’s look at a small dummy application using Compony from scratch, to make this example as explicit as possible. In practice, much of the logic shown here would be moved to abstract components that you can inherit from.</p>
+
+<p>The example is meant to be read top-down and information will mostly not be repeated. Comments will give you a rough idea of what’s going on on each line. The features are more completely documented in subsequent chapters.</p>
+
+<p>Please note that from this example alone, you won’t be able to comprehend the underlying concepts - refer to the rest of the <a href="/README_md.html#guide--documentation">guide</a> for this.</p>
+
+<p>Let’s implement a simple user management page with Compony. User’s have a name, an integer age, a comment, as well as a role (which we will conveniently model using <code>AnchorModel</code>: <a href="https://github.com/kalsan/anchormodel">github.com/kalsan/anchormodel</a>). We want to be able to list, show, create, edit and destroy users. Users having the role Admin shall not be destroyed.</p>
+
+<h2 id="label-The+User+model">The User model</h2>
+
+<p>We’ll assume a model that has the standard Rails schema:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_create_table'>create_table</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>users</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>force:</span> <span class='symbol'>:cascade</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_t'>t</span><span class='op'>|</span>
     <span class='id identifier rubyid_t'>t</span><span class='period'>.</span><span class='id identifier rubyid_string'>string</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>name</span><span class='tstring_end'>&#39;</span></span>
     <span class='id identifier rubyid_t'>t</span><span class='period'>.</span><span class='id identifier rubyid_string'>string</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>comment</span><span class='tstring_end'>&#39;</span></span>
@@ -76,6 +83,7 @@
     <span class='id identifier rubyid_t'>t</span><span class='period'>.</span><span class='id identifier rubyid_string'>string</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>role</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>default:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>guest</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>false</span>
   <span class='kw'>end</span>
 </code></pre>
+
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>User</span> <span class='op'>&lt;</span> <span class='const'>ApplicationRecord</span>
   <span class='comment'># Refer to https://github.com/kalsan/anchormodel
 </span>  <span class='id identifier rubyid_belongs_to_anchormodel'>belongs_to_anchormodel</span> <span class='symbol'>:role</span>
@@ -99,9 +107,13 @@
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
-<h2 id="The_Show_component">The Show component</h2>
+
+<h2 id="label-The+Show+component">The Show component</h2>
+
 <p>This components loads a user by reading the param <code>id</code>. It then displays a simple table showing all the fields defined above.</p>
-<p>We will implement this component on our own, giving you an insight into many of Compony's mechanisms:</p>
+
+<p>We will implement this component on our own, giving you an insight into many of Compony’s mechanisms:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='comment'># All components (except abstract ones) must be placed in the `Components` namespace living under `app/components`.
 </span><span class='comment'># They must be nested in another namespace, called &quot;family&quot; (here, `Users`), followed by the component&#39;s name (here, `Show`).
 </span><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Users</span><span class='op'>::</span><span class='const'>Show</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Component.html" title="Compony::Component (class)">Component</a></span></span>
@@ -149,22 +161,35 @@
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
+
 <p>Here is what our Show component looks like when we have a layout with the bare minimum and no styling at all:</p>
-<p><img src="/doc/imgs/intro-example-show.png" alt="Screenshot of our component with an absolutely minimal layout" /></p>
+
+<p><img src="/doc/imgs/intro-example-show.png"></p>
+
 <p>It is important to note that button styles, navigation, notifications etc. are handled by the application layout. In this and the subsequent screenshots, we explicitely use minimalism, as it makes the generated HTML clearer.</p>
-<h2 id="The_Destroy_component">The Destroy component</h2>
-<p>Compony has a built-in abstract <code>Destroy</code> component which displays a confirmation message and destroys the record if the verb is <code>DELETE</code>. This is a good example for how DRY code can become for &quot;boring&quot; components. Since everything is provided with an overridable default, components without special logic can actually be left blank:</p>
+
+<h2 id="label-The+Destroy+component">The Destroy component</h2>
+
+<p>Compony has a built-in abstract <code>Destroy</code> component which displays a confirmation message and destroys the record if the verb is <code>DELETE</code>. This is a good example for how DRY code can become for “boring” components. Since everything is provided with an overridable default, components without special logic can actually be left blank:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Users</span><span class='op'>::</span><span class='const'>Destroy</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Destroy.html" title="Compony::Components::Destroy (class)">Destroy</a></span></span>
 <span class='kw'>end</span>
 </code></pre>
+
 <p>Note that this component is fully functional. All is handled by the class it inherits from:</p>
-<p><img src="/doc/imgs/intro-example-destroy.png" alt="Screenshot of the destroy component" /></p>
-<h2 id="The_New_component_and_the_Form_component">The New component and the Form component</h2>
-<p>Compony also has a pre-built abstract <code>New</code> component that handles routing and resource manipulation. It combines the controller actions <code>new</code> and <code>create</code>, depending on the HTTP verb of the request. Since it's pre-built, any &quot;boring&quot; code can be omitted and our <code>New</code> components looks like this:</p>
+
+<p><img src="/doc/imgs/intro-example-destroy.png"></p>
+
+<h2 id="label-The+New+component+and+the+Form+component">The New component and the Form component</h2>
+
+<p>Compony also has a pre-built abstract <code>New</code> component that handles routing and resource manipulation. It combines the controller actions <code>new</code> and <code>create</code>, depending on the HTTP verb of the request. Since it’s pre-built, any “boring” code can be omitted and our <code>New</code> components looks like this:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Users</span><span class='op'>::</span><span class='const'>New</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/New.html" title="Compony::Components::New (class)">New</a></span></span>
 <span class='kw'>end</span>
 </code></pre>
+
 <p>By default, this component looks for another component called <code>Form</code> in the same directory, which can look like this:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Users</span><span class='op'>::</span><span class='const'>Form</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Form.html" title="Compony::Components::Form (class)">Form</a></span></span>
   <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
     <span class='comment'># This mandatory DSL call prepares and opens a form in which you can write your HTML in Dyny.
@@ -184,17 +209,27 @@
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
+
 <p>This is enough to render a fully functional form that creates new users:</p>
-<p><img src="/doc/imgs/intro-example-new.png" alt="New form" /></p>
-<h2 id="The_Edit_component">The Edit component</h2>
+
+<p><img src="/doc/imgs/intro-example-new.png"></p>
+
+<h2 id="label-The+Edit+component">The Edit component</h2>
+
 <p>Just like <code>New</code>, <code>Edit</code> is a pre-built component that handles routing and resource manipulation for editing models, combinding the controller actions <code>edit</code> and <code>update</code> depending on the HTTP verb. It uses that same <code>Form</code> component we wrote above and thus the code is as simple as:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Users</span><span class='op'>::</span><span class='const'>Edit</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Edit.html" title="Compony::Components::Edit (class)">Edit</a></span></span>
 <span class='kw'>end</span>
 </code></pre>
+
 <p>It then looks like this:</p>
-<p><img src="/doc/imgs/intro-example-edit.png" alt="Edit form" /></p>
-<h2 id="The_Index_component">The Index component</h2>
-<p>This component should list all users and provide buttons to manage them. We'll build it from scratch and make it resourceful, where <code>@data</code> holds the ActiveRecord relation.</p>
+
+<p><img src="/doc/imgs/intro-example-edit.png"></p>
+
+<h2 id="label-The+Index+component">The Index component</h2>
+
+<p>This component should list all users and provide buttons to manage them. We’ll build it from scratch and make it resourceful, where <code>@data</code> holds the ActiveRecord relation.</p>
+
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Users</span><span class='op'>::</span><span class='const'>Index</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Component.html" title="Compony::Component (class)">Component</a></span></span>
   <span class='comment'># Making the component resourceful enables a few features for dealing with @data.
 </span>  <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/ComponentMixins.html" title="Compony::ComponentMixins (module)">ComponentMixins</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/ComponentMixins/Resourceful.html" title="Compony::ComponentMixins::Resourceful (module)">Resourceful</a></span></span>
@@ -235,15 +270,20 @@
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
+
 <p>The result looks like this:</p>
-<p><img src="/doc/imgs/intro-example-index.png" alt="Index component" /></p>
-<p>Note how the admin's delete button is disabled due to the feasibility framework. Pointing the mouse at it causes a tooltip saying: &quot;Cannot destroy admins.&quot;, as specified in the model's prevention.</p>
-<p><a href="/README.md#guide--documentation">Guide index</a></p></div></div>
+
+<p><img src="/doc/imgs/intro-example-index.png"></p>
+
+<p>Note how the admin’s delete button is disabled due to the feasibility framework. Pointing the mouse at it causes a tooltip saying: “Cannot destroy admins.”, as specified in the model’s prevention.</p>
+
+<p><a href="/README_md.html#guide--documentation">Guide index</a></p>
+</div></div>
 
       <div id="footer">
-  Generated on Mon May 18 13:32:17 2026 by
+  Generated on Mon May 18 13:55:32 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.43 (ruby-3.3.5).
+  0.9.34 (ruby-3.3.5).
 </div>
 
     </div>

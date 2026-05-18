@@ -6,13 +6,13 @@
 <title>
   File: list
   
-    &mdash; Documentation by YARD 0.9.43
+    &mdash; Documentation by YARD 0.9.34
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css">
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css">
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
 <script type="text/javascript">
   pathId = "list";
@@ -27,8 +27,6 @@
 
   </head>
   <body>
-    <div id="main_progress" aria-hidden="true"></div>
-
     <div class="nav_wrap">
       <iframe id="nav" src="file_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -59,20 +57,21 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><div id='filecontents'><ul>
-<li><a href="/README.md#guide--documentation">Back to the guide</a></li>
-<li><a href="/doc/guide/pre_built_components.md">List of pre-built components</a></li>
-</ul>
-<h1 id="Pre_built_components__List">Pre-built components: List</h1>
-<p><code>Compony::Components::List</code> is a resourceful component that renders a table/list of
-records. It is <strong>not</strong> standalone — it is meant to be nested, typically inside
-<a href="./index.md"><code>Index</code></a> of the same family or <a href="./show.md"><code>Show</code></a> of an owning family, via
-<code>render_sub_comp(:list, collection)</code>.</p>
-<p>Features: field-inferred or custom columns, per-row intents, pagination, and — when the
-<a href="https://github.com/activerecord-hackery/ransack">Ransack</a> gem is present and at least one
-sort/filter is declared — sorting links, a sort select, and a filter/search form.</p>
-<h2 id="Column_DSL">Column DSL</h2>
-<table>
+      <div id="content"><div id='filecontents'><ul><li>
+<p><a href="/README_md.html#guide--documentation">Back to the guide</a></p>
+</li><li>
+<p><a href="/doc/guide/pre_built_components_md.html">List of pre-built components</a></p>
+</li></ul>
+
+<h1 id="label-Pre-built+components-3A+List">Pre-built components: List</h1>
+
+<p><code>Compony::Components::List</code> is a resourceful component that renders a table/list of records. It is <strong>not</strong> standalone — it is meant to be nested, typically inside href="./index_md.html"></a> of the same family or href="./show_md.html"></a> of an owning family, via <code>render_sub_comp(:list, collection)</code>.</p>
+
+<p>Features: field-inferred or custom columns, per-row intents, pagination, and — when the <a href="https://github.com/activerecord-hackery/ransack">Ransack</a> gem is present and at least one sort/filter is declared — sorting links, a sort select, and a filter/search form.</p>
+
+<h2 id="label-Column+DSL">Column DSL</h2>
+
+<table role="table">
 <thead>
 <tr>
 <th>Method</th>
@@ -82,24 +81,23 @@ sort/filter is declared — sorting links, a sort select, and a filter/search fo
 </thead>
 <tbody>
 <tr>
-<td><code>column</code></td>
-<td>`column(:name, label: nil, class: nil, link_opts: {}) { \</td>
-<td>record\</td>
-<td>... }`</td>
-<td>Add/define a column. No block → model-field column (auto label, value via <code>value_for</code>, only if <code>:index</code> permitted). Block is instance-exec'd per row and renders the cell.</td>
+<td>‘column`</td>
+<td>‘column(:name, label: nil, class: nil, link_opts: {}) { |record| … }`</td>
+<td>Add/define a column. No block → model-field column (auto label, value via ‘value_for`, only if `:index` permitted). Block is instance-exec’d per row and renders the cell.</td>
 </tr>
 <tr>
-<td><code>columns</code></td>
-<td><code>columns(:a, :b, as_title: false, **kw)</code></td>
-<td>Bulk <code>column</code>. <code>as_title: true</code> marks title columns (shown as the card heading in mobile/card layouts).</td>
+<td>‘columns`</td>
+<td>‘columns(:a, :b, as_title: false, **kw)`</td>
+<td>Bulk ‘column`. `as_title: true` marks title columns (shown as the card heading in mobile/card layouts).</td>
 </tr>
 <tr>
-<td><code>skip_column</code></td>
-<td><code>skip_column(:name)</code></td>
+<td>‘skip_column`</td>
+<td>‘skip_column(:name)`</td>
 <td>Hide a (possibly inherited) column.</td>
 </tr>
 </tbody>
 </table>
+
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Orders</span><span class='op'>::</span><span class='const'>List</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/List.html" title="Compony::Components::List (class)">List</a></span></span>
   <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
     <span class='id identifier rubyid_columns'>columns</span> <span class='symbol'>:number</span><span class='comma'>,</span> <span class='symbol'>:customer</span><span class='comma'>,</span> <span class='label'>as_title:</span> <span class='kw'>true</span>
@@ -110,8 +108,10 @@ sort/filter is declared — sorting links, a sort select, and a filter/search fo
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
-<h2 id="Filtering___sorting__Ransack_">Filtering &amp; sorting (Ransack)</h2>
-<table>
+
+<h2 id="label-Filtering+-26+sorting+-28Ransack-29">Filtering &amp; sorting (Ransack)</h2>
+
+<table role="table">
 <thead>
 <tr>
 <th>Method</th>
@@ -121,34 +121,33 @@ sort/filter is declared — sorting links, a sort select, and a filter/search fo
 </thead>
 <tbody>
 <tr>
-<td><code>filter</code></td>
-<td>`filter(:name, label: nil) { \</td>
-<td>f\</td>
-<td>... }`</td>
-<td>Add a filter. No block → field filter or a Ransack predicate string (e.g. <code>:id_eq</code>). Block gets the Ransack search form and renders label + input.</td>
+<td>‘filter`</td>
+<td>‘filter(:name, label: nil) { |f| … }`</td>
+<td>Add a filter. No block → field filter or a Ransack predicate string (e.g. ‘:id_eq`). Block gets the Ransack search form and renders label + input.</td>
 </tr>
 <tr>
-<td><code>filters</code></td>
-<td><code>filters(:a, :b, **kw)</code></td>
-<td>Bulk <code>filter</code>.</td>
+<td>‘filters`</td>
+<td>‘filters(:a, :b, **kw)`</td>
+<td>Bulk ‘filter`.</td>
 </tr>
 <tr>
-<td><code>sort</code></td>
-<td><code>sort(:name, label: nil)</code></td>
+<td>‘sort`</td>
+<td>‘sort(:name, label: nil)`</td>
 <td>Add a sort criterion (must be Ransack-sortable). Generates one sort link + asc/desc entries.</td>
 </tr>
 <tr>
-<td><code>sorts</code></td>
-<td><code>sorts(:a, :b)</code></td>
-<td>Bulk <code>sort</code>.</td>
+<td>‘sorts`</td>
+<td>‘sorts(:a, :b)`</td>
+<td>Bulk ‘sort`.</td>
 </tr>
 <tr>
-<td><code>default_sorting</code></td>
-<td><code>default_sorting('id desc')</code></td>
+<td>‘default_sorting`</td>
+<td>‘default_sorting(’id desc’)‘</td>
 <td>Default Ransack sort applied when none chosen.</td>
 </tr>
 </tbody>
 </table>
+
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
   <span class='id identifier rubyid_filters'>filters</span> <span class='symbol'>:number</span><span class='comma'>,</span> <span class='symbol'>:status</span>
   <span class='id identifier rubyid_filter'>filter</span> <span class='symbol'>:overdue</span><span class='comma'>,</span> <span class='label'>label:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Overdue</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span>
@@ -158,9 +157,11 @@ sort/filter is declared — sorting links, a sort select, and a filter/search fo
   <span class='id identifier rubyid_default_sorting'>default_sorting</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>created_at desc</span><span class='tstring_end'>&#39;</span></span>
 <span class='kw'>end</span>
 </code></pre>
-<h2 id="Per_row_intents">Per-row intents</h2>
-<p><code>row_intents</code> opens the <a href="/doc/guide/intents.md#exposed-intents">intent management DSL</a>
-(<code>add</code>/<code>remove</code>, <code>before:</code>) applied to each row's record:</p>
+
+<h2 id="label-Per-row+intents">Per-row intents</h2>
+
+<p><code>row_intents</code> opens the <a href="/doc/guide/intents_md.html#exposed-intents">intent management DSL</a> (<code>add</code>/<code>remove</code>, <code>before:</code>) applied to each row’s record:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
   <span class='id identifier rubyid_row_intents'>row_intents</span> <span class='kw'>do</span>
     <span class='id identifier rubyid_remove'>remove</span> <span class='symbol'>:destroy</span>
@@ -168,10 +169,12 @@ sort/filter is declared — sorting links, a sort select, and a filter/search fo
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
-<h2 id="Toggles__paging__styling">Toggles, paging, styling</h2>
-<p>All have matching constructor kwargs so a nesting parent can override per render
-(<code>render_sub_comp(:list, coll, skip_pagination: true, skip_columns: [:order])</code>).</p>
-<table>
+
+<h2 id="label-Toggles-2C+paging-2C+styling">Toggles, paging, styling</h2>
+
+<p>All have matching constructor kwargs so a nesting parent can override per render (<code>render_sub_comp(:list, coll, skip_pagination: true, skip_columns: [:order])</code>).</p>
+
+<table role="table">
 <thead>
 <tr>
 <th>DSL</th>
@@ -181,39 +184,39 @@ sort/filter is declared — sorting links, a sort select, and a filter/search fo
 </thead>
 <tbody>
 <tr>
-<td><code>pagination(bool)</code></td>
+<td>‘pagination(bool)`</td>
 <td>on</td>
 <td>Enable/disable paging (off loads all rows).</td>
 </tr>
 <tr>
-<td><code>results_per_page(n)</code></td>
+<td>‘results_per_page(n)`</td>
 <td>20</td>
 <td>Rows per page.</td>
 </tr>
 <tr>
-<td><code>filtering(bool)</code></td>
+<td>‘filtering(bool)`</td>
 <td>on</td>
 <td>Enable/disable the filter form.</td>
 </tr>
 <tr>
-<td><code>sorting(bool)</code> / <code>sorting_in_filter(bool)</code> / <code>sorting_links(bool)</code></td>
+<td>‘sorting(bool)` / `sorting_in_filter(bool)` / `sorting_links(bool)`</td>
 <td>on</td>
 <td>Toggle sort UIs.</td>
 </tr>
 <tr>
-<td><code>filter_label_class</code> / <code>filter_input_class</code> / <code>filter_select_class</code> / <code>filter_item_wrapper_class</code></td>
+<td>‘filter_label_class` / `filter_input_class` / `filter_select_class` / `filter_item_wrapper_class`</td>
 <td>—</td>
 <td>CSS classes for filter form elements.</td>
 </tr>
 </tbody>
 </table>
-<p>Constructor <code>skip_*</code> kwargs: <code>skip_pagination</code>, <code>skip_filtering</code>, <code>skip_sorting</code>,
-<code>skip_sorting_in_filter</code>, <code>skip_sorting_links</code>, <code>skip_columns:</code>, <code>skip_row_intents:</code>,
-<code>skip_filters:</code>, <code>results_per_page:</code>, <code>default_sorting:</code>.</p>
-<h2 id="Customizing_rendering">Customizing rendering</h2>
-<p><code>List</code> exposes named <code>content</code> blocks (<code>:data</code>, <code>:filter</code>, <code>:pagination</code>, <code>:sorting_links</code>,
-…) that you override — almost always once, in an app <code>BaseComponents::List</code>, to fit your UI
-framework, then inherited everywhere:</p>
+
+<p>Constructor <code>skip_*</code> kwargs: <code>skip_pagination</code>, <code>skip_filtering</code>, <code>skip_sorting</code>, <code>skip_sorting_in_filter</code>, <code>skip_sorting_links</code>, <code>skip_columns:</code>, <code>skip_row_intents:</code>, <code>skip_filters:</code>, <code>results_per_page:</code>, <code>default_sorting:</code>.</p>
+
+<h2 id="label-Customizing+rendering">Customizing rendering</h2>
+
+<p><code>List</code> exposes named <code>content</code> blocks (<code>:data</code>, <code>:filter</code>, <code>:pagination</code>, <code>:sorting_links</code>, …) that you override — almost always once, in an app <code>BaseComponents::List</code>, to fit your UI framework, then inherited everywhere:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='kw'>module</span> <span class='const'>BaseComponents</span>
   <span class='kw'>class</span> <span class='const'>List</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/List.html" title="Compony::Components::List (class)">List</a></span></span>
     <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
@@ -228,18 +231,21 @@ framework, then inherited everywhere:</p>
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
-<p>Embedding a child list inside a Show, dropping the FK column and preserving the active tab
-across filter submits:</p>
+
+<p>Embedding a child list inside a Show, dropping the FK column and preserving the active tab across filter submits:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_concat'>concat</span> <span class='id identifier rubyid_render_sub_comp'>render_sub_comp</span><span class='lparen'>(</span><span class='symbol'>:list</span><span class='comma'>,</span> <span class='ivar'>@data</span><span class='period'>.</span><span class='id identifier rubyid_line_items'>line_items</span><span class='comma'>,</span>
                        <span class='label'>skip_columns:</span> <span class='lbracket'>[</span><span class='symbol'>:order</span><span class='rbracket'>]</span><span class='comma'>,</span>
                        <span class='label'>params_in_filter:</span> <span class='lbracket'>[</span><span class='id identifier rubyid_param_name'>param_name</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>tab</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='rbracket'>]</span><span class='rparen'>)</span>
 </code></pre>
-<p>See <a href="../patterns.md#4-list-customization">Real-world patterns</a> for the recurring app setup.</p></div></div>
+
+<p>See <a href="../patterns_md.html#4-list-customization">Real-world patterns</a> for the recurring app setup.</p>
+</div></div>
 
       <div id="footer">
-  Generated on Mon May 18 13:32:18 2026 by
+  Generated on Mon May 18 13:55:33 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.43 (ruby-3.3.5).
+  0.9.34 (ruby-3.3.5).
 </div>
 
     </div>

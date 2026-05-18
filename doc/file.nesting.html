@@ -6,13 +6,13 @@
 <title>
   File: nesting
   
-    &mdash; Documentation by YARD 0.9.43
+    &mdash; Documentation by YARD 0.9.34
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css">
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css">
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
 <script type="text/javascript">
   pathId = "nesting";
@@ -27,8 +27,6 @@
 
   </head>
   <body>
-    <div id="main_progress" aria-hidden="true"></div>
-
     <div class="nav_wrap">
       <iframe id="nav" src="file_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -59,15 +57,25 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><div id='filecontents'><p><a href="/README.md#guide--documentation">Back to the guide</a></p>
-<h1 id="Nesting">Nesting</h1>
-<p>Components can be arbitrarily nested. This means that any component exposing content can instantiate an arbitrary number of sub-components that will be rendered as part of its own content. This results in a component tree. Sub-components are aware of the nesting and even of their position within the parent. The topmost component is called the <strong>root component</strong> and it's the only component that must be standalone. If you instead render the topmost component from a custom view, there is conceptually no root component, but Compony has no way to detect this special case.</p>
-<p>Nesting is orthogonal to inheritance, they are two entirely different concepts. For disambiguating &quot;parent component&quot;, we will make an effort to apply that term to nesting only, while writing &quot;parent component class&quot; if inheritance is meant.</p>
+      <div id="content"><div id='filecontents'>
+<p><a href="/README_md.html#guide--documentation">Back to the guide</a></p>
+
+<h1 id="label-Nesting">Nesting</h1>
+
+<p>Components can be arbitrarily nested. This means that any component exposing content can instantiate an arbitrary number of sub-components that will be rendered as part of its own content. This results in a component tree. Sub-components are aware of the nesting and even of their position within the parent. The topmost component is called the <strong>root component</strong> and it’s the only component that must be standalone. If you instead render the topmost component from a custom view, there is conceptually no root component, but Compony has no way to detect this special case.</p>
+
+<p>Nesting is orthogonal to inheritance, they are two entirely different concepts. For disambiguating “parent component”, we will make an effort to apply that term to nesting only, while writing “parent component class” if inheritance is meant.</p>
+
 <p>Sub-components are particularly useful for DRYing up your code, e.g. when a visual element is used in multiple places of your application or even multiple times on the same page.</p>
+
 <p>Nesting occurs when a component is being rendered. It is perfectly feasible to use an otherwise standalone component as a sub-component. Doing so simply plugs it into the content of another component and any arguments can be given to its constructor.</p>
+
 <p>Note that only the root component runs authentication and authorization. Thus, be careful which components you nest.</p>
-<p>To create a sub-component, use <code>render_sub_comp</code> in a component's content block. Any keyword arguments given will be passed to the sub-component. It is strictly recommended to exclusively use <code>render_sub_comp</code>, <code>sub_comp</code> or its <a href="./resourceful.md#nesting-resourceful-components">resourceful</a> pendent to nest components, as this method makes a component aware of its exact nesting.</p>
+
+<p>To create a sub-component, use <code>render_sub_comp</code> in a component’s content block. Any keyword arguments given will be passed to the sub-component. It is strictly recommended to exclusively use <code>render_sub_comp</code>, <code>sub_comp</code> or its <a href="./resourceful_md.html#nesting-resourceful-components">resourceful</a> pendent to nest components, as this method makes a component aware of its exact nesting.</p>
+
 <p>Here is a simple example of a component that displays numbers as binary:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='comment'># app/components/numbers/binary.rb
 </span><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Nestings</span><span class='op'>::</span><span class='const'>Binary</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Component.html" title="Compony::Component (class)">Component</a></span></span>
   <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='label'>number:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
@@ -85,10 +93,14 @@
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
+
 <p>If used standalone, the number can be set by using a GET parameter, e.g. <code>?number=5</code>. The result is something like this:</p>
-<pre class="code text"><code class="text">The number 5 has the binary form 101.
+
+<pre class="code ruby"><code class="ruby">The number 5 has the binary form 101.
 </code></pre>
-<p>Now, let's write a component that displays three different numbers side-by-side:</p>
+
+<p>Now, let’s write a component that displays three different numbers side-by-side:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='comment'># app/components/numbers/binary_comparator.rb
 </span><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Nestings</span><span class='op'>::</span><span class='const'>BinaryComparator</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Component.html" title="Compony::Component (class)">Component</a></span></span>
   <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
@@ -101,46 +113,54 @@
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
+
 <p>The result is something like this:</p>
-<pre class="code text"><code class="text">The number 1 has the binary form 1.
+
+<pre class="code ruby"><code class="ruby">The number 1 has the binary form 1.
 The number 2 has the binary form 10.
 The number 3 has the binary form 11.
 </code></pre>
+
 <p>However, this is static and no fun. We cannot use the HTTP GET parameter any more because all three <code>Binary</code> sub-components listen to the same parameter <code>number</code>. To fix this, we will need to scope the parameter using the <code>param_name</code> as explained in the next subsection.</p>
-<h2 id="Proper_parameter_naming_for__nested__components">Proper parameter naming for (nested) components</h2>
+
+<h2 id="label-Proper+parameter+naming+for+-28nested-29+components">Proper parameter naming for (nested) components</h2>
+
 <p>As seen above, components can be arbitrarily nested, making it harder to identify which HTTP GET parameter in the request is intended for which component. To resolve this, Compony provides nesting-aware scoping of parameter names:</p>
-<ul>
-<li>Each component has an <code>index</code>, given to it by the <code>sub_comp</code> call in the parent, informing it witch n-th child of the parent it is.
-<ul>
-<li>For instance, in the example above, the three <code>Binary</code> components have indices 0, 1 and 2.</li>
-</ul>
-</li>
-<li>Each component has an <code>id</code> which corresponds to <code>&quot;#{family_name}_#{comp_name}_#{@index}&quot;</code>.
-<ul>
-<li>For instance, the last <code>Binary</code> component from the example above has ID <code>nestings_binary_2</code>.</li>
-<li>The <code>BinaryComparator</code> has ID <code>nestings_binary_comparator_0</code>.</li>
-</ul>
-</li>
-<li>Each component has a <code>path</code> indicating its exact position in the nesting tree as seen from the root component.
-<ul>
-<li>In the example above, the last <code>Binary</code> component has path <code>nestings_binary_comparator_0/nestings_binary_2</code>.</li>
-<li><code>BinaryComparator</code> has path <code>nestings_binary_comparator_0</code>.</li>
-</ul>
-</li>
-<li>Each component provides the method <code>param_name</code> that takes the name of a parameter name and prepends the first 5 characters of the component's SHA1-hashed path to it.
-<ul>
-<li>For instance, if <code>param_name(:number)</code> is called on the last <code>Binary</code> component, the output is <code>a9f3d_number</code>.</li>
-<li>If the same method is called on the first <code>Binary</code> component, the output is <code>f6e86_number</code>.</li>
-</ul>
-</li>
-</ul>
+<ul><li>
+<p>Each component has an <code>index</code>, given to it by the <code>sub_comp</code> call in the parent, informing it witch n-th child of the parent it is.</p>
+</li><li>
+<p>For instance, in the example above, the three <code>Binary</code> components have indices 0, 1 and 2.</p>
+</li><li>
+<p>Each component has an <code>id</code> which corresponds to <code>&quot;#{family_name}_#{comp_name}_#{@index}&quot;</code>.</p>
+</li><li>
+<p>For instance, the last <code>Binary</code> component from the example above has ID <code>nestings_binary_2</code>.</p>
+</li><li>
+<p>The <code>BinaryComparator</code> has ID <code>nestings_binary_comparator_0</code>.</p>
+</li><li>
+<p>Each component has a <code>path</code> indicating its exact position in the nesting tree as seen from the root component.</p>
+</li><li>
+<p>In the example above, the last <code>Binary</code> component has path <code>nestings_binary_comparator_0/nestings_binary_2</code>.</p>
+</li><li>
+<p><code>BinaryComparator</code> has path <code>nestings_binary_comparator_0</code>.</p>
+</li><li>
+<p>Each component provides the method <code>param_name</code> that takes the name of a parameter name and prepends the first 5 characters of the component’s SHA1-hashed path to it.</p>
+</li><li>
+<p>For instance, if <code>param_name(:number)</code> is called on the last <code>Binary</code> component, the output is <code>a9f3d_number</code>.</p>
+</li><li>
+<p>If the same method is called on the first <code>Binary</code> component, the output is <code>f6e86_number</code>.</p>
+</li></ul>
+
 <p>In short, <code>param_name</code> should be used to prefix every parameter that is used in a component that could potentially be nested. It is good practice to apply it to all components. <code>param_name</code> has two important properties:</p>
-<ul>
-<li>From the param name alone, it is not possible to determine to which component the parameter belongs. However:</li>
-<li><code>param_name</code> is consistent across reloads of the same URL (given that the components are still the same) and thus each component will be able to identify its own parameters and react to them.</li>
-</ul>
-<p>With that in mind, let's adjust our <code>Binary</code> component. In this example, we will assume that we have implemented yet another component called <code>NumberChooser</code> that provides a number input with a Stimulus controller attached. That controller is given the parameter as a String value, such that the it can set the appropriate HTTP GET param and trigger a full page reload to the <code>BinaryComparator</code> component.</p>
+<ul><li>
+<p>From the param name alone, it is not possible to determine to which component the parameter belongs. However:</p>
+</li><li>
+<p><code>param_name</code> is consistent across reloads of the same URL (given that the components are still the same) and thus each component will be able to identify its own parameters and react to them.</p>
+</li></ul>
+
+<p>With that in mind, let’s adjust our <code>Binary</code> component. In this example, we will assume that we have implemented yet another component called <code>NumberChooser</code> that provides a number input with a Stimulus controller attached. That controller is given the parameter as a String value, such that the it can set the appropriate HTTP GET param and trigger a full page reload to the <code>BinaryComparator</code> component.</p>
+
 <p>Further, we can drop the custom initializer from the <code>Binary</code> component, as the number to display is exclusively coming from the HTTP GET param. The resulting code looks something like:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='comment'># app/components/numbers/binary_comparator.rb
 </span><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Nestings</span><span class='op'>::</span><span class='const'>BinaryComparator</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Component.html" title="Compony::Component (class)">Component</a></span></span>
   <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
@@ -168,14 +188,20 @@ The number 3 has the binary form 11.
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
+
 <p>The result for the URL <code>path/to/binary_comparator?a9f3d_number=2&amp;e70b4_number=4&amp;a9f3d_number=8</code> is something like this:</p>
-<pre class="code text"><code class="text">The number 2 has the binary form 10. Enter a number and press ENTER: [2]
+
+<pre class="code ruby"><code class="ruby">The number 2 has the binary form 10. Enter a number and press ENTER: [2]
 The number 4 has the binary form 100. Enter a number and press ENTER: [4]
 The number 8 has the binary form 1000. Enter a number and press ENTER: [8]
 </code></pre>
+
 <p>Note that this example is completely stateless, as all the info is encoded in the URL.</p>
-<h2 id="Rendering__List__as_sub_comp_in__Show_">Rendering <code>List</code> as sub comp in <code>Show</code></h2>
+
+<h2 id="label-Rendering+List+as+sub+comp+in+Show">Rendering <code>List</code> as sub comp in <code>Show</code></h2>
+
 <p>A pattern often used is the following:</p>
+
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Users</span><span class='op'>::</span><span class='const'>Show</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Show.html" title="Compony::Components::Show (class)">Show</a></span></span>
   <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
     <span class='id identifier rubyid_content'>content</span> <span class='symbol'>:quotes</span> <span class='kw'>do</span>
@@ -185,19 +211,25 @@ The number 8 has the binary form 1000. Enter a number and press ENTER: [8]
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
+
 <p>Again, there is a lot going on here:</p>
-<ul>
-<li>Since the component inherits from the <a href="/doc/guide/pre_built_components/show.md">pre-built Show component</a>, it automatically displays all fields of user in its <code>main</code> content block.</li>
-<li>We add a second content block <code>:quotes</code> with a title displaying &quot;Quotes of John Deer&quot; and tell compony to render the appropriate list as a sub comp, giving it all quotes of John Deer that are accessible by the user currently logged in (this is a cancancan feature).</li>
-<li><code>render_sub_comp</code> is thus given an <code>ActiveRecord</code> collection of <code>Quote</code> models and it builts an <a href="/doc/guide/intents.md">Intent</a> to figure out that <code>Components::Quotes::List</code> is the component that will be instanciated, given the appropriate quotes, and rendered here.</li>
-<li>We also give <code>:&quot;user_#{@data.id}_quotes&quot;</code> to the parameter <code>turbo_frame</code>, which causes <code>render_sub_comp</code> to place the sub comp inside a frame that is named something like <code>:user_1_quotes</code>. Since compony's <a href="/doc/guide/pre_built_components/list.md">pre-built List component</a> contains search and filter forms, the turbo frame makes sure that anything entered there does not interfere with other parameters.</li>
-</ul>
-<p><a href="/README.md#guide--documentation">Guide index</a></p></div></div>
+<ul><li>
+<p>Since the component inherits from the <a href="/doc/guide/pre_built_components/show_md.html">pre-built Show component</a>, it automatically displays all fields of user in its <code>main</code> content block.</p>
+</li><li>
+<p>We add a second content block <code>:quotes</code> with a title displaying “Quotes of John Deer” and tell compony to render the appropriate list as a sub comp, giving it all quotes of John Deer that are accessible by the user currently logged in (this is a cancancan feature).</p>
+</li><li>
+<p><code>render_sub_comp</code> is thus given an <code>ActiveRecord</code> collection of <code>Quote</code> models and it builts an <a href="/doc/guide/intents_md.html">Intent</a> to figure out that <code>Components::Quotes::List</code> is the component that will be instanciated, given the appropriate quotes, and rendered here.</p>
+</li><li>
+<p>We also give <code>:&quot;user_#{@data.id}_quotes&quot;</code> to the parameter <code>turbo_frame</code>, which causes <code>render_sub_comp</code> to place the sub comp inside a frame that is named something like <code>:user_1_quotes</code>. Since compony’s List component[/doc/guide/pre_built_components/list.md] contains search and filter forms, the turbo frame makes sure that anything entered there does not interfere with other parameters.</p>
+</li></ul>
+
+<p><a href="/README_md.html#guide--documentation">Guide index</a></p>
+</div></div>
 
       <div id="footer">
-  Generated on Mon May 18 13:32:18 2026 by
+  Generated on Mon May 18 13:55:33 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.43 (ruby-3.3.5).
+  0.9.34 (ruby-3.3.5).
 </div>
 
     </div>

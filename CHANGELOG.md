@@ -1,4 +1,4 @@
-# unreleased
+# 0.11.9
 
 - Fix `standalone` overrides clobbering inherited `layout` / `skip_authentication` /
   `skip_forgery_protection`. A second `standalone` call (e.g. a subclass overriding a
