@@ -256,6 +256,14 @@ module Compony
           @total_pages = 1
           @pagination_offset = 0
         end
+        # Batch-precompute feasibility for the records on this page, avoiding N+1 queries from per-row destroy buttons (see ModelMixin#precompute_feasibility).
+        if data_class.respond_to?(:precompute_feasibility) && !@skip_row_intents
+          page_records = @processed_data.to_a
+          if page_records.any?
+            action_names = row_intents(data: page_records.first).map(&:name).uniq
+            action_names.each { |action_name| data_class.precompute_feasibility(page_records, action_name) }
+          end
+        end
         # Apply skips to configs
         # Exclude columns that are skipped or the user is not allowed to display
         @columns.select! do |col, _|

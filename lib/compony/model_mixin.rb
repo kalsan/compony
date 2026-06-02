@@ -52,12 +52,13 @@ module Compony
 
       # DSL method, part of the Feasibility feature
       # Block must return `false` if the action should be prevented.
-      def prevent(action_names, message, &block)
+      # @param assoc [ActiveRecord::Reflection] Internal, set by {autodetect_feasibilities!}. Allows {precompute_feasibility} to batch the check.
+      def prevent(action_names, message, assoc: nil, &block)
         action_names = [action_names] unless action_names.is_a? Enumerable
         action_names.each do |action_name|
           self.feasibility_preventions = feasibility_preventions.dup # Prevent cross-class contamination
           feasibility_preventions[action_name.to_sym] ||= []
-          feasibility_preventions[action_name.to_sym] << MethodAccessibleHash.new(action_name:, message:, block:)
+          feasibility_preventions[action_name.to_sym] << MethodAccessibleHash.new(action_name:, message:, assoc:, block:)
         end
       end
 
@@ -71,7 +72,9 @@ module Compony
         return if autodetect_feasibilities_completed
         # Add a prevention that reflects the `has_many` `dependent' properties. Avoids that users can press buttons that will result in a failed destroy.
         reflect_on_all_associations.select { |assoc| %i[restrict_with_exception restrict_with_error].include? assoc.options[:dependent] }.each do |assoc|
-          prevent(:destroy, I18n.t('compony.feasibility.has_dependent_models', dependent_class: assoc.klass.model_name.human(count: 2))) do
+          # The `assoc:` is stored so that `precompute_feasibility` can resolve dependent existence for a whole collection in a single query per
+          # association (see batchable_feasibility_assoc?). When called on a single record (no precompute), the block below is used instead.
+          prevent(:destroy, I18n.t('compony.feasibility.has_dependent_models', dependent_class: assoc.klass.model_name.human(count: 2)), assoc:) do
             if assoc.is_a? ActiveRecord::Reflection::HasOneReflection
               !public_send(assoc.name).nil?
             else
@@ -80,6 +83,66 @@ module Compony
           end
         end
         self.autodetect_feasibilities_completed = true
+      end
+
+      # Precomputes and caches feasibility for an entire collection of records, avoiding the N+1 queries that arise when `feasible?` is called per
+      # record (e.g. when rendering destroy buttons for every row of an index). For every autodetected dependent-association prevention that can be
+      # batched (see {batchable_feasibility_assoc?}), this issues a single existence query across all records instead of one query per record.
+      # Preventions that cannot be batched (custom `prevent` blocks, polymorphic/through/STI-ambiguous or argument-taking-scope associations) fall
+      # back to the per-record block. After this call, `feasible?` / `feasibility_messages` for the given action return cached results with no further
+      # queries for the batched preventions.
+      # @param records [Enumerable] the records to precompute feasibility for, typically the current index page
+      # @param action_name [Symbol,String] the action to precompute, e.g. :destroy
+      def precompute_feasibility(records, action_name)
+        action_name = action_name.to_sym
+        records = records.to_a
+        return if records.empty?
+        autodetect_feasibilities!
+        # Seed the per-record message cache so feasible? treats these as already computed.
+        records.each do |record|
+          messages = record.instance_variable_get(:@feasibility_messages) || record.instance_variable_set(:@feasibility_messages, {})
+          messages[action_name] = []
+        end
+        Array(feasibility_preventions[action_name]).each do |prevention|
+          assoc = prevention[:assoc]
+          if assoc && batchable_feasibility_assoc?(assoc)
+            apply_batched_feasibility_prevention(records, action_name, prevention, assoc)
+          else
+            # Fallback: run the prevention block once per record (custom blocks, polymorphic/through/scoped associations).
+            records.each do |record|
+              record.instance_variable_get(:@feasibility_messages)[action_name] << prevention.message if record.instance_exec(&prevention.block)
+            end
+          end
+        end
+      end
+
+      # Whether a dependent association can be resolved for a whole collection in a single existence query. Conservative on purpose: anything that
+      # would make a flat `WHERE foreign_key IN (...)` query incorrect falls back to the per-record block.
+      def batchable_feasibility_assoc?(assoc)
+        return false unless %i[has_many has_one].include?(assoc.macro)
+        return false if assoc.through_reflection         # has_*_through: join semantics, not a flat foreign key
+        return false if assoc.options[:as]               # polymorphic inverse: needs a type column too
+        return false if assoc.polymorphic?               # defensive; polymorphic on this side
+        return false if assoc.scope&.arity&.positive? # scope needs the owner instance, can't merge onto a bare relation
+        assoc.klass.present? && assoc.foreign_key.present?
+      rescue StandardError
+        # If anything about the reflection can't be resolved (e.g. STI / missing constant), prefer the safe per-record fallback.
+        false
+      end
+
+      # Runs one existence query for `assoc` across all `records` and appends the prevention message to every record that has at least one
+      # dependent row. See {precompute_feasibility}.
+      def apply_batched_feasibility_prevention(records, action_name, prevention, assoc)
+        ids = records.map(&:id).compact
+        return if ids.empty?
+        scope = assoc.klass.all
+        scope = scope.instance_exec(&assoc.scope) if assoc.scope # honor static `has_many ..., -> { where(...) }` conditions
+        # reorder(nil) drops any ORDER BY inherited from a default_scope or the association scope: PostgreSQL rejects
+        # `SELECT DISTINCT ... ORDER BY <col>` when the ordering column is not in the select list, and ordering is irrelevant here anyway.
+        triggered_ids = scope.where(assoc.foreign_key => ids).reorder(nil).distinct.pluck(assoc.foreign_key).to_set
+        records.each do |record|
+          record.instance_variable_get(:@feasibility_messages)[action_name] << prevention.message if triggered_ids.include?(record.id)
+        end
       end
 
       # Provides Ransack defaults (auth_object must be a cancancan ability)

@@ -1,3 +1,14 @@
+# unreleased
+
+- Make feasibility much faster on index/list pages. The autodetected `restrict_with_exception` /
+  `restrict_with_error` destroy preventions ran one existence query per row per dependent association
+  (`record.assoc.any?`), causing N+1 queries when rendering destroy buttons for a whole page. The
+  `List` component now batch-precomputes feasibility for the current page via the new
+  `Model.precompute_feasibility(records, action)`, issuing a single `WHERE foreign_key IN (...)`
+  existence query per dependent association regardless of row count. Associations that can't be safely
+  batched (custom `prevent` blocks, polymorphic/through associations, owner-dependent scopes) transparently
+  fall back to the previous per-record behavior, so results are unchanged - only the query count drops.
+
 # 0.11.9
 
 - Fix `standalone` overrides clobbering inherited `layout` / `skip_authentication` /
@@ -6,10 +17,10 @@
   defaults (`layout: true`, `skip_*: false`); `deep_merge!` then overwrote the value
   inherited from the parent. These now default to `nil` and the real defaults are only
   injected when `provide_defaults` is true (first call), so `compact` strips them on
-  overrides and `deep_merge!` preserves the inherited value — mirroring `VerbDsl#to_conf`.
+  overrides and `deep_merge!` preserves the inherited value - mirroring `VerbDsl#to_conf`.
   Subclasses no longer need to repeat `layout :backend` just to keep it.
 - Enhance documentation for better LLM support (and humans as well of course):
-  - Documentation: add agent-oriented docs — `CLAUDE.md` primer, `doc/llms.txt` index,
+  - Documentation: add agent-oriented docs - `CLAUDE.md` primer, `doc/llms.txt` index,
     `doc/guide/dsl_reference.md`, `doc/guide/glossary.md`, `doc/guide/gotchas.md`,
     `doc/guide/example_advanced.md`, `doc/guide/patterns.md`, `doc/guide/cookbook.md`
     (task-indexed recipes). Thicken the thin pre-built
@@ -18,7 +29,7 @@
     component; Edit link), and an `Edit` hook name in `edit.md` (`on_update_failed`).
   - Inline YARD: documented previously-bare DSL hooks (New/Edit/Destroy `on_*`) and added
     `@param`/`@return`/`@yield`/`@api` plus `@!group DSL` to the WithForm, Form,
-    Resourceful, verb and standalone DSL methods. Comments only — no behavior change.
+    Resourceful, verb and standalone DSL methods. Comments only - no behavior change.
   - `.yardopts` now lists the guide pages as extra files so the whole guide (including
     the new agent docs) renders in the YARD/rubydoc reference, not just `lib/`.
   - Add `doc/integrations.md` (companion-gem map mirroring the gemspec) and
