@@ -423,7 +423,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#intent-class_method" title="intent (class method)">.<strong>intent</strong>(intent_or_comp_args)  &#x21d2; Object </a>
+      <a href="#intent-class_method" title="intent (class method)">.<strong>intent</strong>(*args)  &#x21d2; Object </a>
     
 
     
@@ -837,14 +837,14 @@
       <pre class="lines">
 
 
+139
+140
 141
 142
-143
-144
-145</pre>
+143</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 141</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 139</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_comp_class_for'>comp_class_for</span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='id identifier rubyid_intent'>intent</span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_comp_class'>comp_class</span>
@@ -891,14 +891,14 @@
       <pre class="lines">
 
 
+148
+149
 150
 151
-152
-153
-154</pre>
+152</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 150</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 148</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_comp_class_for!'>comp_class_for!</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_comp_class_for'>comp_class_for</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span>
@@ -1254,16 +1254,16 @@
       <pre class="lines">
 
 
+163
+164
 165
 166
 167
 168
-169
-170
-171</pre>
+169</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 165</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 163</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_family_name_for'>family_name_for</span><span class='lparen'>(</span><span class='id identifier rubyid_model_or_family_name_or_cst'>model_or_family_name_or_cst</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_model_or_family_name_or_cst'>model_or_family_name_or_cst</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:model_name</span><span class='rparen'>)</span>
@@ -1280,7 +1280,7 @@
       <div class="method_details ">
   <h3 class="signature " id="intent-class_method">
   
-    .<strong>intent</strong>(intent_or_comp_args)  &#x21d2; <tt>Object</tt> 
+    .<strong>intent</strong>(*args)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1307,19 +1307,15 @@
 126
 127
 128
-129
-130
-131</pre>
+129</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/compony.rb', line 125</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_intent'>intent</span><span class='lparen'>(</span><span class='id identifier rubyid_intent_or_comp_args'>intent_or_comp_args</span><span class='comma'>,</span> <span class='op'>...</span><span class='rparen'>)</span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_intent_or_comp_args'>intent_or_comp_args</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Compony/Intent.html" title="Compony::Intent (class)">Intent</a></span></span><span class='rparen'>)</span>
-    <span class='kw'>return</span> <span class='id identifier rubyid_intent_or_comp_args'>intent_or_comp_args</span>
-  <span class='kw'>else</span>
-    <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="Compony/Intent.html" title="Compony::Intent (class)">Intent</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Compony/Intent.html#initialize-instance_method" title="Compony::Intent#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_intent_or_comp_args'>intent_or_comp_args</span><span class='comma'>,</span> <span class='op'>...</span><span class='rparen'>)</span>
-  <span class='kw'>end</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_intent'>intent</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_first'>first</span> <span class='op'>=</span> <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_first'>first</span> <span class='kw'>if</span> <span class='id identifier rubyid_first'>first</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Compony/Intent.html" title="Compony::Intent (class)">Intent</a></span></span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="Compony/Intent.html" title="Compony::Intent (class)">Intent</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Compony/Intent.html#initialize-instance_method" title="Compony::Intent#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1372,18 +1368,18 @@
       <pre class="lines">
 
 
+173
+174
 175
 176
 177
 178
 179
 180
-181
-182
-183</pre>
+181</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 175</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 173</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_model_field_class_for'>model_field_class_for</span><span class='lparen'>(</span><span class='id identifier rubyid_constant'>constant</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_model_field_namespaces'>model_field_namespaces</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_model_field_namespace'>model_field_namespace</span><span class='op'>|</span>
@@ -1534,12 +1530,12 @@
       <pre class="lines">
 
 
-135
-136
-137</pre>
+133
+134
+135</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 135</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 133</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='lparen'>(</span><span class='id identifier rubyid_comp_name_or_cst_or_class'>comp_name_or_cst_or_class</span><span class='comma'>,</span> <span class='id identifier rubyid_model_or_family_name_or_cst'>model_or_family_name_or_cst</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>*</span><span class='comma'>,</span> <span class='op'>**</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_intent'>intent</span><span class='lparen'>(</span><span class='id identifier rubyid_comp_name_or_cst_or_class'>comp_name_or_cst_or_class</span><span class='comma'>,</span> <span class='id identifier rubyid_model_or_family_name_or_cst'>model_or_family_name_or_cst</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='lparen'>(</span><span class='op'>*</span><span class='comma'>,</span> <span class='op'>**</span><span class='rparen'>)</span>
@@ -1654,12 +1650,12 @@
       <pre class="lines">
 
 
-157
-158
-159</pre>
+155
+156
+157</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 157</span>
+      <pre class="code"><span class="info file"># File 'lib/compony.rb', line 155</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_root_comp'>root_comp</span>
   <span class='const'>RequestStore</span><span class='period'>.</span><span class='id identifier rubyid_store'>store</span><span class='lbracket'>[</span><span class='symbol'>:compony_root_comp</span><span class='rbracket'>]</span>
@@ -1674,9 +1670,9 @@
 </div>
 
       <div id="footer">
-  Generated on Mon May 18 13:55:44 2026 by
+  Generated on Thu Jun  4 20:37:17 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.34 (ruby-3.3.5).
+  0.9.34 (ruby-3.4.9).
 </div>
 
     </div>

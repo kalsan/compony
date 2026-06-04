@@ -58,15 +58,22 @@
       </div>
 
       <div id="content"><div id='filecontents'>
+<h1 id="label-0.11.10">0.11.10</h1>
+<ul><li>
+<p>Fix <code>Compony.intent</code> (and thus <code>add</code> / <code>render_intent</code> for custom intents) raising <code>ArgumentError (given 0, expected 1+)</code> on Ruby 3.4+. The signature <code>def self.intent(intent_or_comp_args, ...)</code> required a leading positional; Ruby 3.4 completed keyword/positional separation, so a kwargs-only call (e.g. <code>add label: &#39;...&#39;, name: :print, button: {...}</code>) no longer binds the keywords to that positional. Changed to <code>def self.intent(*args, **kwargs)</code>.</p>
+</li><li>
+<p>Make feasibility much faster on index/list pages. The autodetected <code>restrict_with_exception</code> /  <code>restrict_with_error</code> destroy preventions ran one existence query per row per dependent association  (<code>record.assoc.any?</code>), causing N+1 queries when rendering destroy buttons for a whole page. The  <code>List</code> component now batch-precomputes feasibility for the current page via the new  <code>Model.precompute_feasibility(records, action)</code>, issuing a single <code>WHERE foreign_key IN (...)</code>  existence query per dependent association regardless of row count. Associations that can’t be safely  batched (custom <code>prevent</code> blocks, polymorphic/through associations, owner-dependent scopes) transparently  fall back to the previous per-record behavior, so results are unchanged - only the query count drops.</p>
+</li></ul>
+
 <h1 id="label-0.11.9">0.11.9</h1>
 <ul><li>
-<p>Fix <code>standalone</code> overrides clobbering inherited <code>layout</code> / <code>skip_authentication</code> /  <code>skip_forgery_protection</code>. A second <code>standalone</code> call (e.g. a subclass overriding a  pre-built component) re-ran <code>StandaloneDsl</code> whose <code>to_conf</code> always emitted the hard  defaults (<code>layout: true</code>, <code>skip_*: false</code>); <code>deep_merge!</code> then overwrote the value  inherited from the parent. These now default to <code>nil</code> and the real defaults are only  injected when <code>provide_defaults</code> is true (first call), so <code>compact</code> strips them on  overrides and <code>deep_merge!</code> preserves the inherited value — mirroring <code>VerbDsl#to_conf</code>.  Subclasses no longer need to repeat <code>layout :backend</code> just to keep it.</p>
+<p>Fix <code>standalone</code> overrides clobbering inherited <code>layout</code> / <code>skip_authentication</code> /  <code>skip_forgery_protection</code>. A second <code>standalone</code> call (e.g. a subclass overriding a  pre-built component) re-ran <code>StandaloneDsl</code> whose <code>to_conf</code> always emitted the hard  defaults (<code>layout: true</code>, <code>skip_*: false</code>); <code>deep_merge!</code> then overwrote the value  inherited from the parent. These now default to <code>nil</code> and the real defaults are only  injected when <code>provide_defaults</code> is true (first call), so <code>compact</code> strips them on  overrides and <code>deep_merge!</code> preserves the inherited value - mirroring <code>VerbDsl#to_conf</code>.  Subclasses no longer need to repeat <code>layout :backend</code> just to keep it.</p>
 </li><li>
 <p>Enhance documentation for better LLM support (and humans as well of course):</p>
 </li><li>
-<p>Documentation: add agent-oriented docs — <code>CLAUDE.md</code> primer, <code>doc/llms.txt</code> index, <code>doc/guide/dsl_reference.md</code>, <code>doc/guide/glossary.md</code>, <code>doc/guide/gotchas.md</code>, <code>doc/guide/example_advanced.md</code>, <code>doc/guide/patterns.md</code>, <code>doc/guide/cookbook.md</code> (task-indexed recipes). Thicken the thin pre-built component docs (Index, Show, List, WithForm). Fix stale docs: README guide index links (Virtual models, Edit), <code>pre_built_components.md</code> (wrongly claimed no Show/Index component; Edit link), and an <code>Edit</code> hook name in <code>edit.md</code> (<code>on_update_failed</code>).</p>
+<p>Documentation: add agent-oriented docs - <code>CLAUDE.md</code> primer, <code>doc/llms.txt</code> index, <code>doc/guide/dsl_reference.md</code>, <code>doc/guide/glossary.md</code>, <code>doc/guide/gotchas.md</code>, <code>doc/guide/example_advanced.md</code>, <code>doc/guide/patterns.md</code>, <code>doc/guide/cookbook.md</code> (task-indexed recipes). Thicken the thin pre-built component docs (Index, Show, List, WithForm). Fix stale docs: README guide index links (Virtual models, Edit), <code>pre_built_components.md</code> (wrongly claimed no Show/Index component; Edit link), and an <code>Edit</code> hook name in <code>edit.md</code> (<code>on_update_failed</code>).</p>
 </li><li>
-<p>Inline YARD: documented previously-bare DSL hooks (New/Edit/Destroy <code>on_*</code>) and added <code>@param</code>/<code>@return</code>/<code>@yield</code>/<code>@api</code> plus <code>@!group DSL</code> to the WithForm, Form, Resourceful, verb and standalone DSL methods. Comments only — no behavior change.</p>
+<p>Inline YARD: documented previously-bare DSL hooks (New/Edit/Destroy <code>on_*</code>) and added <code>@param</code>/<code>@return</code>/<code>@yield</code>/<code>@api</code> plus <code>@!group DSL</code> to the WithForm, Form, Resourceful, verb and standalone DSL methods. Comments only - no behavior change.</p>
 </li><li>
 <p><code>.yardopts</code> now lists the guide pages as extra files so the whole guide (including the new agent docs) renders in the YARD/rubydoc reference, not just <code>lib/</code>.</p>
 </li><li>
@@ -748,9 +755,9 @@
 </div></div>
 
       <div id="footer">
-  Generated on Mon May 18 13:55:41 2026 by
+  Generated on Thu Jun  4 20:37:15 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.34 (ruby-3.3.5).
+  0.9.34 (ruby-3.4.9).
 </div>
 
     </div>
