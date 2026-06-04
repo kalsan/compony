@@ -122,12 +122,10 @@ module Compony
   ##########=====-------
 
   # Pure helper to create a Compony Intent. If given an intent, will return it unchanged. Otherwise, will give all params to the intent initializer.
-  def self.intent(intent_or_comp_args, ...)
-    if intent_or_comp_args.is_a?(Intent)
-      return intent_or_comp_args
-    else
-      return Intent.new(intent_or_comp_args, ...)
-    end
+  def self.intent(*args, **)
+    first = args.first
+    return first if first.is_a?(Intent)
+    return Intent.new(*args, **)
   end
 
   # Generates a Rails path to a component. Examples: `Compony.path(:index, :users)`, `Compony.path(:show, User.first)`

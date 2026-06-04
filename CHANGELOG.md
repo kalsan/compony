@@ -1,5 +1,6 @@
 # unreleased
 
+- Fix `Compony.intent` (and thus `add` / `render_intent` for custom intents) raising `ArgumentError (given 0, expected 1+)` on Ruby 3.4+. The signature `def self.intent(intent_or_comp_args, ...)` required a leading positional; Ruby 3.4 completed keyword/positional separation, so a kwargs-only call (e.g. `add label: '...', name: :print, button: {...}`) no longer binds the keywords to that positional. Changed to `def self.intent(*args, **kwargs)`.
 - Make feasibility much faster on index/list pages. The autodetected `restrict_with_exception` /
   `restrict_with_error` destroy preventions ran one existence query per row per dependent association
   (`record.assoc.any?`), causing N+1 queries when rendering destroy buttons for a whole page. The
