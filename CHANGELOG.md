@@ -1,4 +1,4 @@
-# unreleased
+# 0.11.11
 
 - Fix the `New` component's `method: :post` intent button (immediate create, no form) being hidden for
   non-admin users. The POST verb's `authorize` checked `can?(:create, @data)`, but the button-visibility

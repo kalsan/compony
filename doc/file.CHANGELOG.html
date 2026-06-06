@@ -58,6 +58,11 @@
       </div>
 
       <div id="content"><div id='filecontents'>
+<h1 id="label-0.11.11">0.11.11</h1>
+<ul><li>
+<p>Fix the <code>New</code> component’s <code>method: :post</code> intent button (immediate create, no form) being hidden for  non-admin users. The POST verb’s <code>authorize</code> checked <code>can?(:create, @data)</code>, but the button-visibility  probe (<code>standalone_access_permitted_for?</code>) evaluates <code>authorize</code> <em>without</em> running <code>load_data</code>, so  <code>@data</code> is <code>nil</code> at probe time. CanCan rules that target the class (e.g. <code>can :create, PosTransaction</code>)  do not match a <code>nil</code> subject, so the button vanished — while <code>can :manage, :all</code> (admins) still matched.  Changed to <code>can?(:create, @data || data_class)</code>: instance check during a real POST (where <code>load_data</code>  already set <code>@data</code>), class check during the probe — symmetric with the GET verb’s <code>can?(:new, data_class)</code>.</p>
+</li></ul>
+
 <h1 id="label-0.11.10">0.11.10</h1>
 <ul><li>
 <p>Fix <code>Compony.intent</code> (and thus <code>add</code> / <code>render_intent</code> for custom intents) raising <code>ArgumentError (given 0, expected 1+)</code> on Ruby 3.4+. The signature <code>def self.intent(intent_or_comp_args, ...)</code> required a leading positional; Ruby 3.4 completed keyword/positional separation, so a kwargs-only call (e.g. <code>add label: &#39;...&#39;, name: :print, button: {...}</code>) no longer binds the keywords to that positional. Changed to <code>def self.intent(*args, **kwargs)</code>.</p>
@@ -755,7 +760,7 @@
 </div></div>
 
       <div id="footer">
-  Generated on Thu Jun  4 20:37:24 2026 by
+  Generated on Sat Jun  6 09:14:46 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.4.9).
 </div>
