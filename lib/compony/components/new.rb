@@ -14,7 +14,7 @@ module Compony
             assign_attributes # This enables the global assign_attributes block defined below for this path and verb.
           end
           verb submit_verb do
-            authorize { can?(:create, @data) }
+            authorize { can?(:create, @data || data_class) } # the latter is needed for an intent going straight to POST
             assign_attributes # This enables the global assign_attributes block defined below for this path and verb.
             store_data # This enables the global store_data block defined below for this path and verb.
             respond do

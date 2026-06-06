@@ -1,3 +1,13 @@
+# unreleased
+
+- Fix the `New` component's `method: :post` intent button (immediate create, no form) being hidden for
+  non-admin users. The POST verb's `authorize` checked `can?(:create, @data)`, but the button-visibility
+  probe (`standalone_access_permitted_for?`) evaluates `authorize` *without* running `load_data`, so
+  `@data` is `nil` at probe time. CanCan rules that target the class (e.g. `can :create, PosTransaction`)
+  do not match a `nil` subject, so the button vanished — while `can :manage, :all` (admins) still matched.
+  Changed to `can?(:create, @data || data_class)`: instance check during a real POST (where `load_data`
+  already set `@data`), class check during the probe — symmetric with the GET verb's `can?(:new, data_class)`.
+
 # 0.11.10
 
 - Fix `Compony.intent` (and thus `add` / `render_intent` for custom intents) raising `ArgumentError (given 0, expected 1+)` on Ruby 3.4+. The signature `def self.intent(intent_or_comp_args, ...)` required a leading positional; Ruby 3.4 completed keyword/positional separation, so a kwargs-only call (e.g. `add label: '...', name: :print, button: {...}`) no longer binds the keywords to that positional. Changed to `def self.intent(*args, **kwargs)`.
