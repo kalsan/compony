@@ -1,0 +1,46 @@
+es:
+  compony:
+    cancel: 'Cancelar'
+    back: 'Atrás'
+    filtered: '[Filtered]' # Not translated as this appears in log
+    boolean:
+      true: 'Sí'
+      false: 'No'
+    feasibility:
+      has_dependent_models: 'existen %{dependent_class} dependientes'
+    model_fields:
+      attachment:
+        remove: 'Eliminar'
+    components:
+      show:
+        label:
+          short: 'Mostrar'
+      index:
+        actions: 'Acciones'
+        filters: 'Filtros'
+        sorting: 'Orden'
+        pagination:
+          first: 'Primera'
+          previous: 'Anterior'
+          next: 'Siguiente'
+          last: 'Última'
+      form:
+        submit: 'Enviar'
+        cancel: 'Cancelar'
+      edit:
+        label:
+          long: 'Editar %{data_label}'
+          short: 'Editar'
+        data_was_updated: '%{data_label} se ha guardado.'
+      new:
+        label:
+          long: 'Crear %{data_class}'
+          short: 'Nuevo'
+        data_was_created: '%{data_label} se ha creado.'
+      destroy:
+        label:
+          long: 'Eliminar %{data_label}'
+          short: 'Eliminar'
+        confirm_question: '¿Está seguro de que desea eliminar %{data_label}?'
+        confirm_button: 'Sí, eliminar'
+        data_was_destroyed: '%{data_label} se ha eliminado.'

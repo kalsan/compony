@@ -1,3 +1,7 @@
+# unreleased
+
+- Add Spanish (`es`) translations.
+
 # 0.11.11
 
 - Fix the `New` component's `method: :post` intent button (immediate create, no form) being hidden for
