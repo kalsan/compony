@@ -1,4 +1,4 @@
-# unreleased
+# 0.11.12
 
 - Add Spanish (`es`) translations.
 
