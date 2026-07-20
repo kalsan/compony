@@ -22,6 +22,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency(%q<yard>.freeze, [">= 0.9.28".freeze])
   s.add_development_dependency(%q<rubocop>.freeze, [">= 1.48".freeze])
   s.add_development_dependency(%q<rubocop-rails>.freeze, [">= 2.18.0".freeze])
+  s.add_development_dependency(%q<rspec-rails>.freeze, [">= 6.1".freeze])
+  s.add_development_dependency(%q<sqlite3>.freeze, [">= 1.7".freeze])
   s.add_runtime_dependency(%q<rails>.freeze, [">= 7.2.1".freeze])
   s.add_runtime_dependency(%q<request_store>.freeze, [">= 1.7".freeze])
   s.add_runtime_dependency(%q<dyny>.freeze, [">= 0.0.3".freeze])

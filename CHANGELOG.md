@@ -1,3 +1,9 @@
+# unreleased
+
+- Add an RSpec test suite (`bundle exec rspec` / `rake spec`) with a dummy Rails app under `spec/dummy`,
+  covering the module API, intents, feasibility, model fields, routing and the pre-built CRUD components.
+  See `spec/README.md` for layout and version pins. New development dependencies: `rspec-rails`, `sqlite3`.
+
 # 0.11.12
 
 - Add Spanish (`es`) translations.

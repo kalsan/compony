@@ -24,7 +24,7 @@ Compony's key aspects:
 
 ## State of the project
 
-I am actively using this framework in various applications and both performance and reliability are good. However, the project is experimental and lacking peer reviews and especially automatic testing, such as unit and integration tests. Also, expect there to be ([documented](/CHANGELOG.md)) breaking changes in the future, as the API will likely be further refined, resulting in renamings and deprecation of various methods.
+I am actively using this framework in various applications and both performance and reliability are good. However, the project is experimental and lacking peer reviews and especially extensive automatic testing, such as unit and integration tests. Also, expect there to be ([documented](/CHANGELOG.md)) breaking changes in the future, as the API will likely be further refined, resulting in renamings and deprecation of various methods.
 
 ## Other projects exploring similar concepts
 
@@ -77,6 +77,17 @@ Compony is Free Software under the LGPLv3 and you are most welcome to contribute
 - If you spotted a security vulnerability, **do not open an issue** but instead use the contact form at [https://kalsan.ch/#contact](https://kalsan.ch/#contact) instead (English is just fine, even if the website is in German).
 - If you'd like to contribute feedback or discuss something, please open an issue.
 - If you have an idea that is worth implementing, please fork the repo, implement your changes in your own fork, and open a pull request.
+
+## Running the tests
+
+The gem ships an RSpec suite backed by a minimal dummy Rails app (in-memory SQLite, no setup needed):
+
+```sh
+bundle install
+bundle exec rspec   # or: bundle exec rake spec (also the default rake task)
+```
+
+See [spec/README.md](./spec/README.md) for the suite's layout and the reasons behind the Gemfile's `rails` and `rack` version pins.
 
 # Caveats
 

@@ -3,6 +3,14 @@ require_relative 'lib/compony/version'
 
 File.open('VERSION', 'w') { |f| f.puts(Compony::Version::LABEL) }
 
+begin
+  require 'rspec/core/rake_task'
+  RSpec::Core::RakeTask.new(:spec)
+  task default: :spec
+rescue LoadError
+  # rspec not available (e.g. production install), skip test task
+end
+
 task :gemspec do
   specification = Gem::Specification.new do |s|
     s.name = 'compony'
@@ -20,6 +28,8 @@ task :gemspec do
     s.add_development_dependency 'yard', '>= 0.9.28'
     s.add_development_dependency 'rubocop', '>= 1.48'
     s.add_development_dependency 'rubocop-rails', '>= 2.18.0'
+    s.add_development_dependency 'rspec-rails', '>= 6.1'
+    s.add_development_dependency 'sqlite3', '>= 1.7'
 
     s.add_runtime_dependency 'rails', '>= 7.2.1'
     s.add_runtime_dependency 'request_store', '>= 1.7'
