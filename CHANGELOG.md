@@ -1,4 +1,4 @@
-# unreleased
+# 0.11.13
 
 - Fix `value_for` raising `NoMethodError` for a field that answers with nil, e.g. a `:percentage` field whose value
   cannot be computed. Such a value is now rendered as nil instead of being handed to the type's transformation,

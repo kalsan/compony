@@ -58,26 +58,33 @@
       </div>
 
       <div id="content"><div id='filecontents'>
-<h1 id="label-0.11.12">0.11.12</h1>
+<h1 id="01113">0.11.13</h1>
+<ul><li>
+<p>Fix <code>value_for</code> raising <code>NoMethodError</code> for a field that answers with nil, e.g. a <code>:percentage</code> field whose value cannot be computed. Such a value is now rendered as nil instead of being handed to the type’s transformation, which mirrors the behavior for enumerable values, whose nil entries have always been dropped.</p>
+</li><li>
+<p>Add an RSpec test suite (<code>bundle exec rspec</code> / <code>rake spec</code>) with a dummy Rails app under <code>spec/dummy</code>, covering the module API, intents, feasibility, model fields, routing and the pre-built CRUD components. See <code>spec/README.md</code> for layout and version pins. New development dependencies: <code>rspec-rails</code>, <code>sqlite3</code>.</p>
+</li></ul>
+
+<h1 id="01112">0.11.12</h1>
 <ul><li>
 <p>Add Spanish (<code>es</code>) translations.</p>
 </li></ul>
 
-<h1 id="label-0.11.11">0.11.11</h1>
+<h1 id="01111">0.11.11</h1>
 <ul><li>
-<p>Fix the <code>New</code> component’s <code>method: :post</code> intent button (immediate create, no form) being hidden for  non-admin users. The POST verb’s <code>authorize</code> checked <code>can?(:create, @data)</code>, but the button-visibility  probe (<code>standalone_access_permitted_for?</code>) evaluates <code>authorize</code> <em>without</em> running <code>load_data</code>, so  <code>@data</code> is <code>nil</code> at probe time. CanCan rules that target the class (e.g. <code>can :create, PosTransaction</code>)  do not match a <code>nil</code> subject, so the button vanished — while <code>can :manage, :all</code> (admins) still matched.  Changed to <code>can?(:create, @data || data_class)</code>: instance check during a real POST (where <code>load_data</code>  already set <code>@data</code>), class check during the probe — symmetric with the GET verb’s <code>can?(:new, data_class)</code>.</p>
+<p>Fix the <code>New</code> component’s <code>method: :post</code> intent button (immediate create, no form) being hidden for non-admin users. The POST verb’s <code>authorize</code> checked <code>can?(:create, @data)</code>, but the button-visibility probe (<code>standalone_access_permitted_for?</code>) evaluates <code>authorize</code> <em>without</em> running <code>load_data</code>, so <code>@data</code> is <code>nil</code> at probe time. CanCan rules that target the class (e.g. <code>can :create, PosTransaction</code>) do not match a <code>nil</code> subject, so the button vanished — while <code>can :manage, :all</code> (admins) still matched. Changed to <code>can?(:create, @data || data_class)</code>: instance check during a real POST (where <code>load_data</code> already set <code>@data</code>), class check during the probe — symmetric with the GET verb’s <code>can?(:new, data_class)</code>.</p>
 </li></ul>
 
-<h1 id="label-0.11.10">0.11.10</h1>
+<h1 id="01110">0.11.10</h1>
 <ul><li>
 <p>Fix <code>Compony.intent</code> (and thus <code>add</code> / <code>render_intent</code> for custom intents) raising <code>ArgumentError (given 0, expected 1+)</code> on Ruby 3.4+. The signature <code>def self.intent(intent_or_comp_args, ...)</code> required a leading positional; Ruby 3.4 completed keyword/positional separation, so a kwargs-only call (e.g. <code>add label: &#39;...&#39;, name: :print, button: {...}</code>) no longer binds the keywords to that positional. Changed to <code>def self.intent(*args, **kwargs)</code>.</p>
 </li><li>
-<p>Make feasibility much faster on index/list pages. The autodetected <code>restrict_with_exception</code> /  <code>restrict_with_error</code> destroy preventions ran one existence query per row per dependent association  (<code>record.assoc.any?</code>), causing N+1 queries when rendering destroy buttons for a whole page. The  <code>List</code> component now batch-precomputes feasibility for the current page via the new  <code>Model.precompute_feasibility(records, action)</code>, issuing a single <code>WHERE foreign_key IN (...)</code>  existence query per dependent association regardless of row count. Associations that can’t be safely  batched (custom <code>prevent</code> blocks, polymorphic/through associations, owner-dependent scopes) transparently  fall back to the previous per-record behavior, so results are unchanged - only the query count drops.</p>
+<p>Make feasibility much faster on index/list pages. The autodetected <code>restrict_with_exception</code> / <code>restrict_with_error</code> destroy preventions ran one existence query per row per dependent association (<code>record.assoc.any?</code>), causing N+1 queries when rendering destroy buttons for a whole page. The <code>List</code> component now batch-precomputes feasibility for the current page via the new <code>Model.precompute_feasibility(records, action)</code>, issuing a single <code>WHERE foreign_key IN (...)</code> existence query per dependent association regardless of row count. Associations that can’t be safely batched (custom <code>prevent</code> blocks, polymorphic/through associations, owner-dependent scopes) transparently fall back to the previous per-record behavior, so results are unchanged - only the query count drops.</p>
 </li></ul>
 
-<h1 id="label-0.11.9">0.11.9</h1>
+<h1 id="0119">0.11.9</h1>
 <ul><li>
-<p>Fix <code>standalone</code> overrides clobbering inherited <code>layout</code> / <code>skip_authentication</code> /  <code>skip_forgery_protection</code>. A second <code>standalone</code> call (e.g. a subclass overriding a  pre-built component) re-ran <code>StandaloneDsl</code> whose <code>to_conf</code> always emitted the hard  defaults (<code>layout: true</code>, <code>skip_*: false</code>); <code>deep_merge!</code> then overwrote the value  inherited from the parent. These now default to <code>nil</code> and the real defaults are only  injected when <code>provide_defaults</code> is true (first call), so <code>compact</code> strips them on  overrides and <code>deep_merge!</code> preserves the inherited value - mirroring <code>VerbDsl#to_conf</code>.  Subclasses no longer need to repeat <code>layout :backend</code> just to keep it.</p>
+<p>Fix <code>standalone</code> overrides clobbering inherited <code>layout</code> / <code>skip_authentication</code> / <code>skip_forgery_protection</code>. A second <code>standalone</code> call (e.g. a subclass overriding a pre-built component) re-ran <code>StandaloneDsl</code> whose <code>to_conf</code> always emitted the hard defaults (<code>layout: true</code>, <code>skip_*: false</code>); <code>deep_merge!</code> then overwrote the value inherited from the parent. These now default to <code>nil</code> and the real defaults are only injected when <code>provide_defaults</code> is true (first call), so <code>compact</code> strips them on overrides and <code>deep_merge!</code> preserves the inherited value - mirroring <code>VerbDsl#to_conf</code>. Subclasses no longer need to repeat <code>layout :backend</code> just to keep it.</p>
 </li><li>
 <p>Enhance documentation for better LLM support (and humans as well of course):</p>
 </li><li>
@@ -94,43 +101,43 @@
 <p>(Run <code>yard doc</code> to regenerate the HTML under <code>doc/</code> after doc changes.)</p>
 </li></ul>
 
-<h1 id="label-0.11.8">0.11.8</h1>
+<h1 id="0118">0.11.8</h1>
 <ul><li>
 <p>Fix <code>Compony::VirtualModel#attributes</code> to include virtual attributes (declared via <code>attribute :foo, :type</code>). The <code>include ActiveModel::Attributes</code> was shadowing <code>ActiveType::VirtualAttributes#attributes</code>, so virtual attribute values were stored in <code>@virtual_attributes</code> but invisible to <code>#attributes</code>, breaking callers that use <code>model.attributes.slice(...)</code> or <code>model.attributes.select { ... }</code>.</p>
 </li></ul>
 
-<h1 id="label-0.11.7">0.11.7</h1>
+<h1 id="0117">0.11.7</h1>
 <ul><li>
 <p>Relax anchormodel dependency, since anchormodel 0.4 is compatible</p>
 </li></ul>
 
-<h1 id="label-0.11.6">0.11.6</h1>
+<h1 id="0116">0.11.6</h1>
 <ul><li>
 <p>Enhance output of component’s <code>inspect</code></p>
 </li><li>
 <p>Add request context view helper <code>standalone_name</code></p>
 </li></ul>
 
-<h1 id="label-0.11.5">0.11.5</h1>
+<h1 id="0115">0.11.5</h1>
 <ul><li>
 <p>Replace deprecated <code>:unprocessable_entity</code> by <code>:unprocessable_content</code></p>
 </li><li>
 <p>In pre-built <code>:list</code> component, expose more details suitable for showing pagination information</p>
 </li></ul>
 
-<h1 id="label-0.11.4">0.11.4</h1>
+<h1 id="0114">0.11.4</h1>
 <ul><li>
 <p>Internal refactoring of submit button</p>
 </li><li>
 <p>Switch to anchormodel 0.3.0</p>
 </li></ul>
 
-<h1 id="label-0.11.3">0.11.3</h1>
+<h1 id="0113">0.11.3</h1>
 <ul><li>
 <p>Enhance error message when attachment reflection is missing</p>
 </li></ul>
 
-<h1 id="label-0.11.2">0.11.2</h1>
+<h1 id="0112">0.11.2</h1>
 <ul><li>
 <p>Harmonize authentication interface for the <code>:new</code> component</p>
 <ul><li>
@@ -140,7 +147,7 @@
 </li></ul>
 </li></ul>
 
-<h1 id="label-0.11.1">0.11.1</h1>
+<h1 id="0111">0.11.1</h1>
 <ul><li>
 <p>Fix wrong naming in changelog</p>
 </li><li>
@@ -152,7 +159,7 @@
 </li></ul>
 </li></ul>
 
-<h1 id="label-0.11.0">0.11.0</h1>
+<h1 id="0110">0.11.0</h1>
 <ul><li>
 <p>Remove <code>resourceful_sub_comp</code> as the intent API has made it obsolete.</p>
 </li><li>
@@ -161,24 +168,24 @@
 <p>Fix a bug in intents preventing overriding the feasibility target</p>
 </li></ul>
 
-<h2 id="label-Steps+to+take">Steps to take</h2>
+<h2 id="steps-to-take">Steps to take</h2>
 <ul><li>
 <p>Search for <code>resourceful_sub_comp</code> and replace those calls by <code>render_sub_comp</code> while passing <code>@data</code> as the second intent argument.</p>
 </li></ul>
 
-<h1 id="label-0.10.2">0.10.2</h1>
+<h1 id="0102">0.10.2</h1>
 <ul><li>
 <p>Produce debug output when skipping an intent due to a NameError</p>
 </li><li>
 <p>When intents are given both a model (through data) and a family name (through the second argument), prefer the family name to find out the component class</p>
 </li></ul>
 
-<h1 id="label-0.10.1">0.10.1</h1>
+<h1 id="0101">0.10.1</h1>
 <ul><li>
 <p>Implement intent to always return the path it was initialized with in case the argument was given</p>
 </li></ul>
 
-<h1 id="label-0.10.0">0.10.0</h1>
+<h1 id="0100">0.10.0</h1>
 <ul><li>
 <p>Fix a bug in error message for <code>comp_class_for!</code></p>
 </li><li>
@@ -202,7 +209,7 @@
 <p>Rename <code>ExposedIntentsDsl</code> to <code>ManageIntentsDsl</code>, allow passing options and ignore <code>add</code> call if the target component is not defined</p>
 </li></ul>
 
-<h2 id="label-Steps+to+take">Steps to take</h2>
+<h2 id="steps-to-take-1">Steps to take</h2>
 <ul><li>
 <p>In your components, replace code like <code>icon :eye</code> by: <code>button(:icon){ :eye }</code> or <code>button(:icon){|_| :eye }</code> (the latter in the resourceful case)</p>
 </li><li>
@@ -216,7 +223,7 @@
 </li></ul>
 </li></ul>
 
-<h1 id="label-0.9.0">0.9.0</h1>
+<h1 id="090">0.9.0</h1>
 <ul><li>
 <p>Enhance Intent API:</p>
 <ul><li>
@@ -226,7 +233,7 @@
 </li></ul>
 </li></ul>
 
-<h2 id="label-Steps+to+take">Steps to take</h2>
+<h2 id="steps-to-take-2">Steps to take</h2>
 <ul><li>
 <p>Replace code like <code>button: { style: :link }</code> by simply <code>style: :link</code></p>
 </li><li>
@@ -235,12 +242,12 @@
 <p>Make sure that all kwargs in intents meant for buttons are wrapped in <code>button: { ... }</code>.</p>
 </li></ul>
 
-<h1 id="label-0.8.1">0.8.1</h1>
+<h1 id="081">0.8.1</h1>
 <ul><li>
 <p>Fix a problem in List resulting in <code>data_class</code> being read too early</p>
 </li></ul>
 
-<h1 id="label-0.8.0">0.8.0</h1>
+<h1 id="080">0.8.0</h1>
 
 <p>Be advised that this version brings major interface changes that will break existing applications. When upgrading, carefully follow sthe steps unter “Steps to take” and test your application thoroughly.</p>
 <ul><li>
@@ -264,7 +271,7 @@
 <p>Update documentation</p>
 </li></ul>
 
-<h2 id="label-Steps+to+take">Steps to take</h2>
+<h2 id="steps-to-take-3">Steps to take</h2>
 <ul><li>
 <p>Make sure you no longer use the following methods that have been removed:</p>
 <ul><li>
@@ -303,14 +310,14 @@
 <p>Enhancement: Consider replacing patterns like <code>sub_comp(Components::Quotes::List, data: user.quotes).render(controller)</code> by <code>render_sub_comp(:list, user.quotes)</code>.</p>
 </li></ul>
 
-<h1 id="label-0.7.1">0.7.1</h1>
+<h1 id="071">0.7.1</h1>
 <ul><li>
 <p>Implement <code>Compony::VirtualModel</code> and document it in the Readme file</p>
 </li><li>
 <p>Break up documentation into separate files</p>
 </li></ul>
 
-<h1 id="label-0.7.0">0.7.0</h1>
+<h1 id="070">0.7.0</h1>
 <ul><li>
 <p>Rename Component’s internal <code>path</code> to <code>id_path</code> to distinguish it from Rails paths, as well as <code>path_hash</code> to <code>id_path_hash</code></p>
 </li><li>
@@ -324,72 +331,72 @@
 </li></ul>
 </li></ul>
 
-<h2 id="label-Steps+to+take">Steps to take</h2>
+<h2 id="steps-to-take-4">Steps to take</h2>
 <ul><li>
 <p>If using the methods formerly called <code>path</code> or <code>path_hash</code>, rename them to <code>id_path</code> respectively <code>id_path_hash</code>.</p>
 </li></ul>
 
-<h1 id="label-0.6.4">0.6.4</h1>
+<h1 id="064">0.6.4</h1>
 <ul><li>
 <p>Replace Feasibility’s error message generation in case of dependent errors by a logic that fits fastgettext’s modern pluralization</p>
 </li></ul>
 
-<h1 id="label-0.6.3">0.6.3</h1>
+<h1 id="063">0.6.3</h1>
 <ul><li>
 <p>Restrict multi-attachments to upload only when the form’s object is a new record</p>
 </li></ul>
 
-<h1 id="label-0.6.2">0.6.2</h1>
+<h1 id="062">0.6.2</h1>
 <ul><li>
 <p>Change download link label of attachments from “Download” to the actual filename</p>
 </li><li>
 <p>Support multiple attachments by providing a simple UI for adding and removing attachments</p>
 </li></ul>
 
-<h1 id="label-0.6.1">0.6.1</h1>
+<h1 id="061">0.6.1</h1>
 <ul><li>
 <p>Implement <code>default_sorting</code> in <code>Compony::Components::List</code></p>
 </li></ul>
 
-<h1 id="label-0.6.0">0.6.0</h1>
+<h1 id="060">0.6.0</h1>
 <ul><li>
 <p>Implement <code>Compony::Components::Show</code></p>
 </li><li>
 <p>Implement <code>Compony::Components::Index</code> and <code>Compony::Components::List</code></p>
 </li></ul>
 
-<h1 id="label-0.5.9">0.5.9</h1>
+<h1 id="059">0.5.9</h1>
 <ul><li>
 <p>Fix a bug in generator that was introduced with the previous commit</p>
 </li></ul>
 
-<h1 id="label-0.5.8">0.5.8</h1>
+<h1 id="058">0.5.8</h1>
 <ul><li>
 <p>Apply most recent rubocop recommendations</p>
 </li><li>
 <p>Update rubocop</p>
 </li><li>
-<h1 id="label-10-3A+Implement+feasibility+framework+for+links">10: Implement feasibility framework for links</h1>
+<p>#10: Implement feasibility framework for links</p>
 </li><li>
 <p>Support <code>BaseComponents</code></p>
 </li></ul>
 
-<h1 id="label-0.5.7">0.5.7</h1>
+<h1 id="057">0.5.7</h1>
 <ul><li>
 <p>Fix a minor bug causing unnecessary param <code>id</code> to be added to the path after creating or updating when redirecting back to the index component</p>
 </li></ul>
 
-<h1 id="label-0.5.6">0.5.6</h1>
+<h1 id="056">0.5.6</h1>
 <ul><li>
 <p>Allow overriding the label in the view helper <code>compony_link</code></p>
 </li></ul>
 
-<h1 id="label-0.5.5">0.5.5</h1>
+<h1 id="055">0.5.5</h1>
 <ul><li>
 <p>Support <code>has_one</code> associations for feasibility</p>
 </li></ul>
 
-<h1 id="label-0.5.4">0.5.4</h1>
+<h1 id="054">0.5.4</h1>
 <ul><li>
 <p>Fix a failure description in Form</p>
 </li><li>
@@ -400,7 +407,7 @@
 <p>Implement <code>skip_forgery_protection!</code></p>
 </li></ul>
 
-<h1 id="label-0.5.3">0.5.3</h1>
+<h1 id="053">0.5.3</h1>
 <ul><li>
 <p>Support <code>standalone_name</code> in <code>Compony.button</code> and <code>compony_link</code></p>
 </li><li>
@@ -413,7 +420,7 @@
 <p>Support <code>disable!</code> and <code>disabled: true</code> in Form, disabling all inputs</p>
 </li></ul>
 
-<h1 id="label-0.5.2">0.5.2</h1>
+<h1 id="052">0.5.2</h1>
 <ul><li>
 <p>Add <code>constraints</code> to <code>standalone</code></p>
 </li><li>
@@ -422,19 +429,19 @@
 <p>Set default <code>label_method</code> to <code>label</code> when generating a <code>simple_form</code> input for <code>:association</code></p>
 </li></ul>
 
-<h1 id="label-0.5.1">0.5.1</h1>
+<h1 id="051">0.5.1</h1>
 <ul><li>
 <p>Correctly handle <code>ActiveType::Object</code> virtual fields in Rails 7.2</p>
 </li></ul>
 
-<h1 id="label-0.5.0">0.5.0</h1>
+<h1 id="050">0.5.0</h1>
 <ul><li>
 <p>Require Ruby 3.3.5 and Rails 7.2.1</p>
 </li><li>
 <p>Update Gems Compony depends on (this is to ensure all Compony users have versions Compony is frequently tested against)</p>
 </li></ul>
 
-<h2 id="label-Steps+to+take">Steps to take</h2>
+<h2 id="steps-to-take-5">Steps to take</h2>
 <ul><li>
 <p>Update your application to Ruby 3.3.5 and Rails 7.2.1. For instance, if you are running an rbenv setup, these would be typical steps involved:</p>
 </li><li>
@@ -457,7 +464,7 @@
 <p>Check for warnings and react accordingly</p>
 </li></ul>
 
-<h1 id="label-0.4.1">0.4.1</h1>
+<h1 id="041">0.4.1</h1>
 <ul><li>
 <p>Allow the argument <code>standalone_name</code> in button and path helper</p>
 </li><li>
@@ -470,7 +477,7 @@
 <p>Fix a bug that caused an override of input option arguments if the <code>accept</code> parameter is present</p>
 </li></ul>
 
-<h1 id="label-0.4.0">0.4.0</h1>
+<h1 id="040">0.4.0</h1>
 <ul><li>
 <p>Support Cancancan’s <code>accessible_attributes</code></p>
 </li><li>
@@ -494,7 +501,7 @@
 <p>Require Ruby 3.2.2</p>
 </li></ul>
 
-<h2 id="label-Steps+to+perform">Steps to perform</h2>
+<h2 id="steps-to-perform">Steps to perform</h2>
 <ul><li>
 <p>If using ActiveType, add <code>include ActiveModel::Attributes</code> at the top of your virtual models.</p>
 </li><li>
@@ -517,19 +524,19 @@
 <p>Either supply the appropriate action (e.g. <code>:edit</code> or <code>:new</code>), or pass <code>nil</code> to disable per-field authorization for a form.</p>
 </li></ul>
 
-<h1 id="label-0.3.3">0.3.3</h1>
+<h1 id="033">0.3.3</h1>
 <ul><li>
 <p>In <code>RequestContext</code>, distinguish between <code>content</code> and <code>content!</code>, where the first allows for missing content blocks.</p>
 </li></ul>
 
-<h1 id="label-0.3.2">0.3.2</h1>
+<h1 id="032">0.3.2</h1>
 <ul><li>
 <p>Add label content block to edit component</p>
 </li><li>
 <p>Introduce <code>remove_content!</code> and make its non-bang pendant tolerate missing blocks</p>
 </li></ul>
 
-<h1 id="label-0.3.1">0.3.1</h1>
+<h1 id="031">0.3.1</h1>
 <ul><li>
 <p>In <code>NaturalOrdering</code>, tolerate omitting payload only if it’s an override</p>
 </li><li>
@@ -542,7 +549,7 @@
 <p>Implement <code>remove_content</code> which allows removing a previously defined content block (useful for usage in subclasses)</p>
 </li></ul>
 
-<h1 id="label-0.3.0">0.3.0</h1>
+<h1 id="030">0.3.0</h1>
 <ul><li>
 <p>Internals:</p>
 </li><li>
@@ -567,19 +574,19 @@
 <p>Implement nesting of content blocks, as described in README.md -&gt; “Nesting content blocks, calling a content block from another”</p>
 </li></ul>
 
-<h2 id="label-Steps+to+take">Steps to take</h2>
+<h2 id="steps-to-take-6">Steps to take</h2>
 <ul><li>
 <p>Search for <code>comp_class_for</code> and <code>comp_class_for!</code> and replace them by <code>Compony.comp_class_for</code> and <code>Compony.comp_class_for!</code></p>
 </li><li>
 <p>Search for <code>add_content</code> and replace it by <code>content</code> along with a name. If you used an index in <code>add_content</code>, replace it by <code>before:</code> (see documentation)</p>
 </li></ul>
 
-<h1 id="label-0.2.3">0.2.3</h1>
+<h1 id="023">0.2.3</h1>
 <ul><li>
 <p>Support collection of Anchormodels in hidden input</p>
 </li></ul>
 
-<h1 id="label-0.2.2">0.2.2</h1>
+<h1 id="022">0.2.2</h1>
 <ul><li>
 <p>Adjust gemspec</p>
 </li><li>
@@ -590,7 +597,7 @@
 <p>Replace custom anchormodel field implementation by Anchormodel’s new implementation of SimpleForm Input</p>
 </li></ul>
 
-<h1 id="label-0.2.1">0.2.1</h1>
+<h1 id="021">0.2.1</h1>
 <ul><li>
 <p>Fix a bug where the app crashed on HEAD verb</p>
 </li><li>
@@ -602,27 +609,27 @@
 </li><li>
 <p>Implement <code>skip_autofocus</code> in Form</p>
 </li><li>
-<p>Allow partial override of standalone verb configs. Example:  <code>ruby verb :get do   authorize { true } end verb :post do   authorize { true }   # Parent class implements more logic here, which will no longer be overwritten by calling `verb :post`. end </code></p>
+<p>Allow partial override of standalone verb configs. Example: <code>ruby verb :get do  authorize { true } end verb :post do  authorize { true }  # Parent class implements more logic here, which will no longer be overwritten by calling `verb :post`. end  </code></p>
 </li></ul>
 
-<h1 id="label-0.2.0">0.2.0</h1>
+<h1 id="020">0.2.0</h1>
 <ul><li>
 <p>Cleanup old code</p>
 </li><li>
 <p>Remove <code>check_config!</code> that was barely used</p>
 </li></ul>
 
-<h1 id="label-0.1.1">0.1.1</h1>
+<h1 id="011">0.1.1</h1>
 <ul><li>
 <p>Support and force Rails 7.1.2</p>
 </li></ul>
 
-<h2 id="label-Steps+to+perform">Steps to perform</h2>
+<h2 id="steps-to-perform-1">Steps to perform</h2>
 <ul><li>
-<p>in <code>config/application.rb</code>, replace <code>config.load_defaults 7.0</code> by <code>config.load_defaults 7.1</code> and add:  <code>ruby # Please, add to the `ignore` list any other `lib` subdirectories that do # not contain `.rb` files, or that should not be reloaded or eager loaded. # Common ones are `templates`, `generators`, or `middleware`, for example. config.autoload_lib(ignore: %w(assets tasks)) </code></p>
+<p>in <code>config/application.rb</code>, replace <code>config.load_defaults 7.0</code> by <code>config.load_defaults 7.1</code> and add: <code>ruby # Please, add to the `ignore` list any other `lib` subdirectories that do # not contain `.rb` files, or that should not be reloaded or eager loaded. # Common ones are `templates`, `generators`, or `middleware`, for example. config.autoload_lib(ignore: %w(assets tasks))  </code></p>
 </li></ul>
 
-<h1 id="label-0.1.0">0.1.0</h1>
+<h1 id="010">0.1.0</h1>
 <ul><li>
 <p>Remove (hopefully) obsolete database safeguard in <code>resolve_association!</code> as we should no longer be accessing the DB.</p>
 </li><li>
@@ -635,12 +642,12 @@
 <p>No longer rely on <code>controller.response.body.blank?</code> but use <code>controller.response_body.nil?</code> instead</p>
 </li></ul>
 
-<h2 id="label-Steps+to+perform">Steps to perform</h2>
+<h2 id="steps-to-perform-2">Steps to perform</h2>
 <ul><li>
 <p>Remove any calls to <code>primary_key_type</code></p>
 </li></ul>
 
-<h1 id="label-0.0.9">0.0.9</h1>
+<h1 id="009">0.0.9</h1>
 
 <p>Do not use.</p>
 <ul><li>
@@ -661,12 +668,12 @@
 <p>Add new field kind percentage</p>
 </li></ul>
 
-<h2 id="label-KNOWN+BUGS">KNOWN BUGS</h2>
+<h2 id="known-bugs">KNOWN BUGS</h2>
 <ul><li>
 <p>This version breaks polymorphic relations.</p>
 </li></ul>
 
-<h1 id="label-0.0.8">0.0.8</h1>
+<h1 id="008">0.0.8</h1>
 <ul><li>
 <p>Support selecting anchormodel inputs via radio buttons</p>
 </li><li>
@@ -683,12 +690,12 @@
 <p>Create new model field type :color</p>
 </li></ul>
 
-<h1 id="label-0.0.7">0.0.7</h1>
+<h1 id="007">0.0.7</h1>
 <ul><li>
 <p>Fix <code>standalone_access_permitted_for?</code> check for buttons pointing to non-get verbs</p>
 </li></ul>
 
-<h1 id="label-0.0.6">0.0.6</h1>
+<h1 id="006">0.0.6</h1>
 <ul><li>
 <p>Fix a bug that breaks hidden fields of type reference</p>
 </li><li>
@@ -709,7 +716,7 @@
 <p>In ModelField Anchormodel, tolerate “value” as input_html key and infer correct constant, allow form.object to be missing</p>
 </li></ul>
 
-<h1 id="label-0.0.5">0.0.5</h1>
+<h1 id="005">0.0.5</h1>
 <ul><li>
 <p>Fix row bug for Email field type</p>
 </li><li>
@@ -726,31 +733,31 @@
 <p>Support hidden Anchormodel fields</p>
 </li></ul>
 
-<h2 id="label-KNOWN+BUGS">KNOWN BUGS</h2>
+<h2 id="known-bugs-1">KNOWN BUGS</h2>
 <ul><li>
 <p>Breaks hidden fields of type reference</p>
 </li></ul>
 
-<h1 id="label-0.0.4">0.0.4</h1>
+<h1 id="004">0.0.4</h1>
 <ul><li>
 <p>Unscope the namespace of resourceful components</p>
 </li><li>
 <p>Add field type :email</p>
 </li></ul>
 
-<h2 id="label-Steps+to+take">Steps to take</h2>
+<h2 id="steps-to-take-7">Steps to take</h2>
 <ul><li>
 <p>When inheriting from components, replace <code>Components::Resourceful::...</code> by <code>Components::...</code></p>
 </li></ul>
 
-<h1 id="label-0.0.3">0.0.3</h1>
+<h1 id="003">0.0.3</h1>
 <ul><li>
 <p>Tolerate nil anchormodels</p>
 </li><li>
 <p>Fix a nil pointer bug in namespace management</p>
 </li></ul>
 
-<h1 id="label-0.0.2">0.0.2</h1>
+<h1 id="002">0.0.2</h1>
 <ul><li>
 <p>Add new model field <code>Attachment</code></p>
 </li><li>
@@ -759,13 +766,13 @@
 <p>Update <code>Gemfile.lock</code></p>
 </li></ul>
 
-<h1 id="label-0.0.1">0.0.1</h1>
+<h1 id="001">0.0.1</h1>
 
 <p>First version</p>
 </div></div>
 
       <div id="footer">
-  Generated on Tue Jun 30 22:41:28 2026 by
+  Generated on Tue Aug 18 14:36:33 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.4.9).
 </div>

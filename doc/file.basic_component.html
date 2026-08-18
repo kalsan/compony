@@ -60,15 +60,15 @@
       <div id="content"><div id='filecontents'>
 <p><a href="/README_md.html#guide--documentation">Back to the guide</a></p>
 
-<h1 id="label-What+is+a+component-3F">What is a component?</h1>
+<h1 id="what-is-a-component">What is a component?</h1>
 
 <p>Compony components are nestable elements that are capable of replacing Rails’ routes, views and controllers. They structure code for data manipulation, authentication and rendering into a single class that can easily be subclassed. This is achieved with Compony’s DSL that provides a readable and overridable way to store your logic.</p>
 
 <p>Just like Rails, Compony is opinionated and you are advised to structure your code according to the examples and explanations. This makes it easier for others to dive into existing code.</p>
 
-<h1 id="label-A+basic+-28bare-29+component">A basic (bare) component</h1>
+<h1 id="a-basic-bare-component">A basic (bare) component</h1>
 
-<h2 id="label-Naming">Naming</h2>
+<h2 id="naming">Naming</h2>
 
 <p>Compony components must be named according to the pattern <code>Components::FamilyName::ComponentName</code>.</p>
 <ul><li>
@@ -81,7 +81,7 @@
 
 <p>If you have abstract components (i.e. components that your app never uses directly, but which you inherit from), you may name and place them arbitrarily.</p>
 
-<h2 id="label-Initialization-2C+manual+instantiation+and+rendering">Initialization, manual instantiation and rendering</h2>
+<h2 id="initialization-manual-instantiation-and-rendering">Initialization, manual instantiation and rendering</h2>
 
 <p>You will rarely have to override <code>def initialize</code> of a component, as most of your code will go into the component’s <code>setup</code> block as explained below. However, when you do, make sure to forward all default arguments to the parent class, as they are essential to the component’s function:</p>
 
@@ -106,7 +106,7 @@
 &lt;%= index_users_comp.render(controller, locals: { weather: :sunny }) %&gt;
 </code></pre>
 
-<h2 id="label-Setup">Setup</h2>
+<h2 id="setup">Setup</h2>
 
 <p>Every component must call the static method <code>setup</code> which will contain most of the code of your components. This can be achieved either by a call directly from your class, or by <a href="/doc/guide/inheritance_md.html">inheriting</a> from a component that calls <code>setup</code>. If both classes call the method, the inherited class’ <code>setup</code> is run first and the inheriting’s second, thus, the child class can override setup properties of the parent class.</p>
 
@@ -121,7 +121,7 @@
 
 <p>The code in setup is run at the end the component’s initialization. In this block, you will call a number of methods that define the component’s behavior and which we will explain now.</p>
 
-<h3 id="label-Labelling">Labelling</h3>
+<h3 id="labelling">Labelling</h3>
 
 <p>This defines a component’s label, both as seen from within the component and from the outside, e.g. from an <a href="/doc/guide/intents_md.html">intent</a>. You can query the label in order to display it as a title in your component. Links and buttons to components will also display the same label, allowing you to easily rename a component, including any parts of your UI that point to it.</p>
 
@@ -174,11 +174,11 @@
 </span><span class='id identifier rubyid_my_component'>my_component</span><span class='period'>.</span><span class='id identifier rubyid_icon'>icon</span> <span class='comment'># [:&#39;fa-solid&#39;, :circle]
 </span></code></pre>
 
-<h3 id="label-Providing+content">Providing content</h3>
+<h3 id="providing-content">Providing content</h3>
 
 <p>Basic components do not come with default content. Instead, you must call the method <code>content</code> inside the setup block and provide a block containing your view. It will be evaluated inside a <a href="/doc/guide/internal_datastructures_md.html#requestcontext">request context</a>.</p>
 
-<p>In this block, provide the HTML to be generated using Dyny: <a href="https://github.com/kalsan/dyny">github.com/kalsan/dyny</a></p>
+<p>In this block, provide the HTML to be generated using Dyny: <a href="https://github.com/kalsan/dyny">https://github.com/kalsan/dyny</a></p>
 
 <p>Here is an example of a component that renders a title along with a paragraph:</p>
 
@@ -191,7 +191,7 @@
 <span class='kw'>end</span>
 </code></pre>
 
-<h4 id="label-Naming+content+blocks-2C+ordering+and+overriding+them+in+subclasses">Naming content blocks, ordering and overriding them in subclasses</h4>
+<h4 id="naming-content-blocks-ordering-and-overriding-them-in-subclasses">Naming content blocks, ordering and overriding them in subclasses</h4>
 
 <p>Content blocks are actually named. The <code>content</code> call adds or replaces a previously defined content block, e.g. in an earlier call to <code>setup</code> in a component’s superclass. When calling <code>content</code> without a name, it defaults to <code>main</code> and will overwrite any previous <code>main</code> content. However, you can provide your own name and refer to other names by using the <code>before:</code> keyword.</p>
 
@@ -214,13 +214,13 @@
 <span class='kw'>end</span>
 </code></pre>
 
-<p>This results in:  - This appears first.  - Welcome to my basic component.  - This paragraph is inserted between the others.  - Thank you and see you tonight.</p>
+<p>This results in: - This appears first. - Welcome to my basic component. - This paragraph is inserted between the others. - Thank you and see you tonight.</p>
 
 <p>As you see, overusing this feature can lead to messy code as it becomes unclear what happens in what order. For this reason, this feature should only be used to decouple the content of your abstract components for allowing surgical overrides in <a href="/doc/guide/inheritance_md.html">subclasses</a>.</p>
 
 <p>It is a good convention to always have one content block named <code>:main</code>, as you might want to refer to it in subclasses.</p>
 
-<h4 id="label-Nesting+content+blocks-2C+calling+a+content+block+from+another">Nesting content blocks, calling a content block from another</h4>
+<h4 id="nesting-content-blocks-calling-a-content-block-from-another">Nesting content blocks, calling a content block from another</h4>
 
 <p>In some situations, such as in forms, it can be useful to nest content blocks. This will also allow subclasses to override a wrapper while keeping the content, and vice versa. To make this possible, you can also use the <code>content</code> keyword inside a content block. Note that unlike the call in <code>setup</code>, this call will render a content block instead of defining it. This happens inside the request context and the content block must be defined inside the current component.</p>
 
@@ -263,7 +263,7 @@
 <pre class="code ruby"><code class="ruby">&lt;div class=&quot;card card-body&quot;&gt;&lt;h1&gt;Hello&lt;/h1&gt;&lt;p&gt;Welcome to my site.&lt;/p&gt;&lt;/div&gt;
 </code></pre>
 
-<h4 id="label-Removing+content+blocks">Removing content blocks</h4>
+<h4 id="removing-content-blocks">Removing content blocks</h4>
 
 <p>If a component’s parent class defines a content block that is undesired in a subclass component, the content block can be removed as follows:</p>
 
@@ -272,7 +272,7 @@
 </span><span class='kw'>end</span>
 </code></pre>
 
-<h3 id="label-Redirecting+away+-2F+Intercepting+rendering">Redirecting away / Intercepting rendering</h3>
+<h3 id="redirecting-away--intercepting-rendering">Redirecting away / Intercepting rendering</h3>
 
 <p>Immediately before the <code>content</code> block(s) are evaluated, another chain of blocks is evaluated if present: <code>before_render</code>. If on of these blocks creates a reponse body in the Rails controller, the subsequent <code>before_render</code> blocks and all <code>content</code> blocks are skipped.</p>
 
@@ -304,7 +304,7 @@
 </div></div>
 
       <div id="footer">
-  Generated on Tue Jun 30 22:41:28 2026 by
+  Generated on Tue Aug 18 14:36:33 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.4.9).
 </div>

@@ -60,7 +60,7 @@
       <div id="content"><div id='filecontents'>
 <p><a href="/README_md.html#guide--documentation">Back to the guide</a></p>
 
-<h1 id="label-Example">Example</h1>
+<h1 id="example">Example</h1>
 
 <p>To get you a rough idea what working with Compony feels like, let’s look at a small dummy application using Compony from scratch, to make this example as explicit as possible. In practice, much of the logic shown here would be moved to abstract components that you can inherit from.</p>
 
@@ -70,7 +70,7 @@
 
 <p>Let’s implement a simple user management page with Compony. User’s have a name, an integer age, a comment, as well as a role (which we will conveniently model using <code>AnchorModel</code>: <a href="https://github.com/kalsan/anchormodel">github.com/kalsan/anchormodel</a>). We want to be able to list, show, create, edit and destroy users. Users having the role Admin shall not be destroyed.</p>
 
-<h2 id="label-The+User+model">The User model</h2>
+<h2 id="the-user-model">The User model</h2>
 
 <p>We’ll assume a model that has the standard Rails schema:</p>
 
@@ -108,7 +108,7 @@
 <span class='kw'>end</span>
 </code></pre>
 
-<h2 id="label-The+Show+component">The Show component</h2>
+<h2 id="the-show-component">The Show component</h2>
 
 <p>This components loads a user by reading the param <code>id</code>. It then displays a simple table showing all the fields defined above.</p>
 
@@ -164,11 +164,11 @@
 
 <p>Here is what our Show component looks like when we have a layout with the bare minimum and no styling at all:</p>
 
-<p><img src="/doc/imgs/intro-example-show.png"></p>
+<p><img src="/doc/imgs/intro-example-show.png" alt="Screenshot"> of our component with an absolutely minimal layout</p>
 
 <p>It is important to note that button styles, navigation, notifications etc. are handled by the application layout. In this and the subsequent screenshots, we explicitely use minimalism, as it makes the generated HTML clearer.</p>
 
-<h2 id="label-The+Destroy+component">The Destroy component</h2>
+<h2 id="the-destroy-component">The Destroy component</h2>
 
 <p>Compony has a built-in abstract <code>Destroy</code> component which displays a confirmation message and destroys the record if the verb is <code>DELETE</code>. This is a good example for how DRY code can become for “boring” components. Since everything is provided with an overridable default, components without special logic can actually be left blank:</p>
 
@@ -178,9 +178,9 @@
 
 <p>Note that this component is fully functional. All is handled by the class it inherits from:</p>
 
-<p><img src="/doc/imgs/intro-example-destroy.png"></p>
+<p><img src="/doc/imgs/intro-example-destroy.png" alt="Screenshot"> of the destroy component</p>
 
-<h2 id="label-The+New+component+and+the+Form+component">The New component and the Form component</h2>
+<h2 id="the-new-component-and-the-form-component">The New component and the Form component</h2>
 
 <p>Compony also has a pre-built abstract <code>New</code> component that handles routing and resource manipulation. It combines the controller actions <code>new</code> and <code>create</code>, depending on the HTTP verb of the request. Since it’s pre-built, any “boring” code can be omitted and our <code>New</code> components looks like this:</p>
 
@@ -212,9 +212,9 @@
 
 <p>This is enough to render a fully functional form that creates new users:</p>
 
-<p><img src="/doc/imgs/intro-example-new.png"></p>
+<p><img src="/doc/imgs/intro-example-new.png" alt="New"> form</p>
 
-<h2 id="label-The+Edit+component">The Edit component</h2>
+<h2 id="the-edit-component">The Edit component</h2>
 
 <p>Just like <code>New</code>, <code>Edit</code> is a pre-built component that handles routing and resource manipulation for editing models, combinding the controller actions <code>edit</code> and <code>update</code> depending on the HTTP verb. It uses that same <code>Form</code> component we wrote above and thus the code is as simple as:</p>
 
@@ -224,9 +224,9 @@
 
 <p>It then looks like this:</p>
 
-<p><img src="/doc/imgs/intro-example-edit.png"></p>
+<p><img src="/doc/imgs/intro-example-edit.png" alt="Edit"> form</p>
 
-<h2 id="label-The+Index+component">The Index component</h2>
+<h2 id="the-index-component">The Index component</h2>
 
 <p>This component should list all users and provide buttons to manage them. We’ll build it from scratch and make it resourceful, where <code>@data</code> holds the ActiveRecord relation.</p>
 
@@ -273,7 +273,7 @@
 
 <p>The result looks like this:</p>
 
-<p><img src="/doc/imgs/intro-example-index.png"></p>
+<p><img src="/doc/imgs/intro-example-index.png" alt="Index"> component</p>
 
 <p>Note how the admin’s delete button is disabled due to the feasibility framework. Pointing the mouse at it causes a tooltip saying: “Cannot destroy admins.”, as specified in the model’s prevention.</p>
 
@@ -281,7 +281,7 @@
 </div></div>
 
       <div id="footer">
-  Generated on Tue Jun 30 22:41:28 2026 by
+  Generated on Tue Aug 18 14:36:33 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.4.9).
 </div>

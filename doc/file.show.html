@@ -63,19 +63,19 @@
 <p><a href="/doc/guide/pre_built_components_md.html">List of pre-built components</a></p>
 </li></ul>
 
-<h1 id="label-Pre-built+components-3A+Show">Pre-built components: Show</h1>
+<h1 id="pre-built-components-show">Pre-built components: Show</h1>
 
 <p><code>Compony::Components::Show</code> is a resourceful standalone component corresponding to a Rails <code>show</code> action. It loads <code>@data</code> by <code>:id</code> and presents its fields.</p>
 
-<h2 id="label-What+it+does+by+default">What it does by default</h2>
+<h2 id="what-it-does-by-default">What it does by default</h2>
 
 <p>From <code>lib/compony/components/show.rb</code>:</p>
 <ul><li>
-<p><strong>Route:</strong> <code>standalone path: &quot;/#{family_name}/:id&quot;</code> with an <code>:id</code> constraint that accepts  integer <strong>or</strong> UUID ids, <code>verb :get</code> authorized by <code>can?(:show, @data)</code>.</p>
+<p><strong>Route:</strong> <code>standalone path: &quot;/#{family_name}/:id&quot;</code> with an <code>:id</code> constraint that accepts integer <strong>or</strong> UUID ids, <code>verb :get</code> authorized by <code>can?(:show, @data)</code>.</p>
 </li><li>
 <p><strong>Labels:</strong> long = <code>data.label</code>; short = a generic translated “Show”.</p>
 </li><li>
-<p><strong>Exposed intents:</strong> <code>:edit</code> and <code>:destroy</code> for <code>@data</code>, plus a <code>:back_to_owner</code> intent  if the model is <a href="/doc/guide/ownership_md.html">owned</a>.</p>
+<p><strong>Exposed intents:</strong> <code>:edit</code> and <code>:destroy</code> for <code>@data</code>, plus a <code>:back_to_owner</code> intent if the model is <a href="/doc/guide/ownership_md.html">owned</a>.</p>
 </li><li>
 <p><strong>Content blocks:</strong></p>
 </li><li>
@@ -89,9 +89,9 @@
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Users</span><span class='op'>::</span><span class='const'>Show</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/Show.html" title="Compony::Components::Show (class)">Show</a></span></span><span class='semicolon'>;</span> <span class='kw'>end</span>   <span class='comment'># fully functional
 </span></code></pre>
 
-<h2 id="label-Column+DSL">Column DSL</h2>
+<h2 id="column-dsl">Column DSL</h2>
 
-<p><code>Show</code> shares a <code>column</code>/<code>columns</code> DSL with href="./list_md.html"></a> (here “column” means an attribute row, since Show renders one record).</p>
+<p><code>Show</code> shares a <code>column</code>/<code>columns</code> DSL with <a href="./list_md.html"><code>List</code></a> (here “column” means an attribute row, since Show renders one record).</p>
 
 <table role="table">
 <thead>
@@ -103,24 +103,24 @@
 </thead>
 <tbody>
 <tr>
-<td>‘column`</td>
-<td>‘column(:name, label: nil, class: nil, link_opts: {}, link_to_component: :show) { |record| … }`</td>
+<td><code>column</code></td>
+<td><code>column(:name, label: nil, class: nil, link_opts: {}, link_to_component: :show) { |record| ... }</code></td>
 <td>Add/define one attribute row. Without a block, treated as a model field; the block (instance-exec’d per record) supplies the value.</td>
 </tr>
 <tr>
-<td>‘columns`</td>
-<td>‘columns(:a, :b, **shared_kwargs)`</td>
-<td>Bulk ‘column`.</td>
+<td><code>columns</code></td>
+<td><code>columns(:a, :b, **shared_kwargs)</code></td>
+<td>Bulk <code>column</code>.</td>
 </tr>
 <tr>
-<td>‘all_field_columns`</td>
-<td>‘all_field_columns(@data)`</td>
+<td><code>all_field_columns</code></td>
+<td><code>all_field_columns(@data)</code></td>
 <td>Add a column for every model field (the default when none declared).</td>
 </tr>
 <tr>
-<td>‘skip_column`</td>
-<td>‘skip_column(:name)`</td>
-<td>Drop an inherited column. When nesting Show in a parent, prefer the constructor’s ‘skip_columns:` kwarg.</td>
+<td><code>skip_column</code></td>
+<td><code>skip_column(:name)</code></td>
+<td>Drop an inherited column. When nesting Show in a parent, prefer the constructor’s <code>skip_columns:</code> kwarg.</td>
 </tr>
 </tbody>
 </table>
@@ -148,7 +148,7 @@
 </div></div>
 
       <div id="footer">
-  Generated on Tue Jun 30 22:41:29 2026 by
+  Generated on Tue Aug 18 14:36:34 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.4.9).
 </div>

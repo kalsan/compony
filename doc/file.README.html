@@ -60,7 +60,7 @@
       <div id="content"><div id='filecontents'>
 <p>&lt;img src=“logo.svg” height=250 alt=“Compony logo”/&gt;</p>
 
-<h1 id="label-Where+to+read+what">Where to read what</h1>
+<h1 id="where-to-read-what">Where to read what</h1>
 <ul><li>
 <p>Get to know what Compony is and which concepts it uses in the <a href="https://github.com/kalsan/compony">README on GitHub</a>.</p>
 </li><li>
@@ -69,7 +69,7 @@
 <p>There is also a <a href="https://www.rubydoc.info/github/kalsan/compony.git">RubyDoc page for Compony</a> available.</p>
 </li></ul>
 
-<h1 id="label-About+Compony">About Compony</h1>
+<h1 id="about-compony">About Compony</h1>
 
 <p>Compony is a Gem that allows you to write your Rails application in <strong>component-style</strong> fashion. It combines a controller action and route along with its view into a single Ruby class. Along with the DSL approach and a powerful model mixin, Compony <strong>makes your application’s code more semantic</strong>, allows writing <strong>much DRYer code</strong>, using inheritance even in views and <strong>much easier refactoring</strong> for your Rails applications, helping you to <strong>keep the code clean as the application evolves</strong>.</p>
 
@@ -95,15 +95,15 @@
 <p>Compony uses <a href="https://github.com/CanCanCommunity/cancancan">CanCanCan</a> for authorization but does not provide an authentication mechanism. You can easily build your own by creating login/logout components that manage cookies, and configure Compony to enforce authentication using the <code>Compony.authentication_before_action</code> setter. I have also successfully tested Compony to work with <a href="https://github.com/heartcombo/devise">Devise</a>.</p>
 </li></ul>
 
-<h2 id="label-State+of+the+project">State of the project</h2>
+<h2 id="state-of-the-project">State of the project</h2>
 
-<p>I am actively using this framework in various applications and both performance and reliability are good. However, the project is experimental and lacking peer reviews and especially automatic testing, such as unit and integration tests. Also, expect there to be (<a href="/CHANGELOG_md.html">documented</a>) breaking changes in the future, as the API will likely be further refined, resulting in renamings and deprecation of various methods.</p>
+<p>I am actively using this framework in various applications and both performance and reliability are good. However, the project is experimental and lacking peer reviews and especially extensive automatic testing, such as unit and integration tests. Also, expect there to be (<a href="/CHANGELOG_md.html">documented</a>) breaking changes in the future, as the API will likely be further refined, resulting in renamings and deprecation of various methods.</p>
 
-<h2 id="label-Other+projects+exploring+similar+concepts">Other projects exploring similar concepts</h2>
+<h2 id="other-projects-exploring-similar-concepts">Other projects exploring similar concepts</h2>
 
 <p>A project with a similar aim, but a different approach, is <a href="https://github.com/phlex-ruby/phlex">Phlex</a>.</p>
 
-<h1 id="label-Guide+-2F+Documentation">Guide / Documentation</h1>
+<h1 id="guide--documentation">Guide / Documentation</h1>
 
 <p>The following topics should help you get started. Please note that the links will not work in yard doc - read this on <a href="https://github.com/kalsan/compony">Compony’s GitHub repo</a>.</p>
 <ul><li>
@@ -181,18 +181,28 @@
 </li></ul>
 </li></ul>
 
-<h1 id="label-Contributing">Contributing</h1>
+<h1 id="contributing">Contributing</h1>
 
 <p>Compony is Free Software under the LGPLv3 and you are most welcome to contribute to it.</p>
 <ul><li>
-<p>If you spotted a security vulnerability, <strong>do not open an issue</strong> but instead use the contact form at <a href="https://kalsan.ch/#contact">kalsan.ch/#contact</a> instead (English is just fine, even if the website is in German).</p>
+<p>If you spotted a security vulnerability, <strong>do not open an issue</strong> but instead use the contact form at <a href="https://kalsan.ch/#contact">https://kalsan.ch/#contact</a> instead (English is just fine, even if the website is in German).</p>
 </li><li>
 <p>If you’d like to contribute feedback or discuss something, please open an issue.</p>
 </li><li>
 <p>If you have an idea that is worth implementing, please fork the repo, implement your changes in your own fork, and open a pull request.</p>
 </li></ul>
 
-<h1 id="label-Caveats">Caveats</h1>
+<h2 id="running-the-tests">Running the tests</h2>
+
+<p>The gem ships an RSpec suite backed by a minimal dummy Rails app (in-memory SQLite, no setup needed):</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_install'>install</span>
+<span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_exec'>exec</span> <span class='id identifier rubyid_rspec'>rspec</span>   <span class='comment'># or: bundle exec rake spec (also the default rake task)
+</span></code></pre>
+
+<p>See <a href="./spec/README_md.html">spec/README.md</a> for the suite’s layout and the reasons behind the Gemfile’s <code>rails</code> and <code>rack</code> version pins.</p>
+
+<h1 id="caveats">Caveats</h1>
 <ul><li>
 <p>The API is not yet as consistent as I’d like it. Examples:</p>
 </li><li>
@@ -212,7 +222,7 @@
 <p>Compony is not compatible with <code>tailwindcss-rails</code>. This is likely due to Tailwind automatically removing any CSS that is not used by the application and the usage detection not picking up Compony components, as their content is not provided in views.</p>
 </li></ul>
 
-<h1 id="label-Acknowledgements">Acknowledgements</h1>
+<h1 id="acknowledgements">Acknowledgements</h1>
 
 <p>A big thank you to Alex and Koni who have patiently listened to my weird ideas and helped me developing them further, resulting in a few of the key concepts of Compony, such as <code>param_name</code>, or the way forms are structured.</p>
 
@@ -220,7 +230,7 @@
 </div></div>
 
       <div id="footer">
-  Generated on Tue Jun 30 22:41:27 2026 by
+  Generated on Tue Aug 18 14:36:32 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.4.9).
 </div>

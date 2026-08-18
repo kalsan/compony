@@ -60,20 +60,20 @@
       <div id="content"><div id='filecontents'>
 <p><a href="/README_md.html#guide--documentation">Back to the guide</a></p>
 
-<h1 id="label-Gotchas+-2F+anti-patterns">Gotchas / anti-patterns</h1>
+<h1 id="gotchas--anti-patterns">Gotchas / anti-patterns</h1>
 
 <p>Known footguns, each with <strong>symptom → cause → fix</strong>. Skim before debugging.</p>
 
-<h3 id="label-1.+standalone+without+an+explicit+path-3A">1. <code>standalone</code> without an explicit <code>path:</code></h3>
+<h3 id="1-standalone-without-an-explicit-path">1. <code>standalone</code> without an explicit <code>path:</code></h3>
 <ul><li>
 <p><strong>Symptom:</strong> <code>undefined method &#39;..._comp_path&#39;</code>, or no route generated for the component.</p>
 </li><li>
 <p><strong>Cause:</strong> <code>standalone</code> only emits a route when a <code>path:</code> is given.</p>
 </li><li>
-<p><strong>Fix:</strong> Always pass <code>standalone path: &#39;users/show/:id&#39; do ... end</code>. A component with no  standalone is valid but must be nested in another component (has no URL).</p>
+<p><strong>Fix:</strong> Always pass <code>standalone path: &#39;users/show/:id&#39; do ... end</code>. A component with no standalone is valid but must be nested in another component (has no URL).</p>
 </li></ul>
 
-<h3 id="label-2.+render_intent+-2F+render_sub_comp+output+not+appearing">2. <code>render_intent</code> / <code>render_sub_comp</code> output not appearing</h3>
+<h3 id="2-renderintent--rendersubcomp-output-not-appearing">2. <code>render_intent</code> / <code>render_sub_comp</code> output not appearing</h3>
 <ul><li>
 <p><strong>Symptom:</strong> The button/list silently missing from the rendered page.</p>
 </li><li>
@@ -82,25 +82,25 @@
 <p><strong>Fix:</strong> Wrap it: <code>concat render_intent(:edit, user)</code> (Dyny’s equivalent of <code>&lt;%= %&gt;</code>).</p>
 </li></ul>
 
-<h3 id="label-3.+Overriding+respond+skips+authorization">3. Overriding <code>respond</code> skips authorization</h3>
+<h3 id="3-overriding-respond-skips-authorization">3. Overriding <code>respond</code> skips authorization</h3>
 <ul><li>
 <p><strong>Symptom:</strong> An endpoint is reachable without the expected permission check.</p>
 </li><li>
-<p><strong>Cause:</strong> <code>authorize</code> is evaluated inside the <em>default</em> <code>respond</code>. A custom <code>respond</code>  (especially the <code>nil</code>/all-formats one) replaces it.</p>
+<p><strong>Cause:</strong> <code>authorize</code> is evaluated inside the <em>default</em> <code>respond</code>. A custom <code>respond</code> (especially the <code>nil</code>/all-formats one) replaces it.</p>
 </li><li>
-<p><strong>Fix:</strong> Re-check authorization yourself inside the custom <code>respond</code>, or keep a separate  default <code>respond</code> for the relevant format.</p>
+<p><strong>Fix:</strong> Re-check authorization yourself inside the custom <code>respond</code>, or keep a separate default <code>respond</code> for the relevant format.</p>
 </li></ul>
 
-<h3 id="label-4.+schema_field+with+the+foreign+key+name">4. <code>schema_field</code> with the foreign key name</h3>
+<h3 id="4-schemafield-with-the-foreign-key-name">4. <code>schema_field</code> with the foreign key name</h3>
 <ul><li>
 <p><strong>Symptom:</strong> Association param rejected by Schemacop / not assigned.</p>
 </li><li>
 <p><strong>Cause:</strong> Compony adds <code>_id</code> for associations automatically.</p>
 </li><li>
-<p><strong>Fix:</strong> Use the <strong>association name</strong>: <code>schema_field :author</code>, not <code>schema_field :author_id</code>.  Same for <code>field :author</code> in <code>form_fields</code>.</p>
+<p><strong>Fix:</strong> Use the <strong>association name</strong>: <code>schema_field :author</code>, not <code>schema_field :author_id</code>. Same for <code>field :author</code> in <code>form_fields</code>.</p>
 </li></ul>
 
-<h3 id="label-5.+Model+without+label">5. Model without <code>label</code></h3>
+<h3 id="5-model-without-label">5. Model without <code>label</code></h3>
 <ul><li>
 <p><strong>Symptom:</strong> Errors or blank text when Compony renders titles/links for the model.</p>
 </li><li>
@@ -109,16 +109,16 @@
 <p><strong>Fix:</strong> Implement <code>def label</code> on every Compony model (or have a <code>label</code> column).</p>
 </li></ul>
 
-<h3 id="label-6.+Forgetting+to+forward+args+in+a+custom+initialize">6. Forgetting to forward args in a custom <code>initialize</code></h3>
+<h3 id="6-forgetting-to-forward-args-in-a-custom-initialize">6. Forgetting to forward args in a custom <code>initialize</code></h3>
 <ul><li>
 <p><strong>Symptom:</strong> <code>parent_comp</code>, <code>@data</code>, comp opts mysteriously <code>nil</code>; nesting broken.</p>
 </li><li>
 <p><strong>Cause:</strong> The base initializer wires essential state. Skipping <code>super</code> drops it.</p>
 </li><li>
-<p><strong>Fix:</strong> Call <code>super(*args, **kwargs, &amp;block)</code> first, then set your own ivars. Prefer  putting logic in <code>setup</code> instead of overriding <code>initialize</code>.</p>
+<p><strong>Fix:</strong> Call <code>super(*args, **kwargs, &amp;block)</code> first, then set your own ivars. Prefer putting logic in <code>setup</code> instead of overriding <code>initialize</code>.</p>
 </li></ul>
 
-<h3 id="label-7.+Reading+a+label+without+its+block+argument">7. Reading a label without its block argument</h3>
+<h3 id="7-reading-a-label-without-its-block-argument">7. Reading a label without its block argument</h3>
 <ul><li>
 <p><strong>Symptom:</strong> <code>wrong number of arguments</code> from a label block.</p>
 </li><li>
@@ -127,7 +127,7 @@
 <p><strong>Fix:</strong> <code>label(User.first)</code> for resourceful; <code>label</code> (no arg) otherwise. At most one arg.</p>
 </li></ul>
 
-<h3 id="label-8.+content+-3Aname+inside+a+block+tries+to+render+another+component-27s+block">8. <code>content :name</code> inside a block tries to render another component’s block</h3>
+<h3 id="8-content-name-inside-a-block-tries-to-render-another-components-block">8. <code>content :name</code> inside a block tries to render another component’s block</h3>
 <ul><li>
 <p><strong>Symptom:</strong> Content block not found / unexpected output.</p>
 </li><li>
@@ -136,25 +136,25 @@
 <p><strong>Fix:</strong> To embed another component use <code>render_sub_comp</code>, not nested <code>content</code>.</p>
 </li></ul>
 
-<h3 id="label-9.+Multiple+pages+in+one+component">9. Multiple pages in one component</h3>
+<h3 id="9-multiple-pages-in-one-component">9. Multiple pages in one component</h3>
 <ul><li>
 <p><strong>Symptom:</strong> Tangled <code>standalone</code>/<code>verb</code>/<code>respond</code> tree, confusing routes.</p>
 </li><li>
-<p><strong>Cause:</strong> Extra <code>standalone</code> calls are for <em>companion</em> endpoints (AJAX tiles, autocomplete  JSON) of the <em>same</em> screen — not for separate pages.</p>
+<p><strong>Cause:</strong> Extra <code>standalone</code> calls are for <em>companion</em> endpoints (AJAX tiles, autocomplete JSON) of the <em>same</em> screen — not for separate pages.</p>
 </li><li>
-<p><strong>Fix:</strong> One screen = one component exposing one main route. Make another component for  another page.</p>
+<p><strong>Fix:</strong> One screen = one component exposing one main route. Make another component for another page.</p>
 </li></ul>
 
-<h3 id="label-10.+Resourceful+component+on+a+path+without+-3Aid">10. Resourceful component on a path without <code>:id</code></h3>
+<h3 id="10-resourceful-component-on-a-path-without-id">10. Resourceful component on a path without <code>:id</code></h3>
 <ul><li>
 <p><strong>Symptom:</strong> <code>Couldn&#39;t find &lt;Model&gt; without an ID</code> (e.g. an Index at <code>/users</code>).</p>
 </li><li>
 <p><strong>Cause:</strong> Default <code>load_data</code> does <code>data_class.find(params[:id])</code>.</p>
 </li><li>
-<p><strong>Fix:</strong> Override <code>load_data { @data = User.all }</code> (or your scope) for collection/index  components.</p>
+<p><strong>Fix:</strong> Override <code>load_data { @data = User.all }</code> (or your scope) for collection/index components.</p>
 </li></ul>
 
-<h3 id="label-11.+redirect_to+with+a+hardcoded+path">11. <code>redirect_to</code> with a hardcoded path</h3>
+<h3 id="11-redirectto-with-a-hardcoded-path">11. <code>redirect_to</code> with a hardcoded path</h3>
 <ul><li>
 <p><strong>Symptom:</strong> Links break after renaming/moving a component.</p>
 </li><li>
@@ -163,56 +163,56 @@
 <p><strong>Fix:</strong> Use <code>redirect_to Compony.path(:index, :users)</code> / <code>Compony.path(:show, @data)</code>.</p>
 </li></ul>
 
-<h3 id="label-12.+ActiveStorage+attachment+on+a+virtual+model">12. ActiveStorage attachment on a virtual model</h3>
+<h3 id="12-activestorage-attachment-on-a-virtual-model">12. ActiveStorage attachment on a virtual model</h3>
 <ul><li>
 <p><strong>Symptom:</strong> Uploaded file not persisted for a <code>Compony::VirtualModel</code>.</p>
 </li><li>
-<p><strong>Cause:</strong> Virtual models aren’t backed by a real table; the default <code>store_data</code> save  doesn’t persist attachments.</p>
+<p><strong>Cause:</strong> Virtual models aren’t backed by a real table; the default <code>store_data</code> save doesn’t persist attachments.</p>
 </li><li>
-<p><strong>Fix:</strong> Override <code>store_data</code> to only validate (<code>@create_succeeded = @data.validate</code>) and  perform the real mutation/attachment in <code>on_created_respond</code>. See  <a href="/doc/guide/virtual_models_md.html">virtual_models.md</a>.</p>
+<p><strong>Fix:</strong> Override <code>store_data</code> to only validate (<code>@create_succeeded = @data.validate</code>) and perform the real mutation/attachment in <code>on_created_respond</code>. See <a href="/doc/guide/virtual_models_md.html">virtual_models.md</a>.</p>
 </li></ul>
 
-<h3 id="label-13.+tailwindcss-rails+purges+Compony+styles">13. <code>tailwindcss-rails</code> purges Compony styles</h3>
+<h3 id="13-tailwindcss-rails-purges-compony-styles">13. <code>tailwindcss-rails</code> purges Compony styles</h3>
 <ul><li>
 <p><strong>Symptom:</strong> Compony component markup unstyled in production.</p>
 </li><li>
-<p><strong>Cause:</strong> Tailwind’s unused-CSS purge doesn’t scan component classes (their HTML isn’t in  <code>app/views</code>).</p>
+<p><strong>Cause:</strong> Tailwind’s unused-CSS purge doesn’t scan component classes (their HTML isn’t in <code>app/views</code>).</p>
 </li><li>
-<p><strong>Fix:</strong> Safelist the classes, or don’t use <code>tailwindcss-rails</code> with Compony (see  README “Caveats”).</p>
+<p><strong>Fix:</strong> Safelist the classes, or don’t use <code>tailwindcss-rails</code> with Compony (see README “Caveats”).</p>
 </li></ul>
 
-<h3 id="label-14.+Public+endpoint+still+401-2Fredirecting">14. Public endpoint still 401/redirecting</h3>
+<h3 id="14-public-endpoint-still-401redirecting">14. Public endpoint still 401/redirecting</h3>
 <ul><li>
 <p><strong>Symptom:</strong> Webhook/public action blocked by app auth or CSRF.</p>
 </li><li>
-<p><strong>Cause:</strong> <code>skip_authentication!</code> alone doesn’t remove CSRF, and <code>authorize</code> is still  mandatory.</p>
+<p><strong>Cause:</strong> <code>skip_authentication!</code> alone doesn’t remove CSRF, and <code>authorize</code> is still mandatory.</p>
 </li><li>
-<p><strong>Fix:</strong> In the standalone: <code>skip_authentication!</code> + <code>skip_forgery_protection!</code>, and in  the verb <code>authorize { true }</code> (then validate a bearer token yourself).</p>
+<p><strong>Fix:</strong> In the standalone: <code>skip_authentication!</code> + <code>skip_forgery_protection!</code>, and in the verb <code>authorize { true }</code> (then validate a bearer token yourself).</p>
 </li></ul>
 
-<h3 id="label-15.+Hand-rolled+endpoint+where+a+pre-built+CRUD+component+exists">15. Hand-rolled endpoint where a pre-built CRUD component exists</h3>
+<h3 id="15-hand-rolled-endpoint-where-a-pre-built-crud-component-exists">15. Hand-rolled endpoint where a pre-built CRUD component exists</h3>
 <ul><li>
-<p><strong>Symptom:</strong> A custom <code>Compony::Component</code> with manual <code>button_to</code>/standalone for  delete/edit/create, duplicating routing, authorization, confirmation UI, styling.</p>
+<p><strong>Symptom:</strong> A custom <code>Compony::Component</code> with manual <code>button_to</code>/standalone for delete/edit/create, duplicating routing, authorization, confirmation UI, styling.</p>
 </li><li>
 <p><strong>Cause:</strong> Reaching for a bespoke component instead of the pre-built one.</p>
 </li><li>
-<p><strong>Fix:</strong> For CRUD use the pre-built parents (<code>Destroy</code>/<code>Edit</code>/<code>New</code>/<code>Show</code>/<code>Index</code>) and  point with <code>render_intent(:destroy, record)</code>. Reserve custom <code>Compony::Component</code>  standalones for genuinely non-CRUD actions (job dispatch, webhooks, multi-record ops).  Put a resourceful component in the family of the model it operates on, not the family  it is navigated from; pass parent context via path params.</p>
+<p><strong>Fix:</strong> For CRUD use the pre-built parents (<code>Destroy</code>/<code>Edit</code>/<code>New</code>/<code>Show</code>/<code>Index</code>) and point with <code>render_intent(:destroy, record)</code>. Reserve custom <code>Compony::Component</code> standalones for genuinely non-CRUD actions (job dispatch, webhooks, multi-record ops). Put a resourceful component in the family of the model it operates on, not the family it is navigated from; pass parent context via path params.</p>
 </li></ul>
 
-<h3 id="label-16.+attr_accessor+on+a+model+for+form-only+fields">16. <code>attr_accessor</code> on a model for form-only fields</h3>
+<h3 id="16-attraccessor-on-a-model-for-form-only-fields">16. <code>attr_accessor</code> on a model for form-only fields</h3>
 <ul><li>
 <p><strong>Symptom:</strong> Virtual form fields declared as <code>attr_accessor</code> on the ActiveRecord model.</p>
 </li><li>
 <p><strong>Cause:</strong> Polluting the persistent model with form-only concerns.</p>
 </li><li>
-<p><strong>Fix:</strong> Use an <code>ActiveType::Record[Model]</code> (or <code>Compony::VirtualModel</code>) inner class on  the component with <code>ar_attribute</code> + <code>field</code>, and set <code>data_class</code> to it. See  <a href="/doc/guide/virtual_models_md.html">virtual_models.md</a>.</p>
+<p><strong>Fix:</strong> Use an <code>ActiveType::Record[Model]</code> (or <code>Compony::VirtualModel</code>) inner class on the component with <code>ar_attribute</code> + <code>field</code>, and set <code>data_class</code> to it. See <a href="/doc/guide/virtual_models_md.html">virtual_models.md</a>.</p>
 </li></ul>
 
 <p><a href="/README_md.html#guide--documentation">Guide index</a></p>
 </div></div>
 
       <div id="footer">
-  Generated on Tue Jun 30 22:41:29 2026 by
+  Generated on Tue Aug 18 14:36:35 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.4.9).
 </div>

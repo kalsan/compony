@@ -60,7 +60,7 @@
       <div id="content"><div id='filecontents'>
 <p><a href="/README_md.html#guide--documentation">Back to the guide</a></p>
 
-<h1 id="label-Inheritance">Inheritance</h1>
+<h1 id="inheritance">Inheritance</h1>
 
 <p>Compony’s key advantage is that you can write DRYer code with it. To achieve this, you are encouraged to create abstract components, implement common functionality there and inherit from them in other components.</p>
 
@@ -71,7 +71,7 @@
 <p>Perhaps you often implement the same kind of component, for instance an index component displaying a filterable list. In this case, create <code>BaseComponents::Index</code> and inherit as follows: <code>class Components::Users::Index &lt; BaseComponents::Index</code>.</p>
 </li></ul>
 
-<h2 id="label-Behavior">Behavior</h2>
+<h2 id="behavior">Behavior</h2>
 
 <p>When inheriting from another component class, <code>setup</code> can be called in the child as well in order to overwrite specified configurations. The parent’s <code>setup</code> block will be run first, then the child’s, then the grand-child’s and so on.</p>
 
@@ -102,7 +102,7 @@
 <span class='kw'>end</span>
 </code></pre>
 
-<h2 id="label-Un-exposing+a+component">Un-exposing a component</h2>
+<h2 id="un-exposing-a-component">Un-exposing a component</h2>
 
 <p>If a component’s parent class is <a href="./standalone_md.html">standalone</a> but the child should not be, use <code>clear_standalone!</code>:</p>
 
@@ -111,7 +111,7 @@
 <span class='kw'>end</span>
 </code></pre>
 
-<h2 id="label-Best+practice">Best practice</h2>
+<h2 id="best-practice">Best practice</h2>
 
 <p>Compony has the following convention:</p>
 <ul><li>
@@ -126,7 +126,7 @@
 </div></div>
 
       <div id="footer">
-  Generated on Tue Jun 30 22:41:28 2026 by
+  Generated on Tue Aug 18 14:36:33 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.4.9).
 </div>

@@ -63,13 +63,13 @@
 <p><a href="/doc/guide/pre_built_components_md.html">List of pre-built components</a></p>
 </li></ul>
 
-<h1 id="label-Pre-built+components-3A+Form">Pre-built components: Form</h1>
+<h1 id="pre-built-components-form">Pre-built components: Form</h1>
 
-<p>This component holds a form and should only be instantiated by the <code>form_comp</code> call of a component that inherits from href="./with_form_md.html"></a>.</p>
+<p>This component holds a form and should only be instantiated by the <code>form_comp</code> call of a component that inherits from <a href="./with_form_md.html"><code>WithForm</code></a>.</p>
 
-<p><code>Compony::Components::Form</code> is an abstract base class for any components presenting a regular form. This class comes with a lot of tooling for rendering forms and inputs, as well as validating parameters. When the component is rendered, the Gem SimpleForm is used to create the actual form: <a href="https://github.com/heartcombo/simple_form">github.com/heartcombo/simple_form</a>.</p>
+<p><code>Compony::Components::Form</code> is an abstract base class for any components presenting a regular form. This class comes with a lot of tooling for rendering forms and inputs, as well as validating parameters. When the component is rendered, the Gem SimpleForm is used to create the actual form: <a href="https://github.com/heartcombo/simple_form">https://github.com/heartcombo/simple_form</a>.</p>
 
-<p>Parameters are structured like typical Rails forms. For instance, if you have a form for a <code>User</code> model and the attribute is <code>first_name</code>, the parameter looks like <code>user[first_name]=Tom</code>. In this case, we will call <code>user</code> the <code>schema_wrapper_key</code>. Parameters are validated using Schemacop: <a href="https://github.com/sitrox/schemacop">github.com/sitrox/schemacop</a>.</p>
+<p>Parameters are structured like typical Rails forms. For instance, if you have a form for a <code>User</code> model and the attribute is <code>first_name</code>, the parameter looks like <code>user[first_name]=Tom</code>. In this case, we will call <code>user</code> the <code>schema_wrapper_key</code>. Parameters are validated using Schemacop: <a href="https://github.com/sitrox/schemacop">https://github.com/sitrox/schemacop</a>.</p>
 
 <p>The following DSL calls are provided by the Form component:</p>
 <ul><li>
@@ -113,7 +113,7 @@
 
 <p>Both calls respect Cancancan’s <code>permitted_attributes</code> directive. This means that you can safely declare <code>field</code> and <code>schema_field</code> in a form that is shared among users with different kinds of permissions. If the current user is not allowed to access a field, the input will be omitted automatically. Further, the parameter validation will exclude that field, effectively disallowing that user from submitting that parameter.</p>
 
-<h2 id="label-Handling+password+fields">Handling password fields</h2>
+<h2 id="handling-password-fields">Handling password fields</h2>
 
 <p>When using Rails’ <code>has_secure_password</code> method, which typically generates the attributes accessors <code>:password</code> and <code>password_confirmation</code>, do not declare these two as fields in your User model.</p>
 
@@ -150,7 +150,7 @@
   cannot :set_password, User # This prohibits setting and changing passwords of any user
 </code></pre>
 
-<h2 id="label-Dealing+with+multilingual+fields">Dealing with multilingual fields</h2>
+<h2 id="dealing-with-multilingual-fields">Dealing with multilingual fields</h2>
 
 <p>When using Gems such as <code>mobility</code>, Compony provides support for multilingual fields. For instance, assuming that a model has the attribute <code>label</code> translated in English and German, making <code>label</code> a virtual attribute reading either <code>label_en</code> and <code>label_de</code>, depending on the user’s language, Compony automatically generates a multilingual field if the following is used:</p>
 
@@ -185,7 +185,7 @@
 </div></div>
 
       <div id="footer">
-  Generated on Tue Jun 30 22:41:29 2026 by
+  Generated on Tue Aug 18 14:36:34 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.4.9).
 </div>

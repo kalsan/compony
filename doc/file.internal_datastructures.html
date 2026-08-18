@@ -60,11 +60,11 @@
       <div id="content"><div id='filecontents'>
 <p><a href="/README_md.html#guide--documentation">Back to the guide</a></p>
 
-<h1 id="label-Internal+datastructures">Internal datastructures</h1>
+<h1 id="internal-datastructures">Internal datastructures</h1>
 
 <p>Compony has a few internal data structures that are worth mentioning. Especially when building your own UI framework on top of Compony, these might come in handy.</p>
 
-<h2 id="label-MethodAccessibleHash">MethodAccessibleHash</h2>
+<h2 id="methodaccessiblehash">MethodAccessibleHash</h2>
 
 <p>This is a simpler and safer version of <a href="https://github.com/ruby/ostruct">OpenStruct</a>, allowing you to access a hash’s keys via method accessors.</p>
 
@@ -77,11 +77,11 @@
 </span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_color'>color</span> <span class='comment'># =&gt; green
 </span></code></pre>
 
-<p>This part of Compony is also made available under the MIT license at: <a href="https://gist.github.com/kalsan/87826048ea0ade92ab1be93c0919b405">gist.github.com/kalsan/87826048ea0ade92ab1be93c0919b405</a>.</p>
+<p>This part of Compony is also made available under the MIT license at: <a href="https://gist.github.com/kalsan/87826048ea0ade92ab1be93c0919b405">https://gist.github.com/kalsan/87826048ea0ade92ab1be93c0919b405</a>.</p>
 
-<h2 id="label-RequestContext">RequestContext</h2>
+<h2 id="requestcontext">RequestContext</h2>
 
-<p>The content blocks, as well as Form’s <code>form_fields</code> block all run within a <code>Compony::RequestContext</code>, which encapsulates useful methods for accessing data within a request. RequestContext is a Dslblend object and contains all the magic described in <a href="https://github.com/kalsan/dslblend">github.com/kalsan/dslblend</a>.</p>
+<p>The content blocks, as well as Form’s <code>form_fields</code> block all run within a <code>Compony::RequestContext</code>, which encapsulates useful methods for accessing data within a request. RequestContext is a Dslblend object and contains all the magic described in <a href="https://github.com/kalsan/dslblend">https://github.com/kalsan/dslblend</a>.</p>
 
 <p>The main provider (refer to the Dslblend documentation to find out what that means) is set to the component. Additional providers are controller’s helpers, the controller itself, as well as custom additional providers that can be fed to RequestContext in the initializer.</p>
 
@@ -119,7 +119,7 @@
 </div></div>
 
       <div id="footer">
-  Generated on Tue Jun 30 22:41:29 2026 by
+  Generated on Tue Aug 18 14:36:34 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.4.9).
 </div>

@@ -63,22 +63,22 @@
 <p><a href="/doc/guide/pre_built_components_md.html">List of pre-built components</a></p>
 </li></ul>
 
-<h1 id="label-Pre-built+components-3A+WithForm">Pre-built components: WithForm</h1>
+<h1 id="pre-built-components-withform">Pre-built components: WithForm</h1>
 
-<p><code>Compony::Components::WithForm</code> is the abstract base for components that render and submit a form. It is <strong>twinned</strong> with a href="./form_md.html"></a> component: WithForm provides the route, authorization and resource handling; the Form provides the inputs and param schema. href="./new_md.html"></a> and href="./edit_md.html"></a> both inherit from WithForm — you rarely subclass it directly, but understanding the twinning explains how they work.</p>
+<p><code>Compony::Components::WithForm</code> is the abstract base for components that render and submit a form. It is <strong>twinned</strong> with a <a href="./form_md.html"><code>Form</code></a> component: WithForm provides the route, authorization and resource handling; the Form provides the inputs and param schema. <a href="./new_md.html"><code>New</code></a> and <a href="./edit_md.html"><code>Edit</code></a> both inherit from WithForm — you rarely subclass it directly, but understanding the twinning explains how they work.</p>
 
 <p>A WithForm component may be resourceful (New/Edit are) but does not have to be.</p>
 
-<h2 id="label-How+the+twinning+works">How the twinning works</h2>
+<h2 id="how-the-twinning-works">How the twinning works</h2>
 <ul><li>
-<p><code>form_comp</code> returns the Form instance, built lazily. It defaults to the component named  <code>Form</code> in the <strong>same family</strong>, instantiated with this component as <code>parent_comp</code> and  passed <code>submit_verb</code>, <code>submit_path</code> and <code>cancancan_action</code>.</p>
+<p><code>form_comp</code> returns the Form instance, built lazily. It defaults to the component named <code>Form</code> in the <strong>same family</strong>, instantiated with this component as <code>parent_comp</code> and passed <code>submit_verb</code>, <code>submit_path</code> and <code>cancancan_action</code>.</p>
 </li><li>
-<p>The Form renders inside this component’s <code>content</code> (e.g. New/Edit do  <code>concat form_comp.render(controller, data: @data)</code>).</p>
+<p>The Form renders inside this component’s <code>content</code> (e.g. New/Edit do <code>concat form_comp.render(controller, data: @data)</code>).</p>
 </li><li>
-<p>The form’s <code>&lt;form&gt;</code> posts back to <code>submit_path</code> using <code>submit_verb</code>; that same component  handles the submit verb (POST for New, PATCH for Edit) and runs the resourceful  lifecycle (<code>assign_attributes</code> → <code>store_data</code> → <code>respond</code>).</p>
+<p>The form’s <code>&lt;form&gt;</code> posts back to <code>submit_path</code> using <code>submit_verb</code>; that same component handles the submit verb (POST for New, PATCH for Edit) and runs the resourceful lifecycle (<code>assign_attributes</code> → <code>store_data</code> → <code>respond</code>).</p>
 </li></ul>
 
-<h2 id="label-DSL+methods">DSL methods</h2>
+<h2 id="dsl-methods">DSL methods</h2>
 
 <table role="table">
 <thead>
@@ -90,34 +90,34 @@
 </thead>
 <tbody>
 <tr>
-<td>‘submit_verb`</td>
-<td>‘submit_verb(:patch)`</td>
-<td>HTTP verb the twinned form submits with. Mandatory (New sets ‘:post`, Edit `:patch`).</td>
+<td><code>submit_verb</code></td>
+<td><code>submit_verb(:patch)</code></td>
+<td>HTTP verb the twinned form submits with. Mandatory (New sets <code>:post</code>, Edit <code>:patch</code>).</td>
 </tr>
 <tr>
-<td>‘form_comp_class`</td>
-<td>‘form_comp_class(Components::Users::SignupForm)`</td>
-<td>Use a specific Form class instead of the same-family ‘Form`.</td>
+<td><code>form_comp_class</code></td>
+<td><code>form_comp_class(Components::Users::SignupForm)</code></td>
+<td>Use a specific Form class instead of the same-family <code>Form</code>.</td>
 </tr>
 <tr>
-<td>‘submit_path`</td>
-<td>‘submit_path { Compony.path(:create, :users) }`</td>
+<td><code>submit_path</code></td>
+<td><code>submit_path { Compony.path(:create, :users) }</code></td>
 <td>Override where the form submits. Block is given the controller; defaults to this component’s own path.</td>
 </tr>
 <tr>
-<td>‘form_cancancan_action`</td>
-<td>‘form_cancancan_action(:edit)`</td>
-<td>CanCanCan action used by the Form for per-field ‘permitted_attributes` (New sets `:new`, Edit `:edit`). Pass `nil` to disable per-field auth.</td>
+<td><code>form_cancancan_action</code></td>
+<td><code>form_cancancan_action(:edit)</code></td>
+<td>CanCanCan action used by the Form for per-field <code>permitted_attributes</code> (New sets <code>:new</code>, Edit <code>:edit</code>). Pass <code>nil</code> to disable per-field auth.</td>
 </tr>
 <tr>
-<td>‘form_comp`</td>
-<td>‘form_comp`</td>
+<td><code>form_comp</code></td>
+<td><code>form_comp</code></td>
 <td>(Not DSL — a reader.) The Form instance; override in a subclass for full control.</td>
 </tr>
 </tbody>
 </table>
 
-<h2 id="label-Example-3A+a+custom+non-default+form">Example: a custom non-default form</h2>
+<h2 id="example-a-custom-non-default-form">Example: a custom non-default form</h2>
 
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'><span class='object_link'><a href="Components.html" title="Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'>Users</span><span class='op'>::</span><span class='const'>Signup</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components.html" title="Compony::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Compony/Components/New.html" title="Compony::Components::New (class)">New</a></span></span>
   <span class='id identifier rubyid_setup'>setup</span> <span class='kw'>do</span>
@@ -143,11 +143,11 @@
 <span class='kw'>end</span>
 </code></pre>
 
-<p>For the full submit/redirect behavior see href="./new_md.html"></a> and href="./edit_md.html"></a>; for the form input/schema DSL see href="./form_md.html"></a>; for the lifecycle hooks see <a href="/doc/guide/resourceful_md.html">Resourceful</a>. Multi-step and clone flows that reuse this machinery are in <a href="../patterns_md.html#11-non-crud-job-dispatch-toggles-clone">Real-world patterns</a>.</p>
+<p>For the full submit/redirect behavior see <a href="./new_md.html"><code>New</code></a> and <a href="./edit_md.html"><code>Edit</code></a>; for the form input/schema DSL see <a href="./form_md.html"><code>Form</code></a>; for the lifecycle hooks see <a href="/doc/guide/resourceful_md.html">Resourceful</a>. Multi-step and clone flows that reuse this machinery are in <a href="../patterns_md.html#11-non-crud-job-dispatch-toggles-clone">Real-world patterns</a>.</p>
 </div></div>
 
       <div id="footer">
-  Generated on Tue Jun 30 22:41:29 2026 by
+  Generated on Tue Aug 18 14:36:34 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.4.9).
 </div>

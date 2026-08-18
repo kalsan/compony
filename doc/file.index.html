@@ -63,23 +63,23 @@
 <p><a href="/doc/guide/pre_built_components_md.html">List of pre-built components</a></p>
 </li></ul>
 
-<h1 id="label-Pre-built+components-3A+Index">Pre-built components: Index</h1>
+<h1 id="pre-built-components-index">Pre-built components: Index</h1>
 
-<p><code>Compony::Components::Index</code> is a resourceful standalone component corresponding to Rails’ <code>index</code> controller action. It holds a collection of records and is a thin wrapper that nests the href="./list_md.html"></a> component of the same family.</p>
+<p><code>Compony::Components::Index</code> is a resourceful standalone component corresponding to Rails’ <code>index</code> controller action. It holds a collection of records and is a thin wrapper that nests the <a href="./list_md.html"><code>List</code></a> component of the same family.</p>
 
-<h2 id="label-What+it+does+by+default">What it does by default</h2>
+<h2 id="what-it-does-by-default">What it does by default</h2>
 
 <p>The shipped <code>setup</code> (see <code>lib/compony/components/index.rb</code>) is deliberately minimal:</p>
 <ul><li>
-<p><strong>Route:</strong> <code>standalone path: family_name</code> with a <code>verb :get</code> authorized by  <code>can?(:index, data_class)</code>, e.g. <code>/users</code>.</p>
+<p><strong>Route:</strong> <code>standalone path: family_name</code> with a <code>verb :get</code> authorized by <code>can?(:index, data_class)</code>, e.g. <code>/users</code>.</p>
 </li><li>
 <p><strong>Label:</strong> <code>label(:all) { data_class.model_name.human(count: 2) }</code> — e.g. “Users”.</p>
 </li><li>
-<p><strong>Data:</strong> <code>load_data { @data = data_class.accessible_by(controller.current_ability) }</code>  — the full CanCanCan[https://github.com/CanCanCommunity/cancancan]-scoped collection.</p>
+<p><strong>Data:</strong> <code>load_data { @data = data_class.accessible_by(controller.current_ability) }</code> — the full <a href="https://github.com/CanCanCommunity/cancancan">CanCanCan</a>-scoped collection.</p>
 </li><li>
-<p><strong>Exposed intent:</strong> adds a <code>:new</code> intent (unless the model is  <a href="/doc/guide/ownership_md.html">owned</a> by another).</p>
+<p><strong>Exposed intent:</strong> adds a <code>:new</code> intent (unless the model is <a href="/doc/guide/ownership_md.html">owned</a> by another).</p>
 </li><li>
-<p><strong>Content:</strong> <code>concat render_sub_comp(:list, @data)</code> — delegates all rendering to the  family’s <code>List</code>.</p>
+<p><strong>Content:</strong> <code>concat render_sub_comp(:list, @data)</code> — delegates all rendering to the family’s <code>List</code>.</p>
 </li></ul>
 
 <p>So with both an <code>Index</code> and a <code>List</code> component present, a family lists out of the box:</p>
@@ -90,7 +90,7 @@
 <span class='kw'>end</span>
 </code></pre>
 
-<h2 id="label-Typical+overrides">Typical overrides</h2>
+<h2 id="typical-overrides">Typical overrides</h2>
 
 <p>Narrow or order the collection:</p>
 
@@ -121,11 +121,11 @@
 <span class='kw'>end</span>
 </code></pre>
 
-<p>In practice apps put the layout/markup chrome in a <code>BaseComponents::Index</code> and inherit from that — see <a href="../patterns_md.html#3-index--load_data-scope--nested-list">Real-world patterns</a>. For column/filter/sort configuration, see href="./list_md.html"></a>.</p>
+<p>In practice apps put the layout/markup chrome in a <code>BaseComponents::Index</code> and inherit from that — see <a href="../patterns_md.html#3-index--load_data-scope--nested-list">Real-world patterns</a>. For column/filter/sort configuration, see <a href="./list_md.html"><code>List</code></a>.</p>
 </div></div>
 
       <div id="footer">
-  Generated on Tue Jun 30 22:41:29 2026 by
+  Generated on Tue Aug 18 14:36:34 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.4.9).
 </div>

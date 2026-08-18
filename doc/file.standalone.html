@@ -60,7 +60,7 @@
       <div id="content"><div id='filecontents'>
 <p><a href="/README_md.html#guide--documentation">Back to the guide</a></p>
 
-<h1 id="label-Standalone+-28routing+to+components-29">Standalone (routing to components)</h1>
+<h1 id="standalone-routing-to-components">Standalone (routing to components)</h1>
 
 <p>As stated earlier, Compony can generate routes to your components. This is achieved by using the standalone DSL inside the setup block. The first step is calling the method <code>standalone</code> with a path. Inside this block, you will then specify which HTTP verbs (e.g. GET, PATCH etc.) the component should listen to. As soon as both are specified, Compony will generate an appropriate route.</p>
 
@@ -106,7 +106,7 @@
 </li></ul>
 </li></ul>
 
-<h2 id="label-Exposing+multiple+paths+in+the+same+component+-28calling+standalone+multiple+times-29">Exposing multiple paths in the same component (calling standalone multiple times)</h2>
+<h2 id="exposing-multiple-paths-in-the-same-component-calling-standalone-multiple-times">Exposing multiple paths in the same component (calling standalone multiple times)</h2>
 
 <p>If your component loads data dynamically from a JavaScript front-end (e.g. implemented via Stimulus), you will find yourself in the situation where you need an extra route for a functionality that inherently belongs to the same component. Example use cases would be search fields that load data as the user types, maps that load tiles, dynamic photo galleries etc.</p>
 
@@ -135,16 +135,16 @@
 
 <p>Please note that the idea here is to package things that belong together, not to provide different kinds of content in a single component. For displaying different pages, use multiple components and have each expose a single route.</p>
 
-<h2 id="label-Naming+of+exposed+routes">Naming of exposed routes</h2>
+<h2 id="naming-of-exposed-routes">Naming of exposed routes</h2>
 
-<p>The routes to standalone components are named and you can point to them using Rails’ <code>..._path</code> and <code>..._url</code> helpers. The naming scheme is: <code>[standalone]<em>[component]</em>[family]_comp</code>. Examples:</p>
+<p>The routes to standalone components are named and you can point to them using Rails’ <code>..._path</code> and <code>..._url</code> helpers. The naming scheme is: <code>[standalone]_[component]_[family]_comp</code>. Examples:</p>
 <ul><li>
 <p>Default standalone: <code>Components::Users::Index</code> exports <code>index_users_comp</code> and thus <code>index_users_comp_path</code> can be used.</p>
 </li><li>
 <p>Named standalone: If <code>standalone :foo, path: ...</code> is used within <code>Components::Users::Index</code>, the exported name is <code>foo_index_users_comp</code>.</p>
 </li></ul>
 
-<h2 id="label-Handling+formats">Handling formats</h2>
+<h2 id="handling-formats">Handling formats</h2>
 
 <p>Compony is capable of responding to formats like Rails does. This is useful to deliver PDFs, CSV files etc. to a user from within Compony. This can be achieved by specifying the <code>respond</code> block:</p>
 
@@ -165,7 +165,7 @@
 <span class='kw'>end</span>
 </code></pre>
 
-<h2 id="label-Redirect+in+respond+or+in+before_render-3F">Redirect in <code>respond</code> or in <code>before_render</code>?</h2>
+<h2 id="redirect-in-respond-or-in-beforerender">Redirect in <code>respond</code> or in <code>before_render</code>?</h2>
 
 <p>Rails controller redirects can be issued both in a verb DSL’s <code>respond</code> block and in <code>before_render</code>. The rule of thumb that tells you which way to go is:</p>
 <ul><li>
@@ -174,7 +174,7 @@
 <p>If you want to redirect depending on params, state, time etc. <strong>independently of the HTTP verb</strong>, use <code>before_render</code>, as this is more convenient than writing a standalone -&gt; verb -&gt; respond tree.</p>
 </li></ul>
 
-<h2 id="label-Path+constraints">Path constraints</h2>
+<h2 id="path-constraints">Path constraints</h2>
 
 <p>When calling <code>standalone</code>, you may specify the keyword <code>constraints</code> that will be passed to the route. For example:</p>
 
@@ -185,7 +185,7 @@
 </span><span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>:lang</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>constraints:</span> <span class='lbrace'>{</span> <span class='label'>lang:</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>([a-z]{2})?</span><span class='regexp_end'>/i</span></span> <span class='rbrace'>}</span>
 </code></pre>
 
-<h2 id="label-Passing+scopes">Passing scopes</h2>
+<h2 id="passing-scopes">Passing scopes</h2>
 
 <p>When calling <code>standalone</code>, you may specify the keyword <code>scope</code> to wrap the component’s Rails route into a route scope. Additionally, you may specify a hash <code>scope_args</code>, which will be passed as keyword arguments to the <code>scope</code> call in the route:</p>
 
@@ -202,7 +202,7 @@
 <span class='kw'>end</span>
 </code></pre>
 
-<h2 id="label-Customizing+path+generation">Customizing path generation</h2>
+<h2 id="customizing-path-generation">Customizing path generation</h2>
 
 <p>By implementing <code>path do ... end</code> inside the <code>setup</code> method of a component, you can override the way paths to that component are generated. Customizing the path generation will affect all mentioned methods mentioned here involving paths, such as <code>Compony.path</code>, <code>render_intent</code> etc.</p>
 
@@ -212,9 +212,9 @@
 
 <p>Where overriding <code>path</code> is genuinely useful:</p>
 <ul><li>
-<p><strong>Inject a derived/looked-up param.</strong> Callers pass a high-level argument and the block  turns it into concrete path params.</p>
+<p><strong>Inject a derived/looked-up param.</strong> Callers pass a high-level argument and the block turns it into concrete path params.</p>
 </li><li>
-<p><strong>Mint a signed token into the URL</strong> so an unauthenticated link can authorize itself —  a full worked recipe is in  <a href="/doc/guide/patterns_md.html#18-signed-token-capability-links-auth-less-onboarding--magic-links">Real-world patterns §18 (signed-token capability links)</a>  (magic login, password reset, invite/confirm links).</p>
+<p><strong>Mint a signed token into the URL</strong> so an unauthenticated link can authorize itself — a full worked recipe is in <a href="/doc/guide/patterns_md.html#18-signed-token-capability-links-auth-less-onboarding--magic-links">Real-world patterns §18 (signed-token capability links)</a> (magic login, password reset, invite/confirm links).</p>
 </li><li>
 <p><strong>Custom slugs / vanity paths</strong> that differ from the Rails route helper’s default shape.</p>
 </li></ul>
@@ -223,7 +223,7 @@
 </div></div>
 
       <div id="footer">
-  Generated on Tue Jun 30 22:41:28 2026 by
+  Generated on Tue Aug 18 14:36:33 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.4.9).
 </div>

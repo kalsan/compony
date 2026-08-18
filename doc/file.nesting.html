@@ -60,7 +60,7 @@
       <div id="content"><div id='filecontents'>
 <p><a href="/README_md.html#guide--documentation">Back to the guide</a></p>
 
-<h1 id="label-Nesting">Nesting</h1>
+<h1 id="nesting">Nesting</h1>
 
 <p>Components can be arbitrarily nested. This means that any component exposing content can instantiate an arbitrary number of sub-components that will be rendered as part of its own content. This results in a component tree. Sub-components are aware of the nesting and even of their position within the parent. The topmost component is called the <strong>root component</strong> and it’s the only component that must be standalone. If you instead render the topmost component from a custom view, there is conceptually no root component, but Compony has no way to detect this special case.</p>
 
@@ -123,7 +123,7 @@ The number 3 has the binary form 11.
 
 <p>However, this is static and no fun. We cannot use the HTTP GET parameter any more because all three <code>Binary</code> sub-components listen to the same parameter <code>number</code>. To fix this, we will need to scope the parameter using the <code>param_name</code> as explained in the next subsection.</p>
 
-<h2 id="label-Proper+parameter+naming+for+-28nested-29+components">Proper parameter naming for (nested) components</h2>
+<h2 id="proper-parameter-naming-for-nested-components">Proper parameter naming for (nested) components</h2>
 
 <p>As seen above, components can be arbitrarily nested, making it harder to identify which HTTP GET parameter in the request is intended for which component. To resolve this, Compony provides nesting-aware scoping of parameter names:</p>
 <ul><li>
@@ -198,7 +198,7 @@ The number 8 has the binary form 1000. Enter a number and press ENTER: [8]
 
 <p>Note that this example is completely stateless, as all the info is encoded in the URL.</p>
 
-<h2 id="label-Rendering+List+as+sub+comp+in+Show">Rendering <code>List</code> as sub comp in <code>Show</code></h2>
+<h2 id="rendering-list-as-sub-comp-in-show">Rendering <code>List</code> as sub comp in <code>Show</code></h2>
 
 <p>A pattern often used is the following:</p>
 
@@ -220,14 +220,14 @@ The number 8 has the binary form 1000. Enter a number and press ENTER: [8]
 </li><li>
 <p><code>render_sub_comp</code> is thus given an <code>ActiveRecord</code> collection of <code>Quote</code> models and it builts an <a href="/doc/guide/intents_md.html">Intent</a> to figure out that <code>Components::Quotes::List</code> is the component that will be instanciated, given the appropriate quotes, and rendered here.</p>
 </li><li>
-<p>We also give <code>:&quot;user_#{@data.id}_quotes&quot;</code> to the parameter <code>turbo_frame</code>, which causes <code>render_sub_comp</code> to place the sub comp inside a frame that is named something like <code>:user_1_quotes</code>. Since compony’s List component[/doc/guide/pre_built_components/list.md] contains search and filter forms, the turbo frame makes sure that anything entered there does not interfere with other parameters.</p>
+<p>We also give <code>:&quot;user_#{@data.id}_quotes&quot;</code> to the parameter <code>turbo_frame</code>, which causes <code>render_sub_comp</code> to place the sub comp inside a frame that is named something like <code>:user_1_quotes</code>. Since compony’s <a href="/doc/guide/pre_built_components/list_md.html">pre-built List component</a> contains search and filter forms, the turbo frame makes sure that anything entered there does not interfere with other parameters.</p>
 </li></ul>
 
 <p><a href="/README_md.html#guide--documentation">Guide index</a></p>
 </div></div>
 
       <div id="footer">
-  Generated on Tue Jun 30 22:41:28 2026 by
+  Generated on Tue Aug 18 14:36:33 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.4.9).
 </div>
