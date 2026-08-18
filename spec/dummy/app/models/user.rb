@@ -5,6 +5,9 @@ class User < ApplicationRecord
   field :email, :email
   field :admin, :boolean
   field :born_on, :date
+  field :margin_relative, :percentage
+  field :salary, :currency
+  field :homepage, :url
   field :created_at, :datetime
 
   validates :name, presence: true

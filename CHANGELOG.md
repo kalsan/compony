@@ -1,5 +1,8 @@
 # unreleased
 
+- Fix `value_for` raising `NoMethodError` for a field that answers with nil, e.g. a `:percentage` field whose value
+  cannot be computed. Such a value is now rendered as nil instead of being handed to the type's transformation,
+  which mirrors the behavior for enumerable values, whose nil entries have always been dropped.
 - Add an RSpec test suite (`bundle exec rspec` / `rake spec`) with a dummy Rails app under `spec/dummy`,
   covering the module API, intents, feasibility, model fields, routing and the pre-built CRUD components.
   See `spec/README.md` for layout and version pins. New development dependencies: `rspec-rails`, `sqlite3`.

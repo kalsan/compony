@@ -6,6 +6,9 @@ ActiveRecord::Schema.define do
     t.string :email
     t.boolean :admin, default: false, null: false
     t.date :born_on
+    t.decimal :margin_relative
+    t.decimal :salary
+    t.string :homepage
     t.timestamps
   end
 end

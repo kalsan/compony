@@ -3,6 +3,10 @@ RSpec.describe 'Compony::ModelFields' do
     User.create!(name: 'Alice', age: 30, comment: 'Hi', email: 'alice@example.com', admin: true, born_on: Date.new(1990, 5, 6))
   end
 
+  let(:controller) do
+    ApplicationController.new.tap { |controller| controller.set_request!(ActionDispatch::Request.new({})) }
+  end
+
   describe 'value_for' do
     it 'returns the raw value for string fields' do
       expect(User.fields[:name].value_for(user)).to eq('Alice')
@@ -29,10 +33,26 @@ RSpec.describe 'Compony::ModelFields' do
       expect { User.fields[:email].value_for(user) }.to raise_error(RuntimeError, /Must pass controller/)
     end
 
+    it 'formats percentages' do
+      user.update!(margin_relative: 0.5)
+      expect(User.fields[:margin_relative].value_for(user, controller:)).to eq('50.0%')
+    end
+
     it 'returns nil-safe values for blank fields' do
       empty = User.create!(name: 'Bob')
       expect(User.fields[:born_on].value_for(empty)).to be_blank
       expect(User.fields[:email].value_for(empty, controller: ApplicationController.new)).to be_blank
+    end
+
+    # A field may legitimately hold no value, e.g. a percentage that relates to zero. Formatting such a value must not
+    # raise, no matter which type the field has.
+    it 'returns nil for every field type of a record that has no values' do
+      empty = User.create!(name: 'Bob')
+      User.fields.each_value do |field|
+        next unless empty.send(field.name).nil? # e.g. name is given and admin defaults to false
+        expect { field.value_for(empty, controller:) }.not_to raise_error, "field #{field.name} raised"
+        expect(field.value_for(empty, controller:)).to be_blank, "field #{field.name} did not answer with a blank value"
+      end
     end
   end
 

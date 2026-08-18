@@ -72,6 +72,9 @@ module Compony
           data = data.compact.map(&transform_block) if block_given?
           return controller.helpers.safe_join(data.compact, ', ')
         else
+          # A nil value has nothing to transform, and the transform blocks are written for actual values, thus they are
+          # not required to be nil safe. This mirrors the compact applied to enumerables above.
+          return nil if data.nil?
           data = transform_block.call(data) if block_given?
           return data
         end
