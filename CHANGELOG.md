@@ -1,4 +1,4 @@
-# unreleased
+# 0.11.14
 
 - Add `Compony.content_locales=`, the locales for which `multilang: true` generates suffixed fields in the model's
   `field`, the form's `field` and `schema_field`. Defaults to `I18n.available_locales`, so existing apps are unaffected.

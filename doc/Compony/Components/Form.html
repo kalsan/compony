@@ -648,12 +648,12 @@
       <pre class="lines">
 
 
-182
 183
-184</pre>
+184
+185</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 182</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 183</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_collect'>collect</span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="../../Compony.html" title="Compony (module)">Compony</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ModelFields.html" title="Compony::ModelFields (module)">ModelFields</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../ModelFields/Anchormodel.html" title="Compony::ModelFields::Anchormodel (class)">Anchormodel</a></span></span><span class='period'>.</span><span class='id identifier rubyid_collect'><span class='object_link'><a href="../ModelFields/Anchormodel.html#collect-class_method" title="Compony::ModelFields::Anchormodel.collect (method)">collect</a></span></span><span class='lparen'>(</span><span class='op'>...</span><span class='rparen'>)</span>
@@ -689,12 +689,12 @@
       <pre class="lines">
 
 
-189
 190
-191</pre>
+191
+192</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 189</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 190</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_disable!'>disable!</span>
   <span class='ivar'>@form_disabled</span> <span class='op'>=</span> <span class='kw'>true</span>
@@ -748,13 +748,13 @@
       <pre class="lines">
 
 
-176
 177
 178
-179</pre>
+179
+180</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 176</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 177</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_f'>f</span>
   <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The `f` method may only be called inside `form_fields` for </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='ivar'>@simpleform</span>
@@ -815,7 +815,7 @@
       
         &mdash;
         <div class='inline'>
-<p>If true, generates one suffixed input per available locale and returns the array (useful with the “mobility” gem).</p>
+<p>If true, generates one suffixed input per content locale and returns the array (useful with the “mobility” gem). See <span class='object_link'><a href="../../Compony.html#content_locales-class_method" title="Compony.content_locales (method)">Compony.content_locales</a></span>.</p>
 </div>
       
     </li>
@@ -863,7 +863,6 @@
       <pre class="lines">
 
 
-113
 114
 115
 116
@@ -895,16 +894,17 @@
 142
 143
 144
-145</pre>
+145
+146</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 113</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 114</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='label'>multilang:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_input_opts'>input_opts</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The `field` method may only be called inside `form_fields` for </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='ivar'>@simpleform</span>
 
   <span class='kw'>if</span> <span class='id identifier rubyid_multilang'>multilang</span>
-    <span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_available_locales'>available_locales</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_locale'>locale</span><span class='op'>|</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_locale'>locale</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_input_opts'>input_opts</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='const'><span class='object_link'><a href="../../Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_content_locales'><span class='object_link'><a href="../../Compony.html#content_locales-class_method" title="Compony.content_locales (method)">content_locales</a></span></span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_locale'>locale</span><span class='op'>|</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_locale'>locale</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_input_opts'>input_opts</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
   <span class='kw'>else</span>
     <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
 
@@ -1063,12 +1063,12 @@
       <pre class="lines">
 
 
-197
 198
-199</pre>
+199
+200</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 197</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 198</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_form_params'>form_params</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_new_form_params'>new_form_params</span><span class='rparen'>)</span>
   <span class='ivar'>@form_params</span> <span class='op'>=</span> <span class='id identifier rubyid_new_form_params'>new_form_params</span>
@@ -1158,7 +1158,6 @@
       <pre class="lines">
 
 
-153
 154
 155
 156
@@ -1175,10 +1174,11 @@
 167
 168
 169
-170</pre>
+170
+171</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 153</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 154</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_pw_field'>pw_field</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_input_opts'>input_opts</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_fail'>fail</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The `pw_field` method may only be called inside `form_fields` for </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='ivar'>@simpleform</span>
@@ -1267,17 +1267,17 @@
       <pre class="lines">
 
 
-273
 274
 275
 276
 277
 278
 279
-280</pre>
+280
+281</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 273</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 274</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_schema'>schema</span><span class='lparen'>(</span><span class='id identifier rubyid_wrapper_key'>wrapper_key</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
@@ -1405,7 +1405,7 @@
       
         &mdash;
         <div class='inline'>
-<p>If true, whitelists one suffixed field per available locale (useful with the “mobility” gem).</p>
+<p>If true, whitelists one suffixed field per content locale, see <span class='object_link'><a href="../../Compony.html#content_locales-class_method" title="Compony.content_locales (method)">Compony.content_locales</a></span> (useful with the “mobility” gem).</p>
 </div>
       
     </li>
@@ -1419,7 +1419,6 @@
       <pre class="lines">
 
 
-221
 222
 223
 224
@@ -1437,14 +1436,15 @@
 236
 237
 238
-239</pre>
+239
+240</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 221</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 222</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_schema_field'>schema_field</span><span class='lparen'>(</span><span class='id identifier rubyid_field_name'>field_name</span><span class='comma'>,</span> <span class='label'>multilang:</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_multilang'>multilang</span>
-    <span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_available_locales'>available_locales</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_locale'>locale</span><span class='op'>|</span> <span class='id identifier rubyid_schema_field'>schema_field</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_field_name'>field_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_locale'>locale</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='const'><span class='object_link'><a href="../../Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_content_locales'><span class='object_link'><a href="../../Compony.html#content_locales-class_method" title="Compony.content_locales (method)">content_locales</a></span></span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_locale'>locale</span><span class='op'>|</span> <span class='id identifier rubyid_schema_field'>schema_field</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_field_name'>field_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_locale'>locale</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='rbrace'>}</span>
   <span class='kw'>else</span>
     <span class='comment'># This runs upon component setup.
 </span>    <span class='ivar'>@schema_lines_for_data</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_proc'>proc</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_controller'>controller</span><span class='op'>|</span>
@@ -1512,12 +1512,12 @@
       <pre class="lines">
 
 
-264
 265
-266</pre>
+266
+267</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 264</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 265</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_schema_fields'>schema_fields</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_field_names'>field_names</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_field_names'>field_names</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_field_name'>field_name</span><span class='op'>|</span> <span class='id identifier rubyid_schema_field'>schema_field</span><span class='lparen'>(</span><span class='id identifier rubyid_field_name'>field_name</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
@@ -1571,12 +1571,12 @@
       <pre class="lines">
 
 
-211
 212
-213</pre>
+213
+214</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 211</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 212</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_schema_line'>schema_line</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='ivar'>@schema_lines_for_data</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_proc'>proc</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid__data'>_data</span><span class='comma'>,</span> <span class='id identifier rubyid__controller'>_controller</span><span class='op'>|</span> <span class='id identifier rubyid_block'>block</span> <span class='rbrace'>}</span>
@@ -1632,7 +1632,6 @@
       <pre class="lines">
 
 
-245
 246
 247
 248
@@ -1645,10 +1644,11 @@
 255
 256
 257
-258</pre>
+258
+259</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 245</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 246</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_schema_pw_field'>schema_pw_field</span><span class='lparen'>(</span><span class='id identifier rubyid_field_name'>field_name</span><span class='rparen'>)</span>
   <span class='comment'># This runs upon component setup.
@@ -1746,12 +1746,12 @@
       <pre class="lines">
 
 
-285
 286
-287</pre>
+287
+288</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 285</span>
+      <pre class="code"><span class="info file"># File 'lib/compony/components/form.rb', line 286</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_skip_autofocus'>skip_autofocus</span>
   <span class='ivar'>@skip_autofocus</span> <span class='op'>=</span> <span class='kw'>true</span>
@@ -1825,7 +1825,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Aug 18 14:36:46 2026 by
+  Generated on Wed Oct  7 10:48:20 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.4.9).
 </div>

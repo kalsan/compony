@@ -159,7 +159,7 @@
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>Foo</span> <span class='op'>&lt;</span> <span class='const'>ApplicationRecord</span>
   <span class='comment'># No need to write:
 </span>  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:label</span><span class='comma'>,</span> <span class='symbol'>:string</span><span class='comma'>,</span> <span class='label'>virtual:</span> <span class='kw'>true</span>
-  <span class='const'>I18n</span><span class='period'>.</span><span class='id identifier rubyid_available_locales'>available_locales</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_locale'>locale</span><span class='op'>|</span>
+  <span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_content_locales'><span class='object_link'><a href="Compony.html#content_locales-class_method" title="Compony.content_locales (method)">content_locales</a></span></span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_locale'>locale</span><span class='op'>|</span>
     <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:&quot;label_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_locale'>locale</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:string</span>
   <span class='kw'>end</span>
 
@@ -182,10 +182,22 @@
   <span class='kw'>end</span>
 <span class='kw'>end</span>
 </code></pre>
+
+<h3 id="content-locales">Content locales</h3>
+
+<p>By default, <code>multilang: true</code> generates one field per locale in <code>I18n.available_locales</code>. If your app’s locales differ from the languages your content is stored in, for instance because it uses regional locales such as <code>:&quot;de-CH&quot;</code> and <code>:&quot;de-DE&quot;</code> while content is stored per language, configure the content locales in an initializer:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># config/initializers/compony.rb
+</span><span class='const'><span class='object_link'><a href="Compony.html" title="Compony (module)">Compony</a></span></span><span class='period'>.</span><span class='id identifier rubyid_content_locales'><span class='object_link'><a href="Compony.html#content_locales-class_method" title="Compony.content_locales (method)">content_locales</a></span></span> <span class='op'>=</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>de</span><span class='words_sep'> </span><span class='tstring_content'>en</span><span class='words_sep'> </span><span class='tstring_content'>fr</span><span class='tstring_end'>]</span></span>
+</code></pre>
+
+<p>With <code>I18n.available_locales = %i[de de-CH en fr]</code>, <code>field :label, :string, multilang: true</code> then generates <code>label</code> (virtual), <code>label_de</code>, <code>label_en</code> and <code>label_fr</code>, without a <code>label_de-CH</code>. The form’s <code>field</code> and <code>schema_field</code> follow the same setting.</p>
+
+<p>Model fields are generated when the model class loads, so the setting must be in place before any model loads. An initializer guarantees that. If the locales are only known later, pass a callable instead, which is evaluated every time the content locales are needed: <code>Compony.content_locales = -&gt; { MyApp.content_locales }</code>.</p>
 </div></div>
 
       <div id="footer">
-  Generated on Tue Aug 18 14:36:44 2026 by
+  Generated on Wed Oct  7 10:48:18 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.4.9).
 </div>

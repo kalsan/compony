@@ -58,6 +58,11 @@
       </div>
 
       <div id="content"><div id='filecontents'>
+<h1 id="01114">0.11.14</h1>
+<ul><li>
+<p>Add <code>Compony.content_locales=</code>, the locales for which <code>multilang: true</code> generates suffixed fields in the model’s <code>field</code>, the form’s <code>field</code> and <code>schema_field</code>. Defaults to <code>I18n.available_locales</code>, so existing apps are unaffected. Set it when the app’s locales differ from the languages its content is stored in, e.g. regional locales such as <code>:&quot;de-CH&quot;</code> with content stored per language. Accepts an array or a callable. See the form guide, “Content locales”.</p>
+</li></ul>
+
 <h1 id="01113">0.11.13</h1>
 <ul><li>
 <p>Fix <code>value_for</code> raising <code>NoMethodError</code> for a field that answers with nil, e.g. a <code>:percentage</code> field whose value cannot be computed. Such a value is now rendered as nil instead of being handed to the type’s transformation, which mirrors the behavior for enumerable values, whose nil entries have always been dropped.</p>
@@ -772,7 +777,7 @@
 </div></div>
 
       <div id="footer">
-  Generated on Tue Aug 18 14:36:43 2026 by
+  Generated on Wed Oct  7 10:48:17 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.4.9).
 </div>
