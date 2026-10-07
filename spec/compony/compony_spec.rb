@@ -99,4 +99,32 @@ RSpec.describe Compony do
       expect(described_class.model_field_namespaces).to eq(['Compony::ModelFields'])
     end
   end
+
+  describe '.content_locales' do
+    around do |example|
+      original_available_locales = I18n.available_locales
+      example.run
+    ensure
+      I18n.available_locales = original_available_locales
+      described_class.content_locales = nil
+    end
+
+    it 'defaults to I18n.available_locales' do
+      I18n.available_locales = %i[en de]
+      expect(described_class.content_locales).to eq(%i[en de])
+    end
+
+    it 'returns the configured locales as symbols' do
+      described_class.content_locales = %w[de en]
+      expect(described_class.content_locales).to eq(%i[de en])
+    end
+
+    it 'evaluates a callable every time' do
+      locales = %i[de]
+      described_class.content_locales = -> { locales }
+      expect(described_class.content_locales).to eq(%i[de])
+      locales = %i[de fr]
+      expect(described_class.content_locales).to eq(%i[de fr])
+    end
+  end
 end

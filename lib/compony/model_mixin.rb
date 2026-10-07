@@ -19,11 +19,12 @@ module Compony
       end
 
       # DSL method, defines a new field which will be translated and can be added to field groups
-      # If multilang is true, a suffixed field is generated for every available locale, along with a non-suffixed virtual field (useful with gem "mobility")
+      # If multilang is true, a suffixed field is generated for every content locale, along with a non-suffixed virtual field (useful with gem "mobility").
+      # See Compony.content_locales.
       def field(name, type, multilang: false, **extra_attrs)
         if multilang
           field(name, type, virtual: true, **extra_attrs)
-          I18n.available_locales.each { |locale| field("#{name}_#{locale}", type, **extra_attrs) }
+          Compony.content_locales.each { |locale| field("#{name}_#{locale}", type, **extra_attrs) }
         else
           name = name.to_sym
           self.fields = fields.dup

@@ -106,7 +106,8 @@ module Compony
       # DSL method (inside `form_fields`). Renders a simple_form input inferred from the model field `name`.
       # Respects per-field CanCanCan authorization; skipped fields render nothing.
       # @param name [Symbol,String] The model field (use the association name, not the `_id`, for associations).
-      # @param multilang [Boolean] If true, generates one suffixed input per available locale and returns the array (useful with the "mobility" gem).
+      # @param multilang [Boolean] If true, generates one suffixed input per content locale and returns the array (useful with the "mobility" gem).
+      #   See {Compony.content_locales}.
       # @param input_opts [Hash] Passed to simple_form. Notable keys: `as:` (input type), `hidden: true`, `autofocus:`.
       # @return [String,Array<String>] The input HTML (array when `multilang`).
       # @api public
@@ -114,7 +115,7 @@ module Compony
         fail("The `field` method may only be called inside `form_fields` for #{inspect}.") unless @simpleform
 
         if multilang
-          I18n.available_locales.map { |locale| field("#{name}_#{locale}", **input_opts) }
+          Compony.content_locales.map { |locale| field("#{name}_#{locale}", **input_opts) }
         else
           name = name.to_sym
 
@@ -215,12 +216,12 @@ module Compony
       # DSL method, whitelists a single field of `data_class` in the param schema, auto-generating the correct schema line.
       # Respects per-field CanCanCan authorization.
       # @param field_name [Symbol,String] The model field (association name, not `_id`, for associations).
-      # @param multilang [Boolean] If true, whitelists one suffixed field per available locale (useful with the "mobility" gem).
+      # @param multilang [Boolean] If true, whitelists one suffixed field per content locale, see {Compony.content_locales} (useful with the "mobility" gem).
       # @return [void]
       # @api public
       def schema_field(field_name, multilang: false)
         if multilang
-          I18n.available_locales.each { |locale| schema_field("#{field_name}_#{locale}") }
+          Compony.content_locales.each { |locale| schema_field("#{field_name}_#{locale}") }
         else
           # This runs upon component setup.
           @schema_lines_for_data << proc do |data, controller|

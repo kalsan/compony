@@ -1,3 +1,10 @@
+# unreleased
+
+- Add `Compony.content_locales=`, the locales for which `multilang: true` generates suffixed fields in the model's
+  `field`, the form's `field` and `schema_field`. Defaults to `I18n.available_locales`, so existing apps are unaffected.
+  Set it when the app's locales differ from the languages its content is stored in, e.g. regional locales such as
+  `:"de-CH"` with content stored per language. Accepts an array or a callable. See the form guide, "Content locales".
+
 # 0.11.13
 
 - Fix `value_for` raising `NoMethodError` for a field that answers with nil, e.g. a `:percentage` field whose value

@@ -30,6 +30,34 @@ RSpec.describe Compony::ModelMixin do
       expect(subclass.fields).to have_key(:extra)
       expect(User.fields).not_to have_key(:extra)
     end
+
+    context 'with multilang: true' do
+      around do |example|
+        original_available_locales = I18n.available_locales
+        I18n.available_locales = %i[en de de-CH fr es]
+        example.run
+      ensure
+        I18n.available_locales = original_available_locales
+        Compony.content_locales = nil
+      end
+
+      def multilang_model
+        Class.new(User) do
+          def self.name = 'MultilangUser'
+          field :label, :string, multilang: true
+        end
+      end
+
+      it 'generates a virtual field plus one suffixed field per available locale by default' do
+        expect(multilang_model.fields.keys - User.fields.keys).to eq(%i[label label_en label_de label_de-CH label_fr label_es])
+        expect(multilang_model.fields[:label].extra_attrs).to eq(virtual: true)
+      end
+
+      it 'generates one suffixed field per content locale when configured' do
+        Compony.content_locales = %i[de en fr es]
+        expect(multilang_model.fields.keys - User.fields.keys).to eq(%i[label label_de label_en label_fr label_es])
+      end
+    end
   end
 
   describe 'feasibility' do

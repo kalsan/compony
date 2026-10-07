@@ -36,6 +36,7 @@ This file orients coding agents. Humans: start at [README.md](/README.md).
 | `Compony.authentication_before_action=(sym)` | Hook app auth into Compony. |
 | `Compony.content_before_root_comp { }` / `_after_` | Inject markup around root comp. |
 | `Compony.model_field_namespaces=([...])` | Add custom model-field type classes. |
+| `Compony.content_locales=([...])` | Locales for `multilang: true` fields (default `I18n.available_locales`). |
 
 Set the config setters in `config/initializers/compony.rb`.
 

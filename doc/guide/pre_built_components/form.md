@@ -91,7 +91,7 @@ In the model:
 class Foo < ApplicationRecord
   # No need to write:
   field :label, :string, virtual: true
-  I18n.available_locales.each do |locale|
+  Compony.content_locales.each do |locale|
     field :"label_#{locale}", :string
   end
 
@@ -115,3 +115,22 @@ class Components::Foos::Form < Compony::Components::Form
   end
 end
 ```
+
+### Content locales
+
+By default, `multilang: true` generates one field per locale in `I18n.available_locales`. If your app's locales differ
+from the languages your content is stored in, for instance because it uses regional locales such as `:"de-CH"` and
+`:"de-DE"` while content is stored per language, configure the content locales in an initializer:
+
+```ruby
+# config/initializers/compony.rb
+Compony.content_locales = %i[de en fr]
+```
+
+With `I18n.available_locales = %i[de de-CH en fr]`, `field :label, :string, multilang: true` then generates `label`
+(virtual), `label_de`, `label_en` and `label_fr`, without a `label_de-CH`. The form's `field` and `schema_field` follow
+the same setting.
+
+Model fields are generated when the model class loads, so the setting must be in place before any model loads. An
+initializer guarantees that. If the locales are only known later, pass a callable instead, which is evaluated every time
+the content locales are needed: `Compony.content_locales = -> { MyApp.content_locales }`.

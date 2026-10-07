@@ -35,6 +35,17 @@ module Compony
     @model_field_namespaces = model_field_namespaces
   end
 
+  # Setter for the content locales, i.e. the languages in which `multilang: true` fields exist (useful with gem "mobility").
+  # Set this when your app's `I18n.available_locales` differ from the languages your content is stored in, e.g. when
+  # using regional locales such as `:"de-CH"` while content is stored per language (`label_de`, `label_en`, ...).
+  # Model fields are generated when the model class loads, so set this in an initializer, before any model is loaded.
+  # Alternatively, pass a callable, which is evaluated every time the content locales are needed.
+  # @param content_locales [Array<Symbol,String>,#call] The content locales, or a callable returning them. Defaults to `I18n.available_locales`.
+  # @see {Compony#content_locales}
+  def self.content_locales=(content_locales)
+    @content_locales = content_locales
+  end
+
   # Setter for the name of the Rails `before_action` that should be called to
   # ensure that users are authenticated before accessing the component. For
   # instance, implement a method `def enforce_authentication` in your
@@ -97,6 +108,14 @@ module Compony
   # @see Compony#model_field_namespaces= Explanation of model_field_namespaces (documented in the corresponding setter)
   def self.model_field_namespaces
     return @model_field_namespaces ||= ['Compony::ModelFields']
+  end
+
+  # Getter for the content locales, defaults to `I18n.available_locales`.
+  # @return [Array<Symbol>] The locales for which `multilang: true` fields generate a suffixed field.
+  # @see Compony#content_locales= Explanation of content_locales (documented in the corresponding setter)
+  def self.content_locales
+    content_locales = @content_locales.respond_to?(:call) ? @content_locales.call : @content_locales
+    return (content_locales || I18n.available_locales).map(&:to_sym)
   end
 
   # Getter for the name of the Rails `before_action` that enforces authentication.
