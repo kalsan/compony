@@ -34,6 +34,10 @@ end
 
 ## Filtering & sorting (Ransack)
 
+Requires the `ransack` gem in the host app. Compony allowlists the searchable attributes based
+on the current user's `:read` permission; associations and scopes must be allowlisted by the
+app. Setup: [integrations.md § Ransack](/doc/integrations.md#ransack).
+
 | Method | Signature | Description |
 | --- | --- | --- |
 | `filter` | `filter(:name, label: nil) { \|f\| ... }` | Add a filter. No block → field filter or a Ransack predicate string (e.g. `:id_eq`). Block gets the Ransack search form and renders label + input. |

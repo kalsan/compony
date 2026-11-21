@@ -1,3 +1,10 @@
+# unreleased
+
+- Document how to set up Ransack for `List` filtering and sorting (closes #18): the gem in the Gemfile, the
+  permission-based `ransackable_attributes` default from `Compony::ModelMixin`, and what the app still allowlists
+  itself (`ransackable_associations`, `ransackable_scopes`, `auth_object` for its own `ransack` calls). See
+  `doc/integrations.md`, "Ransack".
+
 # 0.11.14
 
 - Add `Compony.content_locales=`, the locales for which `multilang: true` generates suffixed fields in the model's

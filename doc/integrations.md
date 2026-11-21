@@ -34,7 +34,52 @@ are in the host app's bundle.
 | Gem | Unlocks |
 | --- | --- |
 | `active_type` | `Compony::VirtualModel` (loaded only if `ActiveType::Object` is defined). Non-persistent / upload / wizard forms — [patterns §12](/doc/guide/patterns.md#12-virtual-model-for-non-persistent--upload-forms), [virtual_models.md](/doc/guide/virtual_models.md). |
-| `ransack` | List filtering, sorting links and the sort select in [`List`](/doc/guide/pre_built_components/list.md). Without it, declare no `filter`/`sort` and those UIs stay off. |
+| `ransack` | List filtering, sorting links and the sort select in [`List`](/doc/guide/pre_built_components/list.md). Without it, declare no `filter`/`sort` and those UIs stay off. Setup: [Ransack](#ransack) below. |
+
+### Ransack
+
+To enable filtering and sorting in [`List`](/doc/guide/pre_built_components/list.md), add the
+gem to the host app's `Gemfile`; Compony detects it via `defined?(Ransack)`, no initializer
+needed:
+
+```ruby
+gem 'ransack'
+```
+
+Ransack only searches and sorts by attributes a model explicitly allows. Compony fills in that
+allowlist for you: `Compony::ModelMixin` defines
+
+```ruby
+def self.ransackable_attributes(auth_object)
+  auth_object.permitted_attributes(:read, self).map(&:to_s)
+end
+```
+
+and `List` passes `auth_object: controller.current_ability`. So a user can filter and sort only
+by the attributes CanCanCan lets them `:read`. A field's auto-generated filter therefore needs
+both a `field` declaration and read permission on it.
+
+What you still provide yourself:
+
+- **`ransackable_associations`** when a filter or sort goes through an association, e.g.
+  `filter :customer_name_cont`. Compony does not define it, so Ransack refuses such searches
+  until the model allows them:
+
+  ```ruby
+  def self.ransackable_associations(_auth_object = nil)
+    %w[customer]
+  end
+  ```
+
+- **`ransackable_scopes`** when a filter calls a model scope.
+- **Your own `Model.ransack(...)` calls outside `List`** must pass
+  `auth_object: current_ability`. Without it, Compony's default calls `permitted_attributes`
+  on `nil` and raises `NoMethodError`. Alternatively, override `ransackable_attributes` in
+  the model, which also replaces the permission-based default for `List`.
+
+Default filter per field type (see `ransack_filter_name` in `lib/compony/model_fields/`):
+`<field>_cont` (text search), `<field>_eq` for `:integer`, a select for `:boolean` and
+`:anchormodel`.
 
 ## App-side companions (you add these)
 
