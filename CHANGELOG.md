@@ -1,9 +1,40 @@
 # unreleased
 
+- BREAKING: A GET (or HEAD) whose verb assigns attributes, e.g. pre-built Edit and New, now runs in a database transaction that
+  is always rolled back. Prefilling from params keeps working, but nothing written during such a request persists. Before,
+  assigning `*_ids` (or a `has_one`) to a persisted record wrote to the database during a GET, so a link opened by a logged-in
+  user could change data without a CSRF check, and hooks doing actions on GET (e.g. in `after_assign_attributes`) took effect.
+  Effects outside the primary database (external calls, mails sent right away, jobs in a separate queue database) are not undone.
+- Add `outside_rollback { ... }` for writes that are intended on GET (e.g. marking a link as opened). In a rolled-back GET the
+  block runs after the rollback, otherwise immediately.
+- BREAKING: For a persisted record, a verb that assigns attributes now evaluates its `authorize` block twice: before
+  `assign_attributes`, on the record as stored, and after it, on the record as modified (as before). Before, only the modified
+  record was checked, so params could change the attributes the authorization depends on (e.g. an owner id) whenever the form's
+  field whitelist allowed them (`form_cancancan_action nil`, custom `schema`), and assignment side effects ran for users who may
+  not touch the record. New records are still authorized after assignment only, so conditions on assigned attributes keep working.
+  A refused request now raises `CanCan::AccessDenied` before Schemacop validates the params, instead of a validation error.
+- Pre-built Edit renders its form read-only (inputs disabled, no buttons) when the authorize block of its submit verb refuses the
+  current user, e.g. a user with CanCanCan's `:edit` but without `:update`. New: `Form#form_disabled?`, `Edit#submit_permitted?`.
+- Fix documentation claiming that overriding `respond` skips `authorize`. `authorize` has always run before `respond`, for every
+  format; custom `respond` blocks need no authorization check of their own.
+
 - Document how to set up Ransack for `List` filtering and sorting (closes #18): the gem in the Gemfile, the
   permission-based `ransackable_attributes` default from `Compony::ModelMixin`, and what the app still allowlists
   itself (`ransackable_associations`, `ransackable_scopes`, `auth_object` for its own `ransack` calls). See
   `doc/integrations.md`, "Ransack".
+
+## Steps to take
+
+- Search GET paths of Edit/New components (and custom verbs calling `assign_attributes`) for intended database writes, e.g.
+  `update_columns`, `<<` on a persisted record's association or counters in `before_render`. Wrap intended ones in
+  `outside_rollback { ... }`; replace `association << Model.new` by `association.build`, otherwise the rows (and the ids
+  rendered for them) are rolled back and a later submit raises `RecordNotFound`.
+- Move actions out of `after_assign_attributes` into `store_data` / `on_updated`, or guard them with
+  `controller.request.patch?`. Mails and jobs enqueued there on GET are still sent although the request is rolled back.
+- If a persisted record's `authorize` block relies on assigned params or on instance variables set in `assign_attributes` /
+  `after_assign_attributes`, it now fails the first check. Make it work on the stored record.
+- Manual pre-checks such as `after_load_data { fail CanCan::AccessDenied unless can?(:update, @data) }` in Edit components are
+  now redundant.
 
 # 0.11.14
 

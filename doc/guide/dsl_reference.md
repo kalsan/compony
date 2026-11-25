@@ -50,7 +50,7 @@ Contexts:
 | `skip_forgery_protection!` | standalone | `skip_forgery_protection!` | Disable CSRF for this standalone's action. Non-obvious use: inbound webhooks → [patterns §13](/doc/guide/patterns.md#13-public-endpoints--webhooks). |
 | `layout` | standalone | `layout('layouts/backend')` | Rails layout for this standalone. Defaults to `layouts/application`. Centralize in the base layer → [patterns §1](/doc/guide/patterns.md#1-the-app-base-component-layer). |
 | `authorize` | verb | `authorize { can?(:read, @data) }` | **Mandatory.** Truthy = access; falsy → `CanCan::AccessDenied`. Non-obvious use: validate a signed token → [patterns §18](/doc/guide/patterns.md#18-signed-token-capability-links-auth-less-onboarding--magic-links). |
-| `respond` | verb | `respond(format = nil) { ... }` | Override the controller response (e.g. send_data, render json, redirect). Overriding `nil` format **skips `authorize`** — re-check yourself. Non-obvious uses: CSV/PDF export → [patterns §10](/doc/guide/patterns.md#10-csv--pdf-via-respond-format); ajax-only PATCH → [patterns §17](/doc/guide/patterns.md#17-inline-patch-without-a-form-reorder--quick-toggle). |
+| `respond` | verb | `respond(format = nil) { ... }` | Override the controller response (e.g. send_data, render json, redirect). `authorize` runs before it, for every format. Non-obvious uses: CSV/PDF export → [patterns §10](/doc/guide/patterns.md#10-csv--pdf-via-respond-format); ajax-only PATCH → [patterns §17](/doc/guide/patterns.md#17-inline-patch-without-a-form-reorder--quick-toggle). |
 
 ## Resourceful lifecycle hooks
 
@@ -60,11 +60,12 @@ work inside a **verb** block to override for one path+verb.
 | Method | Signature | Description |
 | --- | --- | --- |
 | `data_class` | `data_class(NewClass = nil)` | Set/get the model class. Defaults to family name singularized+constantized. Non-obvious use: point at a `VirtualModel` → [patterns §12](/doc/guide/patterns.md#12-virtual-model-for-non-persistent--upload-forms). |
-| `load_data` | `load_data { @data = ... }` | Override record loading. Default: `data_class.find(params[:id])`. Runs before `authorize`. Non-obvious uses: Index scope → [patterns §3](/doc/guide/patterns.md#3-index--load_data-scope--nested-list); load+dup for clone → [patterns §11](/doc/guide/patterns.md#11-non-crud-job-dispatch-toggles-clone). |
-| `after_load_data` | `after_load_data { ... }` | Runs after `load_data`, before `authorize`. Refine an AR relation here. |
-| `assign_attributes` | `assign_attributes { ... }` | Assign validated params onto `@data`. Pre-built forms supply a default. |
-| `after_assign_attributes` | `after_assign_attributes { ... }` | After `assign_attributes`, before `store_data`. Prefill/derive fields here → [patterns §8](/doc/guide/patterns.md#8-lifecycle-hooks-for-derived-data); seed from a token → [patterns §18](/doc/guide/patterns.md#18-signed-token-capability-links-auth-less-onboarding--magic-links). |
+| `load_data` | `load_data { @data = ... }` | Override record loading. Default: `data_class.find(params[:id])`. Runs before both `authorize` checks (see [lifecycle](/doc/guide/resourceful.md#complete-resourceful-lifecycle)). Non-obvious uses: Index scope → [patterns §3](/doc/guide/patterns.md#3-index--load_data-scope--nested-list); load+dup for clone → [patterns §11](/doc/guide/patterns.md#11-non-crud-job-dispatch-toggles-clone). |
+| `after_load_data` | `after_load_data { ... }` | Runs after `load_data`, before `authorize`. Refine an AR relation here. Holds one block; a second call replaces the first. |
+| `assign_attributes` | `assign_attributes { ... }` | Assign validated params onto `@data`. Pre-built forms supply a default. A persisted `@data` is authorized before this step too. On GET, the whole request is rolled back afterwards (prefill only, nothing persists). |
+| `after_assign_attributes` | `after_assign_attributes { ... }` | After `assign_attributes`, before the second `authorize` and `store_data`. Runs on GET too, so do no actions here. Prefill/derive fields here → [patterns §8](/doc/guide/patterns.md#8-lifecycle-hooks-for-derived-data); seed from a token → [patterns §18](/doc/guide/patterns.md#18-signed-token-capability-links-auth-less-onboarding--magic-links). |
 | `store_data` | `store_data { @data.save }` | Persist `@data`. Override for virtual models / uploads → [patterns §12](/doc/guide/patterns.md#12-virtual-model-for-non-persistent--upload-forms), or to enqueue work / multi-record txn → [patterns §11](/doc/guide/patterns.md#11-non-crud-job-dispatch-toggles-clone). |
+| `outside_rollback` | `outside_rollback { ... }` | Persist an intended write in a GET that assigns attributes (otherwise rolled back), e.g. an "opened" timestamp or a view counter. Deferred until after the rollback; runs immediately in any other request. Callable from any lifecycle block, `before_render` or `content`. See [gotchas.md #3](/doc/guide/gotchas.md#3-writes-during-a-get-vanish). |
 
 ## Form component DSL
 

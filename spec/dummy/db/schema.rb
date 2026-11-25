@@ -11,4 +11,20 @@ ActiveRecord::Schema.define do
     t.string :homepage
     t.timestamps
   end
+
+  create_table :posts, force: true do |t|
+    t.string :title
+    t.integer :owner_id
+    t.boolean :locked, default: false, null: false
+    t.integer :views, default: 0, null: false
+  end
+
+  create_table :tags, force: true do |t|
+    t.string :name
+  end
+
+  create_table :taggings, force: true do |t|
+    t.integer :post_id
+    t.integer :tag_id
+  end
 end

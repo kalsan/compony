@@ -37,7 +37,7 @@ The standalone DSL has more features than those presented in the minimal example
   - `layout` which takes the file name of a Rails layout and defaults to `layouts/application`. Use this to have your Rails application look differently depending on the component.
   - `verb` which takes an HTTP verb as a symbol, one of: `%i[get head post put delete connect options trace patch]`. `verb` can be called up to once per verb. Inside each `verb` call, you can call (in the non-resourceful case):
     - `authorize` is mandatory and explained above.
-    - `respond` can be used to implement special behavior that in plain Rails would be placed in a controller action. The default, which calls `before_render` and the `content` blocks, is usually the right choice, so you will rarely implement `respond` on your own. See below how `respond` can be used to handle different formats or redirecting clients. **Caution:** `authorize` is evaluated in the default implementation of `respond`, so when you override that block, you must perform authorization yourself!
+    - `respond` can be used to implement special behavior that in plain Rails would be placed in a controller action. The default, which calls `before_render` and the `content` blocks, is usually the right choice, so you will rarely implement `respond` on your own. See below how `respond` can be used to handle different formats or redirecting clients. `authorize` is evaluated before `respond`, for every format, so a custom `respond` does not need to check authorization again.
 
 ## Exposing multiple paths in the same component (calling standalone multiple times)
 
@@ -57,7 +57,8 @@ setup do
   # Extra route for loading tiles via AJAX
   standalone :tiles, path: 'map/viewer/tiles' do
     verb :get do
-      respond do # Again: overriding `respond` skips authorization! This is why we don't need to provide an `authorize` block here.
+      authorize { true } # Each standalone needs its own authorization; without this block, the default `can?(comp_name, family_name)` applies.
+      respond do
         controller.render(json: MapTiler.load(params, current_ability)) # current_ability is provided by CanCanCan and made available by Compony.
       end
     end

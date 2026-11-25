@@ -241,8 +241,8 @@ end
 ## 10. CSV / PDF via `respond :format`
 
 A format export is the same component with an extra `respond` branch and an exposed intent
-pointing at it. Because overriding `respond` skips the default `authorize`, re-check there
-([gotchas.md #3](/doc/guide/gotchas.md#3-overriding-respond-skips-authorization)).
+pointing at it. The verb's `authorize` runs before every `respond`, so the export needs no
+extra permission check.
 
 ```ruby
 standalone path: 'orders' do
@@ -511,8 +511,7 @@ class Components::Orders::Show < Compony::Components::Show
     standalone :reorder, path: 'orders/:id/reorder' do
       verb :patch do
         authorize { can?(:update, @data) }
-        respond do                       # overriding respond skips default authorize…
-          can?(:update, @data) or raise CanCan::AccessDenied   # …so re-check here
+        respond do                       # runs after authorize
           params = Schemacop::Schema3.new(:hash) do
             ary! :ordered_ids do
               list :integer
@@ -532,9 +531,8 @@ The route is `reorder_show_orders_comp` (see
 Stimulus controller's PATCH at
 `Compony.path(:show, @data, standalone_name: :reorder)`.
 
-- This is the [gotchas.md #3](/doc/guide/gotchas.md#3-overriding-respond-skips-authorization)
-  case: the custom `respond` replaces the default that runs `authorize`, so authorize
-  again inside it.
+- The verb's `authorize` runs before the custom `respond`, so `respond` only handles the
+  request.
 - Keep companion endpoints in the *same* component as the screen they serve — what extra
   named `standalone`s are for
   ([standalone.md](/doc/guide/standalone.md#exposing-multiple-paths-in-the-same-component-calling-standalone-multiple-times)),

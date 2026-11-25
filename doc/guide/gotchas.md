@@ -17,13 +17,18 @@ Known footguns, each with **symptom → cause → fix**. Skim before debugging.
 - **Cause:** Dyny does not auto-print return values. `render_intent` returns an HTML string.
 - **Fix:** Wrap it: `concat render_intent(:edit, user)` (Dyny's equivalent of `<%= %>`).
 
-### 3. Overriding `respond` skips authorization
+### 3. Writes during a GET vanish
 
-- **Symptom:** An endpoint is reachable without the expected permission check.
-- **Cause:** `authorize` is evaluated inside the *default* `respond`. A custom `respond`
-  (especially the `nil`/all-formats one) replaces it.
-- **Fix:** Re-check authorization yourself inside the custom `respond`, or keep a separate
-  default `respond` for the relevant format.
+- **Symptom:** Something a GET page saves (a counter, an "opened" timestamp, rows created
+  while rendering) is gone afterwards, or a later PATCH fails with `RecordNotFound` for ids
+  the GET rendered.
+- **Cause:** A GET whose verb assigns attributes (Edit, New, any verb calling
+  `assign_attributes`) runs in a transaction that is always rolled back, see
+  [resourceful.md](/doc/guide/resourceful.md#complete-resourceful-lifecycle).
+- **Fix:** Don't write on GET. Build missing records in memory (`association.build`, not
+  `<<`), and do actions in `store_data` / `on_updated` of the submit verb. For a write that
+  is intended on GET, wrap it in `outside_rollback { ... }`. Mails and jobs enqueued to a
+  separate queue database are not rolled back, so never send them from a GET.
 
 ### 4. `schema_field` with the foreign key name
 

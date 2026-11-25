@@ -28,20 +28,59 @@ module Compony
           # Prepare the request context in which the innermost DSL calls will be executed
           request_context = RequestContext.new(self, controller)
 
-          ###===---
-          # Dispatch request to component. Empty Dslblend base objects are used to provide multiple contexts to the authorize and respond blocks.
-          # Lifecycle is (see also "doc/Resourceful Lifecycle.pdf"):
-          #   - load data (optional, speficied ResourcefulVerbDsl, by convention, should default to the implementation in Resourceful)
-          #     - after_load_data (optional, specified in Resourceful)
-          #   - assign_attributes (optional, speficied ResourcefulVerbDsl, by convention, should default to the implementation in Resourceful)
-          #     - after_assign_attributes (optional, specified in Resourceful)
-          #   - authorize
-          #   - store_data (optional, speficied ResourcefulVerbDsl, by convention, should default to the implementation in Resourceful)
-          #   - respond (typically either redirect or render standalone, specified in VerbDsl), which defaults to render_standalone, performing:
-          #     - before_render
-          #     - render (unless before_render already redirected)
-          ###===---
+          # A GET that assigns attributes (e.g. Edit or New prefilled from params) may read and render, but never persist: assigning
+          # `*_ids` or a `has_one` to a persisted record writes to the database immediately, and so would any hook doing an action on GET.
+          # Run such a request in a transaction that is always rolled back. Non-database side effects (external calls, mails sent
+          # right away, jobs in a separate queue database) are not undone.
+          # A write that must survive (e.g. a statistics counter) goes into `outside_rollback { ... }`, which runs after the rollback.
+          if verb_config.assign_attributes_block && (controller.request.get? || controller.request.head?) && defined?(ActiveRecord::Base)
+            RequestStore.store[:compony_outside_rollback_blocks] = []
+            begin
+              # requires_new makes this a savepoint when a transaction is already open (e.g. transactional tests), so the rollback is real.
+              ActiveRecord::Base.transaction(requires_new: true) do
+                dispatch_standalone_access(verb_config, controller, request_context)
+                fail ActiveRecord::Rollback
+              end
+              deferred_blocks = RequestStore.store[:compony_outside_rollback_blocks]
+            ensure
+              RequestStore.store[:compony_outside_rollback_blocks] = nil
+            end
+            deferred_blocks.each(&:call)
+          else
+            dispatch_standalone_access(verb_config, controller, request_context)
+          end
+        end
 
+        # Runs the block so that its database writes persist even in a GET that assigns attributes, whose writes are otherwise rolled
+        # back (see {#on_standalone_access}). In such a request, the block is deferred until after the rollback; in any other context
+        # it runs right away. Use it sparingly, for writes that are intended on GET, e.g. marking a link as opened or counting views.
+        # When deferred, the block runs after the response was rendered: rows created during the request no longer exist then, and
+        # in-memory changes made during the request (e.g. assigned params) are not in the database. Write with explicit values or SQL.
+        # @yield The write to persist.
+        # @return [void]
+        # @api public
+        def outside_rollback(&block)
+          deferred_blocks = RequestStore.store[:compony_outside_rollback_blocks]
+          if deferred_blocks
+            deferred_blocks << block
+          else
+            block.call
+          end
+        end
+
+        # Runs the lifecycle of a standalone request. Called by {#on_standalone_access}, do not call directly.
+        # Lifecycle is (see also "doc/Resourceful Lifecycle.pdf"):
+        #   - load data (optional, speficied ResourcefulVerbDsl, by convention, should default to the implementation in Resourceful)
+        #     - after_load_data (optional, specified in Resourceful)
+        #   - authorize, against the record as stored (only if the verb assigns attributes and the loaded record is persisted)
+        #   - assign_attributes (optional, speficied ResourcefulVerbDsl, by convention, should default to the implementation in Resourceful)
+        #     - after_assign_attributes (optional, specified in Resourceful)
+        #   - authorize, against the record as modified by the request
+        #   - store_data (optional, speficied ResourcefulVerbDsl, by convention, should default to the implementation in Resourceful)
+        #   - respond (typically either redirect or render standalone, specified in VerbDsl), which defaults to render_standalone, performing:
+        #     - before_render
+        #     - render (unless before_render already redirected)
+        def dispatch_standalone_access(verb_config, controller, request_context)
           if verb_config.load_data_block
             request_context.evaluate_with_backfire(&verb_config.load_data_block)
             if global_after_load_data_block
@@ -50,14 +89,19 @@ module Compony
           end
 
           if verb_config.assign_attributes_block
+            # Authorize the record as stored before the request changes it. Otherwise params could alter the very attributes the
+            # authorization depends on (e.g. an owner id), and assigning could have side effects for users who may not touch the
+            # record at all. New records have no stored state, they are authorized after assignment only.
+            authorize_standalone_access!(verb_config, request_context) if @data.respond_to?(:persisted?) && @data.persisted?
+
             request_context.evaluate_with_backfire(&verb_config.assign_attributes_block)
             if global_after_assign_attributes_block
               request_context.evaluate_with_backfire(&global_after_assign_attributes_block)
             end
           end
 
-          # TODO: Make much prettier, providing message, action, subject and conditions
-          fail CanCan::AccessDenied, [inspect, verb_config.authorize_block.inspect].join(', ') unless request_context.evaluate(&verb_config.authorize_block)
+          # Authorize the record as the request leaves it, e.g. to check whether the user may access the new owner.
+          authorize_standalone_access!(verb_config, request_context)
 
           if verb_config.store_data_block
             request_context.evaluate_with_backfire(&verb_config.store_data_block)
@@ -67,6 +111,12 @@ module Compony
           # If there isn't, fallback to the nil respond block, which defaults to `render_standalone`.
           respond_block = verb_config.respond_blocks[controller.request.format.symbol] || verb_config.respond_blocks[nil]
           request_context.evaluate(&respond_block)
+        end
+
+        # Evaluates the verb's authorize block and raises CanCan::AccessDenied if it is falsy. Do not call directly.
+        def authorize_standalone_access!(verb_config, request_context)
+          # TODO: Make much prettier, providing message, action, subject and conditions
+          fail CanCan::AccessDenied, [inspect, verb_config.authorize_block.inspect].join(', ') unless request_context.evaluate(&verb_config.authorize_block)
         end
 
         # Call this on a standalone component to find out whether default GET access is permitted for the current user.

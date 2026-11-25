@@ -13,7 +13,9 @@ This component is the Compony equivalent to a typical Rails controller's `edit` 
   - otherwise, if the resource is owned by another resource class: the owner's Show component
   - otherwise, the data's Index component
 
-Unlike in New and Destroy, Edit's authorization checks for `edit` in GET and for `update` in PATCH. This enables you to "abuse" an Edit component to double as a Show component. Users having only `:read` permission will not see any links or buttons pointing to an Edit component. Users having only `:edit` permissions can see the form (including the data) but not submit it. Users having `:write` permissions can edit and update the Resource, in accordance to CanCanCan's `:write` alias.
+Unlike in New and Destroy, Edit's authorization checks for `edit` in GET and for `update` in PATCH. This enables you to "abuse" an Edit component to double as a Show component. Users having only `:read` permission will not see any links or buttons pointing to an Edit component. Users having only `:edit` permissions can see the form (including the data) but not submit it: the form is rendered read-only (inputs disabled, no buttons) whenever the authorize block of the submit verb refuses the user, and a submit is refused with `CanCan::AccessDenied`. Users having `:write` permissions can edit and update the Resource, in accordance to CanCanCan's `:write` alias.
+
+Both verbs authorize twice: once on the record as stored, before any parameter is assigned, and once on the record as modified by the request (see the [resourceful lifecycle](/doc/guide/resourceful.md#complete-resourceful-lifecycle)). A GET may be prefilled from parameters (e.g. `?user[name]=Tom`), but it is rolled back and never persists anything.
 
 This component follows the [resourceful lifecycle](/doc/guide/resourceful.md#complete-resourceful-lifecycle). Parameters are validated in `assign_attributes` using a Schemacop schema that is generated from the form. The schema corresponds to Rail's typical strong parameter structure for forms. For example, a user's Edit component would look for a parameter `user` holding a hash of attributes (e.g. `user[first_name]=Tom`).
 

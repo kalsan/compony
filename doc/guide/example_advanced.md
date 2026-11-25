@@ -60,7 +60,6 @@ class Components::Invoices::Index < Compony::Component
         authorize { can?(:read, Invoice) }
         # Default (HTML) response renders content. CSV gets its own response:
         respond :csv do
-          authorize_csv = can?(:read, Invoice) or raise CanCan::AccessDenied # respond skips authorize!
           send_data(InvoiceCsv.new(@data).to_csv, filename: 'invoices.csv', type: 'text/csv')
         end
       end
@@ -83,9 +82,8 @@ end
 
 Notes:
 
-- `respond :csv` handles `GET /invoices.csv`. Because overriding `respond` **skips the
-  default `authorize`** (see [gotchas.md](/doc/guide/gotchas.md#3-overriding-respond-skips-authorization)),
-  the CSV branch re-checks the ability itself.
+- `respond :csv` handles `GET /invoices.csv`. The verb's `authorize` runs before any
+  `respond`, so the CSV branch is protected by the same check as the HTML page.
 - `path: { format: :csv }` on the exposed intent makes its button point at `.csv`.
 - The layout renders exposed intents of `Compony.root_comp` — see
   [intents.md](/doc/guide/intents.md#rendering-exposed-intents).

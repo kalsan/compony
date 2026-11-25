@@ -46,7 +46,7 @@ module Compony
 
           # DSL
           # Last step in the lifecycle. May redirect or render. If omitted, the default is `render_standalone`.
-          # NOTE: overriding `respond` replaces the default, which is where `authorize` is evaluated - re-check authorization yourself.
+          # `authorize` is evaluated before `respond`, for every format, so a custom `respond` needs no authorization check of its own.
           # @param format [String,Symbol,nil] Format this block responds to; `nil` means "all other formats".
           # @yield Runs in the component's request context; renders or redirects.
           # @return [void]

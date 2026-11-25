@@ -16,11 +16,11 @@ One-line definitions of Compony vocabulary. Deeper treatment is linked.
 | **Standalone name** | Identifier for one of several routes a component exposes; `nil` = the main one. |
 | **Verb** | An HTTP method config inside a standalone (`verb :get do ... end`). |
 | **`authorize`** | Mandatory per-verb block; truthy grants access, falsy raises `CanCan::AccessDenied`. |
-| **`respond`** | Per-verb block overriding the controller response; overriding it skips the default authorize step. |
+| **`respond`** | Per-verb block overriding the controller response. `authorize` runs before it, for every format. |
 | **Resourceful** | A component that auto-loads a record/relation into `@data` (mixin or pre-built parent). See [resourceful.md](/doc/guide/resourceful.md). |
 | **`@data`** | The record (or AR relation) a resourceful component operates on. |
 | **`data_class`** | The model class a resourceful component expects; defaults from the family name. |
-| **Lifecycle hooks** | `load_data → after_load_data → authorize → assign_attributes → after_assign_attributes → store_data`. |
+| **Lifecycle hooks** | `load_data → after_load_data → (authorize, persisted records only) → assign_attributes → after_assign_attributes → authorize → store_data → respond`. A GET that assigns attributes is rolled back, see [resourceful.md](/doc/guide/resourceful.md#complete-resourceful-lifecycle). |
 | **Intent** | A gateway object to a target component carrying context (model, path, feasibility, label). See [intents.md](/doc/guide/intents.md). |
 | **Exposed intent** | An intent a component declares for its parent/layout to render (e.g. an actions toolbar). |
 | **`Compony.path`** | Helper that builds a Rails path string via an intent (use for redirects). |

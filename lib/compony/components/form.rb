@@ -43,8 +43,11 @@ module Compony
           form_html = simple_form_for(data, **form_params) do |f|
             component.with_simpleform(f, controller) do
               instance_exec(&form_fields)
-              div class: 'compony-form-buttons' do
-                content(:buttons)
+              # A disabled form cannot be submitted, so it shows no buttons.
+              unless component.form_disabled?
+                div class: 'compony-form-buttons' do
+                  content(:buttons)
+                end
               end
             end
           end
@@ -189,6 +192,12 @@ module Compony
       # @api public
       def disable!
         @form_disabled = true
+      end
+
+      # Whether the form was disabled (via the `disabled:` option or {#disable!}). A disabled form renders its inputs disabled and no buttons.
+      # @return [Boolean]
+      def form_disabled?
+        @form_disabled
       end
 
       # DSL method, customizes the parameters given to `simple_form_for`.

@@ -78,11 +78,24 @@ This graph documents a typical resourceful lifecycle according to which Compony'
 
 - `load_data` creates or fetches the resource from the database.
 - `after_load_data` can refine the resource, e.g. add scopes to a relation.
+- `authorize` is called on the resource as stored, if the verb assigns attributes and the resource is persisted (e.g. Edit). This
+  makes sure the user may act on the record before the request changes anything. New records skip this step.
 - `assign_attributes` takes the HTTP parameters, validates them and assigns them to the resource.
 - `after_assign_attributes` can refine the assigned resource, e.g. provide defaults for blank attributes.
-- `authorize` is called.
+- `authorize` is called on the resource as modified by the request, e.g. to check whether the user may access a newly assigned
+  owner, or (for New) whether they may create a record with these attributes.
 - `store_data` creates/updates/destroys the resource.
 - `respond` typically shows a flash and redirects to another component.
+
+**GET never persists.** A GET (or HEAD) whose verb assigns attributes, e.g. Edit or New prefilled from params, runs in a database
+transaction that is always rolled back. Prefilling works as usual, but nothing written during such a request is kept: neither
+`*_ids` assigned to a persisted record (which Rails writes immediately) nor writes made by hooks. A write that is intended on GET,
+such as marking a link as opened, goes into `outside_rollback { ... }`, which runs after the rollback. Effects outside the primary
+database are not undone: external calls, mails sent right away, and jobs enqueued to a separate queue database (e.g. Solid Queue's
+default setup) still happen, so keep those out of GET paths.
+
+An Edit component renders its form read-only (inputs disabled, no buttons) when the authorize block of its submit verb refuses
+the current user, e.g. a user with CanCanCan's `:edit` but without `:update`.
 
 ![Graph of the complete resourceful lifecycle](/doc/resourceful_lifecycle.png)
 

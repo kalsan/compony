@@ -45,6 +45,8 @@ module Compony
         end
 
         content do
+          # Someone who may open the edit page (e.g. CanCanCan `:edit`) but not submit it (e.g. no `:update`) gets a read-only form.
+          form_comp.disable! unless component.submit_permitted?(controller)
           concat form_comp.render(controller, data: @data)
         end
 
@@ -134,6 +136,17 @@ module Compony
       end
 
       # @!endgroup
+
+      # Whether the current user may submit this component's form, i.e. whether the authorize block of the submit verb grants access
+      # for the current `@data`. Used to render a read-only form for users who may open the edit page but not update the record.
+      # Returns true if the request's standalone config has no submit verb, as there is nothing to judge then.
+      # @param controller [ActionController::Base] The controller of the current request.
+      # @return [Boolean]
+      def submit_permitted?(controller)
+        standalone_name = standalone_configs.find { |_, config| config[:rails_action_name] == controller.action_name }&.first
+        return true unless standalone_configs[standalone_name]&.verbs&.key?(submit_verb)
+        return standalone_access_permitted_for?(controller, standalone_name:, verb: submit_verb).present?
+      end
     end
   end
 end
