@@ -32,15 +32,16 @@ module Compony
             helpers = ActionController::Base.helpers
             return helpers.capture do
               helpers.concat form.label(name)
-              # List currently present attachments along with a remove button (done in JS)
+              # List currently present attachments, each with a checked checkbox submitting its signed id. Unchecking it drops the id
+              # from the submitted list, which removes the attachment on save. This needs no JavaScript.
               helpers.div class: 'compony-attachments-item-wrapper' do
                 form.object.send(name).each do |attachment|
+                  checkbox_id = "#{form.object.model_name.singular}_#{name}_keep_#{attachment.id}"
                   helpers.div class: 'compony-attachments-item' do
-                    helpers.concat helpers.hidden_field_tag("#{form.object.model_name.singular}[#{name}][]", attachment.signed_id)
-                    helpers.span attachment.filename, class: 'compony-attachments-filename'
-                    helpers.span ' ', class: 'compony-attachments-spacer'
-                    helpers.concat helpers.link_to(I18n.t('compony.model_fields.attachment.remove'), '#',
-                                                   onclick: "event.preventDefault(); this.closest('div').remove();")
+                    helpers.concat helpers.check_box_tag("#{form.object.model_name.singular}[#{name}][]", attachment.signed_id, true,
+                                                         id: checkbox_id, class: 'compony-attachments-keep',
+                                                         title: I18n.t('compony.model_fields.attachment.keep_hint'))
+                    helpers.concat helpers.label_tag(checkbox_id, attachment.filename, class: 'compony-attachments-filename')
                   end
                 end
               end

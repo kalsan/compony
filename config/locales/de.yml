@@ -10,7 +10,7 @@ de:
       has_dependent_models: 'es gibt abhängige %{dependent_class}'
     model_fields:
       attachment:
-        remove: 'Entfernen'
+        keep_hint: 'Häkchen entfernen, um diese Datei beim Speichern zu löschen'
     components:
       show:
         label:

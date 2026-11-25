@@ -10,7 +10,7 @@ es:
       has_dependent_models: 'existen %{dependent_class} dependientes'
     model_fields:
       attachment:
-        remove: 'Eliminar'
+        keep_hint: 'Desmarque para eliminar este archivo al guardar'
     components:
       show:
         label:

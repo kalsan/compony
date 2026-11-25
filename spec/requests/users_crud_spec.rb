@@ -40,6 +40,13 @@ RSpec.describe 'Users CRUD via pre-built components', type: :request do
       expect(response.body).to include('user[age]')
     end
 
+    it 'renders a real submit button and no inline JavaScript, so it works under a Content Security Policy' do
+      get '/users/new'
+      expect(response.body.scan('type="submit"').size).to eq(1)
+      expect(response.body).to match(%r{<button[^>]* type="submit">Submit</button>})
+      expect(response.body).not_to match(/javascript:|\bon[a-z]+=/)
+    end
+
     it 'creates a user and redirects' do
       expect do
         post '/users/new', params: { user: { name: 'Bob', age: '25', comment: 'New guy', email: 'bob@example.com', admin: '0', born_on: '2000-01-01' } }

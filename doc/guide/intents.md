@@ -108,7 +108,8 @@ Compony comes with two button styles:
 All button styles support the following keyword arguments to their initializer:
 
 - `label` is a String which will be displayed as the text of the link or button.
-- `href` is the url/path that the button points to. If `nil`, will change to `javascript:void(0)`.
+- `href` is the url/path that the button points to. If `nil`, an `<a>` without `href` is rendered, which does nothing when clicked.
+- `type` renders a `<button>` of that type instead of a link, e.g. `type: :submit` for a button submitting the surrounding form.
 - `method` takes a HTTP verb will generate a suitable `turbo_method` data attribute.
 - `class` will mostly let be as-is, but checked for the `disabled` class - if given, the style will be ovewritten.
 
@@ -116,11 +117,13 @@ Note that since buttons are full components, they can be [nested](/doc/guide/nes
 
 As implicitely mentioned above, Compony buttons are referenced to by a name called a style (`:css_button` actually points to `Compony::Components::Buttons::CssButton`). When rendering an intent, the style can be passed as an argument: `render_intent(:show, User.first, style: :link)` and the intent will automatically instanciate the desired component class.
 
-Note: it is possible to use a button component to submit a form. In order to achieve this, you must implement a hidden submit button (for handling keyboard Enter and Return), as well as pass `onclick: "this.closest('form').requestSubmit(); return false;"` as an argument. See the pre-built Form component's implementation for an example.
+To use a button component to submit a form, pass `type: :submit` (e.g. `render_intent(name: :submit, label: 'Save', button: { type: :submit })`). This renders a real `<button type="submit">`, which also submits the form on Return and needs no JavaScript. See the pre-built Form component's `submit_button` content block for an example.
+
+Compony's buttons render no inline JavaScript (`onclick` attributes, `javascript:` URLs), so they keep working under a Content Security Policy that only allows scripts carrying a nonce.
 
 ### Adding your own styles
 
-In your application, you will likely want to implement your own button styles. Create a component (e.g. `Components::Commons::MyButton`) and inherit from `Compony::Components::Buttons::Link`. Override the method `prepare_opts!` and don't forget to call `super` first. Then, go through any `@comp_args` that might be of interest to you and mutate `@comp_args[:style]` and/or `@comp_args[:class]` to suit your needs. Make sure to handle the class `disabled`, as intents will set them if the intent is not feasible. Note that if a user is lacking authorization to perform an intent, the intent will not even instanciate the button.
+In your application, you will likely want to implement your own button styles. Create a component (e.g. `Components::Commons::MyButton`) and inherit from `Compony::Components::Buttons::Link`. Override the method `prepare_opts!` and don't forget to call `super` first. Then, go through any `@comp_args` that might be of interest to you and mutate `@comp_args[:style]` and/or `@comp_args[:class]` to suit your needs. Make sure to handle the class `disabled`, as intents will set them if the intent is not feasible. If you also override the `content` block (e.g. to add an icon), render the element through `component.link_or_button(inner_html, **opts)` rather than calling `link_to(@href, ...)` yourself: it renders the `<button>` for `type:` and the `<a>` without `href`, e.g. `concat component.link_or_button(capture { span @label }, **@comp_opts)`. A button style given `type:` that does not render through `link_or_button` raises an error, as it would otherwise render a link that cannot submit the form. Note that if a user is lacking authorization to perform an intent, the intent will not even instanciate the button.
 
 Once your button class is ready, register it in `config/initializers/compony.rb` with: `Compony.register_button_style :my_button, '::Components::Commons::MyButton'`. You can also change the default button style there using: `Compony.default_button_style = :my_button`.
 

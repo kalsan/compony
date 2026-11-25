@@ -10,7 +10,7 @@ fr:
       has_dependent_models: 'il existe des %{dependent_class} dépendants'
     model_fields:
       attachment:
-        remove: 'Supprimer'
+        keep_hint: 'Décochez pour supprimer ce fichier lors de l’enregistrement'
     components:
       show:
         label:

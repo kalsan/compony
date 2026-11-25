@@ -1,9 +1,32 @@
 # unreleased
 
+- Remove all inline JavaScript, so Compony works under a Content Security Policy whose `script-src` allows only scripts
+  carrying a nonce (a nonce never allows `onclick` attributes or `javascript:` URLs):
+    - The `Form` component's submit button is now a real `<button type="submit">` rendered by the button style, instead
+      of a link submitting the form in an `onclick` handler next to a hidden submit button for Return. The hidden button
+      is gone.
+    - Button styles accept `type:` (e.g. `button: { type: :submit }`) and then render a `<button>` of that type instead
+      of a link. A disabled one (class `disabled`) gets the `disabled` attribute.
+    - Add `Buttons::Link#link_or_button(inner_html, **html_opts)`, which renders the button's element: a `<button>` if
+      `type:` was given, an `<a>` without `href` if no `href` was given (instead of `href="javascript:void(0)"`), a
+      regular link otherwise. A button style given `type:` that does not render through it raises an error, as it would
+      render a link that cannot submit the form.
+    - Existing attachments of a multi-attachment field are listed with a ticked checkbox each instead of a "Remove" link
+      that deleted the entry in an `onclick` handler. Unticking the box removes the attachment on save, as the removed
+      entry did before. The i18n key `compony.model_fields.attachment.remove` is replaced by `keep_hint` (the
+      checkbox's tooltip).
 - Document how to set up Ransack for `List` filtering and sorting (closes #18): the gem in the Gemfile, the
   permission-based `ransackable_attributes` default from `Compony::ModelMixin`, and what the app still allowlists
   itself (`ransackable_associations`, `ransackable_scopes`, `auth_object` for its own `ransack` calls). See
   `doc/integrations.md`, "Ransack".
+
+## Steps to take
+
+- In every button style that overrides `content` and calls `link_to(@href, ...)` itself, render through
+  `link_or_button` instead, e.g. `concat component.link_or_button(capture { span @label }, **@comp_opts)`. Otherwise
+  every `Form` raises when rendering its submit button, and buttons without `href` keep rendering
+  `href="javascript:void(0)"`, which `@href` still holds for such styles.
+- If you override `compony.model_fields.attachment.remove` in your locales, translate `keep_hint` instead.
 
 # 0.11.14
 
