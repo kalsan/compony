@@ -142,10 +142,40 @@
 </tr>
 <tr>
 <td><code>ransack</code></td>
-<td>List filtering, sorting links and the sort select in <a href="/doc/guide/pre_built_components/list_md.html"><code>List</code></a>. Without it, declare no <code>filter</code>/<code>sort</code> and those UIs stay off.</td>
+<td>List filtering, sorting links and the sort select in <a href="/doc/guide/pre_built_components/list_md.html"><code>List</code></a>. Without it, declare no <code>filter</code>/<code>sort</code> and those UIs stay off. Setup: <a href="#ransack">Ransack</a> below.</td>
 </tr>
 </tbody>
 </table>
+
+<h3 id="ransack">Ransack</h3>
+
+<p>To enable filtering and sorting in <a href="/doc/guide/pre_built_components/list_md.html"><code>List</code></a>, add the gem to the host app’s <code>Gemfile</code>; Compony detects it via <code>defined?(Ransack)</code>, no initializer needed:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ransack</span><span class='tstring_end'>&#39;</span></span>
+</code></pre>
+
+<p>Ransack only searches and sorts by attributes a model explicitly allows. Compony fills in that allowlist for you: <code>Compony::ModelMixin</code> defines</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_ransackable_attributes'>ransackable_attributes</span><span class='lparen'>(</span><span class='id identifier rubyid_auth_object'>auth_object</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_auth_object'>auth_object</span><span class='period'>.</span><span class='id identifier rubyid_permitted_attributes'>permitted_attributes</span><span class='lparen'>(</span><span class='symbol'>:read</span><span class='comma'>,</span> <span class='kw'>self</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_s</span><span class='rparen'>)</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>and <code>List</code> passes <code>auth_object: controller.current_ability</code>. So a user can filter and sort only by the attributes CanCanCan lets them <code>:read</code>. A field’s auto-generated filter therefore needs both a <code>field</code> declaration and read permission on it.</p>
+
+<p>What you still provide yourself:</p>
+<ul><li>
+<p><strong><code>ransackable_associations</code></strong> when a filter or sort goes through an association, e.g. <code>filter :customer_name_cont</code>. Compony does not define it, so Ransack refuses such searches until the model allows them:</p>
+</li></ul>
+
+<p><code>ruby  def self.ransackable_associations(_auth_object = nil)    %w[customer]  end  </code></p>
+<ul><li>
+<p><strong><code>ransackable_scopes</code></strong> when a filter calls a model scope.</p>
+</li><li>
+<p><strong>Your own <code>Model.ransack(...)</code> calls outside <code>List</code></strong> must pass <code>auth_object: current_ability</code>. Without it, Compony’s default calls <code>permitted_attributes</code> on <code>nil</code> and raises <code>NoMethodError</code>. Alternatively, override <code>ransackable_attributes</code> in the model, which also replaces the permission-based default for <code>List</code>.</p>
+</li></ul>
+
+<p>Default filter per field type (see <code>ransack_filter_name</code> in <code>lib/compony/model_fields/</code>): <code>&lt;field&gt;_cont</code> (text search), <code>&lt;field&gt;_eq</code> for <code>:integer</code>, a select for <code>:boolean</code> and <code>:anchormodel</code>.</p>
 
 <h2 id="app-side-companions-you-add-these">App-side companions (you add these)</h2>
 
@@ -208,7 +238,7 @@
 </div></div>
 
       <div id="footer">
-  Generated on Wed Oct  7 10:48:33 2026 by
+  Generated on Wed Nov 25 14:15:19 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.4.9).
 </div>

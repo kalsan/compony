@@ -194,7 +194,9 @@ end
 <ul><li>
 <p><code>label</code> is a String which will be displayed as the text of the link or button.</p>
 </li><li>
-<p><code>href</code> is the url/path that the button points to. If <code>nil</code>, will change to <code>javascript:void(0)</code>.</p>
+<p><code>href</code> is the url/path that the button points to. If <code>nil</code>, an <code>&lt;a&gt;</code> without <code>href</code> is rendered, which does nothing when clicked.</p>
+</li><li>
+<p><code>type</code> renders a <code>&lt;button&gt;</code> of that type instead of a link, e.g. <code>type: :submit</code> for a button submitting the surrounding form.</p>
 </li><li>
 <p><code>method</code> takes a HTTP verb will generate a suitable <code>turbo_method</code> data attribute.</p>
 </li><li>
@@ -205,11 +207,13 @@ end
 
 <p>As implicitely mentioned above, Compony buttons are referenced to by a name called a style (<code>:css_button</code> actually points to <code>Compony::Components::Buttons::CssButton</code>). When rendering an intent, the style can be passed as an argument: <code>render_intent(:show, User.first, style: :link)</code> and the intent will automatically instanciate the desired component class.</p>
 
-<p>Note: it is possible to use a button component to submit a form. In order to achieve this, you must implement a hidden submit button (for handling keyboard Enter and Return), as well as pass <code>onclick: &quot;this.closest(&#39;form&#39;).requestSubmit(); return false;&quot;</code> as an argument. See the pre-built Form component’s implementation for an example.</p>
+<p>To use a button component to submit a form, pass <code>type: :submit</code> (e.g. <code>render_intent(name: :submit, label: &#39;Save&#39;, button: { type: :submit })</code>). This renders a real <code>&lt;button type=&quot;submit&quot;&gt;</code>, which also submits the form on Return and needs no JavaScript. See the pre-built Form component’s <code>submit_button</code> content block for an example.</p>
+
+<p>Compony’s buttons render no inline JavaScript (<code>onclick</code> attributes, <code>javascript:</code> URLs), so they keep working under a Content Security Policy that only allows scripts carrying a nonce.</p>
 
 <h3 id="adding-your-own-styles">Adding your own styles</h3>
 
-<p>In your application, you will likely want to implement your own button styles. Create a component (e.g. <code>Components::Commons::MyButton</code>) and inherit from <code>Compony::Components::Buttons::Link</code>. Override the method <code>prepare_opts!</code> and don’t forget to call <code>super</code> first. Then, go through any <code>@comp_args</code> that might be of interest to you and mutate <code>@comp_args[:style]</code> and/or <code>@comp_args[:class]</code> to suit your needs. Make sure to handle the class <code>disabled</code>, as intents will set them if the intent is not feasible. Note that if a user is lacking authorization to perform an intent, the intent will not even instanciate the button.</p>
+<p>In your application, you will likely want to implement your own button styles. Create a component (e.g. <code>Components::Commons::MyButton</code>) and inherit from <code>Compony::Components::Buttons::Link</code>. Override the method <code>prepare_opts!</code> and don’t forget to call <code>super</code> first. Then, go through any <code>@comp_args</code> that might be of interest to you and mutate <code>@comp_args[:style]</code> and/or <code>@comp_args[:class]</code> to suit your needs. Make sure to handle the class <code>disabled</code>, as intents will set them if the intent is not feasible. If you also override the <code>content</code> block (e.g. to add an icon), render the element through <code>component.link_or_button(inner_html, **opts)</code> rather than calling <code>link_to(@href, ...)</code> yourself: it renders the <code>&lt;button&gt;</code> for <code>type:</code> and the <code>&lt;a&gt;</code> without <code>href</code>, e.g. <code>concat component.link_or_button(capture { span @label }, **@comp_opts)</code>. A button style given <code>type:</code> that does not render through <code>link_or_button</code> raises an error, as it would otherwise render a link that cannot submit the form. Note that if a user is lacking authorization to perform an intent, the intent will not even instanciate the button.</p>
 
 <p>Once your button class is ready, register it in <code>config/initializers/compony.rb</code> with: <code>Compony.register_button_style :my_button, &#39;::Components::Commons::MyButton&#39;</code>. You can also change the default button style there using: <code>Compony.default_button_style = :my_button</code>.</p>
 
@@ -255,7 +259,7 @@ end
 </div></div>
 
       <div id="footer">
-  Generated on Wed Oct  7 10:48:31 2026 by
+  Generated on Wed Nov 25 14:15:17 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.4.9).
 </div>

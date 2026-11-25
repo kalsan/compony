@@ -1,4 +1,4 @@
-# unreleased
+# 0.12.0
 
 - Remove all inline JavaScript, so Compony works under a Content Security Policy whose `script-src` allows only scripts
   carrying a nonce (a nonce never allows `onclick` attributes or `javascript:` URLs):

@@ -58,6 +58,29 @@
       </div>
 
       <div id="content"><div id='filecontents'>
+<h1 id="0120">0.12.0</h1>
+<ul><li>
+<p>Remove all inline JavaScript, so Compony works under a Content Security Policy whose <code>script-src</code> allows only scripts carrying a nonce (a nonce never allows <code>onclick</code> attributes or <code>javascript:</code> URLs):</p>
+<ul><li>
+<p>The <code>Form</code> component’s submit button is now a real <code>&lt;button type=&quot;submit&quot;&gt;</code> rendered by the button style, instead of a link submitting the form in an <code>onclick</code> handler next to a hidden submit button for Return. The hidden button is gone.</p>
+</li><li>
+<p>Button styles accept <code>type:</code> (e.g. <code>button: { type: :submit }</code>) and then render a <code>&lt;button&gt;</code> of that type instead of a link. A disabled one (class <code>disabled</code>) gets the <code>disabled</code> attribute.</p>
+</li><li>
+<p>Add <code>Buttons::Link#link_or_button(inner_html, **html_opts)</code>, which renders the button’s element: a <code>&lt;button&gt;</code> if <code>type:</code> was given, an <code>&lt;a&gt;</code> without <code>href</code> if no <code>href</code> was given (instead of <code>href=&quot;javascript:void(0)&quot;</code>), a regular link otherwise. A button style given <code>type:</code> that does not render through it raises an error, as it would render a link that cannot submit the form.</p>
+</li><li>
+<p>Existing attachments of a multi-attachment field are listed with a ticked checkbox each instead of a “Remove” link that deleted the entry in an <code>onclick</code> handler. Unticking the box removes the attachment on save, as the removed entry did before. The i18n key <code>compony.model_fields.attachment.remove</code> is replaced by <code>keep_hint</code> (the checkbox’s tooltip).</p>
+</li></ul>
+</li><li>
+<p>Document how to set up Ransack for <code>List</code> filtering and sorting (closes #18): the gem in the Gemfile, the permission-based <code>ransackable_attributes</code> default from <code>Compony::ModelMixin</code>, and what the app still allowlists itself (<code>ransackable_associations</code>, <code>ransackable_scopes</code>, <code>auth_object</code> for its own <code>ransack</code> calls). See <code>doc/integrations.md</code>, “Ransack”.</p>
+</li></ul>
+
+<h2 id="steps-to-take">Steps to take</h2>
+<ul><li>
+<p>In every button style that overrides <code>content</code> and calls <code>link_to(@href, ...)</code> itself, render through <code>link_or_button</code> instead, e.g. <code>concat component.link_or_button(capture { span @label }, **@comp_opts)</code>. Otherwise every <code>Form</code> raises when rendering its submit button, and buttons without <code>href</code> keep rendering <code>href=&quot;javascript:void(0)&quot;</code>, which <code>@href</code> still holds for such styles.</p>
+</li><li>
+<p>If you override <code>compony.model_fields.attachment.remove</code> in your locales, translate <code>keep_hint</code> instead.</p>
+</li></ul>
+
 <h1 id="01114">0.11.14</h1>
 <ul><li>
 <p>Add <code>Compony.content_locales=</code>, the locales for which <code>multilang: true</code> generates suffixed fields in the model’s <code>field</code>, the form’s <code>field</code> and <code>schema_field</code>. Defaults to <code>I18n.available_locales</code>, so existing apps are unaffected. Set it when the app’s locales differ from the languages its content is stored in, e.g. regional locales such as <code>:&quot;de-CH&quot;</code> with content stored per language. Accepts an array or a callable. See the form guide, “Content locales”.</p>
@@ -173,7 +196,7 @@
 <p>Fix a bug in intents preventing overriding the feasibility target</p>
 </li></ul>
 
-<h2 id="steps-to-take">Steps to take</h2>
+<h2 id="steps-to-take-1">Steps to take</h2>
 <ul><li>
 <p>Search for <code>resourceful_sub_comp</code> and replace those calls by <code>render_sub_comp</code> while passing <code>@data</code> as the second intent argument.</p>
 </li></ul>
@@ -214,7 +237,7 @@
 <p>Rename <code>ExposedIntentsDsl</code> to <code>ManageIntentsDsl</code>, allow passing options and ignore <code>add</code> call if the target component is not defined</p>
 </li></ul>
 
-<h2 id="steps-to-take-1">Steps to take</h2>
+<h2 id="steps-to-take-2">Steps to take</h2>
 <ul><li>
 <p>In your components, replace code like <code>icon :eye</code> by: <code>button(:icon){ :eye }</code> or <code>button(:icon){|_| :eye }</code> (the latter in the resourceful case)</p>
 </li><li>
@@ -238,7 +261,7 @@
 </li></ul>
 </li></ul>
 
-<h2 id="steps-to-take-2">Steps to take</h2>
+<h2 id="steps-to-take-3">Steps to take</h2>
 <ul><li>
 <p>Replace code like <code>button: { style: :link }</code> by simply <code>style: :link</code></p>
 </li><li>
@@ -276,7 +299,7 @@
 <p>Update documentation</p>
 </li></ul>
 
-<h2 id="steps-to-take-3">Steps to take</h2>
+<h2 id="steps-to-take-4">Steps to take</h2>
 <ul><li>
 <p>Make sure you no longer use the following methods that have been removed:</p>
 <ul><li>
@@ -336,7 +359,7 @@
 </li></ul>
 </li></ul>
 
-<h2 id="steps-to-take-4">Steps to take</h2>
+<h2 id="steps-to-take-5">Steps to take</h2>
 <ul><li>
 <p>If using the methods formerly called <code>path</code> or <code>path_hash</code>, rename them to <code>id_path</code> respectively <code>id_path_hash</code>.</p>
 </li></ul>
@@ -446,7 +469,7 @@
 <p>Update Gems Compony depends on (this is to ensure all Compony users have versions Compony is frequently tested against)</p>
 </li></ul>
 
-<h2 id="steps-to-take-5">Steps to take</h2>
+<h2 id="steps-to-take-6">Steps to take</h2>
 <ul><li>
 <p>Update your application to Ruby 3.3.5 and Rails 7.2.1. For instance, if you are running an rbenv setup, these would be typical steps involved:</p>
 </li><li>
@@ -579,7 +602,7 @@
 <p>Implement nesting of content blocks, as described in README.md -&gt; “Nesting content blocks, calling a content block from another”</p>
 </li></ul>
 
-<h2 id="steps-to-take-6">Steps to take</h2>
+<h2 id="steps-to-take-7">Steps to take</h2>
 <ul><li>
 <p>Search for <code>comp_class_for</code> and <code>comp_class_for!</code> and replace them by <code>Compony.comp_class_for</code> and <code>Compony.comp_class_for!</code></p>
 </li><li>
@@ -750,7 +773,7 @@
 <p>Add field type :email</p>
 </li></ul>
 
-<h2 id="steps-to-take-7">Steps to take</h2>
+<h2 id="steps-to-take-8">Steps to take</h2>
 <ul><li>
 <p>When inheriting from components, replace <code>Components::Resourceful::...</code> by <code>Components::...</code></p>
 </li></ul>
@@ -777,7 +800,7 @@
 </div></div>
 
       <div id="footer">
-  Generated on Wed Oct  7 10:48:30 2026 by
+  Generated on Wed Nov 25 14:15:16 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.4.9).
 </div>
