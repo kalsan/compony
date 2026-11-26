@@ -62,8 +62,8 @@ both a `field` declaration and read permission on it.
 What you still provide yourself:
 
 - **`ransackable_associations`** when a filter or sort goes through an association, e.g.
-  `filter :customer_name_cont`. Compony does not define it, so Ransack refuses such searches
-  until the model allows them:
+  `filter :customer_name_cont`. Compony's default returns `[]` (no association is
+  searchable), so override it in the model to allow the associations you need:
 
   ```ruby
   def self.ransackable_associations(_auth_object = nil)

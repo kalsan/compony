@@ -1,5 +1,9 @@
 # unreleased
 
+- Add a default `ransackable_associations` to `Compony::ModelMixin` returning `[]` (closes #21). Ransack 4+ raises when a
+  searched model does not define it, so every `List` with filters or sorting failed unless the app defined it itself. Apps
+  that define `self.ransackable_associations(_auth_object = nil) = []` in `ApplicationRecord` can drop that workaround;
+  models that search through associations keep overriding it.
 - Develop and test on Ruby 4.0.10 (was 3.4.9), with the Gemfile.lock locked by Bundler 4.0.20. The gem itself still
   requires Ruby 3.3.5 or newer.
 - Require CanCanCan `~> 3.7.1` (was `~> 3.6.1`). CanCanCan 3.7 changes how abilities are evaluated, see its

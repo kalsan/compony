@@ -89,6 +89,21 @@ RSpec.describe Compony::ModelMixin do
     end
   end
 
+  describe '.ransackable_associations' do
+    it 'allows no association by default, with or without auth object' do
+      expect(User.ransackable_associations).to eq([])
+      expect(User.ransackable_associations(Ability.new(nil))).to eq([])
+    end
+
+    it 'can be overridden by a model' do
+      klass = Class.new(User) do
+        def self.name = 'SearchableUser'
+        def self.ransackable_associations(_auth_object = nil) = %w[posts]
+      end
+      expect(klass.ransackable_associations).to eq(%w[posts])
+    end
+  end
+
   describe '.owned_by' do
     it 'stores the owner attribute' do
       klass = Class.new(User) do

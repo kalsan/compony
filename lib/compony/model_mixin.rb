@@ -150,6 +150,12 @@ module Compony
       def ransackable_attributes(auth_object)
         Compony.readable_attributes(auth_object, :read, self).map(&:to_s)
       end
+
+      # Provides Ransack defaults: no association is searchable unless the model allows it by overriding this method.
+      # Ransack 4+ raises if a searched model does not define it.
+      def ransackable_associations(_auth_object = nil)
+        []
+      end
     end
 
     # Retrieves feasibility for the given instance, returning a boolean indicating whether the action is feasibly.
