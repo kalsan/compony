@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    compony (0.12.0)
+    compony (0.12.1.edge)
       anchormodel (>= 0.3.0)
       cancancan (~> 3.6.1)
       dslblend (>= 0.0.3)
@@ -262,7 +262,7 @@ GEM
       concurrent-ruby (~> 1.0)
     unicode-display_width (3.1.5)
       unicode-emoji (~> 4.0, >= 4.0.4)
-    unicode-emoji (4.0.4)
+    unicode-emoji (4.3.0)
     useragent (0.16.11)
     websocket-driver (0.8.2)
       base64
@@ -285,4 +285,4 @@ DEPENDENCIES
   yard (>= 0.9.28)
 
 BUNDLED WITH
-   2.5.18
+  4.0.20

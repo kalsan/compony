@@ -1,3 +1,8 @@
+# unreleased
+
+- Develop and test on Ruby 4.0.10 (was 3.4.9), with the Gemfile.lock locked by Bundler 4.0.20. The gem itself still
+  requires Ruby 3.3.5 or newer.
+
 # 0.12.0
 
 - Remove all inline JavaScript, so Compony works under a Content Security Policy whose `script-src` allows only scripts
