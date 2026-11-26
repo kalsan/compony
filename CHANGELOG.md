@@ -2,6 +2,29 @@
 
 - Develop and test on Ruby 4.0.10 (was 3.4.9), with the Gemfile.lock locked by Bundler 4.0.20. The gem itself still
   requires Ruby 3.3.5 or newer.
+- Require CanCanCan `~> 3.7.1` (was `~> 3.6.1`). CanCanCan 3.7 changes how abilities are evaluated, see its
+  [CHANGELOG](https://github.com/CanCanCommunity/cancancan/blob/develop/CHANGELOG.md#370); the steps below cover what
+  matters for Compony apps.
+- Add `Compony.readable_attributes(ability, action, subject)`: the attributes an ability may read, including the primary
+  key. CanCanCan 3.7's `permitted_attributes` no longer lists `id`, which would have hidden every `id` column in `List`
+  and `Show` and made Ransack silently drop the `List` default sorting `'id asc'` (the list then had no `ORDER BY`).
+  `List`, `Show` and the default `ransackable_attributes` use it now. Forms keep using `permitted_attributes`, so the
+  primary key stays out of mass assignment.
+
+## Steps to take
+
+- Wherever your app reads `current_ability.permitted_attributes(...)` to decide what to *display, filter or sort* (own
+  list or show components, serializers, search), call `Compony.readable_attributes(current_ability, ...)` instead, or
+  `id` disappears there. Keep `permitted_attributes` where it decides what may be *assigned*.
+- Review every `cannot` rule with conditions on a nullable column: `accessible_by` can now return more records for it.
+  Check with a user the rule applies to that the lists of those models still hide the rows with `NULL` there that must
+  stay hidden.
+- Review abilities that use String actions, or `authorize!(action_name, ...)`: String actions now go through aliases
+  like Symbols, so `can :read` also allows `'show'` and `'index'`.
+- Review `has_many :through` rules with a scope and rules whose scope constrains an association's own column:
+  `accessible_by` may now return fewer records there.
+- If you subclassed or extended CanCanCan's `ControllerResourceLoader` / `...Builder` / `...Finder` /
+  `...NameFinder` / `...Sanitizer`, move those overrides into a subclass of `CanCan::ControllerResource`.
 
 # 0.12.0
 

@@ -31,5 +31,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency(%q<simple_form>.freeze, [">= 5.3.1".freeze])
   s.add_runtime_dependency(%q<dslblend>.freeze, [">= 0.0.3".freeze])
   s.add_runtime_dependency(%q<anchormodel>.freeze, [">= 0.3.0".freeze])
-  s.add_runtime_dependency(%q<cancancan>.freeze, ["~> 3.6.1".freeze])
+  s.add_runtime_dependency(%q<cancancan>.freeze, ["~> 3.7.1".freeze])
 end

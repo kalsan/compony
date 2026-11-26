@@ -141,7 +141,7 @@ module Compony
           # Assume field column
           field = data_class.fields[name] || fail("Field #{name.inspect} was not found for data class #{data_class}")
           block = proc do |record|
-            if controller.current_ability.permitted_attributes(:index, record).include?(field.name.to_sym)
+            if Compony.readable_attributes(controller.current_ability, :index, record).include?(field.name.to_sym)
               next field.value_for(record, link_to_component: :show, controller:, link_opts:).to_s
             end
           end
@@ -267,7 +267,7 @@ module Compony
         # Apply skips to configs
         # Exclude columns that are skipped or the user is not allowed to display
         @columns.select! do |col, _|
-          @skipped_columns.exclude?(col[:name]) && controller.current_ability.permitted_attributes(:index, data_class).include?(col[:name])
+          @skipped_columns.exclude?(col[:name]) && Compony.readable_attributes(controller.current_ability, :index, data_class).include?(col[:name])
         end
         # Exclude skipped filters
         @filters.select! { |filter, _| @skipped_filters.exclude?(filter[:name]) }

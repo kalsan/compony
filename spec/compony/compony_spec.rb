@@ -1,4 +1,26 @@
 RSpec.describe Compony do
+  describe '.readable_attributes' do
+    let(:ability) { Ability.new(nil) }
+
+    it 'includes the primary key, which CanCanCan 3.7 leaves out of permitted_attributes' do
+      expect(ability.permitted_attributes(:read, User)).not_to include(:id)
+      expect(described_class.readable_attributes(ability, :read, User)).to include(:id, :name)
+    end
+
+    it 'works on records as well as on classes' do
+      expect(described_class.readable_attributes(ability, :show, User.new)).to include(:id)
+    end
+
+    it 'adds nothing when no attribute is readable' do
+      denying = Class.new { include CanCan::Ability }.new
+      expect(described_class.readable_attributes(denying, :read, User)).to eq([])
+    end
+
+    it 'keeps id in the Ransack defaults, so the default List sorting by id is not dropped' do
+      expect(User.ransackable_attributes(ability)).to include('id')
+    end
+  end
+
   describe '.family_name_for' do
     it 'underscores strings and symbols' do
       expect(described_class.family_name_for('Users')).to eq('users')

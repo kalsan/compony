@@ -74,7 +74,7 @@ module Compony
           # Assume field column
           field = data_class.fields[name] || fail("Field #{name.inspect} was not found for data class #{data_class}")
           block = proc do |record|
-            if controller.current_ability.permitted_attributes(:show, record).include?(field.name.to_sym)
+            if Compony.readable_attributes(controller.current_ability, :show, record).include?(field.name.to_sym)
               next field.value_for(record, link_to_component:, controller:, link_opts:).to_s
             else
               Rails.logger.debug { "Skipping show col #{field.name.inspect} because the current user is not allowed to perform show on #{data}." }

@@ -148,7 +148,7 @@ module Compony
 
       # Provides Ransack defaults (auth_object must be a cancancan ability)
       def ransackable_attributes(auth_object)
-        auth_object.permitted_attributes(:read, self).map(&:to_s)
+        Compony.readable_attributes(auth_object, :read, self).map(&:to_s)
       end
     end
 

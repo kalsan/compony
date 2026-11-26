@@ -170,6 +170,23 @@ module Compony
     )
   end
 
+  # Returns the attributes the given ability may read for `action` on `subject` (a record or a model class), for displaying,
+  # filtering and sorting. Since CanCanCan 3.7, `permitted_attributes` no longer lists the primary key, as it is meant for
+  # mass assignment. For reading, the primary key is readable whenever any attribute is, so it is added back here: without it,
+  # an `id` column would be hidden and sorting by `id` (the List default) would be dropped silently by Ransack.
+  # Do not use this for forms: there, the primary key must stay out of the permitted attributes.
+  # @param ability [CanCan::Ability] The ability to ask, typically `controller.current_ability`
+  # @param action [Symbol] The CanCanCan action, e.g. `:show`, `:index` or `:read`
+  # @param subject [ApplicationRecord,Class] The record or model class whose attributes are checked
+  # @return [Array<Symbol>]
+  def self.readable_attributes(ability, action, subject)
+    attributes = ability.permitted_attributes(action, subject)
+    return attributes if attributes.empty?
+
+    model_class = subject.is_a?(Class) ? subject : subject.class
+    return attributes | Array(model_class.try(:primary_key)).map(&:to_sym)
+  end
+
   # Returns the current root component, if any
   def self.root_comp
     RequestStore.store[:compony_root_comp]
