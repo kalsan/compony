@@ -1,5 +1,9 @@
 # unreleased
 
+- Document how numeric form inputs get `min`/`max` from the model's numericality validator (closes #11): SimpleForm's
+  `min_max` component does it, provided the app's wrapper has `b.use :min_max` (SimpleForm's generated initializer only has
+  `b.optional :min_max`, which leaves the limits off). See the form guide.
+
 - Add a default `ransackable_associations` to `Compony::ModelMixin` returning `[]` (closes #21). Ransack 4+ raises when a
   searched model does not define it, so every `List` with filters or sorting failed unless the app defined it itself. Apps
   that define `self.ransackable_associations(_auth_object = nil) = []` in `ApplicationRecord` can drop that workaround;

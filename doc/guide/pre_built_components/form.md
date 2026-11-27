@@ -42,6 +42,13 @@ end
 
 Note that the inputs and schema are two completely different concepts that are not auto-inferred from each other. You must make sure that they always correspond. If you forget to mention a field in `schema_fields`, posting the form will fail. Luckily, Schemacop's excellent error messaging will explain which parameter is prohibited.
 
+Numeric inputs get the browser limits `min` and `max` from the model's numericality validator, e.g.
+`validates :age, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 150 }`. This is done by SimpleForm's
+`min_max` component, which your SimpleForm wrapper must use: `b.use :min_max` in `config/initializers/simple_form.rb`.
+SimpleForm's generated initializer only has `b.optional :min_max`, which turns the limits off unless an input passes
+`min_max: true`. Validators with `:if` or `:unless` are ignored. Compony passes the inputs through unchanged, so nothing
+else is needed.
+
 Both calls respect Cancancan's `permitted_attributes` directive. This means that you can safely declare `field` and `schema_field` in a form that is shared among users with different kinds of permissions. If the current user is not allowed to access a field, the input will be omitted automatically. Further, the parameter validation will exclude that field, effectively disallowing that user from submitting that parameter.
 
 ## Handling password fields

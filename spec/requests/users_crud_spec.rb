@@ -32,6 +32,12 @@ RSpec.describe 'Users CRUD via pre-built components', type: :request do
   end
 
   describe 'new/create' do
+    it 'passes the numericality limits of the model to numeric inputs' do
+      get '/users/new'
+      age_input = response.body[/<input[^>]*name="user\[age\]"[^>]*>/]
+      expect(age_input).to include('min="0"').and include('max="150"')
+    end
+
     it 'renders the form' do
       get '/users/new'
       expect(response).to have_http_status(:ok)

@@ -1,6 +1,7 @@
 SimpleForm.setup do |config|
   config.wrappers :default, class: :input do |b|
     b.use :html5
+    b.use :min_max
     b.use :label_input
     b.use :error, wrap_with: { tag: :span, class: :error }
   end

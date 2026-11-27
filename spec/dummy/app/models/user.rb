@@ -11,6 +11,7 @@ class User < ApplicationRecord
   field :created_at, :datetime
 
   validates :name, presence: true
+  validates :age, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 150 }, allow_nil: true
 
   prevent :destroy, 'Cannot destroy admins' do
     admin?
