@@ -1,5 +1,11 @@
 # unreleased
 
+- Fix the autodetected destroy preventions (closes #7). An STI subclass now detects its own `restrict_with_*` associations
+  even if its parent model was checked first, and `List` applies the preventions of STI subclasses to their rows. The
+  batched check on `List` pages matched dependents by `id` and missed or wrongly found them for associations with
+  `primary_key:`; it now uses that key. Polymorphic `as:` associations are batched as well (one query instead of one per
+  row).
+
 - Show a minimal component and a pre-built one in the README (closes #17).
 
 - Document how numeric form inputs get `min`/`max` from the model's numericality validator (closes #11): SimpleForm's

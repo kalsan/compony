@@ -35,6 +35,8 @@ end
 
 Compony has a feature that auto-detects feasibility of some actions. In particular, it checks for `dependent` relations in the `has_one`/`has_many` relations and disables delete buttons that point to objects that have dependent objects that cannot automatically be destroyed.
 
-To disable auto detection, call `skip_autodetect_feasibilities` in your model.
+Each model class detects its own associations, so an STI subclass also covers the `dependent:` associations it adds itself. `List` checks the dependents of all records on a page with one query per association, honouring `primary_key:`, `as:` and static association scopes.
+
+To disable auto detection, call `skip_autodetect_feasibilities` in your model. STI subclasses of that model skip it too.
 
 [Guide index](/README.md#guide--documentation)

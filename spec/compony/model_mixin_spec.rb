@@ -89,6 +89,104 @@ RSpec.describe Compony::ModelMixin do
     end
   end
 
+  describe 'dependent record detection' do
+    let(:message) { I18n.t('compony.feasibility.has_dependent_models', dependent_class: FeasibilityItem.model_name.human(count: 2)) }
+
+    before do
+      stub_const('FeasibilityItem', Class.new(ApplicationRecord) { self.table_name = 'feasibility_items' })
+      stub_const('FeasibilityOwner', Class.new(ApplicationRecord) do
+        self.table_name = 'feasibility_owners'
+        has_many :items, class_name: 'FeasibilityItem', foreign_key: :owner_id, dependent: :restrict_with_error
+      end)
+      stub_const('SpecialFeasibilityOwner', Class.new(FeasibilityOwner) do
+        has_many :held_items, class_name: 'FeasibilityItem', as: :holder, dependent: :restrict_with_error
+      end)
+      stub_const('CustomFeasibilityOwner', Class.new(FeasibilityOwner) do
+        prevent(:destroy, 'Custom prevention') { false }
+      end)
+      stub_const('CodedFeasibilityOwner', Class.new(ApplicationRecord) do
+        self.table_name = 'feasibility_owners'
+        self.inheritance_column = :_type_disabled
+        has_many :coded_items, class_name: 'FeasibilityItem', primary_key: :code, foreign_key: :owner_code, dependent: :restrict_with_error
+      end)
+    end
+
+    def count_queries(&)
+      count = 0
+      callback = ->(*, payload) { count += 1 unless payload[:name] == 'SCHEMA' }
+      ActiveSupport::Notifications.subscribed(callback, 'sql.active_record', &)
+      count
+    end
+
+    it 'prevents destroying a record with dependents' do
+      owner = FeasibilityOwner.create!
+      expect(owner.feasible?(:destroy)).to be(true)
+      owner.items.create!
+      expect(owner.feasible?(:destroy, recompute: true)).to be(false)
+      expect(owner.feasibility_messages(:destroy)).to eq([message])
+    end
+
+    it 'detects the associations of an STI subclass after its parent was checked' do
+      FeasibilityOwner.create!.feasible?(:destroy)
+      special = SpecialFeasibilityOwner.create!
+      special.held_items.create!
+      expect(special.feasibility_messages(:destroy)).to eq([message])
+    end
+
+    it 'keeps the inherited associations in an STI subclass that defines its own preventions' do
+      FeasibilityOwner.create!.feasible?(:destroy)
+      custom = CustomFeasibilityOwner.create!
+      custom.items.create!
+      expect(custom.feasibility_messages(:destroy)).to eq([message])
+    end
+
+    it 'adds no prevention twice when parent and subclass were both checked' do
+      FeasibilityOwner.create!.feasible?(:destroy)
+      special = SpecialFeasibilityOwner.create!
+      special.items.create!
+      expect(special.feasibility_messages(:destroy)).to eq([message])
+    end
+
+    describe '.precompute_feasibility' do
+      it 'matches dependents through the primary_key of the association' do
+        owner = CodedFeasibilityOwner.create!(code: 'A')
+        other = CodedFeasibilityOwner.create!(code: 'B')
+        FeasibilityItem.create!(owner_code: 'A')
+        FeasibilityItem.create!(owner_code: other.id.to_s) # matches the id of `other`, but not its code
+        CodedFeasibilityOwner.precompute_feasibility([owner, other], :destroy)
+        expect(owner.feasibility_messages(:destroy)).to eq([message])
+        expect(other.feasibility_messages(:destroy)).to eq([])
+      end
+
+      it 'applies the preventions of STI subclasses to their records' do
+        parent = FeasibilityOwner.create!
+        special = SpecialFeasibilityOwner.create!
+        special.held_items.create!
+        FeasibilityOwner.precompute_feasibility([parent, special], :destroy)
+        expect(parent.feasibility_messages(:destroy)).to eq([])
+        expect(special.feasibility_messages(:destroy)).to eq([message])
+      end
+
+      it 'checks polymorphic associations in one query, matching the owner type' do
+        owners = Array.new(3) { SpecialFeasibilityOwner.create! }
+        owners.first.held_items.create!
+        FeasibilityItem.create!(holder_id: owners.second.id, holder_type: 'User') # same id, other type
+        queries = count_queries { SpecialFeasibilityOwner.precompute_feasibility(owners, :destroy) }
+        expect(owners.map { |owner| owner.feasible?(:destroy) }).to eq([false, true, true])
+        expect(queries).to eq(2) # one per association (items, held_items), independent of the number of records
+      end
+
+      it 'gives the same result as the per-record check' do
+        owners = Array.new(3) { FeasibilityOwner.create! }
+        owners.second.items.create!
+        FeasibilityOwner.precompute_feasibility(owners, :destroy)
+        batched = owners.map { |owner| owner.feasible?(:destroy) }
+        expect(owners.map { |owner| owner.feasible?(:destroy, recompute: true) }).to eq(batched)
+        expect(batched).to eq([true, false, true])
+      end
+    end
+  end
+
   describe '.ransackable_associations' do
     it 'allows no association by default, with or without auth object' do
       expect(User.ransackable_associations).to eq([])
