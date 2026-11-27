@@ -1,5 +1,7 @@
 # unreleased
 
+- Show a minimal component and a pre-built one in the README (closes #17).
+
 - Document how numeric form inputs get `min`/`max` from the model's numericality validator (closes #11): SimpleForm's
   `min_max` component does it, provided the app's wrapper has `b.use :min_max` (SimpleForm's generated initializer only has
   `b.optional :min_max`, which leaves the limits off). See the form guide.

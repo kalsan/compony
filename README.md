@@ -22,9 +22,49 @@ Compony's key aspects:
 - Compony requires Rails >= 7.2.1 and Ruby >= 3.3.5 (see [doc/integrations.md](./doc/integrations.md) for all dependencies), and fully supports Stimulus and Turbo Drive. It is also compatible Turbo Frames and Streams, but there are not many helpers specifically targetting theme at this point..
 - Compony uses [CanCanCan](https://github.com/CanCanCommunity/cancancan) for authorization but does not provide an authentication mechanism. You can easily build your own by creating login/logout components that manage cookies, and configure Compony to enforce authentication using the `Compony.authentication_before_action` setter. I have also successfully tested Compony to work with [Devise](https://github.com/heartcombo/devise).
 
+## A first look
+
+A component is one class holding the route, the controller logic and the view:
+
+```ruby
+# app/components/dashboards/welcome.rb
+class Components::Dashboards::Welcome < Compony::Component
+  setup do
+    label(:all) { 'Welcome' }
+
+    # Exposes GET /welcome, authorized through CanCanCan
+    standalone path: 'welcome' do
+      verb :get do
+        authorize { can?(:read, :dashboards) }
+      end
+    end
+
+    # The view, written in Ruby (Dyny)
+    content do
+      h1 'Welcome'
+      para "There are #{User.count} users."
+      concat render_intent(:index, :users) # a button to Components::Users::Index, hidden if not permitted
+    end
+  end
+end
+```
+
+Pre-built components cover the usual CRUD pages and are configured rather than written:
+
+```ruby
+# app/components/users/show.rb: GET /users/:id, showing fields declared in the User model
+class Components::Users::Show < Compony::Components::Show
+  setup do
+    columns :name, :email, :created_at
+  end
+end
+```
+
+The [example](./doc/guide/example.md) builds a complete user management this way.
+
 ## State of the project
 
-I am actively using this framework in various applications and both performance and reliability are good. However, the project is experimental and lacking peer reviews and especially extensive automatic testing, such as unit and integration tests. Also, expect there to be ([documented](/CHANGELOG.md)) breaking changes in the future, as the API will likely be further refined, resulting in renamings and deprecation of various methods.
+I am actively using this framework in various applications and both performance and reliability are good. However, the project is experimental and lacking peer reviews, and its automatic test suite does not cover everything yet (see [#2](https://github.com/kalsan/compony/issues/2)). Also, expect there to be ([documented](/CHANGELOG.md)) breaking changes in the future, as the API will likely be further refined, resulting in renamings and deprecation of various methods.
 
 ## Other projects exploring similar concepts
 
